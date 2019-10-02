@@ -7,11 +7,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SceneEditorComponent } from './scene-editor/scene-editor.component';
+import { SceneViewComponent } from './scene-view/scene-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SceneEditorComponent
+    SceneEditorComponent,
+    SceneViewComponent
   ],
   imports: [
     BrowserModule,
