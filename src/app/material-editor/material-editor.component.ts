@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { ThreeSceneService } from '../three-scene.service';
 
 @Component({
   selector: 'app-material-editor',
@@ -85,7 +86,10 @@ export class MaterialEditorComponent {
     {name: 'Wyoming', abbreviation: 'WY'}
   ];
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private sceneService: ThreeSceneService
+  ) {}
 
   onSubmit() {
     alert('Thanks!');

@@ -3,6 +3,7 @@ import { ResizedEvent } from 'angular-resize-event';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
+import { ThreeSceneService } from '../three-scene.service';
 
 @Component({
   selector: 'app-scene-view',
@@ -12,6 +13,7 @@ import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
 export class SceneViewComponent implements OnInit, AfterViewInit {
   @ViewChild('container', { static: true })
   container: ElementRef;
+  sceneJSON: string;
 
   private scene: THREE.Scene;
   private camera: THREE.OrthographicCamera;
@@ -23,7 +25,9 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   private material: THREE.MeshStandardMaterial;
   private ambientLight: THREE.AmbientLight;
 
-  constructor() { }
+  constructor(
+    private sceneService: ThreeSceneService
+  ) { }
 
   ngOnInit() {
     this.material = new THREE.MeshStandardMaterial( {
@@ -58,7 +62,7 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   }
 
   private InitialiseScene(): void {
-    this.scene = new THREE.Scene();
+    this.scene = this.sceneService.getScene();
 
     this.scene.add(this.ambientLight);
 
@@ -172,12 +176,13 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
    private LoadRobot(): void {
     const loader = new STLLoader();
 
-    loader.load('../assets/robots/kuka300/Base.stl', geometry => {
-      this.mesh = new THREE.Mesh(geometry, this.material);
-      this.scene.add(this.mesh);
-      this.Render();
-    });
+    loader.load('../assets/robots/kuka300/Base.stl', geometry => this.LoadGeometry(geometry));
+  }
 
+  private LoadGeometry(geometry: THREE.BufferGeometry) {
+    this.mesh = new THREE.Mesh(geometry, this.material);
+    this.scene.add(this.mesh);
+    this.Render();
   }
 
 }
