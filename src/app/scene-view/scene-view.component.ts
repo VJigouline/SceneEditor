@@ -1,7 +1,8 @@
-import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit} from '@angular/core';
 import { ResizedEvent } from 'angular-resize-event';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+const STLLoader = require('three-stl-loader')(THREE);
 
 @Component({
   selector: 'app-scene-view',
@@ -18,6 +19,7 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   private floorMat: THREE.MeshStandardMaterial;
   private renderer: THREE.WebGLRenderer;
   private controls: OrbitControls;
+  private mesh: THREE.Mesh;
 
   constructor() { }
 
@@ -103,7 +105,7 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     floorMesh.position.set(0, 0, -500);
     this.scene.add( floorMesh );
 
-    // LoadRobot();
+    this.LoadRobot();
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.physicallyCorrectLights = true;
@@ -156,5 +158,16 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     this.camera.top = height * 5;
     this.camera.updateProjectionMatrix();
    }
+
+   private LoadRobot(): void {
+    const loader = new STLLoader();
+
+    loader.load('../assets/robots/kuka300/Base.stl', geometry => {
+      const material = new THREE.MeshNormalMaterial();
+      this.mesh = new THREE.Mesh(geometry, material);
+      this.scene.add(this.mesh);
+    });
+
+  }
 
 }

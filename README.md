@@ -17,7 +17,8 @@ These modules should be added on top of the standard angular installation:
 `npm install angular-resize-event` [Documentation](https://www.npmjs.com/package/angular-resize-event)  
 `ng add @angular/material` [Documentation](https://material.angular.io/guide/getting-started), accept _HammerJS_ option for the jesture recognition, accept browser animations.  
 `npm install react-color` [Documentation](http://casesandberg.github.io/react-color/)  
-`npm install file-saver` [Documentation](https://www.npmjs.com/package/file-saver)
+`npm install file-saver` [Documentation](https://www.npmjs.com/package/file-saver)  
+`npm install three-stl-loader` [Documentation](https://www.npmjs.com/package/three-stl-loader)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.6.
 
