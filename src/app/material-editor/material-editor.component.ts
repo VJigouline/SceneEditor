@@ -8,6 +8,8 @@ import { ThreeSceneService } from '../three-scene.service';
   styleUrls: ['./material-editor.component.scss']
 })
 export class MaterialEditorComponent {
+  sceneJSON: string;
+
   addressForm = this.fb.group({
     company: null,
     firstName: [null, Validators.required],
@@ -92,6 +94,10 @@ export class MaterialEditorComponent {
   ) {}
 
   onSubmit() {
-    alert('Thanks!');
+    this.getSceneJSON();
+  }
+
+  getSceneJSON(): void {
+    this.sceneService.getSceneJSON().subscribe(sceneJSON => this.sceneJSON = sceneJSON);
   }
 }

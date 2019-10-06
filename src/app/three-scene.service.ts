@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import * as THREE from 'three';
 
 @Injectable({
@@ -26,11 +27,11 @@ export class ThreeSceneService {
     return this.scene;
   }
 
-  getSceneJSON(): string {
+  getSceneJSON(): Observable<string> {
     if (this.scene === undefined) {
-      return '';
+      return of('');
     }
 
-    return JSON.stringify(this.scene);
+    return of(JSON.stringify(this.scene));
   }
 }
