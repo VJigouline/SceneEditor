@@ -18,7 +18,8 @@ These modules should be added on top of the standard angular installation (`npm 
 `ng add @angular/material` [Documentation](https://material.angular.io/guide/getting-started), accept _HammerJS_ option for the jesture recognition, accept browser animations.  
 `npm install react-color` [Documentation](http://casesandberg.github.io/react-color/)  
 `npm install file-saver` [Documentation](https://www.npmjs.com/package/file-saver)  
-`npm install ngx-color-picker` [Documentation](https://www.npmjs.com/package/ngx-color-picker)
+`npm install ngx-color-picker` [Documentation](https://www.npmjs.com/package/ngx-color-picker)  
+`npm install angular-in-memory-web-api` [Documentation](https://angular.io/tutorial/toh-pt6) - web server simulation for the testing
 
 ## Development server
 

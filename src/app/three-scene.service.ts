@@ -27,11 +27,11 @@ export class ThreeSceneService {
     return this.scene;
   }
 
-  getSceneJSON(): Observable<string> {
+  getSceneJSON(): string {
     if (this.scene === undefined) {
-      return of('');
+      return '';
     }
 
-    return of(JSON.stringify(this.scene));
+    return JSON.stringify(this.scene);
   }
 }

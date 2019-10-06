@@ -98,6 +98,6 @@ export class MaterialEditorComponent {
   }
 
   getSceneJSON(): void {
-    this.sceneService.getSceneJSON().subscribe(sceneJSON => this.sceneJSON = sceneJSON);
+// this.sceneService.getSceneJSON().subscribe(sceneJSON => this.sceneJSON = sceneJSON);
   }
 }
