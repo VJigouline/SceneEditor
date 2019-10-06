@@ -5,12 +5,12 @@
 [Edit on StackBlitz ⚡️](https://stackblitz.com/github/VJigouline/SceneEditor)  
 [Angular documentation](https://angular.io/docs)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.6.  
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.8.  
 Project options: routing and [SCSS](https://sass-lang.com/documentation) as a style sheet.
 
 ## Additional modules
 
-These modules should be added on top of the standard angular installation:
+These modules should be added on top of the standard angular installation (`npm update` should do it for you):
 
 `npm install angular-split` [Documentation](https://bertrandg.github.io/angular-split/#/documentation)  
 `npm install three` [Documentation](https://threejs.org/docs/#manual/en/introduction/Import-via-modules)  
@@ -18,9 +18,7 @@ These modules should be added on top of the standard angular installation:
 `ng add @angular/material` [Documentation](https://material.angular.io/guide/getting-started), accept _HammerJS_ option for the jesture recognition, accept browser animations.  
 `npm install react-color` [Documentation](http://casesandberg.github.io/react-color/)  
 `npm install file-saver` [Documentation](https://www.npmjs.com/package/file-saver)  
-`npm install three-stl-loader` [Documentation](https://www.npmjs.com/package/three-stl-loader)
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.6.
+`npm install three-stl-loader` [Documentation](https://www.npmjs.com/package/three-stl-loader). After `npm update` this module haven't been added automatically. Manual update was required.
 
 ## Development server
 
