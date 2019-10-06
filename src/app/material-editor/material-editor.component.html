@@ -92,7 +92,12 @@
           </mat-radio-group>
         </div>
       </div>
-    </mat-card-content>
+      <div class="row">
+        <div class="col">
+          {{mesh | json}}
+        </div>
+      </div>
+   </mat-card-content>
     <mat-card-actions>
       <button mat-raised-button color="primary" type="submit">Submit</button>
     </mat-card-actions>

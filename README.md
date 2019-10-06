@@ -2,7 +2,7 @@
 
 *ThreeJS scene editor.*
 
-[Edit on StackBlitz ⚡️](https://stackblitz.com/github/VJigouline/SceneEditor)  
+[Edit on StackBlitz ⚡️](https://stackblitz.com/github/VJigouline/SceneEditor) - graphics is not loaded correctly on StackBlitz. Textures and STL files are missing.  
 [Angular documentation](https://angular.io/docs)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.8.  
@@ -18,7 +18,7 @@ These modules should be added on top of the standard angular installation (`npm 
 `ng add @angular/material` [Documentation](https://material.angular.io/guide/getting-started), accept _HammerJS_ option for the jesture recognition, accept browser animations.  
 `npm install react-color` [Documentation](http://casesandberg.github.io/react-color/)  
 `npm install file-saver` [Documentation](https://www.npmjs.com/package/file-saver)  
-`npm install three-stl-loader` [Documentation](https://www.npmjs.com/package/three-stl-loader). After `npm update` this module haven't been added automatically. Manual update was required.
+`npm install ngx-color-picker` [Documentation](https://www.npmjs.com/package/ngx-color-picker)
 
 ## Development server
 

@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild, AfterViewInit} from '@angular
 import { ResizedEvent } from 'angular-resize-event';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-const STLLoader = require('three-stl-loader')(THREE);
+import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
 
 @Component({
   selector: 'app-scene-view',
@@ -20,10 +20,18 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   private renderer: THREE.WebGLRenderer;
   private controls: OrbitControls;
   private mesh: THREE.Mesh;
+  private material: THREE.MeshStandardMaterial;
+  private ambientLight: THREE.AmbientLight;
 
   constructor() { }
 
   ngOnInit() {
+    this.material = new THREE.MeshStandardMaterial( {
+      roughness: 0.8,
+      color: 0xc5cdd1,
+      metalness: 0.5
+    });
+    this.ambientLight = new THREE.AmbientLight(0xb2afaf);
   }
 
   ngAfterViewInit() {
@@ -51,6 +59,8 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
 
   private InitialiseScene(): void {
     this.scene = new THREE.Scene();
+
+    this.scene.add(this.ambientLight);
 
     this.hemiLight = new THREE.HemisphereLight( 0xddeeff, 0x0f0e0d);
     this.scene.add( this.hemiLight );
@@ -163,9 +173,9 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     const loader = new STLLoader();
 
     loader.load('../assets/robots/kuka300/Base.stl', geometry => {
-      const material = new THREE.MeshNormalMaterial();
-      this.mesh = new THREE.Mesh(geometry, material);
+      this.mesh = new THREE.Mesh(geometry, this.material);
       this.scene.add(this.mesh);
+      this.Render();
     });
 
   }
