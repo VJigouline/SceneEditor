@@ -15,13 +15,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SceneSaverComponent } from './scene-saver/scene-saver.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SceneEditorComponent,
     SceneViewComponent,
-    MaterialEditorComponent
+    MaterialEditorComponent,
+    SceneSaverComponent
   ],
   imports: [
     BrowserModule,
