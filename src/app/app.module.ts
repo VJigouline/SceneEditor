@@ -16,6 +16,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SceneSaverComponent } from './scene-saver/scene-saver.component';
+import { ColorPickerModule } from 'ngx-color-picker';
+
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import { SceneSaverComponent } from './scene-saver/scene-saver.component';
     MatSelectModule,
     MatRadioModule,
     MatCardModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ColorPickerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
