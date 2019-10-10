@@ -12,6 +12,7 @@
             [style.background]="diffuseColour"
             [cpPosition] = "'bottom'"
             [(colorPicker)]="diffuseColour"
+            (colorPickerChange)="onColourChanged($event)"
             >
           </mat-form-field>
         </div>

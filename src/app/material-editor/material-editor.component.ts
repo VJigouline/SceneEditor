@@ -51,4 +51,8 @@ export class MaterialEditorComponent {
   getSceneJSON(): void {
 // this.sceneService.getSceneJSON().subscribe(sceneJSON => this.sceneJSON = sceneJSON);
   }
+
+  onColourChanged(colour: string): void {
+    // alert(colour);
+  }
 }
