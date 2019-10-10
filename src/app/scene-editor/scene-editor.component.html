@@ -1,7 +1,7 @@
-<div [style.width.px]="Width" [style.height.px]="Height" (onresize)="OnResize()">
+<div [style.width.px]="Width" [style.height.px]="Height">
     <as-split direction="horizontal">
         <as-split-area size="80">
-            <app-scene-view></app-scene-view>
+            <app-scene-view #ThreeJSView></app-scene-view>
         </as-split-area>
         <as-split-area size="20">
             <app-material-editor

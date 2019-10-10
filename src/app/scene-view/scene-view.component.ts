@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
 import { ThreeSceneService } from '../three-scene.service';
+import { Material } from '../material';
 
 @Component({
   selector: 'app-scene-view',
@@ -22,7 +23,7 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   private renderer: THREE.WebGLRenderer;
   private controls: OrbitControls;
   private mesh: THREE.Mesh;
-  private material: THREE.MeshStandardMaterial;
+  private material: THREE.MeshPhongMaterial;
   private ambientLight: THREE.AmbientLight;
 
   constructor(
@@ -30,10 +31,8 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-    this.material = new THREE.MeshStandardMaterial( {
-      roughness: 0.8,
-      color: 0xc5cdd1,
-      metalness: 0.5
+    this.material = new THREE.MeshPhongMaterial( {
+      color: 0xc5cdd1
     });
     this.ambientLight = new THREE.AmbientLight(0xb2afaf);
   }
@@ -43,6 +42,12 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     this.InitialiseScene();
 
     this.Animate();
+  }
+
+  SetMaterial(material: Material) {
+    console.log(JSON.stringify(material));
+    this.material.color = new THREE.Color(material.diffuse);
+    this.Render();
   }
 
   private onResized(event: ResizedEvent): void {
