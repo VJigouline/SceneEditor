@@ -49,6 +49,7 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     this.material.color = new THREE.Color(material.diffuse);
     this.material.emissive = new THREE.Color(material.emissive);
     this.material.specular = new THREE.Color(material.specular);
+    this.material.shininess = material.shininess;
     this.Render();
   }
 

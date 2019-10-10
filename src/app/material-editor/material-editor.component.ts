@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ThreeSceneService } from '../three-scene.service';
 import { ColorPickerService, Cmyk } from 'ngx-color-picker';
 import { Material } from '../material';
+import { MatSliderChange } from '@angular/material/slider'
 
 @Component({
   selector: 'app-material-editor',
@@ -69,6 +70,11 @@ export class MaterialEditorComponent {
 
   onSpecularColourChanged(colour: string): void {
     this.material.specular = colour;
+    this.materialChange.emit(this.material);
+  }
+
+  onShininessChange(event: MatSliderChange) {
+    this.material.shininess = event.value;
     this.materialChange.emit(this.material);
   }
 }

@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
+import {MatSliderModule} from '@angular/material/slider';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SceneSaverComponent } from './scene-saver/scene-saver.component';
 import { ColorPickerModule } from 'ngx-color-picker';
@@ -38,6 +39,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
     MatSelectModule,
     MatRadioModule,
     MatCardModule,
+    MatSliderModule,
     ReactiveFormsModule,
     ColorPickerModule
   ],
