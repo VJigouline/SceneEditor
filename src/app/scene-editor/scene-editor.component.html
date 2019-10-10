@@ -4,7 +4,9 @@
             <app-scene-view></app-scene-view>
         </as-split-area>
         <as-split-area size="20">
-            <app-material-editor></app-material-editor>
+            <app-material-editor
+            (materialChange)="onMaterialChange($event)"
+            ></app-material-editor>
             <app-scene-saver></app-scene-saver>
         </as-split-area>
     </as-split>

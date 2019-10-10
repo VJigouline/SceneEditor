@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { Material } from '../material';
 
 @Component({
   selector: 'app-scene-editor',
@@ -35,4 +36,7 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
     console.log(`ViewHeight: ${this.ViewHeight}, ViewWidth: ${this.ViewWidth}`);
   }
 
+  onMaterialChange(material: Material) {
+    console.log(JSON.stringify(material));
+  }
 }

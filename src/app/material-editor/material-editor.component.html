@@ -8,11 +8,11 @@
         <div class="col">
           <mat-form-field class="full-width">
             <input matInput placeholder="Diffuse colour"
-            [value] = "diffuseColour"
-            [style.background]="diffuseColour"
+            [value] = "material.diffuse"
+            [style.background]="material.diffuse"
             [cpPosition] = "'bottom'"
-            [(colorPicker)]="diffuseColour"
-            (colorPickerChange)="onColourChanged($event)"
+            [(colorPicker)]="material.diffuse"
+            (colorPickerChange)="onDiffuseColourChanged($event)"
             >
           </mat-form-field>
         </div>

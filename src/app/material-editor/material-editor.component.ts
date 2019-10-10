@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ThreeSceneService } from '../three-scene.service';
 import { ColorPickerService, Cmyk } from 'ngx-color-picker';
+import { Material } from '../material';
 
 @Component({
   selector: 'app-material-editor',
@@ -9,11 +10,15 @@ import { ColorPickerService, Cmyk } from 'ngx-color-picker';
   styleUrls: ['./material-editor.component.scss']
 })
 export class MaterialEditorComponent {
+
+  // events
+  @Output() materialChange = new EventEmitter<Material>();
+
+  // properties
   sceneJSON: string;
-  diffuseColour = '0x123456';
+  material = new Material();
 
   materialForm = this.fb.group({
-    diffuse: '0x123456',
     firstName: [null, Validators.required],
     lastName: [null, Validators.required],
     address: [null, Validators.required],
@@ -52,7 +57,8 @@ export class MaterialEditorComponent {
 // this.sceneService.getSceneJSON().subscribe(sceneJSON => this.sceneJSON = sceneJSON);
   }
 
-  onColourChanged(colour: string): void {
-    // alert(colour);
+  onDiffuseColourChanged(colour: string): void {
+     this.material.diffuse = colour;
+     this.materialChange.emit(this.material);
   }
 }
