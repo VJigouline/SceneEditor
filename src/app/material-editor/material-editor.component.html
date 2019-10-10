@@ -17,6 +17,32 @@
           </mat-form-field>
         </div>
       </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Specular colour"
+            [value] = "material.specular"
+            [style.background]="material.specular"
+            [cpPosition] = "'bottom'"
+            [(colorPicker)]="material.specular"
+            (colorPickerChange)="onSpecularColourChanged($event)"
+            >
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Emissive colour"
+            [value] = "material.emissive"
+            [style.background]="material.emissive"
+            [cpPosition] = "'bottom'"
+            [(colorPicker)]="material.emissive"
+            (colorPickerChange)="onEmissiveColourChanged($event)"
+            >
+          </mat-form-field>
+        </div>
+      </div>
       <div *ngIf="false">
       <div class="row">
         <div class="col">

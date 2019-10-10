@@ -47,6 +47,8 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   SetMaterial(material: Material) {
     console.log(JSON.stringify(material));
     this.material.color = new THREE.Color(material.diffuse);
+    this.material.emissive = new THREE.Color(material.emissive);
+    this.material.specular = new THREE.Color(material.specular);
     this.Render();
   }
 

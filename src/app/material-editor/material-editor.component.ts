@@ -58,7 +58,17 @@ export class MaterialEditorComponent {
   }
 
   onDiffuseColourChanged(colour: string): void {
-     this.material.diffuse = colour;
-     this.materialChange.emit(this.material);
+    this.material.diffuse = colour;
+    this.materialChange.emit(this.material);
+  }
+
+  onEmissiveColourChanged(colour: string): void {
+    this.material.emissive = colour;
+    this.materialChange.emit(this.material);
+  }
+
+  onSpecularColourChanged(colour: string): void {
+    this.material.specular = colour;
+    this.materialChange.emit(this.material);
   }
 }
