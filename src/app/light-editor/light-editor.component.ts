@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LightType } from '../light-type.enum';
 
 @Component({
   selector: 'app-light-editor',
@@ -12,4 +13,13 @@ export class LightEditorComponent implements OnInit {
   ngOnInit() {
   }
 
+  private onSave() {
+    alert("Save light");
+  }
+  private onSaveAll() {
+    alert("Save all lights");
+  }
+  private onNew() {
+    alert("New light");
+  }
 }
