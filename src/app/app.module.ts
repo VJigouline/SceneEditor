@@ -19,6 +19,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SceneSaverComponent } from './scene-saver/scene-saver.component';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { LightEditorComponent } from './light-editor/light-editor.component';
+import { LightsLibraryEditorComponent } from './lights-library-editor/lights-library-editor.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { LightEditorComponent } from './light-editor/light-editor.component';
     SceneViewComponent,
     MaterialEditorComponent,
     SceneSaverComponent,
-    LightEditorComponent
+    LightEditorComponent,
+    LightsLibraryEditorComponent
   ],
   imports: [
     BrowserModule,

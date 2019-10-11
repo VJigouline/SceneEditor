@@ -1,0 +1,27 @@
+<mat-card class="shipping-card">
+    <mat-card-header>
+        <mat-card-title>Lights library</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <app-light-editor></app-light-editor>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" 
+        type="button"
+        (click)="onNew()"
+        >New</button>
+        <button mat-raised-button color="primary" 
+        type="button"
+        (click)="onLoad()"
+        >Load</button>
+        <button mat-raised-button color="primary" 
+        type="button"
+        (click)="onSave()"
+        >Save</button>
+        <button mat-raised-button color="primary" 
+        type="button"
+        (click)="onSaveAll()"
+        >Save All</button>
+    </mat-card-actions>
+</mat-card>
+    

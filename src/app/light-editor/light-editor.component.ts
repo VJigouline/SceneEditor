@@ -12,14 +12,4 @@ export class LightEditorComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  private onSave() {
-    alert("Save light");
-  }
-  private onSaveAll() {
-    alert("Save all lights");
-  }
-  private onNew() {
-    alert("New light");
-  }
 }
