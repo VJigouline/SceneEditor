@@ -18,6 +18,7 @@ import {MatSliderModule} from '@angular/material/slider';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SceneSaverComponent } from './scene-saver/scene-saver.component';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { LightEditorComponent } from './light-editor/light-editor.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { ColorPickerModule } from 'ngx-color-picker';
     SceneEditorComponent,
     SceneViewComponent,
     MaterialEditorComponent,
-    SceneSaverComponent
+    SceneSaverComponent,
+    LightEditorComponent
   ],
   imports: [
     BrowserModule,
