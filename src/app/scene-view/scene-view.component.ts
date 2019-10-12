@@ -75,7 +75,7 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     this.scene = new THREE.Scene();
     loader.load(
       // resource URL
-      './assets/scenes/scene.gltf',
+      './assets/scenes/scene.json',
       // called when the resource is loaded
       gltf => {
         this.scene.add( gltf.scene );
