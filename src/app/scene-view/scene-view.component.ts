@@ -5,6 +5,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
 import { ThreeSceneService } from '../three-scene.service';
 import { Material } from '../material';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 @Component({
   selector: 'app-scene-view',
@@ -70,64 +71,25 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   }
 
   private InitialiseScene(): void {
-    this.scene = this.sceneService.getScene();
-
-    this.scene.add(this.ambientLight);
-
-    this.hemiLight = new THREE.HemisphereLight( 0xddeeff, 0x0f0e0d);
-    this.scene.add( this.hemiLight );
-
-    let light = new THREE.DirectionalLight( 0xffffff );
-    light.position.set( 1, 0, 1 ).normalize();
-    this.scene.add( light );
-
-    light = new THREE.DirectionalLight( 0xffffff );
-    light.position.set( -1, 0, 1 ).normalize();
-    this.scene.add( light );
-
-    light = new THREE.DirectionalLight( 0xffffff );
-    light.position.set( -1, -1, 0 ).normalize();
-    this.scene.add( light );
-
-    this.floorMat = new THREE.MeshStandardMaterial( {
-      roughness: 0.8,
-      color: 0xffffff,
-      metalness: 0.2,
-      bumpScale: 0.5
-    });
-    const textureLoader = new THREE.TextureLoader();
-    let texture = textureLoader.load( 'assets/textures/hardwood2_diffuse.jpg', map => {
-      map.wrapS = THREE.RepeatWrapping;
-      map.wrapT = THREE.RepeatWrapping;
-      map.anisotropy = 4;
-      map.repeat.set( 4, 9.6 );
-    } );
-    this.floorMat.map = texture;
-    this.floorMat.needsUpdate = true;
-    texture = textureLoader.load( 'assets/textures/hardwood2_bump.jpg', map => {
-      map.wrapS = THREE.RepeatWrapping;
-      map.wrapT = THREE.RepeatWrapping;
-      map.anisotropy = 4;
-      map.repeat.set( 4, 9.6 );
-    } );
-    this.floorMat.bumpMap = texture;
-    this.floorMat.needsUpdate = true;
-    texture = textureLoader.load( 'assets/textures/hardwood2_roughness.jpg', map => {
-      map.wrapS = THREE.RepeatWrapping;
-      map.wrapT = THREE.RepeatWrapping;
-      map.anisotropy = 4;
-      map.repeat.set( 4, 9.6 );
-    } );
-    this.floorMat.roughnessMap = texture;
-    this.floorMat.needsUpdate = true;
-
-    const floorGeometry = new THREE.PlaneBufferGeometry( 11000, 10000 );
-    const floorMesh = new THREE.Mesh( floorGeometry, this.floorMat );
-    floorMesh.receiveShadow = true;
-    floorMesh.position.set(0, 0, -500);
-    this.scene.add( floorMesh );
-
-    this.LoadRobot();
+    const loader = new GLTFLoader();
+    this.scene = new THREE.Scene();
+    loader.load(
+      // resource URL
+      './assets/scenes/scene.gltf',
+      // called when the resource is loaded
+      gltf => {
+        this.scene.add( gltf.scene );
+        this.Render();
+      },
+      // called while loading is progressing
+      xhr => {
+        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+      },
+      // called when loading has errors
+      error => {
+        console.log( 'An error happened' );
+      }
+    );
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.physicallyCorrectLights = true;
@@ -143,11 +105,6 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     // OrbitControl prevents wheel event bubbling. This settings is to redraw after zoom.
     this.controls.addEventListener('end', this.onOrbitControlEnd.bind(this));
     this.controls.screenSpacePanning = true;
-
-    // window.addEventListener( 'resize', onWindowResize, false );
-
-    this.camera.lookAt(this.scene.position);
-
   }
 
   private InitialiseCamera(): void {
@@ -180,12 +137,6 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     this.camera.top = height * 5;
     this.camera.updateProjectionMatrix();
    }
-
-   private LoadRobot(): void {
-    const loader = new STLLoader();
-
-    loader.load('../assets/robots/kuka300/Base.stl', geometry => this.LoadGeometry(geometry));
-  }
 
   private LoadGeometry(geometry: THREE.BufferGeometry) {
     this.mesh = new THREE.Mesh(geometry, this.material);

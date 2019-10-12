@@ -1,5 +1,5 @@
 import { LightType } from './light-type.enum';
-import { uuid } from 'uuid'
+import { uuid } from 'uuid';
 import * as THREE from 'three';
 
 export class Light {
@@ -30,8 +30,8 @@ export class Light {
                 this.light = new THREE.SpotLight();
                 break;
             default:
-                console.error("Invalid light type");
-                break;   
+                console.error('Invalid light type');
+                break;
         }
     }
 }
