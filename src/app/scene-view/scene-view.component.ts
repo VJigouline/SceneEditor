@@ -25,6 +25,7 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   private materials: THREE.Material[] = [];
   private currentMaterial: THREE.Material;
   private ambientLight: THREE.AmbientLight;
+  private materialColour: THREE.Color;
 
   constructor(
     private sceneService: ThreeSceneService
