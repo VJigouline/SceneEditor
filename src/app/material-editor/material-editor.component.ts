@@ -3,6 +3,7 @@ import { ThreeSceneService } from '../three-scene.service';
 import { ColorPickerService, Cmyk } from 'ngx-color-picker';
 import { Material } from '../material';
 import { MatSliderChange } from '@angular/material/slider';
+import { MaterialType } from '../material-type.enum';
 
 @Component({
   selector: 'app-material-editor',
@@ -16,7 +17,7 @@ export class MaterialEditorComponent {
 
   // properties
   sceneJSON: string;
-  material = new Material();
+  material = new Material(MaterialType.MESH_STANDARD);
 
   constructor(
      private sceneService: ThreeSceneService
