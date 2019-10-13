@@ -27,4 +27,17 @@ export class MaterialLibrary {
             }
         }
     }
+
+    clone(): MaterialLibrary {
+        const lib = new MaterialLibrary(this.name, this.description);
+        for (const mat of this.materials) {
+          const newMat = mat.clone();
+          if (newMat === null) {
+            continue;
+          }
+          lib.materials.push(newMat);
+        }
+
+        return lib;
+    }
 }

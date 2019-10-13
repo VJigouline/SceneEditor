@@ -1,5 +1,6 @@
 import { MaterialType } from './material-type.enum';
 import * as THREE from 'three';
+import { MaterialLibrary } from './material-library';
 
 export class Material {
     // properties
@@ -378,5 +379,10 @@ export class Material {
         m.vertexColors = mat.vertexColors;
         m.vertexTangents = mat.vertexTangents;
         m.visible = mat.visible;
+    }
+
+    clone(): Material {
+        console.error('Not implemented.');
+        return null;
     }
 }
