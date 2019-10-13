@@ -1,5 +1,5 @@
 export class Material {
-    diffuse: string;
+    colour: string;
     specular: string;
     emissive: string;
     shininess: number;

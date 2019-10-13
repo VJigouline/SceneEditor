@@ -46,15 +46,9 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     console.log(JSON.stringify(material));
     if (this.currentMaterial.type === 'MeshStandardMaterial') {
       const mat = this.currentMaterial as THREE.MeshStandardMaterial;
-      mat.color = new THREE.Color(material.diffuse);
+      mat.color = new THREE.Color(material.colour);
       mat.emissive = new THREE.Color(material.emissive);
     }
-    /*
-    this.materials[0].color = new THREE.Color(material.diffuse);
-    this.materials[0].emissive = new THREE.Color(material.emissive);
-    this.materials[0].specular = new THREE.Color(material.specular);
-    this.materials[0].shininess = material.shininess;
-    */
     this.Render();
   }
 

@@ -31,7 +31,7 @@ export class MaterialEditorComponent {
   }
 
   onDiffuseColourChanged(colour: string): void {
-    this.material.diffuse = colour;
+    this.material.colour = colour;
     this.materialChange.emit(this.material);
   }
 

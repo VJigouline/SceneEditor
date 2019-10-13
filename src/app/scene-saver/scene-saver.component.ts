@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { ThreeSceneService } from '../three-scene.service';
 import { saveAs } from 'file-saver';
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
@@ -12,10 +11,7 @@ import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
 export class SceneSaverComponent implements OnInit {
   message: string;
 
-  saveSceneForm = this.fb.group({});
-
   constructor(
-    private fb: FormBuilder,
     private sceneService: ThreeSceneService
   ) { }
 
