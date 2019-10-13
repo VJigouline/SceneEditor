@@ -236,7 +236,7 @@ export class Material {
         }
     }
 
-    create(mat: THREE.Material): Material {
+    static create(mat: THREE.Material): Material {
 
         let ret: Material;
 
@@ -338,7 +338,7 @@ export class Material {
     /*
     */
 
-    private setCommonProperties(m: Material, mat: THREE.Material) {
+    private static setCommonProperties(m: Material, mat: THREE.Material) {
         m.material = mat;
         m.alphaTest = mat.alphaTest;
         m.blendDst = mat.blendDst;
