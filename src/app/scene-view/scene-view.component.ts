@@ -19,12 +19,11 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
 
   private scene: THREE.Scene;
   private camera: THREE.OrthographicCamera;
-  private hemiLight: THREE.HemisphereLight;
-  private floorMat: THREE.MeshStandardMaterial;
   private renderer: THREE.WebGLRenderer;
   private controls: OrbitControls;
   private mesh: THREE.Mesh;
-  private material: THREE.MeshPhongMaterial;
+  private materials: THREE.Material[] = [];
+  private currentMaterial: THREE.Material;
   private ambientLight: THREE.AmbientLight;
 
   constructor(
@@ -32,9 +31,6 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-    this.material = new THREE.MeshPhongMaterial( {
-      color: 0xc5cdd1
-    });
     this.ambientLight = new THREE.AmbientLight(0xb2afaf);
   }
 
@@ -47,10 +43,17 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
 
   SetMaterial(material: Material) {
     console.log(JSON.stringify(material));
-    this.material.color = new THREE.Color(material.diffuse);
-    this.material.emissive = new THREE.Color(material.emissive);
-    this.material.specular = new THREE.Color(material.specular);
-    this.material.shininess = material.shininess;
+    if (this.currentMaterial.type === 'MeshStandardMaterial') {
+      const mat = this.currentMaterial as THREE.MeshStandardMaterial;
+      mat.color = new THREE.Color(material.diffuse);
+      mat.emissive = new THREE.Color(material.emissive);
+    }
+    /*
+    this.materials[0].color = new THREE.Color(material.diffuse);
+    this.materials[0].emissive = new THREE.Color(material.emissive);
+    this.materials[0].specular = new THREE.Color(material.specular);
+    this.materials[0].shininess = material.shininess;
+    */
     this.Render();
   }
 
@@ -71,25 +74,7 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   }
 
   private InitialiseScene(): void {
-    const loader = new GLTFLoader();
-    this.scene = new THREE.Scene();
-    loader.load(
-      // resource URL
-      './assets/scenes/scene.gltf',
-      // called when the resource is loaded
-      gltf => {
-        this.scene.add( gltf.scene );
-        this.Render();
-      },
-      // called while loading is progressing
-      xhr => {
-        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-      },
-      // called when loading has errors
-      error => {
-        console.log( 'An error happened' );
-      }
-    );
+    this.LoadScene();
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.physicallyCorrectLights = true;
@@ -123,7 +108,9 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   }
 
   private Render(): void {
-
+    if (this.currentMaterial === undefined && this.materials.length > 0) {
+      this.currentMaterial = this.materials[0];
+    }
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -139,9 +126,59 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
    }
 
   private LoadGeometry(geometry: THREE.BufferGeometry) {
-    this.mesh = new THREE.Mesh(geometry, this.material);
+    this.mesh = new THREE.Mesh(geometry, this.currentMaterial);
     this.scene.add(this.mesh);
     this.Render();
   }
 
+  private LoadScene(): void {
+    this.AddScene();
+  }
+
+  private AddScene() {
+    this.scene = new THREE.Scene();
+    this.LoadGLTFScene();
+  }
+
+  private LoadGLTFScene(): void {
+    const loader = new GLTFLoader();
+    loader.load(
+      // resource URL
+      './assets/scenes/scene.gltf',
+      // called when the resource is loaded
+      gltf => {
+        this.scene.add( gltf.scene );
+        this.materials = this.ExtractMaterials(this.scene);
+        this.Render();
+      },
+      // called while loading is progressing
+      xhr => {
+        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+      },
+      // called when loading has errors
+      error => {
+        console.log( 'An error happened' );
+      }
+    );
+  }
+
+  private ExtractMaterials(scene: THREE.Scene): THREE.Material[] {
+    const ret: THREE.Material[] = [];
+
+    for (const sc of this.scene.children) {
+      for (const child of sc.children) {
+        if (child.type === 'Mesh') {
+          const mesh = child as THREE.Mesh;
+          if (Array.isArray(mesh.material)) {
+            for (const mat of mesh.material) {
+              ret.push(mat);
+            }
+          } else {
+            ret.push(mesh.material as THREE.Material);
+          }
+        }
+      }
+    }
+    return ret;
+  }
 }
