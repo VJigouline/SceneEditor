@@ -1,6 +1,7 @@
 # SceneEditor
 
-*ThreeJS scene editor.*
+*ThreeJS scene editor.*  
+ThreeJS has a [Scene Editor](https://threejs.org/editor/), but this editor is JavaScript based and difficult to extend. This project is to create Angular based alternative.
 
 [Edit on StackBlitz ⚡️](https://stackblitz.com/github/VJigouline/SceneEditor) - graphics is not loaded correctly on StackBlitz. Textures and STL files are missing.  
 [Angular documentation](https://angular.io/docs)
@@ -20,7 +21,8 @@ These modules should be added on top of the standard angular installation (`npm 
 `npm install file-saver` [Documentation](https://www.npmjs.com/package/file-saver)  
 `npm install ngx-color-picker` [Documentation](https://www.npmjs.com/package/ngx-color-picker)  
 `npm install angular-in-memory-web-api` [Documentation](https://angular.io/tutorial/toh-pt6) - web server simulation for the testing  
-`npm install uuid` [Documentation](https://www.npmjs.com/package/uuid)
+`npm install uuid` [Documentation](https://www.npmjs.com/package/uuid)  
+`npm install ngx-file-drop` [Documentation](https://www.npmjs.com/package/ngx-file-drop)
 
 ## Development server
 
