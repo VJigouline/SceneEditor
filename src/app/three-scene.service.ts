@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
 import * as THREE from 'three';
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 type ReaderDelegate = (fileReader: FileReader, scene: THREE.Scene) => void;
 
@@ -95,9 +94,16 @@ export class ThreeSceneService {
   }
 
   public addGLTFFile(fileReader: FileReader, scene: THREE.Scene): void {
-    console.log(fileReader.result);
-    console.log('GLTF file read.');
-  }
+    const loader = new GLTFLoader();
+    loader.parse.bind(this);
+    loader.parse(fileReader.result, '.',
+      gltf => {
+      scene.add( gltf.scene );
+      // this.materials = this.ExtractMaterials(this.scene);
+      // this.Render();
+    }
+    );
+ }
 
   public addJSONFile(fileReader: FileReader, scene: THREE.Scene): void {
     console.log(fileReader.result);
