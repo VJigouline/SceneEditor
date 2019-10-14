@@ -127,11 +127,11 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   }
 
   private LoadScene(): void {
+    this.scene = this.sceneService.getNewScene();
     this.AddScene();
   }
 
   private AddScene() {
-    this.scene = new THREE.Scene();
     this.LoadGLTFScene();
   }
 

@@ -3,6 +3,16 @@
     <mat-card-title>Save scene</mat-card-title>
     </mat-card-header>
     <mat-card-content>
+        <div class="row">
+            <div class="col">
+              <mat-form-field class="full-width">
+                <mat-label>Select output format</mat-label>
+                <mat-select [(value)]="exportType">
+                    <mat-option *ngFor="let option of exportOptions" [value]="option.type">{{option.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+        </div>
     </mat-card-content>
     <mat-card-actions>
     <button mat-raised-button color="primary" (click)="onSubmit()">Save Scene</button>
