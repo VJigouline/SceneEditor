@@ -1,6 +1,9 @@
 import { Component, OnInit, Input, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 import { Material } from '../material';
 import { SceneViewComponent } from '../scene-view/scene-view.component';
+import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
+import { ThreeSceneService } from '../three-scene.service';
+import { ResizedEvent } from 'angular-resize-event';
 
 @Component({
   selector: 'app-scene-editor',
@@ -18,16 +21,40 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
   @ViewChild('ThreeJSView', { static: false })
   private threeView: SceneViewComponent;
 
-  constructor() { }
+  constructor(
+    private sceneService: ThreeSceneService,
+    private elRef: ElementRef
+    ) { }
 
   ngOnInit() {
- }
+    this.Width = this.elRef.nativeElement.width;
+    this.Height = this.elRef.nativeElement.height;
+  }
+
+ private onResized(event: ResizedEvent): void {
+  //  console.log(`OnResize. New width: ${event.newWidth}, new height: ${event.newHeight}`);
+    this.Width = event.newWidth;
+    this.Height = event.newHeight;
+  }
 
   ngAfterViewInit(): void {
-    // this.OnResize();
+    this.Width = this.elRef.nativeElement.width;
+    this.Height = this.elRef.nativeElement.height;
   }
 
   onMaterialChange(material: Material) {
     this.threeView.SetMaterial(material);
+  }
+
+  public dropped(files: NgxFileDropEntry[]) {
+    this.sceneService.addFiles(files);
+  }
+
+  public fileOver(event) {
+    console.log(event);
+  }
+
+  public fileLeave(event) {
+    console.log(event);
   }
 }

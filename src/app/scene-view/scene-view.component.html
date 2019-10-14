@@ -1,9 +1,3 @@
 <div #container (resized)="onResized($event)" 
     (mousemove)="onMouseOver($event)">
-    <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" 
-    (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
-        <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-          Optional custom content that replaces the the entire default content.
-        </ng-template>
-    </ngx-file-drop>
 </div>

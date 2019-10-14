@@ -1,7 +1,16 @@
-<div [style.width.px]="Width" [style.height.px]="Height">
+<div [style.width.px]="Width" [style.height]="'100%'" (resized)="onResized($event)">
     <as-split direction="horizontal">
         <as-split-area size="80">
-            <app-scene-view #ThreeJSView></app-scene-view>
+            <ngx-file-drop 
+            [dropZoneClassName]="'scene-dropzone-content'"
+            [contentClassName]="'scene-dropzone-content'"
+                (onFileDrop)="dropped($event)" 
+                (onFileOver)="fileOver($event)" 
+                (onFileLeave)="fileLeave($event)">
+                <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                        <app-scene-view #ThreeJSView [AreaWidth]="Width" [AreaHeight]="Height"></app-scene-view>
+                </ng-template>
+            </ngx-file-drop>
         </as-split-area>
         <as-split-area size="20">
             <app-lights-library-editor></app-lights-library-editor>

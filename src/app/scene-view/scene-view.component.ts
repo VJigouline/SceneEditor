@@ -1,12 +1,10 @@
-import { Component, OnInit, ElementRef, ViewChild, AfterViewInit} from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, Input} from '@angular/core';
 import { ResizedEvent } from 'angular-resize-event';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
 import { ThreeSceneService } from '../three-scene.service';
 import { Material } from '../material';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 
 @Component({
   selector: 'app-scene-view',
@@ -16,6 +14,11 @@ import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 
 export class SceneViewComponent implements OnInit, AfterViewInit {
   @ViewChild('container', { static: true })
   container: ElementRef;
+
+  // View area size.
+  @Input() AreaWidth: number;
+  @Input() AreaHeight: number;
+
   sceneJSON: string;
 
   private scene: THREE.Scene;
@@ -26,13 +29,13 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   private materials: THREE.Material[] = [];
   private currentMaterial: THREE.Material;
 
-  public files: NgxFileDropEntry[] = [];
-
   constructor(
     private sceneService: ThreeSceneService
   ) { }
 
   ngOnInit() {
+    this.AreaHeight = 100;
+    this.AreaWidth = 200;
   }
 
   ngAfterViewInit() {
@@ -54,8 +57,8 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
 
   private onResized(event: ResizedEvent): void {
   //  console.log(`OnResize. New width: ${event.newWidth}, new height: ${event.newHeight}`);
-    this.renderer.setSize(event.newWidth, event.newHeight);
-    this.setCameraSize(event.newWidth, event.newHeight);
+    this.renderer.setSize(this.AreaWidth, this.AreaHeight - 4);
+    this.setCameraSize(this.AreaWidth, this.AreaHeight);
     this.Render();
   }
 
@@ -79,6 +82,7 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     this.renderer.toneMapping = THREE.ReinhardToneMapping;
     this.renderer.setPixelRatio( window.devicePixelRatio );
     this.renderer.setClearColor(0xbbeeff, 1);
+    this.renderer.setSize(this.AreaWidth, this.AreaHeight);
     this.container.nativeElement.appendChild( this.renderer.domElement );
 
     this.controls = new OrbitControls( this.camera, this.renderer.domElement );
@@ -175,17 +179,5 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
       }
     }
     return ret;
-  }
-
-  public dropped(files: NgxFileDropEntry[]) {
-    this.sceneService.addFiles(files);
-  }
-
-  public fileOver(event) {
-    console.log(event);
-  }
-
-  public fileLeave(event) {
-    console.log(event);
   }
 }
