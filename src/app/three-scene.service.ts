@@ -29,6 +29,12 @@ export class ThreeSceneService {
   public getNewScene(): THREE.Scene {
 
     this.scene = new THREE.Scene();
+    let light = new THREE.DirectionalLight('#ffffff', 3);
+    light.position.set(0, 1, 1);
+    this.scene.add(light);
+    light = new THREE.DirectionalLight('#ffffff', 2);
+    light.position.set(0, -1, -1);
+    this.scene.add(light);
 
     return this.scene;
   }

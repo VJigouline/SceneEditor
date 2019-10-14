@@ -72,7 +72,9 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   }
 
   private InitialiseScene(): void {
-    this.LoadScene();
+    // this.LoadScene();
+
+    this.scene = this.sceneService.getNewScene();
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.physicallyCorrectLights = true;
