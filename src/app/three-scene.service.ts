@@ -2,18 +2,23 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import * as THREE from 'three';
+import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
+import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
+
+type ReaderDelegate = (fileReader: FileReader, scene: THREE.Scene) => void;
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class ThreeSceneService {
-  scene: THREE.Scene;
+  private scene: THREE.Scene;
 
   constructor(
 // private http: HttpClient
   ) { }
 
-  getScene(): THREE.Scene {
+  public getScene(): THREE.Scene {
 
     if (this.scene === undefined) {
       this.scene = new THREE.Scene();
@@ -22,14 +27,14 @@ export class ThreeSceneService {
     return this.scene;
   }
 
-  getNewScene(): THREE.Scene {
+  public getNewScene(): THREE.Scene {
 
     this.scene = new THREE.Scene();
 
     return this.scene;
   }
 
-  getSceneJSON(): string {
+  public getSceneJSON(): string {
     if (this.scene === undefined) {
       return '';
     }
@@ -37,7 +42,73 @@ export class ThreeSceneService {
     return JSON.stringify(this.scene);
   }
 
-  getSampleScene(): void {
-// this.http.get<THREE.Scene>('assets/scenes/scene.json').subscribe( scene => this.scene = scene);
+  public addFiles(files: NgxFileDropEntry[]): void {
+    for (const file of files) {
+
+      // Is it a file?
+      if (file.fileEntry.isFile) {
+        this.addFile(file);
+      } else {
+        // It was a directory (empty directories are added, otherwise only files)
+        const fileEntry = file.fileEntry as FileSystemDirectoryEntry;
+        console.log(file.relativePath, fileEntry);
+      }
+    }
   }
-}
+
+  public addFile(file: NgxFileDropEntry): void {
+
+    const fileExtension = file.relativePath.split('.').pop().toLocaleLowerCase();
+
+    let readerDelegate: ReaderDelegate;
+
+    switch (fileExtension) {
+      case 'gltf':
+        readerDelegate = this.addGLTFFile;
+        break;
+      case 'json':
+        readerDelegate = this.addJSONFile;
+        break;
+      case 'stl':
+        readerDelegate = this.addSTLFile;
+        break;
+      default:
+        console.warn(`'${fileExtension}' is unsupported file type.`);
+        return;
+    }
+
+    if (this.scene === undefined) {
+      this.scene = new THREE.Scene();
+    }
+
+    const fileEntry = file.fileEntry as FileSystemFileEntry;
+    readerDelegate.bind(this);
+    fileEntry.file((fileDescriptor: File) => {
+
+      // Here you can access the real file
+      console.log(file.relativePath, file);
+
+      const fileReader = new FileReader();
+      fileReader.onload = (e) => readerDelegate(fileReader, this.scene);
+      fileReader.readAsBinaryString(fileDescriptor);
+    });
+  }
+
+  public addGLTFFile(fileReader: FileReader, scene: THREE.Scene): void {
+    console.log(fileReader.result);
+    console.log('GLTF file read.');
+  }
+
+  public addJSONFile(fileReader: FileReader, scene: THREE.Scene): void {
+    console.log(fileReader.result);
+    console.log('JSON file read.');
+  }
+
+  public addSTLFile(fileReader: FileReader, scene: THREE.Scene): void {
+    const loader = new STLLoader();
+    const geometry = loader.parse(fileReader.result);
+    const material = new THREE.MeshPhongMaterial( { color: 0xff5533, specular: 0x111111, shininess: 200 } );
+    const mesh = new THREE.Mesh( geometry, material );
+    scene.add(mesh);
+  }
+ }

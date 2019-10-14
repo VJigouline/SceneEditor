@@ -6,6 +6,7 @@ import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
 import { ThreeSceneService } from '../three-scene.service';
 import { Material } from '../material';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 
 @Component({
   selector: 'app-scene-view',
@@ -24,15 +25,14 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   private mesh: THREE.Mesh;
   private materials: THREE.Material[] = [];
   private currentMaterial: THREE.Material;
-  private ambientLight: THREE.AmbientLight;
-  private materialColour: THREE.Color;
+
+  public files: NgxFileDropEntry[] = [];
 
   constructor(
     private sceneService: ThreeSceneService
   ) { }
 
   ngOnInit() {
-    this.ambientLight = new THREE.AmbientLight(0xb2afaf);
   }
 
   ngAfterViewInit() {
@@ -175,5 +175,17 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
       }
     }
     return ret;
+  }
+
+  public dropped(files: NgxFileDropEntry[]) {
+    this.sceneService.addFiles(files);
+  }
+
+  public fileOver(event) {
+    console.log(event);
+  }
+
+  public fileLeave(event) {
+    console.log(event);
   }
 }

@@ -20,7 +20,7 @@ import { SceneSaverComponent } from './scene-saver/scene-saver.component';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { LightEditorComponent } from './light-editor/light-editor.component';
 import { LightsLibraryEditorComponent } from './lights-library-editor/lights-library-editor.component';
-
+import { NgxFileDropModule } from 'ngx-file-drop';
 
 @NgModule({
   declarations: [
@@ -45,7 +45,8 @@ import { LightsLibraryEditorComponent } from './lights-library-editor/lights-lib
     MatCardModule,
     MatSliderModule,
     ReactiveFormsModule,
-    ColorPickerModule
+    ColorPickerModule,
+    NgxFileDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]
