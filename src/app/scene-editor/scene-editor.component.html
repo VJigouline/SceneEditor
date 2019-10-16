@@ -17,7 +17,7 @@
             <app-material-editor
             (materialChange)="onMaterialChange($event)"
             ></app-material-editor>
-            <app-scene></app-scene>
+            <app-scene (onSceneChanged)="onSceneChange($event)"></app-scene>
         </as-split-area>
     </as-split>
 </div>

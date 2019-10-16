@@ -74,7 +74,7 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   private InitialiseScene(): void {
     // this.LoadScene();
 
-    this.scene = this.sceneService.getNewScene();
+    this.newScene();
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.physicallyCorrectLights = true;
@@ -108,7 +108,7 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     this.Render();
   }
 
-  private Render(): void {
+  public Render(): void {
     if (this.currentMaterial === undefined && this.materials.length > 0) {
       this.currentMaterial = this.materials[0];
     }
@@ -181,5 +181,9 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
       }
     }
     return ret;
+  }
+
+  public newScene(): void {
+    this.scene = this.sceneService.getNewScene();
   }
 }

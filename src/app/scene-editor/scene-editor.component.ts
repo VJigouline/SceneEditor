@@ -57,4 +57,13 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
   public fileLeave(event) {
     console.log(event);
   }
+
+  public onSceneChange(op: string) {
+    switch (op) {
+      case 'new':
+          this.threeView.newScene();
+          this.threeView.Render();
+          break;
+    }
+  }
 }

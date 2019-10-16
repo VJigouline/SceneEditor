@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { SceneModifierComponent } from '../scene-modifier/scene-modifier.component';
 
 @Component({
   selector: 'app-scene',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SceneComponent implements OnInit {
 
+  @Output() onSceneChanged = new EventEmitter<string>();
+
   constructor() { }
 
   ngOnInit() {
   }
 
+  onSceneChange(op: string): void {
+    this.onSceneChanged.emit(op);
+  }
 }
