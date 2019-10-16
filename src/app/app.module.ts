@@ -21,6 +21,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import { LightEditorComponent } from './light-editor/light-editor.component';
 import { LightsLibraryEditorComponent } from './lights-library-editor/lights-library-editor.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
+import { SceneComponent } from './scene/scene.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { NgxFileDropModule } from 'ngx-file-drop';
     MaterialEditorComponent,
     SceneSaverComponent,
     LightEditorComponent,
-    LightsLibraryEditorComponent
+    LightsLibraryEditorComponent,
+    SceneComponent
   ],
   imports: [
     BrowserModule,
