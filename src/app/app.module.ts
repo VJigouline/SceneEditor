@@ -22,6 +22,7 @@ import { LightEditorComponent } from './light-editor/light-editor.component';
 import { LightsLibraryEditorComponent } from './lights-library-editor/lights-library-editor.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { SceneComponent } from './scene/scene.component';
+import { SceneModifierComponent } from './scene-modifier/scene-modifier.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { SceneComponent } from './scene/scene.component';
     SceneSaverComponent,
     LightEditorComponent,
     LightsLibraryEditorComponent,
-    SceneComponent
+    SceneComponent,
+    SceneModifierComponent
   ],
   imports: [
     BrowserModule,
