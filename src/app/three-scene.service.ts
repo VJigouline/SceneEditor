@@ -4,7 +4,7 @@ import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
-type ReaderDelegate = (fileReader: FileReader, scene: THREE.Scene) => void;
+type ReaderDelegate = (file: File, files: NgxFileDropEntry[], scene: THREE.Scene) => void;
 
 @Injectable({
   providedIn: 'root'
@@ -52,16 +52,15 @@ export class ThreeSceneService {
 
       // Is it a file?
       if (file.fileEntry.isFile) {
-        this.addFile(file);
+        this.addFile(file, files);
       } else {
         // It was a directory (empty directories are added, otherwise only files)
-        const fileEntry = file.fileEntry as FileSystemDirectoryEntry;
-        console.log(file.relativePath, fileEntry);
+        console.log(`Unprocessed folder ${file.relativePath}`);
       }
     }
   }
 
-  public addFile(file: NgxFileDropEntry): void {
+  public addFile(file: NgxFileDropEntry, files: NgxFileDropEntry[]): void {
 
     const fileExtension = file.relativePath.split('.').pop().toLocaleLowerCase();
 
@@ -69,6 +68,7 @@ export class ThreeSceneService {
 
     switch (fileExtension) {
       case 'gltf':
+      case 'glb':
         readerDelegate = this.addGLTFFile;
         break;
       case 'json':
@@ -88,39 +88,79 @@ export class ThreeSceneService {
 
     const fileEntry = file.fileEntry as FileSystemFileEntry;
     readerDelegate.bind(this);
-    fileEntry.file((fileDescriptor: File) => {
+    fileEntry.file((blob: File) => {
 
       // Here you can access the real file
       console.log(file.relativePath, file);
 
-      const fileReader = new FileReader();
-      fileReader.onload = (e) => readerDelegate(fileReader, this.scene);
-      fileReader.readAsBinaryString(fileDescriptor);
-    });
+      readerDelegate(blob, files, this.scene);
+     });
   }
 
-  public addGLTFFile(fileReader: FileReader, scene: THREE.Scene): void {
-    const loader = new GLTFLoader();
-    loader.parse.bind(this);
-    loader.parse(fileReader.result, '.',
-      gltf => {
-      scene.add( gltf.scene );
-      // this.materials = this.ExtractMaterials(this.scene);
-      // this.Render();
-    }
-    );
+  public addGLTFFile(blob: File, files: NgxFileDropEntry[], scene: THREE.Scene): void {
+    /*
+    const loader = new Promise((resolve, reject) => {
+
+      const manager = new THREE.LoadingManager();
+
+      // Intercept and override relative URLs.
+      manager.setURLModifier((url: string) => {
+
+        const normalizedURL = rootPath + url
+          .replace(baseURL, '')
+          .replace(/^(\.?\/)/, '');
+
+        if (assetMap.has(normalizedURL)) {
+          const blob = assetMap.get(normalizedURL);
+          const blobURL = URL.createObjectURL(blob);
+          blobURLs.push(blobURL);
+          return blobURL;
+        }
+
+        return (path || '') + url;
+
+      });
+
+      const loader = new THREE.GLTFLoader(manager);
+      loader.setCrossOrigin('anonymous');
+
+      const dracoLoader = new THREE.DRACOLoader();
+      dracoLoader.setDecoderPath( 'lib/draco/' );
+      loader.setDRACOLoader( dracoLoader );
+
+      const blobURLs = [];
+
+      loader.load(url, (gltf) => {
+
+        const scene = gltf.scene || gltf.scenes[0];
+        const clips = gltf.animations || [];
+        this.setContent(scene, clips);
+
+        blobURLs.forEach(URL.revokeObjectURL);
+
+        // See: https://github.com/google/draco/issues/349
+        // THREE.DRACOLoader.releaseDecoderModule();
+
+        resolve(gltf);
+
+      }, undefined, reject);
+
+    });
+    */
  }
 
-  public addJSONFile(fileReader: FileReader, scene: THREE.Scene): void {
-    console.log(fileReader.result);
+  public addJSONFile(blob: File, files: NgxFileDropEntry[], scene: THREE.Scene): void {
     console.log('JSON file read.');
+    console.warn('JSON not implemented.');
   }
 
-  public addSTLFile(fileReader: FileReader, scene: THREE.Scene): void {
+  public addSTLFile(blob: File, files: NgxFileDropEntry[], scene: THREE.Scene): void {
+    const url = URL.createObjectURL(blob);
     const loader = new STLLoader();
-    const geometry = loader.parse(fileReader.result);
     const material = new THREE.MeshPhongMaterial( { color: 0xff5533, specular: 0x111111, shininess: 200 } );
-    const mesh = new THREE.Mesh( geometry, material );
-    scene.add(mesh);
+    loader.load(url, geometry => {
+      const mesh = new THREE.Mesh( geometry, material );
+      scene.add(mesh);
+    });
   }
  }

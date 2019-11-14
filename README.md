@@ -14,6 +14,7 @@ Project options: routing and [SCSS](https://sass-lang.com/documentation) as a st
 These modules should be added on top of the standard angular installation (`npm install` should do it for you)
 
 ### Dependencies
+
 `npm install angular-split` [Documentation](https://bertrandg.github.io/angular-split/#/documentation)  
 `npm install three` [Documentation](https://threejs.org/docs/#manual/en/introduction/Import-via-modules)  
 `npm install angular-resize-event` [Documentation](https://www.npmjs.com/package/angular-resize-event)  
