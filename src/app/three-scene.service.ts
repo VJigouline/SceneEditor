@@ -4,7 +4,7 @@ import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
-type ReaderDelegate = (file: File, files: NgxFileDropEntry[], scene: THREE.Scene) => void;
+type ReaderDelegate = (blob: File, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene) => void;
 
 @Injectable({
   providedIn: 'root'
@@ -93,13 +93,15 @@ export class ThreeSceneService {
       // Here you can access the real file
       console.log(file.relativePath, file);
 
-      readerDelegate(blob, files, this.scene);
+      readerDelegate(blob, file, files, this.scene);
      });
   }
 
-  public addGLTFFile(blob: File, files: NgxFileDropEntry[], scene: THREE.Scene): void {
-    /*
-    const loader = new Promise((resolve, reject) => {
+  public addGLTFFile(blob: File, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene): void {
+
+    const fileUrl = URL.createObjectURL(blob);
+/*
+  const loader = new Promise((resolve, reject) => {
 
       const manager = new THREE.LoadingManager();
 
@@ -147,14 +149,14 @@ export class ThreeSceneService {
 
     });
     */
- }
+  }
 
-  public addJSONFile(blob: File, files: NgxFileDropEntry[], scene: THREE.Scene): void {
+  public addJSONFile(blob: File, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene): void {
     console.log('JSON file read.');
     console.warn('JSON not implemented.');
   }
 
-  public addSTLFile(blob: File, files: NgxFileDropEntry[], scene: THREE.Scene): void {
+  public addSTLFile(blob: File, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene): void {
     const url = URL.createObjectURL(blob);
     const loader = new STLLoader();
     const material = new THREE.MeshPhongMaterial( { color: 0xff5533, specular: 0x111111, shininess: 200 } );
