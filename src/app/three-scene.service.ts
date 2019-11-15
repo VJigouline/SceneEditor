@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 
 type ReaderDelegate = (blob: File, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene) => void;
 
@@ -151,7 +152,25 @@ export class ThreeSceneService {
     */
   }
 
-  public addJSONFile(blob: File, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene): void {
+  public addGLTFFile(fileReader: FileReader, scene: THREE.Scene): void {
+    const loader = new GLTFLoader();
+
+    var dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath( '/three/examples/js/libs/draco' );
+    loader.setDRACOLoader( dracoLoader );
+
+    loader.parse.bind(this);
+    loader.parse(fileReader.result, '.',
+      gltf => {
+      scene.add( gltf.scene );
+      // this.materials = this.ExtractMaterials(this.scene);
+      // this.Render();
+    }
+    );
+ }
+
+  public addJSONFile(fileReader: FileReader, scene: THREE.Scene): void {
+    console.log(fileReader.result);
     console.log('JSON file read.');
     console.warn('JSON not implemented.');
   }
