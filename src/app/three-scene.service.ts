@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
-import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
+import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry, FileSystemEntry } from 'ngx-file-drop';
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
@@ -124,9 +124,19 @@ export class ThreeSceneService {
           blobURLs.push(blobURL);
           return blobURL;
         } else {
-          for (const f in files) {
-            const i = 1;
+          for (const f of files) {
+            const fileEntry = f.fileEntry as FileSystemFileEntry;
+            /*
+            fileEntry.file((blob: File) => {
+
+              // Here you can access the real file
+              console.log(file.relativePath, file);
+        
+              readerDelegate(blob, file, files, this.scene);
+             });
+             */
           }
+          return url;
         }
       });
 
