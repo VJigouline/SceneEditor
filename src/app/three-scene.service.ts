@@ -101,13 +101,18 @@ export class ThreeSceneService {
   public addGLTFFile(blob: File, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene): void {
 
     const fileUrl = URL.createObjectURL(blob);
-/*
-  const loader = new Promise((resolve, reject) => {
+    const rootPath = file.relativePath.replace(file.fileEntry.name, '');
+    const baseURL = THREE.LoaderUtils.extractUrlBase(fileUrl);
+    const assetMap = new Map<string, File>();
+
+    const loaderGLTF = new Promise((resolve, reject) => {
 
       const manager = new THREE.LoadingManager();
 
       // Intercept and override relative URLs.
       manager.setURLModifier((url: string) => {
+
+        if (url == fileUrl) return url;
 
         const normalizedURL = rootPath + url
           .replace(baseURL, '')
@@ -118,26 +123,34 @@ export class ThreeSceneService {
           const blobURL = URL.createObjectURL(blob);
           blobURLs.push(blobURL);
           return blobURL;
+        } else {
+          for (const f in files) {
+            const i = 1;
+          }
         }
-
-        return (path || '') + url;
-
       });
 
-      const loader = new THREE.GLTFLoader(manager);
+      const loader = new GLTFLoader(manager);
       loader.setCrossOrigin('anonymous');
 
-      const dracoLoader = new THREE.DRACOLoader();
+      const dracoLoader = new DRACOLoader();
       dracoLoader.setDecoderPath( 'lib/draco/' );
       loader.setDRACOLoader( dracoLoader );
 
       const blobURLs = [];
 
-      loader.load(url, (gltf) => {
+      loader.load(fileUrl, (gltf) => {
 
-        const scene = gltf.scene || gltf.scenes[0];
+        const sceneGLTF = gltf.scene || gltf.scenes[0];
         const clips = gltf.animations || [];
-        this.setContent(scene, clips);
+        //this.setContent(scene, sceneGLTF, clips);
+        {
+          const box = new THREE.Box3().setFromObject(sceneGLTF);
+          const size = box.getSize(new THREE.Vector3()).length();
+          const center = box.getCenter(new THREE.Vector3());
+      
+          scene.add(sceneGLTF);
+        }
 
         blobURLs.forEach(URL.revokeObjectURL);
 
@@ -149,28 +162,19 @@ export class ThreeSceneService {
       }, undefined, reject);
 
     });
-    */
   }
 
-  public addGLTFFile(fileReader: FileReader, scene: THREE.Scene): void {
-    const loader = new GLTFLoader();
+  private setContent(scene: THREE.Scene, sceneGLTF: THREE.Scene, 
+    clips: THREE.AnimationClip[]): void {
 
-    var dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath( '/three/examples/js/libs/draco' );
-    loader.setDRACOLoader( dracoLoader );
+      const box = new THREE.Box3().setFromObject(sceneGLTF);
+      const size = box.getSize(new THREE.Vector3()).length();
+      const center = box.getCenter(new THREE.Vector3());
+  
+      scene.add(sceneGLTF);
+  }
 
-    loader.parse.bind(this);
-    loader.parse(fileReader.result, '.',
-      gltf => {
-      scene.add( gltf.scene );
-      // this.materials = this.ExtractMaterials(this.scene);
-      // this.Render();
-    }
-    );
- }
-
-  public addJSONFile(fileReader: FileReader, scene: THREE.Scene): void {
-    console.log(fileReader.result);
+  public addJSONFile(blob: File, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene): void {
     console.log('JSON file read.');
     console.warn('JSON not implemented.');
   }
