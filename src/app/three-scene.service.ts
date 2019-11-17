@@ -10,10 +10,12 @@ import { reject } from 'q';
 interface ViewerFile extends File {
   relativePath: string;
   reader: CompoundReader;
+  contentSetter: ContentSetter;
 }
 
 type ReaderDelegate = (blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene) => void;
 type CompoundReader = (blob: ViewerFile, fileMap: Map<string, File>, scene: THREE.Scene) => void;
+type ContentSetter = (scene: THREE.Scene, sceneGLTF: THREE.Scene, clips: THREE.AnimationClip[]) => void;
 
 @Injectable({
   providedIn: 'root'
@@ -75,12 +77,14 @@ export class ThreeSceneService {
 
     let readerDelegate: ReaderDelegate;
     let reader: CompoundReader;
+    let contentSetter: ContentSetter;
 
     switch (fileExtension) {
       case 'gltf':
       case 'glb':
         readerDelegate = this.addGLTFFile;
         reader = this.readGLTFFile;
+        contentSetter = this.setContent;
         break;
       case 'json':
         readerDelegate = this.addJSONFile;
@@ -104,6 +108,7 @@ export class ThreeSceneService {
       const vf = blob as ViewerFile;
       vf.relativePath = file.relativePath;
       vf.reader = reader;
+      vf.contentSetter = contentSetter;
       readerDelegate(vf, file, files, this.scene);
      });
   }
@@ -176,13 +181,7 @@ export class ThreeSceneService {
     loader.load(fileUrl, (gltf) => {
       const sceneGLTF = gltf.scene || gltf.scenes[0];
       const clips = gltf.animations || [];
-      // this.setContent(scene, sceneGLTF, clips);
-      {
-        const box = new THREE.Box3().setFromObject(sceneGLTF);
-        const size = box.getSize(new THREE.Vector3()).length();
-        const center = box.getCenter(new THREE.Vector3());
-        scene.add(sceneGLTF);
-      }
+      this.contentSetter(scene, sceneGLTF, clips);
 
       blobURLs.forEach(URL.revokeObjectURL);
     }, undefined, reject);
