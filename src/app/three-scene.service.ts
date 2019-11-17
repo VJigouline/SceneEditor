@@ -11,6 +11,7 @@ interface ViewerFile extends File {
   relativePath: string;
   reader: CompoundReader;
   contentSetter: ContentSetter;
+  service: ThreeSceneService;
 }
 
 type ReaderDelegate = (blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene) => void;
@@ -23,6 +24,7 @@ type ContentSetter = (scene: THREE.Scene, sceneGLTF: THREE.Scene, clips: THREE.A
 
 export class ThreeSceneService {
   private scene: THREE.Scene;
+  private material: THREE.Material = new THREE.MeshPhongMaterial( { color: 0xff5533, specular: 0x111111, shininess: 200 } );
 
   constructor(
 // private http: HttpClient
@@ -109,6 +111,7 @@ export class ThreeSceneService {
       vf.relativePath = file.relativePath;
       vf.reader = reader;
       vf.contentSetter = contentSetter;
+      vf.service = this;
       readerDelegate(vf, file, files, this.scene);
      });
   }
@@ -210,10 +213,18 @@ export class ThreeSceneService {
   public addSTLFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene): void {
     const url = URL.createObjectURL(blob);
     const loader = new STLLoader();
-    const material = new THREE.MeshPhongMaterial( { color: 0xff5533, specular: 0x111111, shininess: 200 } );
+    const material = blob.service.material;
     loader.load(url, geometry => {
       const mesh = new THREE.Mesh( geometry, material );
       scene.add(mesh);
     });
+  }
+
+  public setMaterial(material: THREE.Material): void {
+    this.material = material;
+  }
+
+  public getMaterial(): THREE.Material {
+    return this.material;
   }
  }

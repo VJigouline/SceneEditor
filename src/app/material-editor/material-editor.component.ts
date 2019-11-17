@@ -4,6 +4,7 @@ import { ColorPickerService, Cmyk } from 'ngx-color-picker';
 import { Material } from '../material';
 import { MatSliderChange } from '@angular/material/slider';
 import { MaterialType } from '../material-type.enum';
+import * as THREE from 'three';
 
 @Component({
   selector: 'app-material-editor',
@@ -32,11 +33,14 @@ export class MaterialEditorComponent {
   }
 
   onDiffuseColourChanged(colour: string): void {
+    const material = this.sceneService.getMaterial();
+    material.color = new THREE.Color(colour);
     this.material.colour = colour;
     this.materialChange.emit(this.material);
   }
 
   onEmissiveColourChanged(colour: string): void {
+    this.sceneService.getMaterial().emissive = new THREE.Color(colour);
     this.material.emissive = colour;
     this.materialChange.emit(this.material);
   }
@@ -47,6 +51,7 @@ export class MaterialEditorComponent {
   }
 
   onShininessChange(event: MatSliderChange) {
+    this.sceneService.getMaterial().shininess = event.value * event.value;
     this.material.shininess = event.value;
     this.materialChange.emit(this.material);
   }

@@ -188,6 +188,8 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   }
 
   public UpdateScene(): void {
+    this.currentMaterial = this.sceneService.getMaterial();
+
     const box = new THREE.Box3().setFromObject(this.scene);
     const size = box.getSize(new THREE.Vector3()).length();
     const center = box.getCenter(new THREE.Vector3());
