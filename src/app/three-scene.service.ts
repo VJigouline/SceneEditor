@@ -187,6 +187,11 @@ export class ThreeSceneService {
     }, undefined, reject);
   }
 
+  // This is to avoid lint error.
+  contentSetter(scene: THREE.Scene, sceneGLTF: THREE.Scene, clips: THREE.AnimationClip[]) {
+    throw new Error('Method not implemented.');
+  }
+
   private setContent(scene: THREE.Scene, sceneGLTF: THREE.Scene,
                      clips: THREE.AnimationClip[]): void {
 

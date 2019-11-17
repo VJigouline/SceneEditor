@@ -119,10 +119,10 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     const aspect = width / height;
     const w = this.camera.right - this.camera.left;
     const h = this.camera.top - this.camera.bottom;
-    this.camera.left = -width * 5;
-    this.camera.right = width * 5;
-    this.camera.bottom = -height * 5;
-    this.camera.top = height * 5;
+    this.camera.left = -width;
+    this.camera.right = width;
+    this.camera.bottom = -height;
+    this.camera.top = height;
     this.camera.updateProjectionMatrix();
    }
 
@@ -185,5 +185,17 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
 
   public newScene(): void {
     this.scene = this.sceneService.getNewScene();
+  }
+
+  public UpdateScene(): void {
+    const box = new THREE.Box3().setFromObject(this.scene);
+    const size = box.getSize(new THREE.Vector3()).length();
+    const center = box.getCenter(new THREE.Vector3());
+
+    const pos = this.camera.position;
+    this.camera.zoom = (this.camera.right - this.camera.left) / size;
+    this.camera.updateProjectionMatrix();
+
+    this.Render();
   }
 }

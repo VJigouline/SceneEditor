@@ -8,7 +8,7 @@ import { SceneModifierComponent } from '../scene-modifier/scene-modifier.compone
 })
 export class SceneComponent implements OnInit {
 
-  @Output() onSceneChanged = new EventEmitter<string>();
+  @Output() sceneChanged = new EventEmitter<string>();
 
   constructor() { }
 
@@ -16,6 +16,6 @@ export class SceneComponent implements OnInit {
   }
 
   onSceneChange(op: string): void {
-    this.onSceneChanged.emit(op);
+    this.sceneChanged.emit(op);
   }
 }

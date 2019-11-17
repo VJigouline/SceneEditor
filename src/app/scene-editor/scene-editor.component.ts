@@ -64,6 +64,9 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
           this.threeView.newScene();
           this.threeView.Render();
           break;
+      case 'update':
+        this.threeView.UpdateScene();
+        break;
     }
   }
 }

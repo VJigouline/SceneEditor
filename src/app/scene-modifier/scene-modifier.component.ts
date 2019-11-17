@@ -8,7 +8,7 @@ import { ThreeSceneService } from '../three-scene.service';
 })
 export class SceneModifierComponent implements OnInit {
 
-  @Output() onSceneChanged = new EventEmitter<string>();
+  @Output() sceneChanged = new EventEmitter<string>();
 
   constructor(
     private sceneService: ThreeSceneService,
@@ -18,10 +18,14 @@ export class SceneModifierComponent implements OnInit {
   }
 
   private onNewScene(): void {
-    this.onSceneChanged.emit('new');
+    this.sceneChanged.emit('new');
   }
 
   private onAddToScene(): void {
-    this.onSceneChanged.emit('add');
+    this.sceneChanged.emit('add');
+  }
+
+  private onUpdateScene(): void {
+    this.sceneChanged.emit('update');
   }
 }
