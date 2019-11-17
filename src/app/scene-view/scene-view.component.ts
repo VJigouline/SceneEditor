@@ -193,6 +193,9 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     const center = box.getCenter(new THREE.Vector3());
 
     const pos = this.camera.position;
+  //  this.camera.position.x = center.x;
+  //  this.camera.position.y = center.y;
+  //  this.camera.position.z = center.z;
     this.camera.zoom = (this.camera.right - this.camera.left) / size;
     this.camera.updateProjectionMatrix();
 
