@@ -1,0 +1,46 @@
+digraph SceneEditor {
+ // Interfaces.
+ node [shape=record, fontname="Calibri italic", fontsize="14", style="filled", fillcolor="lightyellow", shape="record"];
+
+ // Classes.
+ node [fontname="Calibri", fillcolor="white"];
+
+ // Template classes.
+ node [fontname="Calibri", fillcolor="lightyellow"];
+ 
+ // Enumerators.
+ node [fontname="Calibri", fillcolor="plum1"];
+ LightType
+
+ // External classes.
+ node [fillcolor="green"];
+
+ // Components
+ node [fillcolor="lightblue"]
+ LightEditor
+ LightsLibraryEditor
+ MaterialEditor
+ Scene
+ SceneEditor
+ SceneModifier
+ SceneSaver
+ SceneView
+ App
+
+ // Services
+ node [fillcolor="sandybrown"]
+ Light
+ LightsLibrary
+ MaterialLibrary
+ Material
+ ThreeScene
+
+ // Modules
+ node [fillcolor="aqua"]
+ AppRouting
+ App
+
+ // Inheritance.
+ node [fillcolor="white"];
+
+}
