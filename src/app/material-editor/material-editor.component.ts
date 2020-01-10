@@ -34,14 +34,24 @@ export class MaterialEditorComponent {
 
   onDiffuseColourChanged(colour: string): void {
     const material = this.sceneService.getMaterial();
-    material.color = new THREE.Color(colour);
+    if (material instanceof THREE.MeshPhongMaterial) {
+      const mat = material as THREE.MeshPhongMaterial;
+      mat.color = new THREE.Color(colour);
+    } else {
+      console.warn(`Unsupported material type: ${material.type}`);
+    }
     this.material.colour = colour;
     this.materialChange.emit(this.material);
   }
 
   onEmissiveColourChanged(colour: string): void {
-    this.sceneService.getMaterial().emissive = new THREE.Color(colour);
-    this.material.emissive = colour;
+    const material = this.sceneService.getMaterial();
+    if (material instanceof THREE.MeshPhongMaterial) {
+      const mat = material as THREE.MeshPhongMaterial;
+      mat.emissive = new THREE.Color(colour);
+    } else {
+      console.warn(`Unsupported material type: ${material.type}`);
+    }
     this.materialChange.emit(this.material);
   }
 
@@ -51,8 +61,13 @@ export class MaterialEditorComponent {
   }
 
   onShininessChange(event: MatSliderChange) {
-    this.sceneService.getMaterial().shininess = event.value * event.value;
-    this.material.shininess = event.value;
+    const material = this.sceneService.getMaterial();
+    if (material instanceof THREE.MeshPhongMaterial) {
+      const mat = material as THREE.MeshPhongMaterial;
+      mat.shininess = event.value;
+    } else {
+      console.warn(`Unsupported material type: ${material.type}`);
+    }
     this.materialChange.emit(this.material);
   }
 }

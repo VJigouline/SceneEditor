@@ -46,7 +46,15 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   }
 
   SetMaterial(material: Material) {
-    console.log(JSON.stringify(material));
+    // console.log(JSON.stringify(material));
+    if (!material) {
+      console.error('Material is not specified.');
+      return;
+    }
+    if (!this.currentMaterial) {
+      console.error('Current material is not specified.');
+      return;
+    }
     if (this.currentMaterial.type === 'MeshStandardMaterial') {
       const mat = this.currentMaterial as THREE.MeshStandardMaterial;
       mat.color = new THREE.Color(material.colour);
