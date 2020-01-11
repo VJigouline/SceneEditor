@@ -1,46 +1,388 @@
 digraph SceneEditor {
  // Interfaces.
  node [shape=record, fontname="Calibri italic", fontsize="14", style="filled", fillcolor="lightyellow", shape="record"];
+ ViewerFile [label="{ViewerFile extends File |
+  relativePath: string\n
+  reader: CompoundReader\n
+  contentSetter: ContentSetter\n
+  service: ThreeSceneService
+ }"]
+ File
 
  // Classes.
  node [fontname="Calibri", fillcolor="white"];
+ Light [label="{Light |
+   constructor(type: LightType)
+   |
+    name: string;\n
+    type: LightType;\n
+    light: THREE.Light;\n
+ }"]
+ LightsLibrary [label="{LightsLibrary |
+   |
+ }"]
+ MaterialLibrary [label="{MaterialLibrary |
+   constructor(name: string, description: string)\n
+   addFromScene(scene: THREE.Scene): void\n
+   clone(): MaterialLibrary 
+   |
+    name: string;\n
+    description: string;\n
+    materials: Material[] = [];
+ }"]
+ Material  [label="{Material |
+   constructor(type: MaterialType)\n
+   static create(mat: THREE.Material): Material\n
+   clone(): Material
+   |
+    alphaTest = 0\n
+    blendDst = THREE.OneMinusSrcAlphaFactor\n
+    blendDstAlpha: number\n
+    blendEquation = THREE.AddEquation\n
+    blendEquationAlpha: number\n
+    blending = THREE.NormalBlending\n
+    blendSrc: number = THREE.SrcAlphaFactor\n
+    blendSrcAlpha: number\n
+    clipIntersection = false\n
+    clippingPlanes: THREE.Plane[]\n
+    clipShadows = true\n
+    colourWrite = true\n
+    depthFunc = THREE.LessEqualDepth\n
+    depthTest = true\n
+    depthWrite = true\n
+    stencilWrite = false\n
+    stencilMask = 0xFF\n
+    stencilFunc = THREE.AlwaysStencilFunc\n
+    stencilRef = 0\n
+    stencilFail = THREE.KeepStencilOp\n
+    stencilZFail = THREE.KeepStencilOp\n
+    stencilZPass = THREE.KeepStencilOp\n
+    flatShading = false\n
+    fog = true\n
+    name = ''\n
+    opacity = 1\n
+    polygonOffset = false\n
+    polygonOffsetFactor = 0\n
+    polygonOffsetUnits = 0\n
+    precision: string\n
+    premultipliedAlpha = false\n
+    dithering = false\n
+    side = THREE.FrontSide\n
+    toneMapped = true\n
+    transparent = false\n
+    vertexColors = THREE.NoColors\n
+    vertexTangents = false\n
+    visible = true\n
+\n
+    linewidth = 1\n
+    dashSize = 3\n
+    gapSize = 1\n
+    scale = 1\n
+    type: MaterialType\n
+    colour: string\n
+    specular: string\n
+    emissive: string\n
+    shininess: number\n
+\n
+    alphaMap: THREE.Texture\n
+    aoMap: THREE.Texture\n
+    aoMapIntensity = 1\n
+    bumpMap: THREE.Texture\n
+    bumpScale = 1\n
+    combine: number\n
+    emissiveMap: THREE.Texture\n
+    emissiveIntensity = 1\n
+    envMap: THREE.Texture\n
+    envMapIntensity = 1\n
+    lightMap: THREE.Texture\n
+    lightMapIntensity = 1\n
+    map: THREE.Texture\n
+    metallness = 0.5\n
+    metallnesMap: THREE.Texture\n
+    morphNormals = false\n
+    morphTargets = false\n
+    normalMap: THREE.Texture\n
+    normalMapType = THREE.TangentSpaceNormalMap\n
+    normalScale = new THREE.Vector2(1, 1)\n
+    reflectivity = 1\n
+    refractionRatio = 0.98\n
+    roughness = 0.5\n
+    roughnessMap: THREE.Texture\n
+    skinning = false\n
+    specularMap: THREE.Texture\n
+    wireframe = false\n
+    // wireframeLineWidth = 1\n
+    depthPacking = THREE.BasicDepthPacking\n
+    displacementMap: THREE.Texture\n
+    displacementScale = 1\n
+    displacementBias = 0\n
+\n
+    // availability.\n
+    hasLineWidth = false\n
+    hasDashSize = false\n
+    hasGapSize = false\n
+    hasScale = false\n
+    hasColour = false\n
+    hasSpecular = false\n
+    hasEmissive = false\n
+    hasShininess = false\n
+    hasAlphaMap = false\n
+    hasAoMap = false\n
+    hasAoMapIntensity = false\n
+    hasBumpMap = false\n
+    hasBumpScale = false\n
+    hasCombine = false\n
+    hasEmissiveMap = false\n
+    hasEmissiveIntensity = false\n
+    hasEnvMap = false\n
+    hasEnvMapIntensity = false\n
+    hasLightMap = false\n
+    hasLightMapIntensity = false\n
+    hasMap = false\n
+    hasMetallness = false\n
+    hasMetallnessMap = false\n
+    hasMorphNormals = false\n
+    hasMorphTargets = false\n
+    hasNormalMap = false\n
+    hasNormalMapType = false\n
+    hasNormalScale = false\n
+    hasReflectivity = false\n
+    hasRefractionRatio = false\n
+    hasRoughness = false\n
+    hasRoughnessMap = false\n
+    hasSkinning = false\n
+    hasSpecularMap = false\n
+    hasWireframe = false\n
+    hasDepthPacking = false\n
+    hasDisplacementMap = false\n
+    hasDisplacementScale = false\n
+    hasDisplacementBias = false\n
+\n
+    // ThreeJS material\n
+    material: THREE.Material\n
+ }"]
 
  // Template classes.
  node [fontname="Calibri", fillcolor="lightyellow"];
  
  // Enumerators.
  node [fontname="Calibri", fillcolor="plum1"];
- LightType
+ LightType [label="{LightType |
+    AMBIENT = 'Ambient'\n
+    DIRECTIONAL = 'Directional'\n
+    HEMISPHERE = 'Hemisphere'\n
+    POINT = 'Point'\n
+    RECT_AREA = 'Rectangular Area'\n
+    SPOT = 'Spot'
+ }"]
+ MaterialType [label="{MaterialType |
+    LINE_BASIC = 'Line Basic'\n
+    LINE_DASHED = 'Line Dashed'\n
+    MESH_BASIC = 'Mesh Basic'\n
+    MESH_DEPTH = 'Mesh Depth'\n
+    MESH_DISTANCE = 'Mesh Distance'\n
+    MESH_LAMBERT = 'Mesh Lambert'\n
+    MESH_MATCAP = 'Mesh Matcap'\n
+    MESH_NORMAL = 'Mesh Normal'\n
+    MESH_PHONG = 'Mesh Phong'\n
+    MESH_PHISICAL = 'Mesh Phisical'\n
+    MESH_STANDARD = 'Mesh Standard'\n
+    MESH_TOON = 'Mesh Toon'\n
+    POINTS = 'Mesh Points'\n
+    SHADOW = 'Shadow'\n
+    SPRITE = 'Sprite'
+ }"]
+ ExportFileType [label="{ExportFileType |
+    GLTF = 'gltf'\n
+    THREE_SCENE = 'three'
+ }"]
 
  // External classes.
  node [fillcolor="green"];
+ ThreeLight [label="Three.Light"]
+ ThreeScene [label="Three.Scene"]
 
  // Components
  node [fillcolor="lightblue"]
- LightEditor
- LightsLibraryEditor
- MaterialEditor
- Scene
- SceneEditor
- SceneModifier
- SceneSaver
- SceneView
- App
+ LightEditorComponent [label="{LightEditorComponent |
+   constructor()\n
+   ngOnInit()
+   |
+   private onSave()\n
+   private onSaveAll()\n
+   private onNew()\n
+   private onLoad()
+}"]
+ LightsLibraryEditorComponent [label="{LightsLibraryEditorComponent |
+   constructor()\n
+   ngOnInit()
+}"]
+ MaterialEditorComponent [label="{MaterialEditorComponent |
+   constructor(private sceneService: ThreeSceneService)\n
+   onSubmit()\n
+   getSceneJSON(): void\n
+   onDiffuseColourChanged(colour: string): void\n
+   onEmissiveColourChanged(colour: string): void\n
+   onSpecularColourChanged(colour: string): void\n
+   onShininessChange(event: MatSliderChange): void 
+   |
+  @Output() materialChange = new EventEmitter\<Material\>();\n
+  sceneJSON: string;\n
+  material = new Material(MaterialType.MESH_STANDARD);\n
+}"]
+ SceneComponent [label="{SceneComponent |
+   constructor()\n
+   ngOnInit()\n
+   onSceneChange(op: string): void
+   |
+   @Output() sceneChanged = new EventEmitter\<string\>()
+}"]
+ SceneEditorComponent [label="{SceneEditorComponent |
+   constructor(private sceneService: ThreeSceneService,
+    private elRef: ElementRef)\n
+   ngOnInit()\n
+   private onResized(event: ResizedEvent): void\n
+   ngAfterViewInit(): void\n
+   onMaterialChange(material: Material)\n
+   public dropped(files: NgxFileDropEntry[]\n
+   public fileOver(event)\n
+   public fileLeave(event)\n
+   onSceneChange(op: string)
+   |
+   @Input() Width: number\n
+   @Input() Height: number\n
+   ViewHeight = 100\n
+   ViewWidth = 100\n
+   @ViewChild(\'ThreeJSView\', \{ static: false \}) private threeView: SceneViewComponent;
+}"]
+ SceneModifierComponent [label="{SceneModifierComponent |
+   constructor(private sceneService: ThreeSceneService)\n
+   ngOnInit()\n
+   private onNewScene(): void\n
+   private onAddToScene(): void\n
+   private onUpdateScene(): void
+   |
+   @Output() sceneChanged = new EventEmitter\<string\>()
+}"]
+ SceneSaverComponent [label="{SceneSaverComponent |
+   constructor(private sceneService: ThreeSceneService)\n
+   ngOnInit()\n
+   onSubmit()\n
+   getSceneJSON(): void\n
+   saveScene(gltf: any): void
+   |
+   message: string\n
+   exportType = ExportFileType.GLTF
+}"]
+ SceneViewComponent [label="{SceneViewComponent |
+   constructor(private sceneService: ThreeSceneService)\n
+   ngOnInit()\n
+   ngAfterViewInit()\n
+   SetMaterial(material: Material)\n
+   private onResized(event: ResizedEvent): void\n
+   private onMouseOver(event: MouseEvent): void\n
+   private onOrbitControlEnd(): void\n
+   public Render(): void\n
+   newScene(): void\n
+   UpdateScene(): void
+   |
+   @ViewChild('container', \{ static: true \}) container: ElementRef\n
+   @Input() AreaWidth: number\n
+   @Input() AreaHeight: number\n
+   sceneJSON: string\n
+   private scene: THREE.Scene\n
+   private camera: THREE.OrthographicCamera\n
+   private renderer: THREE.WebGLRenderer\n
+   private controls: OrbitControls\n
+   private mesh: THREE.Mesh\n
+   private materials: THREE.Material[]\n
+   private currentMaterial: THREE.Material
+}"]
+ AppComponent [label="{AppComponent |
+   ngOnInit()\n
+   |
+   @HostListener('window:resize', []) onResize(): void
+   |
+  title: string;\n
+  Width: number;\n
+  Height: number;\n
+}"]
 
  // Services
  node [fillcolor="sandybrown"]
- Light
- LightsLibrary
- MaterialLibrary
- Material
- ThreeScene
+ LightService [label="{LightService |
+   constructor()
+ }"]
+ LightsLibraryService [label="{LightsLibraryService |
+   constructor()
+ }"]
+ MaterialService [label="{MaterialService |
+   constructor()\n
+ }"]
+ MaterialLibraryService [label="{MaterialLibraryService |
+   constructor()\n
+   addLibrary(library: MaterialLibrary): void\n
+   selectLibrary(index: number): void\n
+   getNames(): MaterialLibrary[]\n
+   getCurrentLibrary(): MaterialLibrary\n
+   addNewLibrary(name: string, description: string): void\n
+   addLibraryClone(library: MaterialLibrary): void
+   |
+   libraries: MaterialLibrary[];\n
+   currentIndex = 0;
+ }"]
+ ThreeSceneService [label="{ThreeSceneService |
+   constructor()\n
+   getScene(): THREE.Scene\n
+   getNewScene(): THREE.Scene\n
+   getSceneJSON(): string\n
+   addFiles(files: NgxFileDropEntry[]): void\n
+   addFile(file: NgxFileDropEntry, files: NgxFileDropEntry[]): void\n
+   addGLTFFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene): void \n
+   addJSONFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene): void\n
+   addSTLFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene): void\n
+   setMaterial(material: THREE.Material): void\n
+   public getMaterial(): THREE.Material
+   |
+   private scene: THREE.Scene\n
+   private material: THREE.Material
+ }"]
 
  // Modules
  node [fillcolor="aqua"]
- AppRouting
- App
+ AppRoutingModule [label="{AppRoutingModule |
+   const routes: Routes = []
+ }"]
+ AppModule
 
  // Inheritance.
  node [fillcolor="white"];
-
+ Light->LightType
+ Light->ThreeLight
+ AppComponent->SceneEditorComponent
+ AppModule->AppComponent
+ MaterialLibraryService->MaterialLibrary
+ MaterialLibrary->ThreeScene
+ MaterialLibrary->Material
+ Material->MaterialType
+ ViewerFile->File
+ ViewerFile->ThreeSceneService
+ ThreeSceneService->ThreeScene
+ MaterialEditorComponent->Material
+ MaterialEditorComponent->ThreeSceneService
+ SceneComponent->SceneModifierComponent
+ SceneComponent->SceneSaverComponent
+ SceneEditorComponent->LightsLibraryEditorComponent
+ SceneEditorComponent->MaterialEditorComponent
+ SceneEditorComponent->SceneComponent
+ SceneEditorComponent->SceneViewComponent
+ SceneEditorComponent->ThreeSceneService
+ SceneEditorComponent->Material
+ SceneModifierComponent->ThreeSceneService
+ SceneSaverComponent->ExportFileType
+ SceneSaverComponent->ThreeSceneService
+ SceneViewComponent->ThreeSceneService
+ SceneViewComponent->Material
+ SceneViewComponent->ThreeScene
+ LightEditorComponent->Light
 }

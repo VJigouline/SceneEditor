@@ -60,7 +60,7 @@ export class MaterialEditorComponent {
     this.materialChange.emit(this.material);
   }
 
-  onShininessChange(event: MatSliderChange) {
+  onShininessChange(event: MatSliderChange): void {
     const material = this.sceneService.getMaterial();
     if (material instanceof THREE.MeshPhongMaterial) {
       const mat = material as THREE.MeshPhongMaterial;
