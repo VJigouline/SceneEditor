@@ -14,7 +14,7 @@ export class SceneSaverComponent implements OnInit {
   message: string;
   exportType = ExportFileType.GLTF;
   private exportOptions = [
-    { type: ExportFileType.GLTF, name: 'GL Transfmission (gltf)' },
+    { type: ExportFileType.GLTF, name: 'GL Transmission (gltf)' },
     { type: ExportFileType.THREE_SCENE, name: 'Three scene (json)' }
   ];
 

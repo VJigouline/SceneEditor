@@ -47,7 +47,7 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
   }
 
   public dropped(files: NgxFileDropEntry[]) {
-    this.sceneService.addFiles(files);
+    this.sceneService.addFiles(files, this.threeView.Render.bind(this.threeView));
   }
 
   public fileOver(event) {

@@ -9,8 +9,9 @@ export class Light {
 
     constructor(type: LightType) {
         this.name = uuid();
+        this.type = type;
 
-        switch(type) {
+        switch (type) {
             case LightType.AMBIENT:
                 this.light = new THREE.AmbientLight();
                 break;
@@ -33,5 +34,16 @@ export class Light {
                 console.error('Invalid light type');
                 break;
         }
+    }
+
+    public static CreateLight(light: THREE.Light): Light {
+
+        switch (light.type) {
+            default:
+                console.error(`Unknown light type: ${light.type}`);
+                break;
+        }
+
+        return null;
     }
 }

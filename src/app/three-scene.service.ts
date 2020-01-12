@@ -6,6 +6,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { resolve } from 'url';
 import { reject } from 'q';
+import { Light } from './light';
 
 interface ViewerFile extends File {
   relativePath: string;
@@ -14,8 +15,10 @@ interface ViewerFile extends File {
   service: ThreeSceneService;
 }
 
-type ReaderDelegate = (blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene) => void;
-type CompoundReader = (blob: ViewerFile, fileMap: Map<string, File>, scene: THREE.Scene) => void;
+type CallbackFinished = () => void;
+type ReaderDelegate = (blob: ViewerFile, file: NgxFileDropEntry,
+                       files: NgxFileDropEntry[], scene: THREE.Scene, finished: CallbackFinished) => void;
+type CompoundReader = (blob: ViewerFile, fileMap: Map<string, File>, scene: THREE.Scene, finished: CallbackFinished) => void;
 type ContentSetter = (scene: THREE.Scene, sceneGLTF: THREE.Scene, clips: THREE.AnimationClip[]) => void;
 
 @Injectable({
@@ -42,6 +45,8 @@ export class ThreeSceneService {
   public getNewScene(): THREE.Scene {
 
     this.scene = new THREE.Scene();
+    const ambientLight = new THREE.AmbientLight('#050505', 1);
+    this.scene.add(ambientLight);
     let light = new THREE.DirectionalLight('#ffffff', 3);
     light.position.set(0, 1, 1);
     this.scene.add(light);
@@ -60,20 +65,21 @@ export class ThreeSceneService {
     return JSON.stringify(this.scene);
   }
 
-  public addFiles(files: NgxFileDropEntry[]): void {
+  public addFiles(files: NgxFileDropEntry[], finished: CallbackFinished): void {
     for (const file of files) {
 
       // Is it a file?
       if (file.fileEntry.isFile) {
-        this.addFile(file, files);
+        this.addFile(file, files, finished);
       } else {
         // It was a directory (empty directories are added, otherwise only files)
         console.log(`Unprocessed folder ${file.relativePath}`);
       }
     }
+    finished();
   }
 
-  public addFile(file: NgxFileDropEntry, files: NgxFileDropEntry[]): void {
+  public addFile(file: NgxFileDropEntry, files: NgxFileDropEntry[], finished: CallbackFinished): void {
 
     const fileExtension = file.relativePath.split('.').pop().toLocaleLowerCase();
 
@@ -112,11 +118,12 @@ export class ThreeSceneService {
       vf.reader = reader;
       vf.contentSetter = contentSetter;
       vf.service = this;
-      readerDelegate(vf, file, files, this.scene);
+      readerDelegate(vf, file, files, this.scene, finished);
      });
   }
 
-  public addGLTFFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene): void {
+  public addGLTFFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
+                     scene: THREE.Scene, finished: CallbackFinished): void {
     const rootPath = file.relativePath.replace(file.fileEntry.name, '');
     const readers: Promise<ViewerFile>[] = [];
     const fileMap = new Map<string, File>();
@@ -130,6 +137,7 @@ export class ThreeSceneService {
         fileEntry.file((data) => {
           const vf = data as ViewerFile;
           vf.relativePath = f.relativePath;
+          finished();
           ret(vf);
         });
       });
@@ -140,11 +148,11 @@ export class ThreeSceneService {
       for (const f of fs) {
         fileMap[f.relativePath] = f;
       }
-      blob.reader(blob, fileMap, scene);
+      blob.reader(blob, fileMap, scene, finished);
     });
   }
 
-  private readGLTFFile(blob: ViewerFile, fileMap: Map<string, File>, scene: THREE.Scene): void {
+  private readGLTFFile(blob: ViewerFile, fileMap: Map<string, File>, scene: THREE.Scene, finished: CallbackFinished): void {
 
     const fileUrl = URL.createObjectURL(blob);
     const rootPath = blob.relativePath.replace(blob.name, '');
@@ -187,6 +195,7 @@ export class ThreeSceneService {
       this.contentSetter(scene, sceneGLTF, clips);
 
       blobURLs.forEach(URL.revokeObjectURL);
+      finished();
     }, undefined, reject);
   }
 
@@ -210,13 +219,15 @@ export class ThreeSceneService {
     console.warn('JSON not implemented.');
   }
 
-  public addSTLFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene): void {
+  public addSTLFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
+                    scene: THREE.Scene, finished: CallbackFinished): void {
     const url = URL.createObjectURL(blob);
     const loader = new STLLoader();
     const material = blob.service.material;
     loader.load(url, geometry => {
       const mesh = new THREE.Mesh( geometry, material );
       scene.add(mesh);
+      finished();
     });
   }
 
@@ -226,5 +237,11 @@ export class ThreeSceneService {
 
   public getMaterial(): THREE.Material {
     return this.material;
+  }
+
+  public getLights(): Light[] {
+    const ret: Light[] = [];
+
+    return ret;
   }
  }

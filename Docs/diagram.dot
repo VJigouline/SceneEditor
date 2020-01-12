@@ -12,7 +12,8 @@ digraph SceneEditor {
  // Classes.
  node [fontname="Calibri", fillcolor="white"];
  Light [label="{Light |
-   constructor(type: LightType)
+   constructor(type: LightType)\n
+   public static CreateLight(light: THREE.Light): Light
    |
     name: string;\n
     type: LightType;\n
@@ -339,13 +340,14 @@ digraph SceneEditor {
    getScene(): THREE.Scene\n
    getNewScene(): THREE.Scene\n
    getSceneJSON(): string\n
-   addFiles(files: NgxFileDropEntry[]): void\n
-   addFile(file: NgxFileDropEntry, files: NgxFileDropEntry[]): void\n
-   addGLTFFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene): void \n
-   addJSONFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene): void\n
-   addSTLFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene): void\n
+   addFiles(files: NgxFileDropEntry[], finished: CallbackFinished): void\n
+   addFile(file: NgxFileDropEntry, files: NgxFileDropEntry[], finished: CallbackFinished): void\n
+   addGLTFFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene, finished: CallbackFinished): void \n
+   addJSONFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene, finished: CallbackFinished): void\n
+   addSTLFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene, finished: CallbackFinished): void\n
    setMaterial(material: THREE.Material): void\n
-   public getMaterial(): THREE.Material
+   public getMaterial(): THREE.Material\n
+   public getLights(): Light[]
    |
    private scene: THREE.Scene\n
    private material: THREE.Material
@@ -362,12 +364,15 @@ digraph SceneEditor {
  node [fillcolor="white"];
  Light->LightType
  Light->ThreeLight
+ LightEditorComponent->Light
+ LightService->Light
  AppComponent->SceneEditorComponent
  AppModule->AppComponent
  MaterialLibraryService->MaterialLibrary
  MaterialLibrary->ThreeScene
  MaterialLibrary->Material
  Material->MaterialType
+ MaterialService->Material
  ViewerFile->File
  ViewerFile->ThreeSceneService
  ThreeSceneService->ThreeScene
@@ -387,5 +392,4 @@ digraph SceneEditor {
  SceneViewComponent->ThreeSceneService
  SceneViewComponent->Material
  SceneViewComponent->ThreeScene
- LightEditorComponent->Light
 }
