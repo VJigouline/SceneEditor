@@ -251,13 +251,16 @@ digraph SceneEditor {
    public dropped(files: NgxFileDropEntry[]\n
    public fileOver(event)\n
    public fileLeave(event)\n
-   onSceneChange(op: string)
+   onSceneChange(op: string)\n
+   public ResetScene(): void
    |
    @Input() Width: number\n
    @Input() Height: number\n
    ViewHeight = 100\n
    ViewWidth = 100\n
-   @ViewChild(\'ThreeJSView\', \{ static: false \}) private threeView: SceneViewComponent;
+   @ViewChild(\'ThreeJSView\', \{ static: false \}) private threeView: SceneViewComponent;\n
+   @ViewChild('LightsLibraryEditor', \{ static: false \}) private lightsLirbaryEditor: LightsLibraryEditorComponent;\n
+   @ViewChild('MaterialEditor', \{ static: false \}) private materialEditor: MaterialEditorComponent;
 }"]
  SceneModifierComponent [label="{SceneModifierComponent |
    constructor(private sceneService: ThreeSceneService)\n

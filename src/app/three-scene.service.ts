@@ -7,6 +7,8 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { resolve } from 'url';
 import { reject } from 'q';
 import { Light } from './light';
+import { AmbientLight } from 'three';
+import { LightType } from './light-type.enum';
 
 interface ViewerFile extends File {
   relativePath: string;
@@ -241,6 +243,16 @@ export class ThreeSceneService {
 
   public getLights(): Light[] {
     const ret: Light[] = [];
+
+    for (const child of this.scene.children) {
+      if (!(child instanceof THREE.Light)) { continue; }
+
+      const light = Light.CreateLight(child);
+
+      if (!light) { continue; }
+
+      ret.push(light);
+    }
 
     return ret;
   }

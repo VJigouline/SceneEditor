@@ -1,5 +1,5 @@
 import { LightType } from './light-type.enum';
-import { uuid } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import * as THREE from 'three';
 
 export class Light {
@@ -37,13 +37,27 @@ export class Light {
     }
 
     public static CreateLight(light: THREE.Light): Light {
+        let ret: Light = null;
 
         switch (light.type) {
+            case 'AmbientLight':
+                ret = new Light(LightType.AMBIENT);
+                break;
+            case 'DirectionalLight':
+                ret = new Light(LightType.AMBIENT);
+                break;
             default:
                 console.error(`Unknown light type: ${light.type}`);
                 break;
         }
 
-        return null;
+        if (ret) {
+            ret.light = light;
+            if (light && light.name && light.name.length > 0) {
+                ret.name = light.name;
+            }
+        }
+
+        return ret;
     }
 }

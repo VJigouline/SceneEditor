@@ -4,6 +4,8 @@ import { SceneViewComponent } from '../scene-view/scene-view.component';
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 import { ThreeSceneService } from '../three-scene.service';
 import { ResizedEvent } from 'angular-resize-event';
+import { LightsLibraryEditorComponent } from '../lights-library-editor/lights-library-editor.component';
+import { MaterialEditorComponent } from '../material-editor/material-editor.component';
 
 @Component({
   selector: 'app-scene-editor',
@@ -20,6 +22,10 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
 
   @ViewChild('ThreeJSView', { static: false })
   private threeView: SceneViewComponent;
+  @ViewChild('LightsLibraryEditor', { static: false })
+  private lightsLirbaryEditor: LightsLibraryEditorComponent;
+  @ViewChild('MaterialEditor', { static: false })
+  private materialEditor: MaterialEditorComponent;
 
   constructor(
     private sceneService: ThreeSceneService,
@@ -47,7 +53,7 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
   }
 
   public dropped(files: NgxFileDropEntry[]) {
-    this.sceneService.addFiles(files, this.threeView.Render.bind(this.threeView));
+    this.sceneService.addFiles(files, this.ResetScene.bind(this));
   }
 
   public fileOver(event) {
@@ -68,5 +74,10 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
         this.threeView.UpdateScene();
         break;
     }
+  }
+
+  public ResetScene(): void {
+    this.threeView.Render();
+    this.sceneService.getLights();
   }
 }
