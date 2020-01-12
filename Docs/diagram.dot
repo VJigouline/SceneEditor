@@ -349,7 +349,7 @@ digraph SceneEditor {
  }"]
 
  // Modules
- node [fillcolor="aqua"]
+ node [fillcolor="lightcyan"]
  AppRoutingModule [label="{AppRoutingModule |
    const routes: Routes = []
  }"]
