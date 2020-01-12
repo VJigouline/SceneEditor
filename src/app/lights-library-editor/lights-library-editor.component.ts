@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Light } from '../light';
 
 @Component({
   selector: 'app-lights-library-editor',
@@ -7,22 +8,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LightsLibraryEditorComponent implements OnInit {
 
+  private lights: Light[];
+
   constructor() { }
 
   ngOnInit() {
   }
 
+  public setLights(lights: Light[]): void {
+    this.lights = lights;
+  }
+
   private onSave() {
-    alert("Save light");
+    alert('Save light');
   }
   private onSaveAll() {
-    alert("Save library");
+    alert('Save library');
   }
   private onNew() {
-    alert("New light");
+    alert('New light');
   }
   private onLoad() {
-    alert("Load light library");
+    alert('Load light library');
   }
 
 }

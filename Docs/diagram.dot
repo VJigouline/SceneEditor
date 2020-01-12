@@ -216,7 +216,8 @@ digraph SceneEditor {
 }"]
  LightsLibraryEditorComponent [label="{LightsLibraryEditorComponent |
    constructor()\n
-   ngOnInit()
+   ngOnInit()\n
+   setLights(lights: Light[]): void
 }"]
  MaterialEditorComponent [label="{MaterialEditorComponent |
    constructor(private sceneService: ThreeSceneService)\n
