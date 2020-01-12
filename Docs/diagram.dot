@@ -97,7 +97,7 @@ digraph SceneEditor {
     lightMap: THREE.Texture\n
     lightMapIntensity = 1\n
     map: THREE.Texture\n
-    metallness = 0.5\n
+    metalness = 0.5\n
     metallnesMap: THREE.Texture\n
     morphNormals = false\n
     morphTargets = false\n
@@ -139,8 +139,8 @@ digraph SceneEditor {
     hasLightMap = false\n
     hasLightMapIntensity = false\n
     hasMap = false\n
-    hasMetallness = false\n
-    hasMetallnessMap = false\n
+    hasMetalness = false\n
+    hasMetalnessMap = false\n
     hasMorphNormals = false\n
     hasMorphTargets = false\n
     hasNormalMap = false\n
@@ -225,7 +225,9 @@ digraph SceneEditor {
    onDiffuseColourChanged(colour: string): void\n
    onEmissiveColourChanged(colour: string): void\n
    onSpecularColourChanged(colour: string): void\n
-   onShininessChange(event: MatSliderChange): void 
+   onShininessChange(event: MatSliderChange): void\n
+   onRoughnessChange(event: MatSliderChange): void\n
+   onMetalnessChange(event: MatSliderChange): void
    |
   @Output() materialChange = new EventEmitter\<Material\>();\n
   sceneJSON: string;\n

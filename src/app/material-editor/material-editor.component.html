@@ -16,7 +16,7 @@
         </mat-form-field>
       </div>
     </div>
-    <div *ngIf="hasSpecular" class="row">
+    <div *ngIf="material.hasSpecular" class="row">
       <div class="col">
         <mat-form-field class="full-width">
           <input matInput placeholder="Specular colour"
@@ -29,7 +29,7 @@
         </mat-form-field>
       </div>
     </div>
-    <div class="row">
+    <div *ngIf="material.hasEmissive" class="row">
       <div class="col">
         <mat-form-field class="full-width">
           <input matInput placeholder="Emissive colour"
@@ -42,10 +42,26 @@
         </mat-form-field>
       </div>
     </div>
-    <div class="row">
+    <div *ngIf="material.hasShininess" class="row">
       <div class="col">
-        <mat-slider
+        <mat-slider min="1" max="100" step="1"
         (input)="onShininessChange($event)"
+        ></mat-slider>
+      </div>
+    </div>
+    <div *ngIf="material.hasRoughness" class="row">
+      <div class="col">
+        Roughness
+        <mat-slider min="0" max="1" step="0.02"
+        (input)="onRoughnessChange($event)"
+        ></mat-slider>
+      </div>
+    </div>
+    <div *ngIf="material.hasMetalness" class="row">
+      <div class="col">
+        Metalness
+        <mat-slider min="0" max="1" step="0.02"
+        (input)="onMetalnessChange($event)"
         ></mat-slider>
       </div>
     </div>

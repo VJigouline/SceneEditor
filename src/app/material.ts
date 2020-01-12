@@ -66,7 +66,7 @@ export class Material {
     lightMap: THREE.Texture;
     lightMapIntensity = 1;
     map: THREE.Texture;
-    metallness = 0.5;
+    metalness = 0.5;
     metallnesMap: THREE.Texture;
     morphNormals = false;
     morphTargets = false;
@@ -108,8 +108,8 @@ export class Material {
     hasLightMap = false;
     hasLightMapIntensity = false;
     hasMap = false;
-    hasMetallness = false;
-    hasMetallnessMap = false;
+    hasMetalness = false;
+    hasMetalnessMap = false;
     hasMorphNormals = false;
     hasMorphTargets = false;
     hasNormalMap = false;
@@ -207,8 +207,8 @@ export class Material {
             this.hasLightMap = true;
             this.hasLightMapIntensity = true;
             this.hasMap = true;
-            this.hasMetallness = true;
-            this.hasMetallnessMap = true;
+            this.hasMetalness = true;
+            this.hasMetalnessMap = true;
             this.hasMorphNormals = true;
             this.hasMorphTargets = true;
             this.hasNormalMap = true;
@@ -316,7 +316,7 @@ export class Material {
             ret.lightMap = m5.lightMap;
             ret.lightMapIntensity = m5.lightMapIntensity;
             ret.map = m5.map;
-            ret.metallness = m5.metalness;
+            ret.metalness = m5.metalness;
             ret.metallnesMap = m5.metalnessMap;
             ret.morphNormals = m5.morphNormals;
             ret.morphTargets = m5.morphTargets;

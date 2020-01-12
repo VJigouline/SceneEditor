@@ -70,11 +70,8 @@ export class MaterialEditorComponent implements OnInit {
     if (material instanceof THREE.MeshPhongMaterial) {
       const mat = material as THREE.MeshPhongMaterial;
       mat.specular = new THREE.Color(colour);
-    } else if (material instanceof THREE.MeshStandardMaterial) {
-      const mat = material as THREE.MeshStandardMaterial;
-      console.error('Specular colour not supported in THREE.MeshStandardMaterial');
     } else {
-      console.warn(`Unsupported material type: ${material.type}`);
+      console.warn(`Specular colour not supported in  ${material.type}`);
     }
     this.materialChange.emit(this.material);
   }
@@ -84,11 +81,30 @@ export class MaterialEditorComponent implements OnInit {
     if (material instanceof THREE.MeshPhongMaterial) {
       const mat = material as THREE.MeshPhongMaterial;
       mat.shininess = event.value;
-    } else if (material instanceof THREE.MeshStandardMaterial) {
-      const mat = material as THREE.MeshStandardMaterial;
-      console.error('Shininess not supported in THREE.MeshStandardMaterial');
     } else {
-      console.warn(`Unsupported material type: ${material.type}`);
+      console.warn(`Shininess not supported in  ${material.type}`);
+    }
+    this.materialChange.emit(this.material);
+  }
+
+  onRoughnessChange(event: MatSliderChange): void {
+    const material = this.sceneService.getMaterial();
+    if (material instanceof THREE.MeshStandardMaterial) {
+      const mat = material as THREE.MeshStandardMaterial;
+      mat.roughness = event.value;
+    } else {
+      console.warn(`Shininess not supported in  ${material.type}`);
+    }
+    this.materialChange.emit(this.material);
+  }
+
+  onMetalnessChange(event: MatSliderChange): void {
+    const material = this.sceneService.getMaterial();
+    if (material instanceof THREE.MeshStandardMaterial) {
+      const mat = material as THREE.MeshStandardMaterial;
+      mat.metalness = event.value;
+    } else {
+      console.warn(`Shininess not supported in  ${material.type}`);
     }
     this.materialChange.emit(this.material);
   }
