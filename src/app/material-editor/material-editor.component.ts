@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ThreeSceneService } from '../three-scene.service';
 import { ColorPickerService, Cmyk } from 'ngx-color-picker';
 import { Material } from '../material';
@@ -11,7 +11,7 @@ import * as THREE from 'three';
   templateUrl: './material-editor.component.html',
   styleUrls: ['./material-editor.component.scss']
 })
-export class MaterialEditorComponent {
+export class MaterialEditorComponent implements OnInit {
 
   // events
   @Output() materialChange = new EventEmitter<Material>();
@@ -23,6 +23,10 @@ export class MaterialEditorComponent {
   constructor(
      private sceneService: ThreeSceneService
   ) {}
+
+  ngOnInit(): void {
+    this.sceneService.setMaterial(this.material.material);
+  }
 
   onSubmit() {
     this.getSceneJSON();
@@ -37,6 +41,9 @@ export class MaterialEditorComponent {
     if (material instanceof THREE.MeshPhongMaterial) {
       const mat = material as THREE.MeshPhongMaterial;
       mat.color = new THREE.Color(colour);
+    } else if (material instanceof THREE.MeshStandardMaterial) {
+      const mat = material as THREE.MeshStandardMaterial;
+      mat.color = new THREE.Color(colour);
     } else {
       console.warn(`Unsupported material type: ${material.type}`);
     }
@@ -49,6 +56,9 @@ export class MaterialEditorComponent {
     if (material instanceof THREE.MeshPhongMaterial) {
       const mat = material as THREE.MeshPhongMaterial;
       mat.emissive = new THREE.Color(colour);
+    } else if (material instanceof THREE.MeshStandardMaterial) {
+      const mat = material as THREE.MeshStandardMaterial;
+      mat.emissive = new THREE.Color(colour);
     } else {
       console.warn(`Unsupported material type: ${material.type}`);
     }
@@ -56,7 +66,16 @@ export class MaterialEditorComponent {
   }
 
   onSpecularColourChanged(colour: string): void {
-    this.material.specular = colour;
+    const material = this.sceneService.getMaterial();
+    if (material instanceof THREE.MeshPhongMaterial) {
+      const mat = material as THREE.MeshPhongMaterial;
+      mat.specular = new THREE.Color(colour);
+    } else if (material instanceof THREE.MeshStandardMaterial) {
+      const mat = material as THREE.MeshStandardMaterial;
+      console.error('Specular colour not supported in THREE.MeshStandardMaterial');
+    } else {
+      console.warn(`Unsupported material type: ${material.type}`);
+    }
     this.materialChange.emit(this.material);
   }
 
@@ -65,6 +84,9 @@ export class MaterialEditorComponent {
     if (material instanceof THREE.MeshPhongMaterial) {
       const mat = material as THREE.MeshPhongMaterial;
       mat.shininess = event.value;
+    } else if (material instanceof THREE.MeshStandardMaterial) {
+      const mat = material as THREE.MeshStandardMaterial;
+      console.error('Shininess not supported in THREE.MeshStandardMaterial');
     } else {
       console.warn(`Unsupported material type: ${material.type}`);
     }

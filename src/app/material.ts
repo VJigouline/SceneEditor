@@ -221,15 +221,19 @@ export class Material {
             this.hasSkinning = true;
             this.hasSpecularMap = true;
             this.hasWireframe = true;
-            this.material = new THREE.MeshBasicMaterial();
+            this.material = new THREE.MeshStandardMaterial();
             break;
         case MaterialType.MESH_TOON:
+            console.error('Not implemented.');
             break;
         case MaterialType.POINTS:
+            console.error('Not implemented.');
             break;
         case MaterialType.SHADOW:
+            console.error('Not implemented.');
             break;
         case MaterialType.SPRITE:
+            console.error('Not implemented.');
             break;
         default:
             console.error('Invalid material type.');

@@ -52,6 +52,9 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
       return;
     }
     if (!this.currentMaterial) {
+      this.currentMaterial = this.sceneService.getMaterial();
+    }
+    if (!this.currentMaterial) {
       console.error('Current material is not specified.');
       return;
     }
