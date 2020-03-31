@@ -3,7 +3,7 @@
 *ThreeJS scene editor.*  
 ThreeJS has a [Scene Editor](https://threejs.org/editor/), but this editor is JavaScript based and difficult to extend. This project is to create Angular based alternative.
 
-[Edit on StackBlitz ⚡️](https://stackblitz.com/github/VJigouline/SceneEditor) - graphics is not loaded correctly on StackBlitz. Textures and STL files are missing.  
+[Edit on StackBlitz ⚡️](https://stackblitz.com/github/VJigouline/SceneEditor)  
 [Angular documentation](https://angular.io/docs)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.8.  
