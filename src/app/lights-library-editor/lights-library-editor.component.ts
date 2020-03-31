@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Light } from '../light';
+import { Light } from '../lights/light';
 
 @Component({
   selector: 'app-lights-library-editor',

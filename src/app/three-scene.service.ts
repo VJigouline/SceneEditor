@@ -6,9 +6,9 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { resolve } from 'url';
 import { reject } from 'q';
-import { Light } from './light';
+import { Light } from './lights/light';
 import { AmbientLight } from 'three';
-import { LightType } from './light-type.enum';
+import { LightType } from './lights/light-type.enum';
 
 interface ViewerFile extends File {
   relativePath: string;

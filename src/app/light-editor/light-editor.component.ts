@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LightType } from '../light-type.enum';
+import { LightType } from '../lights/light-type.enum';
 
 @Component({
   selector: 'app-light-editor',
