@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
-import { Material } from '../material';
+import { Material } from '../materials/material';
 import { SceneViewComponent } from '../scene-view/scene-view.component';
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 import { ThreeSceneService } from '../three-scene.service';

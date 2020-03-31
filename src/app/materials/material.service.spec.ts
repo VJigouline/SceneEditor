@@ -3,10 +3,14 @@ import { TestBed } from '@angular/core/testing';
 import { MaterialService } from './material.service';
 
 describe('MaterialService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  let service: MaterialService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(MaterialService);
+  });
 
   it('should be created', () => {
-    const service: MaterialService = TestBed.get(MaterialService);
     expect(service).toBeTruthy();
   });
 });

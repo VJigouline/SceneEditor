@@ -1,9 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ThreeSceneService } from '../three-scene.service';
 import { ColorPickerService, Cmyk } from 'ngx-color-picker';
-import { Material } from '../material';
+import { Material } from '../materials/material';
 import { MatSliderChange } from '@angular/material/slider';
-import { MaterialType } from '../material-type.enum';
+import { MaterialType } from '../materials/material-type.enum';
 import * as THREE from 'three';
 
 @Component({

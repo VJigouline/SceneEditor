@@ -3,7 +3,7 @@ import { ResizedEvent } from 'angular-resize-event';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { ThreeSceneService } from '../three-scene.service';
-import { Material } from '../material';
+import { Material } from '../materials/material';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 @Component({
