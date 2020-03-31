@@ -66,19 +66,19 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     this.Render();
   }
 
-  private onResized(event: ResizedEvent): void {
+  public onResized(event: ResizedEvent): void {
   //  console.log(`OnResize. New width: ${event.newWidth}, new height: ${event.newHeight}`);
     this.renderer.setSize(this.AreaWidth, this.AreaHeight - 4);
     this.setCameraSize(this.AreaWidth, this.AreaHeight);
     this.Render();
   }
 
-  private onMouseOver(event: MouseEvent): void {
+  public onMouseOver(event: MouseEvent): void {
     // console.log(`Mouse event`);
     this.Render();
   }
 
-  private onOrbitControlEnd(): void {
+  public onOrbitControlEnd(): void {
     this.Render();
   }
 

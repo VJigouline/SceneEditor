@@ -37,7 +37,7 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
     this.Height = this.elRef.nativeElement.height;
   }
 
- private onResized(event: ResizedEvent): void {
+  public onResized(event: ResizedEvent): void {
   //  console.log(`OnResize. New width: ${event.newWidth}, new height: ${event.newHeight}`);
     this.Width = event.newWidth;
     this.Height = event.newHeight;

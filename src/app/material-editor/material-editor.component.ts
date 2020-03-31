@@ -19,6 +19,7 @@ export class MaterialEditorComponent implements OnInit {
   // properties
   sceneJSON: string;
   material = new Material(MaterialType.MESH_STANDARD);
+  public materialColour = '#ffffff';
 
   constructor(
      private sceneService: ThreeSceneService
@@ -36,7 +37,7 @@ export class MaterialEditorComponent implements OnInit {
 // this.sceneService.getSceneJSON().subscribe(sceneJSON => this.sceneJSON = sceneJSON);
   }
 
-  onDiffuseColourChanged(colour: string): void {
+  public onDiffuseColourChanged(colour: string): void {
     const material = this.sceneService.getMaterial();
     if (material instanceof THREE.MeshPhongMaterial) {
       const mat = material as THREE.MeshPhongMaterial;

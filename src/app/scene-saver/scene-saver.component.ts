@@ -13,7 +13,7 @@ import { ExportFileType } from './export-file-type.enum';
 export class SceneSaverComponent implements OnInit {
   message: string;
   exportType = ExportFileType.GLTF;
-  private exportOptions = [
+  public exportOptions = [
     { type: ExportFileType.GLTF, name: 'GL Transmission (gltf)' },
     { type: ExportFileType.THREE_SCENE, name: 'Three scene (json)' }
   ];
@@ -49,7 +49,7 @@ export class SceneSaverComponent implements OnInit {
     };
   }
 
-  saveScene(gltf: any): void {
+  public saveScene(gltf: any): void {
     let str: string;
     let filename: string;
     switch (this.exportType) {

@@ -17,15 +17,15 @@ export class SceneModifierComponent implements OnInit {
   ngOnInit() {
   }
 
-  private onNewScene(): void {
+  public onNewScene(): void {
     this.sceneChanged.emit('new');
   }
 
-  private onAddToScene(): void {
+  public onAddToScene(): void {
     this.sceneChanged.emit('add');
   }
 
-  private onUpdateScene(): void {
+  public onUpdateScene(): void {
     this.sceneChanged.emit('update');
   }
 }

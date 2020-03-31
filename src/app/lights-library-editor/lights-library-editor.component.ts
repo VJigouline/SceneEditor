@@ -19,16 +19,16 @@ export class LightsLibraryEditorComponent implements OnInit {
     this.lights = lights;
   }
 
-  private onSave() {
+  public onSave() {
     alert('Save light');
   }
-  private onSaveAll() {
+  public onSaveAll() {
     alert('Save library');
   }
-  private onNew() {
+  public onNew() {
     alert('New light');
   }
-  private onLoad() {
+  public onLoad() {
     alert('Load light library');
   }
 
