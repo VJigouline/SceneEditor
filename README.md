@@ -9,6 +9,11 @@ ThreeJS has a [Scene Editor](https://threejs.org/editor/), but this editor is Ja
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.8.  
 Project options: routing and [SCSS](https://sass-lang.com/documentation) as a style sheet.
 
+## Usage
+
+This project is not finished. Detailed documentation will be added later.
+It is possible right now to drop GLTF, STL or saved three.js scene file into graphics area on the right and try using controls. Not everything is working, but more functionality will be added.
+
 ## Additional modules
 
 These modules should be added on top of the standard angular installation (`npm install` should do it for you)
