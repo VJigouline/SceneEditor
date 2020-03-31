@@ -14,6 +14,8 @@ Project options: routing and [SCSS](https://sass-lang.com/documentation) as a st
 This project is not finished. Detailed documentation will be added later.
 It is possible right now to drop GLTF, STL or saved three.js scene file into graphics area on the right and try using controls. Not everything is working, but more functionality will be added.
 
+![Scene](Images/Scene.png)
+
 ## Additional modules
 
 These modules should be added on top of the standard angular installation (`npm install` should do it for you)
