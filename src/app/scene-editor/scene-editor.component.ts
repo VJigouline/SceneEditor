@@ -20,11 +20,11 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
   ViewHeight = 100;
   ViewWidth = 100;
 
-  @ViewChild('ThreeJSView', { static: false })
+  @ViewChild('ThreeJSView')
   private threeView: SceneViewComponent;
-  @ViewChild('LightsLibraryEditor', { static: false })
+  @ViewChild('LightsLibraryEditor')
   private lightsLirbaryEditor: LightsLibraryEditorComponent;
-  @ViewChild('MaterialEditor', { static: false })
+  @ViewChild('MaterialEditor')
   private materialEditor: MaterialEditorComponent;
 
   constructor(
