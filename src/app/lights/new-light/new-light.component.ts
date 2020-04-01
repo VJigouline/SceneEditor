@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { LightType } from '../light-type.enum';
 
 @Component({
@@ -7,7 +7,10 @@ import { LightType } from '../light-type.enum';
   styleUrls: ['./new-light.component.scss']
 })
 export class NewLightComponent implements OnInit {
+  // events
+  @Output() newLight = new EventEmitter<LightType>();
 
+  // properties
   lightType = LightType.DIRECTIONAL;
   public lightTypes = [
     { type: LightType.AMBIENT, name: 'Ambient' },
@@ -22,4 +25,7 @@ export class NewLightComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  public onNew(): void {
+    this.newLight.emit(this.lightType);
+  }
 }

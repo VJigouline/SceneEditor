@@ -1,14 +1,13 @@
-<mat-card class="shipping-card">
-    <mat-card-content>
-        <div class="row">
-            <div class="col">
-              <mat-form-field class="full-width">
-                <mat-label>Select light type</mat-label>
-                <mat-select [(value)]="lightType">
-                    <mat-option *ngFor="let type of lightTypes" [value]="type.type">{{type.name}}</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-        </div>
-   </mat-card-content>
-</mat-card>
+<div class="row">
+    <div class="col">
+        <mat-form-field class="full-width">
+        <mat-label>Select light type</mat-label>
+        <mat-select [(value)]="lightType">
+            <mat-option *ngFor="let type of lightTypes" [value]="type.type">{{type.name}}</mat-option>
+        </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="col">
+        <button mat-raised-button color="primary" (click)="onNew()">New</button>
+    </div>
+</div>
