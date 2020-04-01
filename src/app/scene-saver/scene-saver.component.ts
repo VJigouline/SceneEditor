@@ -46,7 +46,7 @@ export class SceneSaverComponent implements OnInit {
           this.saveScene( gltf );
         }, options );
         break;
-    };
+    }
   }
 
   public saveScene(gltf: any): void {

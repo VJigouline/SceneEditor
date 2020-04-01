@@ -238,6 +238,9 @@ digraph SceneEditor {
  NewLightComponent [label="{NewLightComponent |
    constructor()\n
    ngOnInit()\n
+   onNew(): void\n
+   |
+   lightType: LightType
 }"]
  SceneComponent [label="{SceneComponent |
    constructor()\n

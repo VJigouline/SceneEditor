@@ -3,6 +3,8 @@
         <mat-card-title>Light editor</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <app-new-light></app-new-light>
+        <app-new-light
+        (newLight) = "onNewLight($event)"
+        ></app-new-light>
     </mat-card-content>
 </mat-card>
