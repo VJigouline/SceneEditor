@@ -209,10 +209,10 @@ digraph SceneEditor {
    constructor()\n
    ngOnInit()
    |
-   private onSave()\n
-   private onSaveAll()\n
-   private onNew()\n
-   private onLoad()
+   public onSave()\n
+   public onSaveAll()\n
+   public onNew()\n
+   public onLoad()
 }"]
  LightsLibraryEditorComponent [label="{LightsLibraryEditorComponent |
    constructor()\n
@@ -234,6 +234,10 @@ digraph SceneEditor {
   @Output() materialChange = new EventEmitter\<Material\>();\n
   sceneJSON: string;\n
   material = new Material(MaterialType.MESH_STANDARD);\n
+}"]
+ NewLightComponent [label="{NewLightComponent |
+   constructor()\n
+   ngOnInit()\n
 }"]
  SceneComponent [label="{SceneComponent |
    constructor()\n
@@ -369,6 +373,7 @@ digraph SceneEditor {
  Light->LightType
  Light->ThreeLight
  LightEditorComponent->Light
+ LightEditorComponent->NewLightComponent
  LightService->Light
  AppComponent->SceneEditorComponent
  AppModule->AppComponent

@@ -23,6 +23,7 @@ import { LightsLibraryEditorComponent } from './lights-library-editor/lights-lib
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { SceneComponent } from './scene/scene.component';
 import { SceneModifierComponent } from './scene-modifier/scene-modifier.component';
+import { LightsModule} from './lights/lights.module';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { SceneModifierComponent } from './scene-modifier/scene-modifier.componen
     MatSliderModule,
     ReactiveFormsModule,
     ColorPickerModule,
-    NgxFileDropModule
+    NgxFileDropModule,
+    LightsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
