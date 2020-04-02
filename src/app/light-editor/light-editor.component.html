@@ -7,9 +7,17 @@
             <div class="col">
               <mat-form-field class="full-width">
                 <mat-label>Select light to edit</mat-label>
-                <mat-select [(value)]= "light">
+                <mat-select [(ngModel)]= "light">
                     <mat-option *ngFor="let light of lights" [value]="light">{{light.name}}</mat-option>
                 </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width">
+                    <mat-label>Light name</mat-label>
+                    <input [(ngModel)]="light.name" matInput placeholder="Enter light name">
                 </mat-form-field>
             </div>
         </div>

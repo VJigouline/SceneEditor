@@ -14,7 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
-import {MatSliderModule} from '@angular/material/slider';
+import { MatSliderModule } from '@angular/material/slider';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SceneSaverComponent } from './scene-saver/scene-saver.component';
 import { ColorPickerModule } from 'ngx-color-picker';
@@ -24,6 +24,7 @@ import { NgxFileDropModule } from 'ngx-file-drop';
 import { SceneComponent } from './scene/scene.component';
 import { SceneModifierComponent } from './scene-modifier/scene-modifier.component';
 import { LightsModule} from './lights/lights.module';
+import { FormsModule } from '@angular/forms'
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { LightsModule} from './lights/lights.module';
     ReactiveFormsModule,
     ColorPickerModule,
     NgxFileDropModule,
-    LightsModule
+    LightsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
