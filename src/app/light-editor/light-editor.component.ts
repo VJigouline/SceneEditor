@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { LightType } from '../lights/light-type.enum';
+import { MatSliderChange } from '@angular/material/slider';
 
 import * as THREE from 'three';
 
@@ -58,5 +59,8 @@ export class LightEditorComponent implements OnInit {
 
     this.lights.push(this.light);
     this.newLight.emit(this.light);
+  }
+
+  public onIntensityChange(event: MatSliderChange): void {
   }
 }

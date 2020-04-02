@@ -5,11 +5,11 @@
     <mat-card-content>
         <div class="row">
             <div class="col">
-              <mat-form-field class="full-width">
-                <mat-label>Select light to edit</mat-label>
-                <mat-select [(ngModel)]= "light">
-                    <mat-option *ngFor="let light of lights" [value]="light">{{light.name}}</mat-option>
-                </mat-select>
+                <mat-form-field class="full-width">
+                    <mat-label>Select light to edit</mat-label>
+                    <mat-select [(ngModel)]= "light">
+                        <mat-option *ngFor="let light of lights" [value]="light">{{light.name}}</mat-option>
+                    </mat-select>
                 </mat-form-field>
             </div>
         </div>
@@ -19,6 +19,15 @@
                     <mat-label>Light name</mat-label>
                     <input [(ngModel)]="light.name" matInput placeholder="Enter light name">
                 </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+              Intensity {{light.intensity}}
+              <mat-slider min="0" max="2" step="0.04"
+              (input)="onIntensityChange($event)"
+              [(value)]="light.intensity"
+              ></mat-slider>
             </div>
         </div>
         <div *ngIf="light.type == 'AmbientLight'" class="row">

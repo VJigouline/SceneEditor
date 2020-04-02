@@ -24,7 +24,7 @@ import { NgxFileDropModule } from 'ngx-file-drop';
 import { SceneComponent } from './scene/scene.component';
 import { SceneModifierComponent } from './scene-modifier/scene-modifier.component';
 import { LightsModule} from './lights/lights.module';
-import { FormsModule } from '@angular/forms'
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
