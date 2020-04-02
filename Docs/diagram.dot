@@ -205,14 +205,30 @@ digraph SceneEditor {
 
  // Components
  node [fillcolor="lightblue"]
+ AmbientLightEditorComponent [label="{AmbientLightEditorComponent |
+   constructor()\n
+   ngOnInit()
+}"]
+ DirectionalLightEditorComponent [label="{DirectionalLightEditorComponent |
+   constructor()\n
+   ngOnInit()
+}"]
+ HemisphereLightEditorComponent [label="{HemisphereLightEditorComponent |
+   constructor()\n
+   ngOnInit()
+}"]
  LightEditorComponent [label="{LightEditorComponent |
    constructor()\n
    ngOnInit()
    |
-   public onSave()\n
-   public onSaveAll()\n
-   public onNew()\n
-   public onLoad()
+   @Output() newLight = new EventEmitter\<THREE.Light\>();\n
+   lights: [THREE.Light]\n
+   light: THREE.Light\n
+   onNewLight(type: LightType): void\n
+   onSave()\n
+   onSaveAll()\n
+   onNew()\n
+   onLoad()
 }"]
  LightsLibraryEditorComponent [label="{LightsLibraryEditorComponent |
    constructor()\n
@@ -240,7 +256,16 @@ digraph SceneEditor {
    ngOnInit()\n
    onNew(): void\n
    |
-   lightType: LightType
+   lightType: LightType,
+   lightTypes: Map\<LightType, string\>\n
+}"]
+ PointLightEditorComponent [label="{PointLightEditorComponent |
+   constructor()\n
+   ngOnInit()
+}"]
+ RectareaLightEditorComponent [label="{RectareaLightEditorComponent |
+   constructor()\n
+   ngOnInit()
 }"]
  SceneComponent [label="{SceneComponent |
    constructor()\n
@@ -313,6 +338,10 @@ digraph SceneEditor {
    private materials: THREE.Material[]\n
    private currentMaterial: THREE.Material
 }"]
+ SpotLightEditorComponent [label="{SpotLightEditorComponent |
+   constructor()\n
+   ngOnInit()
+}"]
  AppComponent [label="{AppComponent |
    ngOnInit()\n
    |
@@ -375,8 +404,14 @@ digraph SceneEditor {
  node [fillcolor="white"];
  Light->LightType
  Light->ThreeLight
+ LightEditorComponent->AmbientLightEditorComponent
+ LightEditorComponent->DirectionalLightEditorComponent
+ LightEditorComponent->HemisphereLightEditorComponent
  LightEditorComponent->Light
  LightEditorComponent->NewLightComponent
+ LightEditorComponent->PointLightEditorComponent
+ LightEditorComponent->RectareaLightEditorComponent
+ LightEditorComponent->SpotLightEditorComponent
  LightService->Light
  AppComponent->SceneEditorComponent
  AppModule->AppComponent

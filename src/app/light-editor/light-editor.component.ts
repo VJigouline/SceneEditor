@@ -2,7 +2,6 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { LightType } from '../lights/light-type.enum';
 
 import * as THREE from 'three';
-import { DirectionalLight, HemisphereLight } from 'three';
 
 @Component({
   selector: 'app-light-editor',
@@ -15,42 +14,49 @@ export class LightEditorComponent implements OnInit {
   @Output() newLight = new EventEmitter<THREE.Light>();
 
   // properties
-  public lights: [THREE.Light];
+  public lights: [THREE.Light] = [new THREE.AmbientLight()];
+  public light: THREE.Light;
 
   constructor() { }
 
   ngOnInit() {
+    this.light = this.lights[0];
+    this.light.name = 'Ambient 1';
   }
 
   public onNewLight(type: LightType): void {
 
-    let light: THREE.Light = new THREE.AmbientLight(0xffffff);
-
     switch (type) {
       case LightType.AMBIENT:
-        light = new THREE.AmbientLight(0xffffff);
+        this.light = new THREE.AmbientLight(0xffffff);
+        this.light.name = `Ambient ${this.lights.length + 1}`;
         break;
       case LightType.DIRECTIONAL:
-        light = new DirectionalLight(0xffffff, 0.5);
+        this.light = new THREE.DirectionalLight(0xffffff, 0.5);
+        this.light.name = `Directional ${this.lights.length + 1}`;
         break;
       case LightType.HEMISPHERE:
-        light = new HemisphereLight(0xbbbbff, 0x080820, 1);
+        this.light = new THREE.HemisphereLight(0xbbbbff, 0x080820, 1);
+        this.light.name = `Hemisphere ${this.lights.length + 1}`;
         break;
       case LightType.POINT:
-        light = new THREE.PointLight(0xffffff, 1, 0, 2);
+        this.light = new THREE.PointLight(0xffffff, 1, 0, 2);
+        this.light.name = `Point ${this.lights.length + 1}`;
         break;
       case LightType.RECT_AREA:
-        light = new THREE.RectAreaLight();
+        this.light = new THREE.RectAreaLight();
+        this.light.name = `Rectangular ${this.lights.length + 1}`;
         break;
       case LightType.SPOT:
-        light = new THREE.SpotLight();
+        this.light = new THREE.SpotLight();
+        this.light.name = `Spotlight ${this.lights.length + 1}`;
         break;
       default:
         console.error('Invalid light type.');
         break;
     }
 
-    this.lights.push(light);
-    this.newLight.emit(light);
+    this.lights.push(this.light);
+    this.newLight.emit(this.light);
   }
 }

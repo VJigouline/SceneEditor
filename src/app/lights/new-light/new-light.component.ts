@@ -15,7 +15,7 @@ export class NewLightComponent implements OnInit {
   public lightTypes = [
     { type: LightType.AMBIENT, name: 'Ambient' },
     { type: LightType.DIRECTIONAL, name: 'Directional' },
-    { type: LightType.SPOT, name: 'Spot (light cone)' },
+    { type: LightType.SPOT, name: 'Spotlight' },
     { type: LightType.POINT, name: 'Point' },
     { type: LightType.HEMISPHERE, name: 'Hemisphere' },
     { type: LightType.RECT_AREA, name: 'Rectangular area' }
