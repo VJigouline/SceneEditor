@@ -14,6 +14,7 @@ import { HemisphereLightEditorComponent } from './hemisphere-light-editor/hemisp
 import { PointLightEditorComponent } from './point-light-editor/point-light-editor.component';
 import { RectareaLightEditorComponent } from './rectarea-light-editor/rectarea-light-editor.component';
 import { SpotLightEditorComponent } from './spot-light-editor/spot-light-editor.component';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { SpotLightEditorComponent } from './spot-light-editor/spot-light-editor.
     MatCardModule,
     MatSliderModule,
     ReactiveFormsModule,
+    ColorPickerModule
   ],
   exports: [
     NewLightComponent,

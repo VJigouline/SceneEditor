@@ -7,8 +7,8 @@
             <div class="col">
                 <mat-form-field class="full-width">
                     <mat-label>Select light to edit</mat-label>
-                    <mat-select [(ngModel)]= "light">
-                        <mat-option *ngFor="let light of lights" [value]="light">{{light.name}}</mat-option>
+                    <mat-select [(ngModel)]= "Light">
+                        <mat-option *ngFor="let light of Lights" [value]="light.light">{{light.name}}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -17,45 +17,49 @@
             <div class="col">
                 <mat-form-field class="full-width">
                     <mat-label>Light name</mat-label>
-                    <input [(ngModel)]="light.name" matInput placeholder="Enter light name">
+                    <input [(ngModel)]="Light.name" matInput placeholder="Enter light name">
                 </mat-form-field>
             </div>
         </div>
         <div class="row">
             <div class="col">
-              Intensity {{light.intensity}}
-              <mat-slider min="0" max="2" step="0.04"
-              (input)="onIntensityChange($event)"
-              [(value)]="light.intensity"
+              Intensity {{Light.intensity}}
+              <mat-slider min="0" max="3" step="0.04"
+              (input)="onIntensityChanged($event)"
+              [(value)]="Light.intensity"
               ></mat-slider>
             </div>
         </div>
-        <div *ngIf="light.type == 'AmbientLight'" class="row">
+        <div *ngIf="Light.type == 'AmbientLight'" class="row">
             <div class="col">
-                <app-ambient-light-editor></app-ambient-light-editor>
+                <app-ambient-light-editor
+                [Light]="Light"
+                (lightChange)="onAmbientLightChanged($event)"
+                ></app-ambient-light-editor
+                    >
             </div>
         </div>
-        <div *ngIf="light.type == 'DirectionalLight'" class="row">
+        <div *ngIf="Light.type == 'DirectionalLight'" class="row">
             <div class="col">
                 <app-directional-light-editor></app-directional-light-editor>
             </div>
         </div>
-        <div *ngIf="light.type == 'HemisphereLight'" class="row">
+        <div *ngIf="Light.type == 'HemisphereLight'" class="row">
             <div class="col">
                 <app-hemisphere-light-editor></app-hemisphere-light-editor>
             </div>
         </div>
-        <div *ngIf="light.type == 'PointLight'" class="row">
+        <div *ngIf="Light.type == 'PointLight'" class="row">
             <div class="col">
                 <app-point-light-editor></app-point-light-editor>
             </div>
         </div>
-        <div *ngIf="light.type == 'RectAreaLight'" class="row">
+        <div *ngIf="Light.type == 'RectAreaLight'" class="row">
             <div class="col">
                 <app-rectarea-light-editor></app-rectarea-light-editor>
             </div>
         </div>
-        <div *ngIf="light.type == 'SpotLight'" class="row">
+        <div *ngIf="Light.type == 'SpotLight'" class="row">
             <div class="col">
                 <app-spot-light-editor></app-spot-light-editor>
             </div>

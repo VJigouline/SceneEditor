@@ -1,1 +1,13 @@
-<p>ambient-light-editor works!</p>
+<div *ngIf="Light" class="row">
+    <div class="col">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Colour"
+        [value] = "Colour"
+        [style.background]="Colour"
+        [cpPosition] = "'bottom'"
+        [(colorPicker)]="Colour"
+        (colorPickerChange)="onColourChanged($event)"
+        >
+      </mat-form-field>
+    </div>
+</div>

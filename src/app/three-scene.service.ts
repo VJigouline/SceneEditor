@@ -48,11 +48,14 @@ export class ThreeSceneService {
 
     this.scene = new THREE.Scene();
     const ambientLight = new THREE.AmbientLight('#050505', 1);
+    ambientLight.name = 'Ambient';
     this.scene.add(ambientLight);
     let light = new THREE.DirectionalLight('#ffffff', 3);
+    light.name = 'Directional 1';
     light.position.set(0, 1, 1);
     this.scene.add(light);
     light = new THREE.DirectionalLight('#ffffff', 2);
+    light.name = 'Directional 2';
     light.position.set(0, -1, -1);
     this.scene.add(light);
 

@@ -3,12 +3,12 @@ import { v4 as uuid } from 'uuid';
 import * as THREE from 'three';
 
 export class Light {
-    name: string;
+    public get name(): string { return this.light == null ? '' : this.light.name; }
+    public set name(value: string) { this.light.name = value; }
     type: LightType;
-    light: THREE.Light;
+    public light: THREE.Light;
 
     constructor(type: LightType) {
-        this.name = uuid();
         this.type = type;
 
         switch (type) {
@@ -34,6 +34,8 @@ export class Light {
                 console.error('Invalid light type');
                 break;
         }
+
+        this.name = uuid();
     }
 
     public static CreateLight(light: THREE.Light): Light {

@@ -207,7 +207,12 @@ digraph SceneEditor {
  node [fillcolor="lightblue"]
  AmbientLightEditorComponent [label="{AmbientLightEditorComponent |
    constructor()\n
-   ngOnInit()
+   ngOnInit()\n
+   onColourChanged(colour: string): void
+   |
+   @Output() lightChange = new EventEmitter\<THREE.AmbientLight\>()\n
+   @Input() Light: THREE.AmbientLight\n
+   Colour: string
 }"]
  DirectionalLightEditorComponent [label="{DirectionalLightEditorComponent |
    constructor()\n
@@ -218,12 +223,14 @@ digraph SceneEditor {
    ngOnInit()
 }"]
  LightEditorComponent [label="{LightEditorComponent |
-   constructor()\n
-   ngOnInit()
+   constructor(private sceneService: ThreeSceneService)\n
+   ngOnInit()\n
+   onIntensityChanged(event: MatSliderChange): void\n
+   onAmbientLightChanged(event: THREE.AmbientLight): void
    |
    @Output() newLight = new EventEmitter\<THREE.Light\>();\n
-   lights: [THREE.Light]\n
-   light: THREE.Light\n
+   Lights: Light[]\n
+   Light: THREE.Light\n
    onNewLight(type: LightType): void\n
    onSave()\n
    onSaveAll()\n
@@ -402,16 +409,19 @@ digraph SceneEditor {
 
  // Inheritance.
  node [fillcolor="white"];
+ AmbientLightEditorComponent->Light
  Light->LightType
  Light->ThreeLight
  LightEditorComponent->AmbientLightEditorComponent
  LightEditorComponent->DirectionalLightEditorComponent
  LightEditorComponent->HemisphereLightEditorComponent
  LightEditorComponent->Light
+ LightEditorComponent->LightType
  LightEditorComponent->NewLightComponent
  LightEditorComponent->PointLightEditorComponent
  LightEditorComponent->RectareaLightEditorComponent
  LightEditorComponent->SpotLightEditorComponent
+ LightEditorComponent->ThreeSceneService
  LightService->Light
  AppComponent->SceneEditorComponent
  AppModule->AppComponent
