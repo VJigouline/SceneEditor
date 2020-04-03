@@ -15,9 +15,11 @@ digraph SceneEditor {
    constructor(type: LightType)\n
    public static CreateLight(light: THREE.Light): Light
    |
-    name: string;\n
-    type: LightType;\n
-    light: THREE.Light;\n
+    name: string\n
+    intensity: number\n
+    type: LightType\n
+    light: THREE.Light\n
+    colour: string
  }"]
  LightsLibrary [label="{LightsLibrary |
    |
@@ -210,8 +212,8 @@ digraph SceneEditor {
    ngOnInit()\n
    onColourChanged(colour: string): void
    |
-   @Output() lightChange = new EventEmitter\<THREE.AmbientLight\>()\n
-   @Input() Light: THREE.AmbientLight\n
+   @Output() lightChange: Light\n
+   @Input() Light: Light\n
    Colour: string
 }"]
  DirectionalLightEditorComponent [label="{DirectionalLightEditorComponent |
@@ -226,11 +228,13 @@ digraph SceneEditor {
    constructor(private sceneService: ThreeSceneService)\n
    ngOnInit()\n
    onIntensityChanged(event: MatSliderChange): void\n
-   onAmbientLightChanged(event: THREE.AmbientLight): void
+   onLightChanged(event: Light): void
    |
-   @Output() newLight = new EventEmitter\<THREE.Light\>();\n
+   @Output() newLight: Light\n
+   @Output() changedLight: Light\n
+   lightType: typeof LightType\n
    Lights: Light[]\n
-   Light: THREE.Light\n
+   Light: Light\n
    onNewLight(type: LightType): void\n
    onSave()\n
    onSaveAll()\n
@@ -240,7 +244,10 @@ digraph SceneEditor {
  LightsLibraryEditorComponent [label="{LightsLibraryEditorComponent |
    constructor()\n
    ngOnInit()\n
-   setLights(lights: Light[]): void
+   setLights(lights: Light[]): void\n
+   onLightChanged(light: Light): void
+   |
+   @Output() changedLight: Light
 }"]
  MaterialEditorComponent [label="{MaterialEditorComponent |
    constructor(private sceneService: ThreeSceneService)\n
@@ -292,7 +299,8 @@ digraph SceneEditor {
    public fileOver(event)\n
    public fileLeave(event)\n
    onSceneChange(op: string)\n
-   public ResetScene(): void
+   public ResetScene(): void\n
+   onLightChanged(light: Light): void
    |
    @Input() Width: number\n
    @Input() Height: number\n
@@ -422,6 +430,8 @@ digraph SceneEditor {
  LightEditorComponent->RectareaLightEditorComponent
  LightEditorComponent->SpotLightEditorComponent
  LightEditorComponent->ThreeSceneService
+ LightsLibraryEditorComponent->Light
+ LightsLibraryEditorComponent->LightEditorComponent
  LightService->Light
  AppComponent->SceneEditorComponent
  AppModule->AppComponent
@@ -437,6 +447,7 @@ digraph SceneEditor {
  MaterialEditorComponent->ThreeSceneService
  SceneComponent->SceneModifierComponent
  SceneComponent->SceneSaverComponent
+ SceneEditorComponent->Light
  SceneEditorComponent->LightsLibraryEditorComponent
  SceneEditorComponent->MaterialEditorComponent
  SceneEditorComponent->SceneComponent

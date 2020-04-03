@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Light } from '../lights/light';
 
 @Component({
@@ -8,7 +8,10 @@ import { Light } from '../lights/light';
 })
 export class LightsLibraryEditorComponent implements OnInit {
 
-  private lights: Light[];
+  // events
+  @Output() changedLight = new EventEmitter<Light>();
+
+  // properties
 
   constructor() { }
 
@@ -16,7 +19,6 @@ export class LightsLibraryEditorComponent implements OnInit {
   }
 
   public setLights(lights: Light[]): void {
-    this.lights = lights;
   }
 
   public onSave() {
@@ -32,4 +34,7 @@ export class LightsLibraryEditorComponent implements OnInit {
     alert('Load light library');
   }
 
+  public onLightChanged(light: Light): void {
+    this.changedLight.emit(light);
+  }
 }

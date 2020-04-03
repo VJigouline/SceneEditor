@@ -3,10 +3,15 @@ import { v4 as uuid } from 'uuid';
 import * as THREE from 'three';
 
 export class Light {
-    public get name(): string { return this.light == null ? '' : this.light.name; }
-    public set name(value: string) { this.light.name = value; }
     type: LightType;
     public light: THREE.Light;
+
+    public get name(): string { return this.light == null ? '' : this.light.name; }
+    public set name(value: string) { this.light.name = value; }
+    public get intensity(): number { return this.light == null ? 0 : this.light.intensity; }
+    public set intensity(value: number) { this.light.intensity = value; }
+    public get colour(): string { return this.light == null ? '#ffffff' : '#' + this.light.color.getHexString(); }
+    public set colour(value: string) { this.light.color = new THREE.Color(value); }
 
     constructor(type: LightType) {
         this.type = type;
@@ -46,7 +51,19 @@ export class Light {
                 ret = new Light(LightType.AMBIENT);
                 break;
             case 'DirectionalLight':
-                ret = new Light(LightType.AMBIENT);
+                ret = new Light(LightType.DIRECTIONAL);
+                break;
+            case 'HemisphereLight':
+                ret = new Light(LightType.HEMISPHERE);
+                break;
+            case 'PointLight':
+                ret = new Light(LightType.POINT);
+                break;
+            case 'RectAreaLight':
+                ret = new Light(LightType.RECT_AREA);
+                break;
+            case 'SpotLight':
+                ret = new Light(LightType.SPOT);
                 break;
             default:
                 console.error(`Unknown light type: ${light.type}`);

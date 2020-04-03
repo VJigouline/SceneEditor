@@ -13,7 +13,9 @@
             </ngx-file-drop>
         </as-split-area>
         <as-split-area size="20">
-            <app-lights-library-editor #LightsLibraryEditor></app-lights-library-editor>
+            <app-lights-library-editor #LightsLibraryEditor
+            (changedLight)="onLightChanged($event)"
+            ></app-lights-library-editor>
             <app-material-editor #MaterialEditor
             (materialChange)="onMaterialChange($event)"
             ></app-material-editor>

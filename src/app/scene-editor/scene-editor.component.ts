@@ -6,6 +6,7 @@ import { ThreeSceneService } from '../three-scene.service';
 import { ResizedEvent } from 'angular-resize-event';
 import { LightsLibraryEditorComponent } from '../lights-library-editor/lights-library-editor.component';
 import { MaterialEditorComponent } from '../material-editor/material-editor.component';
+import { Light } from '../lights/light';
 
 @Component({
   selector: 'app-scene-editor',
@@ -79,5 +80,9 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
   public ResetScene(): void {
     this.threeView.Render();
     this.lightsLirbaryEditor.setLights(this.sceneService.getLights());
+  }
+
+  public onLightChanged(light: Light): void {
+    this.threeView.Render();
   }
 }

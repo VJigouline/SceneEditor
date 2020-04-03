@@ -3,7 +3,9 @@
         <mat-card-title>Lights library</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <app-light-editor></app-light-editor>
+        <app-light-editor
+        (changedLight) = onLightChanged($event);
+        ></app-light-editor>
     </mat-card-content>
     <mat-card-actions>
         <button mat-raised-button color="primary" 

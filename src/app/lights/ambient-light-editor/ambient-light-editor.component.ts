@@ -1,8 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ColorPickerService, Cmyk } from 'ngx-color-picker';
 
-import * as THREE from 'three';
-import { Light } from 'three';
+import { Light } from '../light';
 
 @Component({
   selector: 'app-ambient-light-editor',
@@ -11,13 +9,10 @@ import { Light } from 'three';
 })
 export class AmbientLightEditorComponent implements OnInit {
   // events
-  @Output() lightChange = new EventEmitter<THREE.AmbientLight>();
+  @Output() lightChange = new EventEmitter<Light>();
 
   // properties
-  @Input() Light: THREE.AmbientLight;
-
-  get Colour(): string { return '#' + this.Light.color.getHexString(); }
-  set Colour(value: string) { this.Light.color = new THREE.Color(value); }
+  @Input() Light: Light;
 
   constructor() { }
 
