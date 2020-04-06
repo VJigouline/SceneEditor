@@ -30,6 +30,7 @@ export class LightEditorComponent implements OnInit {
     return this.light;
   }
   public set Light(value: Light) { this.light = value; }
+  public maxIntensity = 20;
 
   public Lights: Light[] = [];
 

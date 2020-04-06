@@ -54,8 +54,8 @@ export class ThreeSceneService {
     light.name = 'Directional 1';
     light.position.set(0, 1, 1);
     this.scene.add(light);
-    light = new THREE.DirectionalLight('#ffffff', 2);
-    light.name = 'Directional 2';
+    light = new THREE.DirectionalLight('#ffffff', 4);
+    light.name = 'Directional 5';
     light.position.set(0, -1, -1);
     this.scene.add(light);
 

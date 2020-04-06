@@ -218,7 +218,11 @@ digraph SceneEditor {
 }"]
  DirectionalLightEditorComponent [label="{DirectionalLightEditorComponent |
    constructor()\n
-   ngOnInit()
+   ngOnInit()\n
+   onColourChanged(colour: string): void
+   |
+   @Output() lightChange: Light\n
+   @Input() Light: Light
 }"]
  HemisphereLightEditorComponent [label="{HemisphereLightEditorComponent |
    constructor()\n
@@ -235,6 +239,7 @@ digraph SceneEditor {
    lightType: typeof LightType\n
    Lights: Light[]\n
    Light: Light\n
+   maxIntensity: number\n
    onNewLight(type: LightType): void\n
    onSave()\n
    onSaveAll()\n

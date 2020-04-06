@@ -1,1 +1,13 @@
-<p>directional-light-editor works!</p>
+<div *ngIf="Light" class="row">
+    <div class="col">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Light.colour"
+        [value] = "this.Light.colour"
+        [style.background]="this.Light.colour"
+        [cpPosition] = "'bottom'"
+        [(colorPicker)]="this.Light.colour"
+        (colorPickerChange)="onColourChanged($event)"
+        >
+      </mat-form-field>
+    </div>
+</div>

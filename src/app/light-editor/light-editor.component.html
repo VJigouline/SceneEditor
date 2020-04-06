@@ -23,8 +23,17 @@
         </div>
         <div class="row">
             <div class="col">
+              <mat-form-field class="full-width">
+                <input matInput placeholder="Maximum intensity"
+                [(ngModel)] = "maxIntensity"
+                >
+              </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
               Intensity {{Light.intensity}}
-              <mat-slider min="0" max="3" step="0.05"
+              <mat-slider min="0" [max]="maxIntensity" [step]="maxIntensity / 100.0"
               (change)="onIntensityChanged($event)"
               [(value)]="Light.intensity"
               ></mat-slider>
@@ -40,7 +49,10 @@
         </div>
         <div *ngIf="Light.type == lightType.DIRECTIONAL" class="row">
             <div class="col">
-                <app-directional-light-editor></app-directional-light-editor>
+                <app-directional-light-editor
+                [Light]="Light"
+                (lightChange)="onLightChanged($event)"
+                ></app-directional-light-editor>
             </div>
         </div>
         <div *ngIf="Light.type == lightType.HEMISPHERE" class="row">
