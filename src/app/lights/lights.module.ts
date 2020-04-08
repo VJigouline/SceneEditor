@@ -15,6 +15,7 @@ import { PointLightEditorComponent } from './point-light-editor/point-light-edit
 import { RectareaLightEditorComponent } from './rectarea-light-editor/rectarea-light-editor.component';
 import { SpotLightEditorComponent } from './spot-light-editor/spot-light-editor.component';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { UserControlsModule } from '../user-controls/user-controls.module';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { ColorPickerModule } from 'ngx-color-picker';
     MatCardModule,
     MatSliderModule,
     ReactiveFormsModule,
-    ColorPickerModule
+    ColorPickerModule,
+    UserControlsModule
   ],
   exports: [
     NewLightComponent,

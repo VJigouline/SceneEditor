@@ -278,6 +278,18 @@ digraph SceneEditor {
    lightType: LightType,
    lightTypes: Map\<LightType, string\>\n
 }"]
+ Point3DComponent [label="{Point3DComponent |
+   constructor()\n
+   ngOnInit()
+   |
+   @Input() Label:string\n
+   @Input() enableX:boolean\n
+   @Input() enableY:boolean\n
+   @Input() enableZ:boolean\n   
+   @Input() X:number\n
+   @Input() Y:number\n
+   @Input() Z:number\n
+}"]
  PointLightEditorComponent [label="{PointLightEditorComponent |
    constructor()\n
    ngOnInit()
@@ -423,6 +435,7 @@ digraph SceneEditor {
  // Inheritance.
  node [fillcolor="white"];
  AmbientLightEditorComponent->Light
+ DirectionalLightEditorComponent->Point3DComponent
  Light->LightType
  Light->ThreeLight
  LightEditorComponent->AmbientLightEditorComponent

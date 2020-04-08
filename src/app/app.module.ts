@@ -25,6 +25,7 @@ import { SceneComponent } from './scene/scene.component';
 import { SceneModifierComponent } from './scene-modifier/scene-modifier.component';
 import { LightsModule} from './lights/lights.module';
 import { FormsModule } from '@angular/forms';
+import { UserControlsModule } from './user-controls/user-controls.module';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { FormsModule } from '@angular/forms';
     ColorPickerModule,
     NgxFileDropModule,
     LightsModule,
-    FormsModule
+    FormsModule,
+    UserControlsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

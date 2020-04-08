@@ -1,0 +1,36 @@
+<mat-label class="label">{{Label}}</mat-label>
+<mat-grid-list cols="6" rowHeight="55px">
+    <mat-grid-tile colspan=1>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="X" width=4
+            [(ngModel)] = "X"
+            [disabled] = "!enableX"
+            >
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile colspan=1>
+        <mat-checkbox [(ngModel)]="enableX"></mat-checkbox>
+    </mat-grid-tile>
+    <mat-grid-tile colspan=1>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="Y" width=4
+            [(ngModel)] = "Y"
+            [disabled] = "!enableY"
+            >
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile colspan=1>
+        <mat-checkbox [(ngModel)]="enableY"></mat-checkbox>
+    </mat-grid-tile>
+    <mat-grid-tile colspan=1>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="Z" width=4
+            [(ngModel)] = "Z"
+            [disabled] = "!enableZ"
+            >
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile colspan=1>
+        <mat-checkbox [(ngModel)]="enableZ"></mat-checkbox>
+    </mat-grid-tile>
+</mat-grid-list>
