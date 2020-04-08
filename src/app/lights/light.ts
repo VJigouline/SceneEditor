@@ -1,6 +1,7 @@
 import { LightType } from './light-type.enum';
 import { v4 as uuid } from 'uuid';
 import * as THREE from 'three';
+import { Point3 } from '../geometries/point3';
 
 export class Light {
     type: LightType;
@@ -12,6 +13,42 @@ export class Light {
     public set intensity(value: number) { this.light.intensity = value; }
     public get colour(): string { return this.light == null ? '#ffffff' : '#' + this.light.color.getHexString(); }
     public set colour(value: string) { this.light.color = new THREE.Color(value); }
+    public get position(): Point3 {
+        switch (this.type) {
+            case LightType.DIRECTIONAL:
+                const l = this.light as THREE.DirectionalLight;
+                return new Point3(l.position.x, l.position.y, l.position.z);
+        }
+        return new Point3(0, 0, 0);
+    }
+    public set position(value: Point3) {
+        switch (this.type) {
+            case LightType.DIRECTIONAL:
+                const l = this.light as THREE.DirectionalLight;
+                l.position.x = value.X;
+                l.position.y = value.Y;
+                l.position.z = value.Z;
+                break;
+        }
+    }
+    public get target(): Point3 {
+        switch (this.type) {
+            case LightType.DIRECTIONAL:
+                const l = this.light as THREE.DirectionalLight;
+                return new Point3(l.target.position.x, l.target.position.y, l.target.position.z);
+        }
+        return new Point3(0, 0, 0);
+    }
+    public set target(value: Point3) {
+        switch (this.type) {
+            case LightType.DIRECTIONAL:
+                const l = this.light as THREE.DirectionalLight;
+                l.target.position.x = value.X;
+                l.target.position.y = value.Y;
+                l.target.position.z = value.Z;
+                break;
+        }
+    }
 
     constructor(type: LightType) {
         this.type = type;

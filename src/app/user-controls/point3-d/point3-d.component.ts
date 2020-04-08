@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Point3 } from '../../geometries/point3';
 
 @Component({
   selector: 'app-point3-d',
@@ -8,38 +9,39 @@ import { Component, OnInit, Input } from '@angular/core';
 export class Point3DComponent implements OnInit {
 
   // events
+  @Output() changePoint = new EventEmitter<Point3>();
 
   // properties
 
   @Input() Label = 'Point';
+  @Input() Point = new Point3(0, 0, 0);
 
   @Input() enableX = true;
   @Input() enableY = true;
   @Input() enableZ = true;
 
-  get X(): number { return this.x; }
-  @Input() set X(value: number) {
+  get X(): number { return this.Point.X; }
+  set X(value: number) {
     if (!this.enableX) { return; }
-    this.x = value;
+    this.Point.X = value;
   }
-  get Y(): number { return this.y; }
-  @Input() set Y(value: number) {
+  get Y(): number { return this.Point.Y; }
+  set Y(value: number) {
     if (!this.enableY) { return; }
-    this.y = value;
+    this.Point.Y = value;
   }
-  get Z(): number { return this.z; }
-  @Input() set Z(value: number) {
+  get Z(): number { return this.Point.Z; }
+  set Z(value: number) {
     if (!this.enableZ) { return; }
-    this.z = value;
+    this.Point.Z = value;
   }
-
-  private x = 0;
-  private y = 0;
-  private z = 0;
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  public onChange(): void {
+    this.changePoint.emit(this.Point);
+  }
 }

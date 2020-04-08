@@ -51,6 +51,10 @@ export class LightEditorComponent implements OnInit {
     if (scene == null) { return; }
 
     scene.add(this.Light.light);
+    switch(this.Light.type) {
+      case LightType.DIRECTIONAL:
+        scene.add((this.Light.light as THREE.DirectionalLight).target);
+    }
     this.newLight.emit(this.light);
     this.changedLight.emit(this.light);
   }

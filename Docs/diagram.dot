@@ -19,7 +19,9 @@ digraph SceneEditor {
     intensity: number\n
     type: LightType\n
     light: THREE.Light\n
-    colour: string
+    colour: string\n
+    position: Point3\n
+    target: Point3
  }"]
  LightsLibrary [label="{LightsLibrary |
    |
@@ -165,6 +167,8 @@ digraph SceneEditor {
     material: THREE.Material\n
  }"]
   Point3 [label="{Point3 |
+    constructor(x: number, y: number, z: number)
+    |
     X: number\n
     Y: number\n
     Z: number\n
@@ -224,7 +228,9 @@ digraph SceneEditor {
  DirectionalLightEditorComponent [label="{DirectionalLightEditorComponent |
    constructor()\n
    ngOnInit()\n
-   onColourChanged(colour: string): void
+   onColourChanged(colour: string): void\n
+   onPositionChange(position: Point3): void\n
+   onTargetChange(position: Point3): void
    |
    @Output() lightChange: Light\n
    @Input() Light: Light
@@ -285,15 +291,18 @@ digraph SceneEditor {
 }"]
  Point3DComponent [label="{Point3DComponent |
    constructor()\n
-   ngOnInit()
+   ngOnInit()\n
+   onChange(): void
    |
+   @Output() changePoint: Point3\n
+   @Input() Point: Point3\n
    @Input() Label:string\n
    @Input() enableX:boolean\n
    @Input() enableY:boolean\n
    @Input() enableZ:boolean\n   
-   @Input() X:number\n
-   @Input() Y:number\n
-   @Input() Z:number\n
+   X:number\n
+   Y:number\n
+   Z:number\n
 }"]
  PointLightEditorComponent [label="{PointLightEditorComponent |
    constructor()\n
@@ -440,8 +449,10 @@ digraph SceneEditor {
  // Inheritance.
  node [fillcolor="white"];
  AmbientLightEditorComponent->Light
+ DirectionalLightEditorComponent->Point3
  DirectionalLightEditorComponent->Point3DComponent
  Light->LightType
+ Light->Point3
  Light->ThreeLight
  LightEditorComponent->AmbientLightEditorComponent
  LightEditorComponent->DirectionalLightEditorComponent
