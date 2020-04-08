@@ -164,6 +164,11 @@ digraph SceneEditor {
     // ThreeJS material\n
     material: THREE.Material\n
  }"]
+  Point3 [label="{Point3 |
+    X: number\n
+    Y: number\n
+    Z: number\n
+  }"]
 
  // Template classes.
  node [fontname="Calibri", fillcolor="lightyellow"];
@@ -463,6 +468,7 @@ digraph SceneEditor {
  ThreeSceneService->ThreeScene
  MaterialEditorComponent->Material
  MaterialEditorComponent->ThreeSceneService
+ Point3DComponent->Point3
  SceneComponent->SceneModifierComponent
  SceneComponent->SceneSaverComponent
  SceneEditorComponent->Light
