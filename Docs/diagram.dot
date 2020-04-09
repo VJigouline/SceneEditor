@@ -11,6 +11,12 @@ digraph SceneEditor {
 
  // Classes.
  node [fontname="Calibri", fillcolor="white"];
+ DirectionalLightHelper [label="{DirectionalLightHelper |
+   constructor(light: THREE.DirectionalLight)\n
+   update(light: THREE.DirectionalLight): void
+   |
+   light: THREE.DirectionalLight
+ }"]
  Light [label="{Light |
    constructor(type: LightType)\n
    public static CreateLight(light: THREE.Light): Light
@@ -255,7 +261,8 @@ digraph SceneEditor {
    onSave()\n
    onSaveAll()\n
    onNew()\n
-   onLoad()
+   onLoad()\n
+   onSelectionChange(change: MatSelectChange): void
 }"]
  LightsLibraryEditorComponent [label="{LightsLibraryEditorComponent |
    constructor()\n
@@ -456,6 +463,7 @@ digraph SceneEditor {
  Light->ThreeLight
  LightEditorComponent->AmbientLightEditorComponent
  LightEditorComponent->DirectionalLightEditorComponent
+ LightEditorComponent->DirectionalLightHelper
  LightEditorComponent->HemisphereLightEditorComponent
  LightEditorComponent->Light
  LightEditorComponent->LightType

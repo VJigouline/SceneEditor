@@ -3,8 +3,10 @@ import { LightType } from '../lights/light-type.enum';
 import { MatSliderChange } from '@angular/material/slider';
 import { ThreeSceneService } from '../three-scene.service';
 import { Light } from '../lights/light';
+import { DirectionalLightHelper } from '../objects3d/directional-light-helper';
 
 import * as THREE from 'three';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-light-editor',
@@ -20,6 +22,7 @@ export class LightEditorComponent implements OnInit {
   // properties
   lightType: typeof LightType = LightType;
   private light: Light;
+  private directionalLightHelper: DirectionalLightHelper;
 
   public get Light(): Light {
     if (this.light == null) {
@@ -82,10 +85,60 @@ export class LightEditorComponent implements OnInit {
   }
 
   public onLightChanged(light: Light): void {
+    this.updateHelpers();
     this.changedLight.emit(light);
   }
 
   private getLights(): Light[] {
     return this.sceneService.getLights();
+  }
+
+  public onSelectionChange(change: MatSelectChange): void {
+    const light = change.value as Light;
+
+    this.unsetLightHelper();
+
+    switch (light.type) {
+      case LightType.DIRECTIONAL:
+        this.addDirectionalLightHelper(light);
+        break;
+    }
+
+    this.changedLight.emit(light);
+  }
+
+  private unsetLightHelper(): void {
+    this.removeObjectFromScene(this.directionalLightHelper);
+    this.directionalLightHelper = null;
+  }
+
+  private removeObjectFromScene(object: THREE.Object3D): void {
+    if (object == null) { return; }
+
+    const scene = this.sceneService.getScene();
+    if (scene == null) { return; }
+
+    const index = scene.children.indexOf(object);
+    if (index > -1) {
+      scene.children.splice(index, 1);
+    }
+  }
+
+  private addDirectionalLightHelper(light: Light): void {
+    const scene = this.sceneService.getScene();
+    if (scene == null) { return; }
+
+    const l = light.light as THREE.DirectionalLight;
+
+    this.directionalLightHelper = new DirectionalLightHelper(l);
+    scene.add(this.directionalLightHelper);
+  }
+
+  private updateHelpers(): void {
+    const scene = this.sceneService.getScene();
+
+    if (this.directionalLightHelper != null && this.light.type === LightType.DIRECTIONAL) {
+      this.directionalLightHelper.update(this.light.light as THREE.DirectionalLight);
+    }
   }
 }
