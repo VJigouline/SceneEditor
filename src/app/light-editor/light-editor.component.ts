@@ -45,19 +45,37 @@ export class LightEditorComponent implements OnInit {
 
   public onNewLight(type: LightType): void {
 
-    this.light = new Light(LightType.AMBIENT);
+    this.light = new Light(type);
 
     const scene = this.sceneService.getScene();
     if (scene == null) { return; }
 
     scene.add(this.Light.light);
-    switch(this.Light.type) {
+    this.Lights.push(this.light);
+    switch (type) {
+      case LightType.AMBIENT:
+        this.light.name = 'Ambient ' + this.Lights.length;
+        break;
       case LightType.DIRECTIONAL:
-        scene.add((this.Light.light as THREE.DirectionalLight).target);
+        this.light.name = 'Directional ' + this.Lights.length;
+        scene.add((this.light.light as THREE.DirectionalLight).target);
+        break;
+      case LightType.HEMISPHERE:
+        this.light.name = 'Hemishpere ' + this.Lights.length;
+        break;
+      case LightType.POINT:
+        this.light.name = 'Point ' + this.Lights.length;
+        break;
+      case LightType.RECT_AREA:
+        this.light.name = 'Rect. area ' + this.Lights.length;
+        break;
+      case LightType.SPOT:
+        this.light.name = 'Spotlight ' + this.Lights.length;
+        break;
     }
     this.newLight.emit(this.light);
     this.changedLight.emit(this.light);
-  }
+   }
 
   public onIntensityChanged(event: MatSliderChange): void {
     this.changedLight.emit(this.light);
