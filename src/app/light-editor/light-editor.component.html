@@ -36,7 +36,7 @@
             <div class="col label">
               Intensity {{Light.intensity}}
               <mat-slider min="0" [max]="maxIntensity" [step]="maxIntensity / 100.0"
-              (change)="onIntensityChanged($event)"
+              (input)="onIntensityChanged($event)"
               [(value)]="Light.intensity"
               ></mat-slider>
             </div>

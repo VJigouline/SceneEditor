@@ -7,6 +7,7 @@ import { DirectionalLightHelper } from '../objects3d/directional-light-helper';
 
 import * as THREE from 'three';
 import { MatSelectChange } from '@angular/material/select';
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
 
 @Component({
   selector: 'app-light-editor',
@@ -81,6 +82,7 @@ export class LightEditorComponent implements OnInit {
    }
 
   public onIntensityChanged(event: MatSliderChange): void {
+    this.light.intensity = event.value;
     this.changedLight.emit(this.light);
   }
 
