@@ -325,6 +325,7 @@ digraph SceneEditor {
    @Input() enableX:boolean\n
    @Input() enableY:boolean\n
    @Input() enableZ:boolean\n   
+   @Input() enableCheckboxes\n
    X:number\n
    Y:number\n
    Z:number\n

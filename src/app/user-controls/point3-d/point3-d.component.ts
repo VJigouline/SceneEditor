@@ -20,6 +20,8 @@ export class Point3DComponent implements OnInit {
   @Input() enableY = true;
   @Input() enableZ = true;
 
+  @Input() enableCheckboxes = false;
+
   get X(): number { return this.Point.X; }
   set X(value: number) {
     if (!this.enableX) { return; }
