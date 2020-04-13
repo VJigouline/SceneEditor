@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { MatCheckboxModule, MatCheckboxChange } from '@angular/material/checkbox';
 
-import { Light } from '../light';
+import { Light, DirectionalLight } from '../light';
 import { Point3 } from '../../geometries/point3';
 
 @Component({
@@ -13,7 +14,7 @@ export class DirectionalLightEditorComponent implements OnInit {
   @Output() lightChange = new EventEmitter<Light>();
 
   // properties
-  @Input() Light: Light;
+  @Input() Light: DirectionalLight;
 
   constructor() { }
 
@@ -29,6 +30,10 @@ export class DirectionalLightEditorComponent implements OnInit {
   }
   public onTargetChange(position: Point3): void {
     this.Light.target = position;
+    this.lightChange.emit(this.Light);
+  }
+  public onChange(event: MatCheckboxChange): void {
+    this.Light.castShadow = event.checked;
     this.lightChange.emit(this.Light);
   }
 }

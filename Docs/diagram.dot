@@ -21,6 +21,11 @@ digraph SceneEditor {
 
  // Classes.
  node [fontname="Calibri", fillcolor="white"];
+ DirectionalLight [label="{DirectionalLight |
+   constructor()
+   |
+   castShadow: boolean
+ }"]
  DirectionalLightHelper [label="{DirectionalLightHelper |
    constructor(light: THREE.DirectionalLight)\n
    update(light: THREE.DirectionalLight): void
@@ -252,12 +257,13 @@ digraph SceneEditor {
  DirectionalLightEditorComponent [label="{DirectionalLightEditorComponent |
    constructor()\n
    ngOnInit()\n
+   onChange(event: MatCheckboxChange): void\n
    onColourChanged(colour: string): void\n
    onPositionChange(position: Point3): void\n
    onTargetChange(position: Point3): void
    |
    @Output() lightChange: Light\n
-   @Input() Light: Light
+   @Input() Light: DirectionalLight
 }"]
  HemisphereLightEditorComponent [label="{HemisphereLightEditorComponent |
    constructor()\n
@@ -474,12 +480,15 @@ digraph SceneEditor {
  // Inheritance.
  node [fillcolor="white"];
  AmbientLightEditorComponent->Light
+ DirectionalLight->Light
+ DirectionalLightEditorComponent->DirectionalLight
  DirectionalLightEditorComponent->Point3
  DirectionalLightEditorComponent->Point3DComponent
  Light->LightType
  Light->Point3
  Light->ThreeLight
  LightEditorComponent->AmbientLightEditorComponent
+ LightEditorComponent->DirectionalLight
  LightEditorComponent->DirectionalLightEditorComponent
  LightEditorComponent->DirectionalLightHelper
  LightEditorComponent->DragControls

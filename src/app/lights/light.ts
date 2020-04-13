@@ -88,7 +88,7 @@ export class Light {
                 ret = new Light(LightType.AMBIENT);
                 break;
             case 'DirectionalLight':
-                ret = new Light(LightType.DIRECTIONAL);
+                ret = new DirectionalLight();
                 break;
             case 'HemisphereLight':
                 ret = new Light(LightType.HEMISPHERE);
@@ -115,5 +115,18 @@ export class Light {
         }
 
         return ret;
+    }
+}
+
+export class DirectionalLight extends Light {
+    public get castShadow(): boolean {
+        return (this.light as THREE.DirectionalLight).castShadow;
+    }
+    public set castShadow(value: boolean) {
+        (this.light as THREE.DirectionalLight).castShadow = value;
+    }
+
+    constructor() {
+        super(LightType.DIRECTIONAL);
     }
 }

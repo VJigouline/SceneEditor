@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { LightType } from '../lights/light-type.enum';
 import { MatSliderChange } from '@angular/material/slider';
 import { ThreeSceneService } from '../three-scene.service';
-import { Light } from '../lights/light';
+import { Light, DirectionalLight } from '../lights/light';
 import { DirectionalLightHelper } from '../objects3d/directional-light-helper';
 
 import * as THREE from 'three';
@@ -52,8 +52,6 @@ export class LightEditorComponent implements OnInit {
 
   public onNewLight(type: LightType): void {
 
-    this.light = new Light(type);
-
     const scene = this.sceneService.getScene();
     if (scene == null) { return; }
 
@@ -61,22 +59,28 @@ export class LightEditorComponent implements OnInit {
     this.Lights.push(this.light);
     switch (type) {
       case LightType.AMBIENT:
+        this.light = new Light(type);
         this.light.name = 'Ambient ' + this.Lights.length;
         break;
       case LightType.DIRECTIONAL:
+        this.light = new DirectionalLight();
         this.light.name = 'Directional ' + this.Lights.length;
         scene.add((this.light.light as THREE.DirectionalLight).target);
         break;
       case LightType.HEMISPHERE:
+        this.light = new Light(type);
         this.light.name = 'Hemishpere ' + this.Lights.length;
         break;
       case LightType.POINT:
+        this.light = new Light(type);
         this.light.name = 'Point ' + this.Lights.length;
         break;
       case LightType.RECT_AREA:
+        this.light = new Light(type);
         this.light.name = 'Rect. area ' + this.Lights.length;
         break;
       case LightType.SPOT:
+        this.light = new Light(type);
         this.light.name = 'Spotlight ' + this.Lights.length;
         break;
     }

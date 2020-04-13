@@ -25,3 +25,11 @@
     (changePoint)="onTargetChange($event)"
     ></app-point3-d>
 </div>
+<div *ngIf="Light" class="row">
+  <mat-checkbox
+  [(checked)]="Light.castShadow"
+  (change) = "onChange($event)"
+  >
+  Cast shadow
+  </mat-checkbox>
+</div>
