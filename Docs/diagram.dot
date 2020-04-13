@@ -196,6 +196,16 @@ digraph SceneEditor {
     Y: number\n
     Z: number\n
   }"]
+  SpotLight [label="{SpotLight |
+    constructor()
+    |
+    castShadow: boolean\n
+    angle: number\n
+    decay: number\n
+    distance: number\n
+    penumbra: number\n
+    power: number
+  }"]
 
  // Template classes.
  node [fontname="Calibri", fillcolor="lightyellow"];
@@ -529,6 +539,7 @@ digraph SceneEditor {
  SceneViewComponent->Material
  SceneViewComponent->ThreeScene
  SceneViewComponent->TransformControls
+ SpotLight->Light
  ViewerFile->File
  ViewerFile->ThreeSceneService
  ThreeSceneService->DRACOLoader

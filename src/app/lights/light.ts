@@ -100,7 +100,7 @@ export class Light {
                 ret = new Light(LightType.RECT_AREA);
                 break;
             case 'SpotLight':
-                ret = new Light(LightType.SPOT);
+                ret = new SpotLight();
                 break;
             default:
                 console.error(`Unknown light type: ${light.type}`);
@@ -128,5 +128,48 @@ export class DirectionalLight extends Light {
 
     constructor() {
         super(LightType.DIRECTIONAL);
+    }
+}
+
+export class SpotLight extends Light {
+    public get castShadow(): boolean {
+        return (this.light as THREE.SpotLight).castShadow;
+    }
+    public set castShadow(value: boolean) {
+        (this.light as THREE.SpotLight).castShadow = value;
+    }
+    public get angle(): number {
+        return (this.light as THREE.SpotLight).angle;
+    }
+    public set angle(value: number) {
+        (this.light as THREE.SpotLight).angle = value;
+    }
+    public get decay(): number {
+        return (this.light as THREE.SpotLight).decay;
+    }
+    public set decay(value: number) {
+        (this.light as THREE.SpotLight).decay = value;
+    }
+    public get distance(): number {
+        return (this.light as THREE.SpotLight).distance;
+    }
+    public set distance(value: number) {
+        (this.light as THREE.SpotLight).distance = value;
+    }
+    public get penumbra(): number {
+        return (this.light as THREE.SpotLight).penumbra;
+    }
+    public set penumbra(value: number) {
+        (this.light as THREE.SpotLight).penumbra = value;
+    }
+    public get power(): number {
+        return (this.light as THREE.SpotLight).power;
+    }
+    public set power(value: number) {
+        (this.light as THREE.SpotLight).power = value;
+    }
+
+    constructor() {
+        super(LightType.SPOT);
     }
 }
