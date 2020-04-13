@@ -1,6 +1,16 @@
 digraph SceneEditor {
  // Interfaces.
  node [shape=record, fontname="Calibri italic", fontsize="14", style="filled", fillcolor="lightyellow", shape="record"];
+ DragEvent [label="{DragEvent |
+  object: THREE.Object3D\n
+  target: DragControls\n
+  type: string
+ }"]
+ DraggingChangedEvent [label="{DraggingChangedEvent |
+  target: TransformControls\n
+  type: string\n
+  value: boolean
+ }"]
  ViewerFile [label="{ViewerFile extends File |
   relativePath: string\n
   reader: CompoundReader\n
@@ -15,7 +25,9 @@ digraph SceneEditor {
    constructor(light: THREE.DirectionalLight)\n
    update(light: THREE.DirectionalLight): void
    |
-   light: THREE.DirectionalLight
+   light: THREE.DirectionalLight\n
+   positionSphere: THREE.Mesh\n
+   targetSphere: THREE.Mesh
  }"]
  Light [label="{Light |
    constructor(type: LightType)\n
@@ -217,8 +229,14 @@ digraph SceneEditor {
 
  // External classes.
  node [fillcolor="green"];
+ DRACOLoader
+ DragControls
+ GLTFLoader
+ OrbitControls
+ STLLoader
  ThreeLight [label="Three.Light"]
  ThreeScene [label="Three.Scene"]
+ TransformControls
 
  // Components
  node [fillcolor="lightblue"]
@@ -250,6 +268,12 @@ digraph SceneEditor {
    ngOnInit()\n
    onIntensityChanged(event: MatSliderChange): void\n
    onLightChanged(event: Light): void
+   onNewLight(type: LightType): void\n
+   onSave()\n
+   onSaveAll()\n
+   onNew()\n
+   onLoad()\n
+   onSelectionChange(change: MatSelectChange): void
    |
    @Output() newLight: Light\n
    @Output() changedLight: Light\n
@@ -257,12 +281,6 @@ digraph SceneEditor {
    Lights: Light[]\n
    Light: Light\n
    maxIntensity: number\n
-   onNewLight(type: LightType): void\n
-   onSave()\n
-   onSaveAll()\n
-   onNew()\n
-   onLoad()\n
-   onSelectionChange(change: MatSelectChange): void
 }"]
  LightsLibraryEditorComponent [label="{LightsLibraryEditorComponent |
    constructor()\n
@@ -372,9 +390,7 @@ digraph SceneEditor {
    ngOnInit()\n
    ngAfterViewInit()\n
    SetMaterial(material: Material)\n
-   private onResized(event: ResizedEvent): void\n
-   private onMouseOver(event: MouseEvent): void\n
-   private onOrbitControlEnd(): void\n
+   onOrbitControlChange(): void\n
    public Render(): void\n
    newScene(): void\n
    UpdateScene(): void
@@ -383,13 +399,6 @@ digraph SceneEditor {
    @Input() AreaWidth: number\n
    @Input() AreaHeight: number\n
    sceneJSON: string\n
-   private scene: THREE.Scene\n
-   private camera: THREE.OrthographicCamera\n
-   private renderer: THREE.WebGLRenderer\n
-   private controls: OrbitControls\n
-   private mesh: THREE.Mesh\n
-   private materials: THREE.Material[]\n
-   private currentMaterial: THREE.Material
 }"]
  SpotLightEditorComponent [label="{SpotLightEditorComponent |
    constructor()\n
@@ -438,12 +447,20 @@ digraph SceneEditor {
    addGLTFFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene, finished: CallbackFinished): void \n
    addJSONFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene, finished: CallbackFinished): void\n
    addSTLFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene, finished: CallbackFinished): void\n
+   cancelHideTransform(): void\n
+   delayHideTransform(): void\n
+   getDragControl(objects: THREE.Object3D[]): DragControls\n
    setMaterial(material: THREE.Material): void\n
-   public getMaterial(): THREE.Material\n
-   public getLights(): Light[]
+   getMaterial(): THREE.Material\n
+   getLights(): Light[]\n
+   onDragHoveron(event: DragEvent): void\n
+   onTransformDraggingChanged(event: DraggingChangedEvent): void\n
+   removeObjectFromScene(object: THREE.Object3D): void
    |
-   private scene: THREE.Scene\n
-   private material: THREE.Material
+   camera: THREE.OrthographicCamera\n
+   public orbitControls: OrbitControls\n
+   renderer: THREE.WebGLRenderer\n
+   transformControl: TransformControls
  }"]
 
  // Modules
@@ -464,6 +481,7 @@ digraph SceneEditor {
  LightEditorComponent->AmbientLightEditorComponent
  LightEditorComponent->DirectionalLightEditorComponent
  LightEditorComponent->DirectionalLightHelper
+ LightEditorComponent->DragControls
  LightEditorComponent->HemisphereLightEditorComponent
  LightEditorComponent->Light
  LightEditorComponent->LightType
@@ -482,9 +500,6 @@ digraph SceneEditor {
  MaterialLibrary->Material
  Material->MaterialType
  MaterialService->Material
- ViewerFile->File
- ViewerFile->ThreeSceneService
- ThreeSceneService->ThreeScene
  MaterialEditorComponent->Material
  MaterialEditorComponent->ThreeSceneService
  Point3DComponent->Point3
@@ -503,4 +518,17 @@ digraph SceneEditor {
  SceneViewComponent->ThreeSceneService
  SceneViewComponent->Material
  SceneViewComponent->ThreeScene
+ SceneViewComponent->TransformControls
+ ViewerFile->File
+ ViewerFile->ThreeSceneService
+ ThreeSceneService->DRACOLoader
+ ThreeSceneService->DragControls
+ ThreeSceneService->DragEvent
+ ThreeSceneService->DraggingChangedEvent
+ ThreeSceneService->GLTFLoader
+ ThreeSceneService->OrbitControls
+ ThreeSceneService->STLLoader
+ ThreeSceneService->ThreeScene
+ ThreeSceneService->TransformControls
+ ThreeSceneService->ViewerFile
 }

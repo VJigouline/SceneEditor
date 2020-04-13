@@ -7,7 +7,7 @@ import { DirectionalLightHelper } from '../objects3d/directional-light-helper';
 
 import * as THREE from 'three';
 import { MatSelectChange } from '@angular/material/select';
-import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
+import { DragControls } from 'three/examples/jsm/controls/DragControls';
 
 @Component({
   selector: 'app-light-editor',
@@ -24,6 +24,7 @@ export class LightEditorComponent implements OnInit {
   lightType: typeof LightType = LightType;
   private light: Light;
   private directionalLightHelper: DirectionalLightHelper;
+  private dragControl: DragControls;
 
   public get Light(): Light {
     if (this.light == null) {
@@ -45,6 +46,8 @@ export class LightEditorComponent implements OnInit {
   ngOnInit() {
     this.Lights = this.getLights();
     this.light = this.Lights[0];
+    this.sceneService.transformControl.addEventListener(
+      'objectChange', this.onObjectChange.bind(this));
   }
 
   public onNewLight(type: LightType): void {
@@ -110,19 +113,11 @@ export class LightEditorComponent implements OnInit {
   }
 
   private unsetLightHelper(): void {
-    this.removeObjectFromScene(this.directionalLightHelper);
+    this.sceneService.removeObjectFromScene(this.directionalLightHelper);
     this.directionalLightHelper = null;
-  }
-
-  private removeObjectFromScene(object: THREE.Object3D): void {
-    if (object == null) { return; }
-
-    const scene = this.sceneService.getScene();
-    if (scene == null) { return; }
-
-    const index = scene.children.indexOf(object);
-    if (index > -1) {
-      scene.children.splice(index, 1);
+    if (this.dragControl) {
+      delete this.dragControl;
+      this.dragControl = null;
     }
   }
 
@@ -134,6 +129,18 @@ export class LightEditorComponent implements OnInit {
 
     this.directionalLightHelper = new DirectionalLightHelper(l);
     scene.add(this.directionalLightHelper);
+    this.setDragControl([
+      this.directionalLightHelper.positionSphere,
+      this.directionalLightHelper.targetSphere
+    ]);
+  }
+
+  private setDragControl(objects: THREE.Object3D[]) {
+    this.dragControl = this.sceneService.getDragControl(objects);
+    this.dragControl.addEventListener('hoveron',
+      this.sceneService.onDragHoveron.bind(this.sceneService));
+    this.dragControl.addEventListener('hoveroff',
+      this.sceneService.delayHideTransform.bind(this.sceneService));
   }
 
   private updateHelpers(): void {
@@ -142,5 +149,24 @@ export class LightEditorComponent implements OnInit {
     if (this.directionalLightHelper != null && this.light.type === LightType.DIRECTIONAL) {
       this.directionalLightHelper.update(this.light.light as THREE.DirectionalLight);
     }
+  }
+
+  private onObjectChange(): void {
+    if (!this.sceneService.transformControl.enabled) { return; }
+
+    switch (this.light.type) {
+      case LightType.DIRECTIONAL:
+        this.updateDirectionalLight();
+        break;
+    }
+  }
+
+  private updateDirectionalLight() {
+    const light = this.light.light as THREE.DirectionalLight;
+    let pos = this.directionalLightHelper.positionSphere.position;
+    light.position.set(pos.x, pos.y, pos.z);
+    pos = this.directionalLightHelper.targetSphere.position;
+    light.target.position.set(pos.x, pos.y, pos.z);
+    this.directionalLightHelper.update(light);
   }
 }

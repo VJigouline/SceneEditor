@@ -5,6 +5,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { ThreeSceneService } from '../three-scene.service';
 import { Material } from '../materials/material';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
 
 @Component({
   selector: 'app-scene-view',
@@ -21,10 +22,6 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
 
   sceneJSON: string;
 
-  private scene: THREE.Scene;
-  private camera: THREE.OrthographicCamera;
-  private renderer: THREE.WebGLRenderer;
-  private controls: OrbitControls;
   private mesh: THREE.Mesh;
   private materials: THREE.Material[] = [];
   private currentMaterial: THREE.Material;
@@ -41,8 +38,23 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.InitialiseCamera();
     this.InitialiseScene();
+    this.IntialiseControls();
 
     this.Animate();
+  }
+
+  private IntialiseControls(): void {
+    const scene = this.sceneService.getScene();
+
+    this.sceneService.transformControl = new TransformControls(this.sceneService.camera, this.sceneService.renderer.domElement);
+    const transformControl = this.sceneService.transformControl;
+    transformControl.enabled = false;
+    transformControl.addEventListener('change', this.Render.bind(this));
+    transformControl.addEventListener('dragging-changed', this.sceneService.onTransformDraggingChanged.bind(this.sceneService));
+    transformControl.addEventListener('change', this.sceneService.cancelHideTransform.bind(this.sceneService));
+    transformControl.addEventListener('mouseDown', this.sceneService.cancelHideTransform.bind(this.sceneService));
+    transformControl.addEventListener('mouseUp', this.sceneService.delayHideTransform.bind(this.sceneService));
+    scene.add(transformControl);
   }
 
   SetMaterial(material: Material) {
@@ -68,17 +80,17 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
 
   public onResized(event: ResizedEvent): void {
   //  console.log(`OnResize. New width: ${event.newWidth}, new height: ${event.newHeight}`);
-    this.renderer.setSize(this.AreaWidth, this.AreaHeight - 4);
+    this.sceneService.renderer.setSize(this.AreaWidth, this.AreaHeight - 4);
     this.setCameraSize(this.AreaWidth, this.AreaHeight);
     this.Render();
   }
 
   public onMouseOver(event: MouseEvent): void {
     // console.log(`Mouse event`);
-    this.Render();
+    // this.Render();
   }
 
-  public onOrbitControlEnd(): void {
+  public onOrbitControlChange(): void {
     this.Render();
   }
 
@@ -87,30 +99,34 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
 
     this.newScene();
 
-    this.renderer = new THREE.WebGLRenderer();
-    this.renderer.physicallyCorrectLights = true;
-    this.renderer.gammaInput = true;
-    this.renderer.gammaOutput = true;
-    this.renderer.shadowMap.enabled = true;
-    this.renderer.toneMapping = THREE.ReinhardToneMapping;
-    this.renderer.setPixelRatio( window.devicePixelRatio );
-    this.renderer.setClearColor(0xbbeeff, 1);
-    this.renderer.setSize(this.AreaWidth, this.AreaHeight);
-    this.container.nativeElement.appendChild( this.renderer.domElement );
+    this.sceneService.renderer = new THREE.WebGLRenderer();
+    const renderer = this.sceneService.renderer;
+    renderer.physicallyCorrectLights = true;
+    renderer.gammaInput = true;
+    renderer.gammaOutput = true;
+    renderer.shadowMap.enabled = true;
+    renderer.toneMapping = THREE.ReinhardToneMapping;
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setClearColor(0xbbeeff, 1);
+    renderer.setSize(this.AreaWidth, this.AreaHeight);
+    this.container.nativeElement.appendChild( renderer.domElement );
 
-    this.controls = new OrbitControls( this.camera, this.renderer.domElement );
+    this.sceneService.orbitControls = new OrbitControls( this.sceneService.camera, renderer.domElement );
     // OrbitControl prevents wheel event bubbling. This settings is to redraw after zoom.
-    this.controls.addEventListener('end', this.onOrbitControlEnd.bind(this));
-    this.controls.screenSpacePanning = true;
+    this.sceneService.orbitControls.addEventListener('end', this.onOrbitControlChange.bind(this));
+    this.sceneService.orbitControls.addEventListener('change', this.onOrbitControlChange.bind(this));
+    this.sceneService.orbitControls.addEventListener('start', this.sceneService.cancelHideTransform.bind(this.sceneService));
+    this.sceneService.orbitControls.addEventListener('end', this.sceneService.delayHideTransform.bind(this.sceneService));
+    this.sceneService.orbitControls.screenSpacePanning = true;
   }
 
   private InitialiseCamera(): void {
-    this.camera = new THREE.OrthographicCamera( -this.container.nativeElement.offsetWidth * 5,
+    this.sceneService.camera = new THREE.OrthographicCamera( -this.container.nativeElement.offsetWidth * 5,
       this.container.nativeElement.offsetWidth * 5,
       this.container.nativeElement.offsetHeight * 5,
       -this.container.nativeElement.offsetHeight * 5, 1, 100000 );
-    this.camera.position.y = -10000;
-    this.camera.position.z = 1;
+    this.sceneService.camera.position.y = -10000;
+    this.sceneService.camera.position.z = 1;
   }
 
   private Animate(): void {
@@ -123,28 +139,29 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     if (this.currentMaterial === undefined && this.materials.length > 0) {
       this.currentMaterial = this.materials[0];
     }
-    this.renderer.render(this.scene, this.camera);
+    this.sceneService.renderer.render(this.sceneService.getScene(), this.sceneService.camera);
   }
 
   private setCameraSize(width: number, height: number): void {
     const aspect = width / height;
-    const w = this.camera.right - this.camera.left;
-    const h = this.camera.top - this.camera.bottom;
-    this.camera.left = -width;
-    this.camera.right = width;
-    this.camera.bottom = -height;
-    this.camera.top = height;
-    this.camera.updateProjectionMatrix();
+    const camera = this.sceneService.camera;
+    const w = camera.right - camera.left;
+    const h = camera.top - camera.bottom;
+    camera.left = -width;
+    camera.right = width;
+    camera.bottom = -height;
+    camera.top = height;
+    camera.updateProjectionMatrix();
    }
 
   private LoadGeometry(geometry: THREE.BufferGeometry) {
     this.mesh = new THREE.Mesh(geometry, this.currentMaterial);
-    this.scene.add(this.mesh);
+    this.sceneService.getScene().add(this.mesh);
     this.Render();
   }
 
   private LoadScene(): void {
-    this.scene = this.sceneService.getNewScene();
+    this.sceneService.getNewScene();
     this.AddScene();
   }
 
@@ -159,8 +176,9 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
       './assets/scenes/scene.gltf',
       // called when the resource is loaded
       gltf => {
-        this.scene.add( gltf.scene );
-        this.materials = this.ExtractMaterials(this.scene);
+        const scene = this.sceneService.getScene();
+        scene.add( gltf.scene );
+        this.materials = this.ExtractMaterials(scene);
         this.Render();
       },
       // called while loading is progressing
@@ -177,7 +195,7 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   private ExtractMaterials(scene: THREE.Scene): THREE.Material[] {
     const ret: THREE.Material[] = [];
 
-    for (const sc of this.scene.children) {
+    for (const sc of scene.children) {
       for (const child of sc.children) {
         if (child.type === 'Mesh') {
           const mesh = child as THREE.Mesh;
@@ -195,22 +213,22 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   }
 
   public newScene(): void {
-    this.scene = this.sceneService.getNewScene();
+    this.sceneService.getNewScene();
   }
 
   public UpdateScene(): void {
     this.currentMaterial = this.sceneService.getMaterial();
 
-    const box = new THREE.Box3().setFromObject(this.scene);
+    const box = new THREE.Box3().setFromObject(this.sceneService.getScene());
     const size = box.getSize(new THREE.Vector3()).length();
     const center = box.getCenter(new THREE.Vector3());
 
-    const pos = this.camera.position;
+    const pos = this.sceneService.camera.position;
   //  this.camera.position.x = center.x;
   //  this.camera.position.y = center.y;
   //  this.camera.position.z = center.z;
-    this.camera.zoom = (this.camera.right - this.camera.left) / size;
-    this.camera.updateProjectionMatrix();
+    this.sceneService.camera.zoom = (this.sceneService.camera.right - this.sceneService.camera.left) / size;
+    this.sceneService.camera.updateProjectionMatrix();
 
     this.Render();
   }

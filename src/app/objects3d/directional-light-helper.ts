@@ -3,8 +3,8 @@ import { Sphere } from 'three';
 
 export class DirectionalLightHelper extends THREE.Object3D {
 
-    private positionSphere: THREE.Mesh;
-    private targetSphere: THREE.Mesh;
+    public positionSphere: THREE.Mesh;
+    public targetSphere: THREE.Mesh;
     private material: THREE.MeshPhysicalMaterial;
     private arrow: THREE.ArrowHelper;
 
@@ -22,11 +22,13 @@ export class DirectionalLightHelper extends THREE.Object3D {
         this.positionSphere = new THREE.Mesh(geom, this.material);
         this.positionSphere.position.set(this.light.position.x,
             this.light.position.y, this.light.position.z);
+        this.positionSphere.parent = this;
         this.children.push(this.positionSphere);
         geom = new THREE.SphereGeometry(5, 16, 16);
         this.targetSphere = new THREE.Mesh(geom, this.material);
         this.targetSphere.position.set(this.light.target.position.x,
             this.light.target.position.y, this.light.target.position.z);
+        this.targetSphere.parent = this;
         this.children.push(this.targetSphere);
 
         const dir = this.light.target.position.clone().sub(this.light.position);

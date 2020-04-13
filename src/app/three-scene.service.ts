@@ -4,17 +4,29 @@ import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry, FileSy
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
-import { resolve } from 'url';
 import { reject } from 'q';
 import { Light } from './lights/light';
-import { AmbientLight } from 'three';
-import { LightType } from './lights/light-type.enum';
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
+import { DragControls } from 'three/examples/jsm/controls/DragControls';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 interface ViewerFile extends File {
   relativePath: string;
   reader: CompoundReader;
   contentSetter: ContentSetter;
   service: ThreeSceneService;
+}
+
+interface DragEvent {
+  object: THREE.Object3D;
+  target: DragControls;
+  type: string;
+}
+
+interface DraggingChangedEvent {
+  target: TransformControls;
+  type: string;
+  value: boolean;
 }
 
 type CallbackFinished = () => void;
@@ -29,7 +41,12 @@ type ContentSetter = (scene: THREE.Scene, sceneGLTF: THREE.Scene, clips: THREE.A
 
 export class ThreeSceneService {
   private scene: THREE.Scene;
+  public camera: THREE.OrthographicCamera;
+  public renderer: THREE.WebGLRenderer;
   private material: THREE.Material = new THREE.MeshPhongMaterial( { color: 0xff5533, specular: 0x111111, shininess: 200 } );
+  public transformControl: TransformControls;
+  private hidingTransform: number;
+  public orbitControls: OrbitControls;
 
   constructor(
 // private http: HttpClient
@@ -39,6 +56,7 @@ export class ThreeSceneService {
 
     if (this.scene === undefined) {
       this.scene = new THREE.Scene();
+      this.transformControl = null;
     }
 
     return this.scene;
@@ -52,14 +70,15 @@ export class ThreeSceneService {
     this.scene.add(ambientLight);
     let light = new THREE.DirectionalLight('#ffffff', 3);
     light.name = 'Directional 1';
-    light.position.set(0, 1, 1);
+    light.position.set(0, 1000, 1000);
     this.scene.add(light);
     this.scene.add(light.target);
     light = new THREE.DirectionalLight('#ffffff', 4);
     light.name = 'Directional 2';
-    light.position.set(0, -1, -1);
+    light.position.set(0, -1000, -1000);
     this.scene.add(light);
     this.scene.add(light.target);
+    this.transformControl = null;
 
     return this.scene;
   }
@@ -261,4 +280,52 @@ export class ThreeSceneService {
 
     return ret;
   }
- }
+
+  public getDragControl(objects: THREE.Object3D[]): DragControls {
+    return new DragControls(objects, this.camera, this.renderer.domElement);
+  }
+
+  public cancelHideTransform(): void {
+    if (this.hidingTransform !== undefined) {
+      window.clearTimeout(this.hidingTransform);
+    }
+  }
+
+  public delayHideTransform(): void {
+    this.cancelHideTransform();
+    this.hideTransform();
+  }
+
+  private hideTransform(): void {
+    this.hidingTransform = window.setTimeout(this.detatchTransformObject.bind(this), 2500);
+  }
+
+  private detatchTransformObject(): void {
+    this.transformControl.detach();
+  }
+
+  public onTransformDraggingChanged(event: DraggingChangedEvent): void {
+    this.orbitControls.enabled = !event.value;
+  }
+
+  public onDragHoveron(event: DragEvent): void {
+    this.transformControl.enabled = true;
+    this.transformControl.attach( event.object );
+    this.cancelHideTransform();
+  }
+
+  private Render(): void {
+    this.renderer.render(this.getScene(), this.camera);
+  }
+
+  public removeObjectFromScene(object: THREE.Object3D): void {
+    if (object == null) { return; }
+
+    if (this.scene == null) { return; }
+
+    const index = this.scene.children.indexOf(object);
+    if (index > -1) {
+      this.scene.children.splice(index, 1);
+    }
+  }
+}
