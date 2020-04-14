@@ -59,7 +59,11 @@
         </div>
         <div *ngIf="Light.type == lightType.HEMISPHERE" class="row">
             <div class="col">
-                <app-hemisphere-light-editor></app-hemisphere-light-editor>
+                <app-hemisphere-light-editor
+                [Light]="Light"
+                (lightChange)="onLightChanged($event)"
+                >
+                </app-hemisphere-light-editor>
             </div>
         </div>
         <div *ngIf="Light.type == lightType.POINT" class="row">

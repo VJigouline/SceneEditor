@@ -314,7 +314,14 @@ digraph SceneEditor {
 }"]
  HemisphereLightEditorComponent [label="{HemisphereLightEditorComponent |
    constructor()\n
-   ngOnInit()
+   ngOnInit()\n
+   onColourChanged(colour: string): void\n
+   onGroundColourChanged(colour: string): void\n
+   onPositionChange(position: Point3): void\n
+   onShadowChange(event: MatCheckboxChange): void
+   |
+   @Output() lightChange: Light\n
+   @Input() Light: PointLight
 }"]
  LightEditorComponent [label="{LightEditorComponent |
    constructor(private sceneService: ThreeSceneService)\n
@@ -549,6 +556,7 @@ digraph SceneEditor {
  DirectionalLightEditorComponent->Point3
  DirectionalLightEditorComponent->Point3DComponent
  HemisphereLight->Light
+ HemisphereLightEditorComponent->HemisphereLight
  Light->LightType
  Light->Point3
  Light->ThreeLight
@@ -557,7 +565,9 @@ digraph SceneEditor {
  LightEditorComponent->DirectionalLightEditorComponent
  LightEditorComponent->DirectionalLightHelper
  LightEditorComponent->DragControls
+ LightEditorComponent->HemisphereLight
  LightEditorComponent->HemisphereLightEditorComponent
+ LightEditorComponent->HemisphereLightHelper
  LightEditorComponent->Light
  LightEditorComponent->LightType
  LightEditorComponent->NewLightComponent

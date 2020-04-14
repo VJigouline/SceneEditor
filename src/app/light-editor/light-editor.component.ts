@@ -2,8 +2,9 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { LightType } from '../lights/light-type.enum';
 import { MatSliderChange } from '@angular/material/slider';
 import { ThreeSceneService } from '../three-scene.service';
-import { Light, DirectionalLight, PointLight, SpotLight } from '../lights/light';
+import { Light, DirectionalLight, PointLight, SpotLight, HemisphereLight } from '../lights/light';
 import { DirectionalLightHelper } from '../objects3d/directional-light-helper';
+import { HemisphereLightHelper } from '../objects3d/hemisphere-light-helper';
 import { PointLightHelper } from '../objects3d/point-light-helper';
 import { SpotLightHelper } from '../objects3d/spot-light-helper';
 
@@ -26,6 +27,7 @@ export class LightEditorComponent implements OnInit {
   lightType: typeof LightType = LightType;
   private light: Light;
   private directionalLightHelper: DirectionalLightHelper;
+  private hemisphereLightHelper: HemisphereLightHelper;
   private pointLightHelper: PointLightHelper;
   private spotLightHelper: SpotLightHelper;
   private dragControl: DragControls;
@@ -70,7 +72,7 @@ export class LightEditorComponent implements OnInit {
         scene.add((this.light.light as THREE.DirectionalLight).target);
         break;
       case LightType.HEMISPHERE:
-        this.light = new Light(type);
+        this.light = new HemisphereLight();
         this.light.name = 'Hemishpere ' + this.Lights.length;
         break;
       case LightType.POINT:
@@ -120,6 +122,9 @@ export class LightEditorComponent implements OnInit {
       case LightType.DIRECTIONAL:
         this.addDirectionalLightHelper(light);
         break;
+      case LightType.HEMISPHERE:
+        this.addHemisphereLightHelper(light);
+        break;
       case LightType.POINT:
         this.addPointLightHelper(light);
         break;
@@ -134,6 +139,8 @@ export class LightEditorComponent implements OnInit {
   private unsetLightHelper(): void {
     this.sceneService.removeObjectFromScene(this.directionalLightHelper);
     this.directionalLightHelper = null;
+    this.sceneService.removeObjectFromScene(this.hemisphereLightHelper);
+    this.hemisphereLightHelper = null;
     this.sceneService.removeObjectFromScene(this.spotLightHelper);
     this.spotLightHelper = null;
     this.sceneService.removeObjectFromScene(this.pointLightHelper);
@@ -155,6 +162,19 @@ export class LightEditorComponent implements OnInit {
     this.setDragControl([
       this.directionalLightHelper.positionSphere,
       this.directionalLightHelper.targetSphere
+    ]);
+  }
+
+  private addHemisphereLightHelper(light: Light): void {
+    const scene = this.sceneService.getScene();
+    if (scene == null) { return; }
+
+    const l = light.light as THREE.HemisphereLight;
+
+    this.hemisphereLightHelper = new HemisphereLightHelper(l);
+    scene.add(this.hemisphereLightHelper);
+    this.setDragControl([
+      this.hemisphereLightHelper.positionSphere
     ]);
   }
 
@@ -200,6 +220,10 @@ export class LightEditorComponent implements OnInit {
       this.directionalLightHelper.update(this.light.light as THREE.DirectionalLight);
     }
 
+    if (this.hemisphereLightHelper != null && this.light.type === LightType.HEMISPHERE) {
+      this.hemisphereLightHelper.update(this.light.light as THREE.HemisphereLight);
+    }
+
     if (this.spotLightHelper != null && this.light.type === LightType.SPOT) {
       this.spotLightHelper.update(this.light.light as THREE.SpotLight);
     }
@@ -215,6 +239,9 @@ export class LightEditorComponent implements OnInit {
     switch (this.light.type) {
       case LightType.DIRECTIONAL:
         this.updateDirectionalLight();
+        break;
+      case LightType.HEMISPHERE:
+        this.updateHemisphereLight();
         break;
       case LightType.POINT:
         this.updatePointLight();
@@ -232,6 +259,13 @@ export class LightEditorComponent implements OnInit {
     pos = this.directionalLightHelper.targetSphere.position;
     light.target.position.set(pos.x, pos.y, pos.z);
     this.directionalLightHelper.update(light);
+  }
+
+  private updateHemisphereLight() {
+    const light = this.light.light as THREE.HemisphereLight;
+    const pos = this.hemisphereLightHelper.positionSphere.position;
+    light.position.set(pos.x, pos.y, pos.z);
+    this.hemisphereLightHelper.update(light);
   }
 
   private updatePointLight() {
