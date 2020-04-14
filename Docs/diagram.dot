@@ -34,6 +34,12 @@ digraph SceneEditor {
    positionSphere: THREE.Mesh\n
    targetSphere: THREE.Mesh
  }"]
+  HemisphereLight [label="{HemisphereLight |
+    constructor()
+    |
+    groundColour: string\n
+    castShadow: boolean
+  }"]
  Light [label="{Light |
    constructor(type: LightType)\n
    public static CreateLight(light: THREE.Light): Light
@@ -535,6 +541,7 @@ digraph SceneEditor {
  DirectionalLightEditorComponent->DirectionalLight
  DirectionalLightEditorComponent->Point3
  DirectionalLightEditorComponent->Point3DComponent
+ HemisphereLight->Light
  Light->LightType
  Light->Point3
  Light->ThreeLight

@@ -18,6 +18,9 @@ export class Light {
             case LightType.DIRECTIONAL:
                 const l = this.light as THREE.DirectionalLight;
                 return new Point3(l.position.x, l.position.y, l.position.z);
+            case LightType.HEMISPHERE:
+                const hl = this.light as THREE.HemisphereLight;
+                return new Point3(hl.position.x, hl.position.y, hl.position.z);
             case LightType.POINT:
                 const pl = this.light as THREE.PointLight;
                 return new Point3(pl.position.x, pl.position.y, pl.position.z);
@@ -32,6 +35,10 @@ export class Light {
             case LightType.DIRECTIONAL:
                 const l = this.light as THREE.DirectionalLight;
                 l.position.set(value.X, value.Y, value.Z);
+                break;
+            case LightType.HEMISPHERE:
+                const hl = this.light as THREE.HemisphereLight;
+                hl.position.set(value.X, value.Y, value.Z);
                 break;
             case LightType.POINT:
                 const pl = this.light as THREE.PointLight;
@@ -108,7 +115,7 @@ export class Light {
                 ret = new DirectionalLight();
                 break;
             case 'HemisphereLight':
-                ret = new Light(LightType.HEMISPHERE);
+                ret = new HemisphereLight();
                 break;
             case 'PointLight':
                 ret = new PointLight();
@@ -219,5 +226,25 @@ export class PointLight extends Light {
 
     constructor() {
         super(LightType.POINT);
+    }
+}
+
+export class HemisphereLight extends Light {
+    public get groundColour(): string {
+        return this.light == null ? '#ffffff' :
+            '#' + (this.light as THREE.HemisphereLight).groundColor.getHexString();
+    }
+    public set groundColour(value: string) {
+        (this.light as THREE.HemisphereLight).groundColor = new THREE.Color(value);
+    }
+    public get castShadow(): boolean {
+        return (this.light as THREE.HemisphereLight).castShadow;
+    }
+    public set castShadow(value: boolean) {
+        (this.light as THREE.HemisphereLight).castShadow = value;
+    }
+
+    constructor() {
+        super(LightType.HEMISPHERE);
     }
 }
