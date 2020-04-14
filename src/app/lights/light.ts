@@ -18,6 +18,9 @@ export class Light {
             case LightType.DIRECTIONAL:
                 const l = this.light as THREE.DirectionalLight;
                 return new Point3(l.position.x, l.position.y, l.position.z);
+            case LightType.SPOT:
+                const sl = this.light as THREE.SpotLight;
+                return new Point3(sl.position.x, sl.position.y, sl.position.z);
         }
         return new Point3(0, 0, 0);
     }
@@ -29,6 +32,12 @@ export class Light {
                 l.position.y = value.Y;
                 l.position.z = value.Z;
                 break;
+            case LightType.SPOT:
+                const sl = this.light as THREE.SpotLight;
+                sl.position.x = value.X;
+                sl.position.y = value.Y;
+                sl.position.z = value.Z;
+                break;
         }
     }
     public get target(): Point3 {
@@ -36,6 +45,9 @@ export class Light {
             case LightType.DIRECTIONAL:
                 const l = this.light as THREE.DirectionalLight;
                 return new Point3(l.target.position.x, l.target.position.y, l.target.position.z);
+            case LightType.SPOT:
+                const sl = this.light as THREE.SpotLight;
+                return new Point3(sl.target.position.x, sl.target.position.y, sl.target.position.z);
         }
         return new Point3(0, 0, 0);
     }
@@ -46,6 +58,12 @@ export class Light {
                 l.target.position.x = value.X;
                 l.target.position.y = value.Y;
                 l.target.position.z = value.Z;
+                break;
+            case LightType.SPOT:
+                const sl = this.light as THREE.SpotLight;
+                sl.target.position.x = value.X;
+                sl.target.position.y = value.Y;
+                sl.target.position.z = value.Z;
                 break;
         }
     }

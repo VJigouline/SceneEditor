@@ -419,7 +419,16 @@ digraph SceneEditor {
 }"]
  SpotLightEditorComponent [label="{SpotLightEditorComponent |
    constructor()\n
-   ngOnInit()
+   ngOnInit()\n
+   onAngleChanged(event: MatSliderChange): void\n
+   onColourChanged(colour: string): void\n
+   onDecayChanged(event: MatSliderChange): void\n
+   onPenumbraChanged(event: MatSliderChange): void\n
+   onPositionChange(position: Point3): void\n
+   onTargetChange(position: Point3): void
+   |
+   @Output() lightChange: Light\n
+   @Input() Light: SpotLight
 }"]
  AppComponent [label="{AppComponent |
    ngOnInit()\n
@@ -508,6 +517,7 @@ digraph SceneEditor {
  LightEditorComponent->NewLightComponent
  LightEditorComponent->PointLightEditorComponent
  LightEditorComponent->RectareaLightEditorComponent
+ LightEditorComponent->SpotLight
  LightEditorComponent->SpotLightEditorComponent
  LightEditorComponent->ThreeSceneService
  LightsLibraryEditorComponent->Light
@@ -540,6 +550,7 @@ digraph SceneEditor {
  SceneViewComponent->ThreeScene
  SceneViewComponent->TransformControls
  SpotLight->Light
+ SpotLightEditorComponent->SpotLight
  ViewerFile->File
  ViewerFile->ThreeSceneService
  ThreeSceneService->DRACOLoader

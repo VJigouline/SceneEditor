@@ -1,1 +1,73 @@
-<p>spot-light-editor works!</p>
+<div *ngIf="Light" class="row">
+    <div class="col">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Light colour"
+        cpAlphaChannel="disabled"
+        [value] = "this.Light.colour"
+        [style.background]="this.Light.colour"
+        [cpPosition] = "'bottom'"
+        [(colorPicker)]="this.Light.colour"
+        (colorPickerChange)="onColourChanged($event)"
+        >
+      </mat-form-field>
+    </div>
+</div>
+<div *ngIf="Light">
+      <app-point3-d
+      Label='Position'
+      [Point]="Light.position"
+      (changePoint)="onPositionChange($event)"
+      ></app-point3-d>
+</div>
+<div *ngIf="Light">
+    <app-point3-d
+    Label='Target'
+    [Point]='Light.target'
+    (changePoint)="onTargetChange($event)"
+    ></app-point3-d>
+</div>
+<div *ngIf="Light" class="row">
+    <div class="col label">
+        Angle {{Light.angle}}
+        <mat-slider min="0" [max]="1.57" [step]="0.016"
+        (input)="onAngleChanged($event)"
+        [(value)]="Light.angle"
+        ></mat-slider>
+      </div>
+</div>
+<div *ngIf="Light" class="row">
+    <div class="col label">
+        Decay {{Light.decay}}
+        <mat-slider min="0" [max]="4" [step]="0.04"
+        (input)="onDecayChanged($event)"
+        [(value)]="Light.decay"
+        ></mat-slider>
+      </div>
+</div>
+<div *ngIf="Light" class="row">
+    <div class="col label">
+        Penumbra {{Light.penumbra}}
+        <mat-slider min="0" [max]="1" [step]="0.01"
+        (input)="onPenumbraChanged($event)"
+        [(value)]="Light.penumbra"
+        ></mat-slider>
+      </div>
+</div>
+<div *ngIf="Light" class="row">
+    <div class="col">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Distance"
+        [value] = "this.Light.distance"
+        (input) = "lightChange.emit(this.Light)"
+        >
+      </mat-form-field>
+    </div>
+</div>
+<div *ngIf="Light" class="row">
+  <mat-checkbox
+  [(checked)]="Light.castShadow"
+  (change) = "onShadowChange($event)"
+  >
+  Cast shadow
+  </mat-checkbox>
+</div>
