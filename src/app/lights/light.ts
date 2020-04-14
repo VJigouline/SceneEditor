@@ -33,7 +33,7 @@ export class Light {
                 const l = this.light as THREE.DirectionalLight;
                 l.position.set(value.X, value.Y, value.Z);
                 break;
-            case LightType.SPOT:
+            case LightType.POINT:
                 const pl = this.light as THREE.PointLight;
                 pl.position.set(value.X, value.Y, value.Z);
                 break;

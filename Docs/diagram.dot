@@ -293,7 +293,8 @@ digraph SceneEditor {
    onChange(event: MatCheckboxChange): void\n
    onColourChanged(colour: string): void\n
    onPositionChange(position: Point3): void\n
-   onTargetChange(position: Point3): void
+   onTargetChange(position: Point3): void\n
+   onShadowChange(event: MatCheckboxChange): void
    |
    @Output() lightChange: Light\n
    @Input() Light: DirectionalLight
@@ -371,7 +372,14 @@ digraph SceneEditor {
 }"]
  PointLightEditorComponent [label="{PointLightEditorComponent |
    constructor()\n
-   ngOnInit()
+   ngOnInit()\n
+   onColourChanged(colour: string): void\n
+   onDecayChanged(event: MatSliderChange): void\n
+   onPositionChange(position: Point3): void\n
+   onShadowChange(event: MatCheckboxChange): void
+   |
+   @Output() lightChange: Light\n
+   @Input() Light: PointLight
 }"]
  RectareaLightEditorComponent [label="{RectareaLightEditorComponent |
    constructor()\n
@@ -448,7 +456,8 @@ digraph SceneEditor {
    onDecayChanged(event: MatSliderChange): void\n
    onPenumbraChanged(event: MatSliderChange): void\n
    onPositionChange(position: Point3): void\n
-   onTargetChange(position: Point3): void
+   onTargetChange(position: Point3): void\n
+   onShadowChange(event: MatCheckboxChange): void
    |
    @Output() lightChange: Light\n
    @Input() Light: SpotLight
@@ -538,7 +547,9 @@ digraph SceneEditor {
  LightEditorComponent->Light
  LightEditorComponent->LightType
  LightEditorComponent->NewLightComponent
+ LightEditorComponent->PointLight
  LightEditorComponent->PointLightEditorComponent
+ LightEditorComponent->PointLightHelper
  LightEditorComponent->RectareaLightEditorComponent
  LightEditorComponent->SpotLight
  LightEditorComponent->SpotLightEditorComponent
@@ -558,6 +569,7 @@ digraph SceneEditor {
  MaterialEditorComponent->ThreeSceneService
  Point3DComponent->Point3
  PointLight->Light
+ PointLightEditorComponent->PointLight
  SceneComponent->SceneModifierComponent
  SceneComponent->SceneSaverComponent
  SceneEditorComponent->Light

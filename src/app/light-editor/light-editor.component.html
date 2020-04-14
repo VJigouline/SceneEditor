@@ -64,7 +64,10 @@
         </div>
         <div *ngIf="Light.type == lightType.POINT" class="row">
             <div class="col">
-                <app-point-light-editor></app-point-light-editor>
+                <app-point-light-editor
+                [Light]="Light"
+                (lightChange)="onLightChanged($event)"
+                ></app-point-light-editor>
             </div>
         </div>
         <div *ngIf="Light.type == lightType.RECT_AREA" class="row">

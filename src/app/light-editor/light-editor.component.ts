@@ -2,8 +2,9 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { LightType } from '../lights/light-type.enum';
 import { MatSliderChange } from '@angular/material/slider';
 import { ThreeSceneService } from '../three-scene.service';
-import { Light, DirectionalLight, SpotLight } from '../lights/light';
+import { Light, DirectionalLight, PointLight, SpotLight } from '../lights/light';
 import { DirectionalLightHelper } from '../objects3d/directional-light-helper';
+import { PointLightHelper } from '../objects3d/point-light-helper';
 import { SpotLightHelper } from '../objects3d/spot-light-helper';
 
 import * as THREE from 'three';
@@ -25,6 +26,7 @@ export class LightEditorComponent implements OnInit {
   lightType: typeof LightType = LightType;
   private light: Light;
   private directionalLightHelper: DirectionalLightHelper;
+  private pointLightHelper: PointLightHelper;
   private spotLightHelper: SpotLightHelper;
   private dragControl: DragControls;
 
@@ -72,7 +74,7 @@ export class LightEditorComponent implements OnInit {
         this.light.name = 'Hemishpere ' + this.Lights.length;
         break;
       case LightType.POINT:
-        this.light = new Light(type);
+        this.light = new PointLight();
         this.light.name = 'Point ' + this.Lights.length;
         break;
       case LightType.RECT_AREA:
@@ -118,6 +120,9 @@ export class LightEditorComponent implements OnInit {
       case LightType.DIRECTIONAL:
         this.addDirectionalLightHelper(light);
         break;
+      case LightType.POINT:
+        this.addPointLightHelper(light);
+        break;
       case LightType.SPOT:
         this.addSpotLightHelper(light);
         break;
@@ -131,6 +136,8 @@ export class LightEditorComponent implements OnInit {
     this.directionalLightHelper = null;
     this.sceneService.removeObjectFromScene(this.spotLightHelper);
     this.spotLightHelper = null;
+    this.sceneService.removeObjectFromScene(this.pointLightHelper);
+    this.pointLightHelper = null;
     if (this.dragControl) {
       delete this.dragControl;
       this.dragControl = null;
@@ -148,6 +155,19 @@ export class LightEditorComponent implements OnInit {
     this.setDragControl([
       this.directionalLightHelper.positionSphere,
       this.directionalLightHelper.targetSphere
+    ]);
+  }
+
+  private addPointLightHelper(light: Light): void {
+    const scene = this.sceneService.getScene();
+    if (scene == null) { return; }
+
+    const l = light.light as THREE.PointLight;
+
+    this.pointLightHelper = new PointLightHelper(l);
+    scene.add(this.pointLightHelper);
+    this.setDragControl([
+      this.pointLightHelper.positionSphere
     ]);
   }
 
@@ -183,6 +203,10 @@ export class LightEditorComponent implements OnInit {
     if (this.spotLightHelper != null && this.light.type === LightType.SPOT) {
       this.spotLightHelper.update(this.light.light as THREE.SpotLight);
     }
+
+    if (this.pointLightHelper != null && this.light.type === LightType.POINT) {
+      this.pointLightHelper.update(this.light.light as THREE.PointLight);
+    }
   }
 
   private onObjectChange(): void {
@@ -191,6 +215,9 @@ export class LightEditorComponent implements OnInit {
     switch (this.light.type) {
       case LightType.DIRECTIONAL:
         this.updateDirectionalLight();
+        break;
+      case LightType.POINT:
+        this.updatePointLight();
         break;
       case LightType.SPOT:
         this.updateSpotLight();
@@ -205,6 +232,13 @@ export class LightEditorComponent implements OnInit {
     pos = this.directionalLightHelper.targetSphere.position;
     light.target.position.set(pos.x, pos.y, pos.z);
     this.directionalLightHelper.update(light);
+  }
+
+  private updatePointLight() {
+    const light = this.light.light as THREE.PointLight;
+    const pos = this.pointLightHelper.positionSphere.position;
+    light.position.set(pos.x, pos.y, pos.z);
+    this.pointLightHelper.update(light);
   }
 
   private updateSpotLight() {
