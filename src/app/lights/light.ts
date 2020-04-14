@@ -18,6 +18,9 @@ export class Light {
             case LightType.DIRECTIONAL:
                 const l = this.light as THREE.DirectionalLight;
                 return new Point3(l.position.x, l.position.y, l.position.z);
+            case LightType.POINT:
+                const pl = this.light as THREE.PointLight;
+                return new Point3(pl.position.x, pl.position.y, pl.position.z);
             case LightType.SPOT:
                 const sl = this.light as THREE.SpotLight;
                 return new Point3(sl.position.x, sl.position.y, sl.position.z);
@@ -28,15 +31,15 @@ export class Light {
         switch (this.type) {
             case LightType.DIRECTIONAL:
                 const l = this.light as THREE.DirectionalLight;
-                l.position.x = value.X;
-                l.position.y = value.Y;
-                l.position.z = value.Z;
+                l.position.set(value.X, value.Y, value.Z);
+                break;
+            case LightType.SPOT:
+                const pl = this.light as THREE.PointLight;
+                pl.position.set(value.X, value.Y, value.Z);
                 break;
             case LightType.SPOT:
                 const sl = this.light as THREE.SpotLight;
-                sl.position.x = value.X;
-                sl.position.y = value.Y;
-                sl.position.z = value.Z;
+                sl.position.set(value.X, value.Y, value.Z);
                 break;
         }
     }
@@ -55,15 +58,11 @@ export class Light {
         switch (this.type) {
             case LightType.DIRECTIONAL:
                 const l = this.light as THREE.DirectionalLight;
-                l.target.position.x = value.X;
-                l.target.position.y = value.Y;
-                l.target.position.z = value.Z;
+                l.target.position.set(value.X, value.Y, value.Z);
                 break;
             case LightType.SPOT:
                 const sl = this.light as THREE.SpotLight;
-                sl.target.position.x = value.X;
-                sl.target.position.y = value.Y;
-                sl.target.position.z = value.Z;
+                sl.target.position.set(value.X, value.Y, value.Z);
                 break;
         }
     }
@@ -112,7 +111,7 @@ export class Light {
                 ret = new Light(LightType.HEMISPHERE);
                 break;
             case 'PointLight':
-                ret = new Light(LightType.POINT);
+                ret = new PointLight();
                 break;
             case 'RectAreaLight':
                 ret = new Light(LightType.RECT_AREA);
@@ -189,5 +188,36 @@ export class SpotLight extends Light {
 
     constructor() {
         super(LightType.SPOT);
+    }
+}
+
+export class PointLight extends Light {
+    public get castShadow(): boolean {
+        return (this.light as THREE.PointLight).castShadow;
+    }
+    public set castShadow(value: boolean) {
+        (this.light as THREE.PointLight).castShadow = value;
+    }
+    public get decay(): number {
+        return (this.light as THREE.PointLight).decay;
+    }
+    public set decay(value: number) {
+        (this.light as THREE.PointLight).decay = value;
+    }
+    public get distance(): number {
+        return (this.light as THREE.PointLight).distance;
+    }
+    public set distance(value: number) {
+        (this.light as THREE.PointLight).distance = value;
+    }
+    public get power(): number {
+        return (this.light as THREE.PointLight).power;
+    }
+    public set power(value: number) {
+        (this.light as THREE.PointLight).power = value;
+    }
+
+    constructor() {
+        super(LightType.POINT);
     }
 }

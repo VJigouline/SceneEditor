@@ -196,6 +196,14 @@ digraph SceneEditor {
     Y: number\n
     Z: number\n
   }"]
+  PointLight [label="{PointLight |
+    constructor()
+    |
+    castShadow: boolean\n
+    decay: number\n
+    distance: number\n
+    power: number
+  }"]
   SpotLight [label="{SpotLight |
     constructor()
     |
@@ -542,6 +550,7 @@ digraph SceneEditor {
  MaterialEditorComponent->Material
  MaterialEditorComponent->ThreeSceneService
  Point3DComponent->Point3
+ PointLight->Light
  SceneComponent->SceneModifierComponent
  SceneComponent->SceneSaverComponent
  SceneEditorComponent->Light
