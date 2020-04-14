@@ -204,6 +204,13 @@ digraph SceneEditor {
     distance: number\n
     power: number
   }"]
+ PointLightHelper [label="{PointLightHelper |
+   constructor(light: THREE.PointLight)\n
+   update(light: THREE.PointLight): void
+   |
+   light: THREE.PointLight\n
+   positionSphere: THREE.Mesh
+ }"]
   SpotLight [label="{SpotLight |
     constructor()
     |
