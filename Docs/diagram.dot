@@ -206,6 +206,14 @@ digraph SceneEditor {
     penumbra: number\n
     power: number
   }"]
+ SpotLightHelper [label="{SpotLightHelper |
+   constructor(light: THREE.SpotLight)\n
+   update(light: THREE.SpotLight): void
+   |
+   light: THREE.SpotLight\n
+   positionSphere: THREE.Mesh\n
+   targetSphere: THREE.Mesh
+ }"]
 
  // Template classes.
  node [fontname="Calibri", fillcolor="lightyellow"];
@@ -519,6 +527,7 @@ digraph SceneEditor {
  LightEditorComponent->RectareaLightEditorComponent
  LightEditorComponent->SpotLight
  LightEditorComponent->SpotLightEditorComponent
+ LightEditorComponent->SpotLightHelper
  LightEditorComponent->ThreeSceneService
  LightsLibraryEditorComponent->Light
  LightsLibraryEditorComponent->LightEditorComponent

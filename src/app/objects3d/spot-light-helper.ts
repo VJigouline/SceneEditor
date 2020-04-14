@@ -1,14 +1,14 @@
 import * as THREE from 'three';
 
-export class DirectionalLightHelper extends THREE.Object3D {
-
+export class SpotLightHelper extends THREE.Object3D {
     public positionSphere: THREE.Mesh;
     public targetSphere: THREE.Mesh;
+    private lightCone: THREE.Mesh;
     private material: THREE.MeshPhysicalMaterial;
     private arrow: THREE.ArrowHelper;
 
-    public light: THREE.DirectionalLight;
-    constructor(light: THREE.DirectionalLight) {
+    public light: THREE.SpotLight;
+    constructor(light: THREE.SpotLight) {
         super();
         this.light = light;
         this.create3DObjects();
@@ -37,7 +37,7 @@ export class DirectionalLightHelper extends THREE.Object3D {
         this.children.push(this.arrow);
     }
 
-    public update(light: THREE.DirectionalLight): void {
+    public update(light: THREE.SpotLight): void {
         this.positionSphere.position.set(light.position.x,
             light.position.y, light.position.z);
         this.targetSphere.position.set(light.target.position.x,
