@@ -18,7 +18,7 @@ export class NewLightComponent implements OnInit {
     { type: LightType.SPOT, name: 'Spotlight' },
     { type: LightType.POINT, name: 'Point' },
     { type: LightType.HEMISPHERE, name: 'Hemisphere' },
-    { type: LightType.RECT_AREA, name: 'Rectangular area' }
+   // { type: LightType.RECT_AREA, name: 'Rectangular area' }
   ];
   constructor() { }
 
