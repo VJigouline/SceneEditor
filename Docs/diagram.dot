@@ -40,6 +40,13 @@ digraph SceneEditor {
     groundColour: string\n
     castShadow: boolean
   }"]
+ HemisphereLightHelper [label="{HemisphereLightHelper |
+   constructor(light: THREE.HemisphereLight)\n
+   update(light: THREE.HemisphereLight): void
+   |
+   light: THREE.HemisphereLight\n
+   positionSphere: THREE.Mesh
+ }"]
  Light [label="{Light |
    constructor(type: LightType)\n
    public static CreateLight(light: THREE.Light): Light
