@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { MatCheckboxModule, MatCheckboxChange } from '@angular/material/checkbox';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 import { Light, DirectionalLight } from '../light';
 import { Point3 } from '../../geometries/point3';
