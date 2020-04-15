@@ -33,8 +33,7 @@ export class DirectionalLightHelper extends THREE.Object3D {
         const dir = this.light.target.position.clone().sub(this.light.position);
         const len = dir.length();
         dir.normalize();
-        this.arrow = new THREE.ArrowHelper(dir, this.light.position, len,
-            this.light.color.getHex(), 60, 20);
+        this.arrow = new THREE.ArrowHelper(dir, this.light.position, len, this.light.color.getHex());
         this.children.push(this.arrow);
     }
 

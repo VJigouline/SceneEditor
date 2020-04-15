@@ -34,7 +34,7 @@ export class SpotLightHelper extends THREE.Object3D {
         const len = dir.length();
         dir.normalize();
         this.arrow = new THREE.ArrowHelper(dir, this.light.position, len,
-            this.light.color.getHex(), 60, 20);
+            this.light.color.getHex());
         this.children.push(this.arrow);
     }
 

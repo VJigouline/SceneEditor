@@ -3,6 +3,7 @@ import { LightType } from '../lights/light-type.enum';
 import { MatSliderChange } from '@angular/material/slider';
 import { ThreeSceneService } from '../three-scene.service';
 import { Light, DirectionalLight, PointLight, SpotLight, HemisphereLight } from '../lights/light';
+import { Lights } from '../lights/lights';
 import { DirectionalLightHelper } from '../objects3d/directional-light-helper';
 import { HemisphereLightHelper } from '../objects3d/hemisphere-light-helper';
 import { PointLightHelper } from '../objects3d/point-light-helper';
@@ -34,8 +35,8 @@ export class LightEditorComponent implements OnInit {
 
   public get Light(): Light {
     if (this.light == null) {
-      this.Lights = this.getLights();
-      if (this.Lights.length > 0) { this.light = this.Lights[0]; }
+      this.Lights.lights = this.getLights();
+      if (this.Lights.lights.length > 0) { this.light = this.Lights.lights[0]; }
     }
 
     return this.light;
@@ -43,14 +44,14 @@ export class LightEditorComponent implements OnInit {
   public set Light(value: Light) { this.light = value; }
   public maxIntensity = 20;
 
-  public Lights: Light[] = [];
+  public Lights: Lights = new Lights();
 
   constructor(
     private sceneService: ThreeSceneService
   ) { }
 
   ngOnInit() {
-    this.Lights = this.getLights();
+    this.Lights.lights = this.getLights();
     this.light = this.Lights[0];
     this.sceneService.transformControl.addEventListener(
       'objectChange', this.onObjectChange.bind(this));
@@ -64,34 +65,34 @@ export class LightEditorComponent implements OnInit {
     switch (type) {
       case LightType.AMBIENT:
         this.light = new Light(type);
-        this.light.name = 'Ambient ' + this.Lights.length;
+        this.light.name = 'Ambient ' + this.Lights.lights.length;
         break;
       case LightType.DIRECTIONAL:
         this.light = new DirectionalLight();
-        this.light.name = 'Directional ' + this.Lights.length;
+        this.light.name = 'Directional ' + this.Lights.lights.length;
         scene.add((this.light.light as THREE.DirectionalLight).target);
         break;
       case LightType.HEMISPHERE:
         this.light = new HemisphereLight();
-        this.light.name = 'Hemishpere ' + this.Lights.length;
+        this.light.name = 'Hemishpere ' + this.Lights.lights.length;
         break;
       case LightType.POINT:
         this.light = new PointLight();
-        this.light.name = 'Point ' + this.Lights.length;
+        this.light.name = 'Point ' + this.Lights.lights.length;
         break;
       case LightType.RECT_AREA:
         this.light = new Light(type);
-        this.light.name = 'Rect. area ' + this.Lights.length;
+        this.light.name = 'Rect. area ' + this.Lights.lights.length;
         break;
       case LightType.SPOT:
         this.light = new SpotLight();
         this.light.light.position.z = 1000;
-        this.light.name = 'Spotlight ' + this.Lights.length;
+        this.light.name = 'Spotlight ' + this.Lights.lights.length;
         scene.add((this.light.light as THREE.SpotLight).target);
         break;
     }
     scene.add(this.light.light);
-    this.Lights.push(this.light);
+    this.Lights.lights.push(this.light);
     this.newLight.emit(this.light);
     this.changeSelection(this.light);
    }
@@ -286,14 +287,14 @@ export class LightEditorComponent implements OnInit {
 
   public onDelete(): void {
     this.sceneService.removeObjectFromScene(this.light.light);
-    const index = this.Lights.indexOf(this.light);
+    const index = this.Lights.lights.indexOf(this.light);
     if (index > -1) {
       delete this.Lights[index];
-      this.Lights.splice(index, 1);
+      this.Lights.lights.splice(index, 1);
       if (index > 0) {
         this.light = this.Lights[index - 1];
       } else {
-        if (this.Lights.length > 0) {
+        if (this.Lights.lights.length > 0) {
           this.light = this.Lights[0];
         } else {
           this.light = null;
