@@ -15,7 +15,7 @@ export class SpotLightHelper extends THREE.Object3D {
     }
 
     private create3DObjects() {
-        let geom = new THREE.SphereGeometry(10, 16, 16);
+        let geom = new THREE.SphereGeometry(20, 16, 16);
         this.material = new THREE.MeshPhysicalMaterial({color: this.light.color,
             emissive: this.light.color.clone().multiplyScalar(0.5)});
         this.positionSphere = new THREE.Mesh(geom, this.material);
@@ -23,7 +23,7 @@ export class SpotLightHelper extends THREE.Object3D {
             this.light.position.y, this.light.position.z);
         this.positionSphere.parent = this;
         this.children.push(this.positionSphere);
-        geom = new THREE.SphereGeometry(5, 16, 16);
+        geom = new THREE.SphereGeometry(10, 16, 16);
         this.targetSphere = new THREE.Mesh(geom, this.material);
         this.targetSphere.position.set(this.light.target.position.x,
             this.light.target.position.y, this.light.target.position.z);
@@ -33,7 +33,8 @@ export class SpotLightHelper extends THREE.Object3D {
         const dir = this.light.target.position.clone().sub(this.light.position);
         const len = dir.length();
         dir.normalize();
-        this.arrow = new THREE.ArrowHelper(dir, this.light.position, len, this.light.color.getHex());
+        this.arrow = new THREE.ArrowHelper(dir, this.light.position, len,
+            this.light.color.getHex(), 60, 20);
         this.children.push(this.arrow);
     }
 
