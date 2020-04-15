@@ -59,6 +59,11 @@ digraph SceneEditor {
     position: Point3\n
     target: Point3
  }"]
+ Lights [label="{Lights |
+   |
+    name: string\n
+    lights: Array\<Light\>
+ }"]
  LightsLibrary [label="{LightsLibrary |
    |
  }"]
@@ -339,7 +344,7 @@ digraph SceneEditor {
    @Output() newLight: Light\n
    @Output() changedLight: Light\n
    lightType: typeof LightType\n
-   Lights: Light[]\n
+   Lights: Lights\n
    Light: Light\n
    maxIntensity: number\n
 }"]
@@ -570,6 +575,7 @@ digraph SceneEditor {
  LightEditorComponent->HemisphereLightEditorComponent
  LightEditorComponent->HemisphereLightHelper
  LightEditorComponent->Light
+ LightEditorComponent->Lights
  LightEditorComponent->LightType
  LightEditorComponent->NewLightComponent
  LightEditorComponent->PointLight
@@ -580,6 +586,7 @@ digraph SceneEditor {
  LightEditorComponent->SpotLightEditorComponent
  LightEditorComponent->SpotLightHelper
  LightEditorComponent->ThreeSceneService
+ Lights->Light
  LightsLibraryEditorComponent->Light
  LightsLibraryEditorComponent->LightEditorComponent
  LightService->Light
