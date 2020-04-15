@@ -3,96 +3,106 @@
         <mat-card-title>Light editor</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <div class="row">
-            <div class="col">
+        <ng-container *ngIf="Lights.length > 0">
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <mat-label>Select light to edit</mat-label>
+                        <mat-select [(ngModel)]= "Light"
+                        (selectionChange)="onSelectionChange($event)"
+                        >
+                            <mat-option *ngFor="let light of Lights" [value]="light">{{light.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <mat-label>Light name</mat-label>
+                        <input [(ngModel)]="Light.name" matInput placeholder="Enter light name">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
                 <mat-form-field class="full-width">
-                    <mat-label>Select light to edit</mat-label>
-                    <mat-select [(ngModel)]= "Light"
-                    (selectionChange)="onSelectionChange($event)"
+                    <input matInput placeholder="Maximum intensity"
+                    [(ngModel)] = "maxIntensity"
                     >
-                        <mat-option *ngFor="let light of Lights" [value]="light">{{light.name}}</mat-option>
-                    </mat-select>
                 </mat-form-field>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <mat-form-field class="full-width">
-                    <mat-label>Light name</mat-label>
-                    <input [(ngModel)]="Light.name" matInput placeholder="Enter light name">
-                </mat-form-field>
+            <div class="row">
+                <div class="col label">
+                Intensity {{Light.intensity}}
+                <mat-slider min="0" [max]="maxIntensity" [step]="maxIntensity / 100.0"
+                (input)="onIntensityChanged($event)"
+                [(value)]="Light.intensity"
+                ></mat-slider>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col">
-              <mat-form-field class="full-width">
-                <input matInput placeholder="Maximum intensity"
-                [(ngModel)] = "maxIntensity"
-                >
-              </mat-form-field>
+            <div *ngIf="Light.type == lightType.AMBIENT" class="row">
+                <div class="col">
+                    <app-ambient-light-editor
+                    [Light]="Light"
+                    (lightChange)="onLightChanged($event)"
+                    ></app-ambient-light-editor>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col label">
-              Intensity {{Light.intensity}}
-              <mat-slider min="0" [max]="maxIntensity" [step]="maxIntensity / 100.0"
-              (input)="onIntensityChanged($event)"
-              [(value)]="Light.intensity"
-              ></mat-slider>
+            <div *ngIf="Light.type == lightType.DIRECTIONAL" class="row">
+                <div class="col">
+                    <app-directional-light-editor
+                    [Light]="Light"
+                    (lightChange)="onLightChanged($event)"
+                    ></app-directional-light-editor>
+                </div>
             </div>
-        </div>
-        <div *ngIf="Light.type == lightType.AMBIENT" class="row">
-            <div class="col">
-                <app-ambient-light-editor
-                [Light]="Light"
-                (lightChange)="onLightChanged($event)"
-                ></app-ambient-light-editor>
+            <div *ngIf="Light.type == lightType.HEMISPHERE" class="row">
+                <div class="col">
+                    <app-hemisphere-light-editor
+                    [Light]="Light"
+                    (lightChange)="onLightChanged($event)"
+                    >
+                    </app-hemisphere-light-editor>
+                </div>
             </div>
-        </div>
-        <div *ngIf="Light.type == lightType.DIRECTIONAL" class="row">
-            <div class="col">
-                <app-directional-light-editor
-                [Light]="Light"
-                (lightChange)="onLightChanged($event)"
-                ></app-directional-light-editor>
+            <div *ngIf="Light.type == lightType.POINT" class="row">
+                <div class="col">
+                    <app-point-light-editor
+                    [Light]="Light"
+                    (lightChange)="onLightChanged($event)"
+                    ></app-point-light-editor>
+                </div>
             </div>
-        </div>
-        <div *ngIf="Light.type == lightType.HEMISPHERE" class="row">
-            <div class="col">
-                <app-hemisphere-light-editor
-                [Light]="Light"
-                (lightChange)="onLightChanged($event)"
-                >
-                </app-hemisphere-light-editor>
+            <div *ngIf="Light.type == lightType.RECT_AREA" class="row">
+                <div class="col">
+                    <app-rectarea-light-editor></app-rectarea-light-editor>
+                </div>
             </div>
-        </div>
-        <div *ngIf="Light.type == lightType.POINT" class="row">
-            <div class="col">
-                <app-point-light-editor
-                [Light]="Light"
-                (lightChange)="onLightChanged($event)"
-                ></app-point-light-editor>
+            <div *ngIf="Light.type == lightType.SPOT" class="row">
+                <div class="col">
+                    <app-spot-light-editor
+                    [Light]="Light"
+                    (lightChange)="onLightChanged($event)"
+                    ></app-spot-light-editor>
+                </div>
             </div>
-        </div>
-        <div *ngIf="Light.type == lightType.RECT_AREA" class="row">
-            <div class="col">
-                <app-rectarea-light-editor></app-rectarea-light-editor>
-            </div>
-        </div>
-        <div *ngIf="Light.type == lightType.SPOT" class="row">
-            <div class="col">
-                <app-spot-light-editor
-                [Light]="Light"
-                (lightChange)="onLightChanged($event)"
-                ></app-spot-light-editor>
-            </div>
-        </div>
+        </ng-container>
         <div class="row">
             <div class="col">
               <app-new-light
                  (newLight) = "onNewLight($event)"
               ></app-new-light>
            </div>
+        </div>
+        <div *ngIf="Lights.length > 0" class="row">
+            <div class="col">
+                <button mat-raised-button color="primary" 
+                type="button"
+                (click)="onDelete()"
+                >Delete</button>                   
+            </div>
         </div>
     </mat-card-content>
 </mat-card>

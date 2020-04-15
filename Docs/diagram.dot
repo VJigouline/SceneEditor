@@ -329,6 +329,7 @@ digraph SceneEditor {
    onIntensityChanged(event: MatSliderChange): void\n
    onLightChanged(event: Light): void
    onNewLight(type: LightType): void\n
+   onDelete(): void\n
    onSave()\n
    onSaveAll()\n
    onNew()\n

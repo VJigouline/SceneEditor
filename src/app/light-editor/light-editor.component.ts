@@ -35,7 +35,7 @@ export class LightEditorComponent implements OnInit {
   public get Light(): Light {
     if (this.light == null) {
       this.Lights = this.getLights();
-      this.light = this.Lights[0];
+      if (this.Lights.length > 0) { this.light = this.Lights[0]; }
     }
 
     return this.light;
@@ -282,5 +282,24 @@ export class LightEditorComponent implements OnInit {
     pos = this.spotLightHelper.targetSphere.position;
     light.target.position.set(pos.x, pos.y, pos.z);
     this.spotLightHelper.update(light);
+  }
+
+  public onDelete(): void {
+    this.sceneService.removeObjectFromScene(this.light.light);
+    const index = this.Lights.indexOf(this.light);
+    if (index > -1) {
+      delete this.Lights[index];
+      this.Lights.splice(index, 1);
+      if (index > 0) {
+        this.light = this.Lights[index - 1];
+      } else {
+        if (this.Lights.length > 0) {
+          this.light = this.Lights[0];
+        } else {
+          this.light = null;
+        }
+      }
+      this.changedLight.emit(this.light);
+    }
   }
 }
