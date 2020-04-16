@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>{{data.title}}</h1>
+<div mat-dialog-content>
+  <p>{{datal.label}}<b>{{data.message}}</b></p>
+</div>
+<div mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="data.animal">Ok</button>
+    <button mat-button (click)="onNoClick()" cdkFocusInitial>Cancel</button>
+</div>

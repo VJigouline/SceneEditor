@@ -1,6 +1,11 @@
 digraph SceneEditor {
  // Interfaces.
  node [shape=record, fontname="Calibri italic", fontsize="14", style="filled", fillcolor="lightyellow", shape="record"];
+ DialogData [label="{DialogData |
+  title: string\n
+  label: string\n
+  message: string\n
+ }"]
  DragEvent [label="{DragEvent |
   object: THREE.Object3D\n
   target: DragControls\n
@@ -305,6 +310,12 @@ digraph SceneEditor {
    @Input() Light: Light\n
    Colour: string
 }"]
+ ConfirmationDialogComponent [label="{ConfirmationDialogComponent |
+   constructor(public dialogRef: MatDialogRef\<ConfirmationDialogComponent\>,\n
+    @Inject(MAT_DIALOG_DATA) public data: DialogData)\n
+   ngOnInit()
+   |
+}"]
  DirectionalLightEditorComponent [label="{DirectionalLightEditorComponent |
    constructor()\n
    ngOnInit()\n
@@ -557,6 +568,7 @@ digraph SceneEditor {
  // Inheritance.
  node [fillcolor="white"];
  AmbientLightEditorComponent->Light
+ ConfirmationDialogComponent->DialogData
  DirectionalLight->Light
  DirectionalLightEditorComponent->DirectionalLight
  DirectionalLightEditorComponent->Point3
