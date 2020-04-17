@@ -8,6 +8,8 @@ import { DirectionalLightHelper } from '../objects3d/directional-light-helper';
 import { HemisphereLightHelper } from '../objects3d/hemisphere-light-helper';
 import { PointLightHelper } from '../objects3d/point-light-helper';
 import { SpotLightHelper } from '../objects3d/spot-light-helper';
+import { ConfirmationDialogComponent } from '../user-controls/confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 import * as THREE from 'three';
 import { MatSelectChange } from '@angular/material/select';
@@ -47,7 +49,8 @@ export class LightEditorComponent implements OnInit {
   public Lights: Lights = new Lights();
 
   constructor(
-    private sceneService: ThreeSceneService
+    private sceneService: ThreeSceneService,
+    private confirmationDialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -286,21 +289,34 @@ export class LightEditorComponent implements OnInit {
   }
 
   public onDelete(): void {
-    this.sceneService.removeObjectFromScene(this.light.light);
-    const index = this.Lights.lights.indexOf(this.light);
-    if (index > -1) {
-      delete this.Lights[index];
-      this.Lights.lights.splice(index, 1);
-      if (index > 0) {
-        this.light = this.Lights[index - 1];
-      } else {
-        if (this.Lights.lights.length > 0) {
-          this.light = this.Lights[0];
-        } else {
-          this.light = null;
+    const dialogRef = this.confirmationDialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      data: {
+        title: 'Delete light',
+        label: 'Do you want to delete: ',
+        message: this.Light.name
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.sceneService.removeObjectFromScene(this.light.light);
+        const index = this.Lights.lights.indexOf(this.light);
+        if (index > -1) {
+          delete this.Lights[index];
+          this.Lights.lights.splice(index, 1);
+          if (index > 0) {
+            this.light = this.Lights[index - 1];
+          } else {
+            if (this.Lights.lights.length > 0) {
+              this.light = this.Lights[0];
+            } else {
+              this.light = null;
+            }
+          }
+          this.changedLight.emit(this.light);
         }
       }
-      this.changedLight.emit(this.light);
-    }
+    });
   }
 }

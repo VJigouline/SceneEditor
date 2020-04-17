@@ -340,7 +340,8 @@ digraph SceneEditor {
    @Input() Light: PointLight
 }"]
  LightEditorComponent [label="{LightEditorComponent |
-   constructor(private sceneService: ThreeSceneService)\n
+   constructor(private sceneService: ThreeSceneService,\n
+   private confirmationDialog: MatDialog)\n
    ngOnInit()\n
    onIntensityChanged(event: MatSliderChange): void\n
    onLightChanged(event: Light): void
@@ -583,6 +584,7 @@ digraph SceneEditor {
  LightEditorComponent->DirectionalLightEditorComponent
  LightEditorComponent->DirectionalLightHelper
  LightEditorComponent->DragControls
+ LightEditorComponent->ConfirmationDialogComponent
  LightEditorComponent->HemisphereLight
  LightEditorComponent->HemisphereLightEditorComponent
  LightEditorComponent->HemisphereLightHelper

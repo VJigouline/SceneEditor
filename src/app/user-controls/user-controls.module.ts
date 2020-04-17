@@ -7,6 +7,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import {MatDialogModule} from '@angular/material/dialog';
   imports: [
     CommonModule,
     FormsModule,
+    MatCardModule,
     MatCheckboxModule,
     MatGridListModule,
     MatInputModule,
