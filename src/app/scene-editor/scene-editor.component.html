@@ -13,13 +13,22 @@
             </ngx-file-drop>
         </as-split-area>
         <as-split-area size="20">
-            <app-lights-library-editor #LightsLibraryEditor
-            (changedLight)="onLightChanged($event)"
-            ></app-lights-library-editor>
-            <app-material-editor #MaterialEditor
-            (materialChange)="onMaterialChange($event)"
-            ></app-material-editor>
-            <app-scene (sceneChanged)="onSceneChange($event)"></app-scene>
+            <mat-tab-group class="tabheader">
+                <mat-tab label="Lights" class="tabheader">
+                    <app-lights-library-editor #LightsLibraryEditor
+                    (changedLight)="onLightChanged($event)"
+                    ></app-lights-library-editor>
+                </mat-tab>
+                <mat-tab label="Materials" class="tabheader">
+                    <app-material-editor #MaterialEditor
+                    (materialChange)="onMaterialChange($event)"
+                    ></app-material-editor>
+                    </mat-tab>
+                <mat-tab label="Scene" class="tabheader">
+                    <app-scene (sceneChanged)="onSceneChange($event)"></app-scene>
+                </mat-tab>
+            </mat-tab-group>
+                
         </as-split-area>
     </as-split>
 </div>

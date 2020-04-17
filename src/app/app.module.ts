@@ -15,6 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatTabsModule } from '@angular/material/tabs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SceneSaverComponent } from './scene-saver/scene-saver.component';
 import { ColorPickerModule } from 'ngx-color-picker';
@@ -47,6 +48,7 @@ import { UserControlsModule } from './user-controls/user-controls.module';
     BrowserAnimationsModule,
     MatInputModule,
     MatButtonModule,
+    MatTabsModule,
     MatSelectModule,
     MatRadioModule,
     MatCardModule,
