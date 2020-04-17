@@ -1,5 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Light } from '../lights/light';
+import { LightsLibraryService } from '../lights/lights-library.service';
+import { ThreeSceneService } from '../three-scene.service';
 
 @Component({
   selector: 'app-lights-library-editor',
@@ -13,24 +15,22 @@ export class LightsLibraryEditorComponent implements OnInit {
 
   // properties
 
-  constructor() { }
+  constructor(
+    private libraryService: LightsLibraryService,
+    private sceneService: ThreeSceneService
+  ) { }
 
   ngOnInit() {
+    this.libraryService.library.lights.push(this.sceneService.getLights());
   }
 
-  public setLights(lights: Light[]): void {
-  }
-
-  public onSave() {
+  public onSave(): void {
     alert('Save light');
   }
-  public onSaveAll() {
-    alert('Save library');
-  }
-  public onNew() {
+  public onNew(): void {
     alert('New light');
   }
-  public onLoad() {
+  public onLoad(): void {
     alert('Load light library');
   }
 

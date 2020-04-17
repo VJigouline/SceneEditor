@@ -6,6 +6,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { reject } from 'q';
 import { Light } from './lights/light';
+import { Lights } from './lights/lights';
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
 import { DragControls } from 'three/examples/jsm/controls/DragControls';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -265,17 +266,20 @@ export class ThreeSceneService {
     return this.material;
   }
 
-  public getLights(): Light[] {
-    const ret: Light[] = [];
+  public getLights(): Lights {
+    const ret: Lights = new Lights();
+    ret.name = 'Default';
 
-    for (const child of this.scene.children) {
+    const scene = this.scene == null ? this.getNewScene() : this.scene;
+
+    for (const child of scene.children) {
       if (!(child instanceof THREE.Light)) { continue; }
 
       const light = Light.CreateLight(child);
 
       if (!light) { continue; }
 
-      ret.push(light);
+      ret.lights.push(light);
     }
 
     return ret;

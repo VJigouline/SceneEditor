@@ -70,7 +70,7 @@ digraph SceneEditor {
     lights: Array\<Light\>
  }"]
  LightsLibrary [label="{LightsLibrary |
-   |
+   lights: Lights[];
  }"]
  MaterialLibrary [label="{MaterialLibrary |
    constructor(name: string, description: string)\n
@@ -361,10 +361,15 @@ digraph SceneEditor {
    maxIntensity: number\n
 }"]
  LightsLibraryEditorComponent [label="{LightsLibraryEditorComponent |
-   constructor()\n
+   constructor(
+      private libraryService: LightsLibraryService,\n
+      private sceneService: ThreeSceneService   
+   )\n
    ngOnInit()\n
-   setLights(lights: Light[]): void\n
-   onLightChanged(light: Light): void
+   onLightChanged(light: Light): void\n
+   onLoad(): void\n
+   onNew(): void\n
+   onSave(): void
    |
    @Output() changedLight: Light
 }"]
@@ -512,11 +517,10 @@ digraph SceneEditor {
 
  // Services
  node [fillcolor="sandybrown"]
- LightService [label="{LightService |
-   constructor()
- }"]
  LightsLibraryService [label="{LightsLibraryService |
    constructor()
+   |
+   library: LightsLibrary
  }"]
  MaterialService [label="{MaterialService |
    constructor()\n
@@ -548,7 +552,7 @@ digraph SceneEditor {
    getDragControl(objects: THREE.Object3D[]): DragControls\n
    setMaterial(material: THREE.Material): void\n
    getMaterial(): THREE.Material\n
-   getLights(): Light[]\n
+   getLights(): Lights\n
    onDragHoveron(event: DragEvent): void\n
    onTransformDraggingChanged(event: DraggingChangedEvent): void\n
    removeObjectFromScene(object: THREE.Object3D): void
@@ -601,9 +605,12 @@ digraph SceneEditor {
  LightEditorComponent->SpotLightHelper
  LightEditorComponent->ThreeSceneService
  Lights->Light
+ LightsLibrary->Lights
  LightsLibraryEditorComponent->Light
  LightsLibraryEditorComponent->LightEditorComponent
- LightService->Light
+ LightsLibraryEditorComponent->LightsLibraryService
+ LightsLibraryEditorComponent->ThreeSceneService
+ LightsLibraryService->LightsLibrary
  AppComponent->SceneEditorComponent
  AppModule->AppComponent
  MaterialLibraryService->MaterialLibrary
@@ -641,6 +648,8 @@ digraph SceneEditor {
  ThreeSceneService->DragEvent
  ThreeSceneService->DraggingChangedEvent
  ThreeSceneService->GLTFLoader
+ ThreeSceneService->Light
+ ThreeSceneService->Lights
  ThreeSceneService->OrbitControls
  ThreeSceneService->STLLoader
  ThreeSceneService->ThreeScene

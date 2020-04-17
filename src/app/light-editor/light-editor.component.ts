@@ -37,7 +37,7 @@ export class LightEditorComponent implements OnInit {
 
   public get Light(): Light {
     if (this.light == null) {
-      this.Lights.lights = this.getLights();
+      this.Lights = this.getLights();
       if (this.Lights.lights.length > 0) { this.light = this.Lights.lights[0]; }
     }
 
@@ -54,7 +54,7 @@ export class LightEditorComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.Lights.lights = this.getLights();
+    this.Lights = this.getLights();
     this.light = this.Lights[0];
     this.sceneService.transformControl.addEventListener(
       'objectChange', this.onObjectChange.bind(this));
@@ -110,7 +110,7 @@ export class LightEditorComponent implements OnInit {
     this.changedLight.emit(light);
   }
 
-  private getLights(): Light[] {
+  private getLights(): Lights {
     return this.sceneService.getLights();
   }
 
