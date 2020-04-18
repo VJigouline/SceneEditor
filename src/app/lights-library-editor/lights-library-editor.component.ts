@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Light } from '../lights/light';
 import { LightsLibraryService } from '../lights/lights-library.service';
 import { ThreeSceneService } from '../three-scene.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-lights-library-editor',
@@ -25,7 +26,9 @@ export class LightsLibraryEditorComponent implements OnInit {
   }
 
   public onSave(): void {
-    alert('Save light');
+    const json = JSON.stringify(this.libraryService.library);
+    const blob = new Blob([json], {type: 'text/plain;charset=utf-8'});
+    saveAs.saveAs(blob, this.libraryService.library.name + '.ltslib');
   }
   public onNew(): void {
     alert('New light');

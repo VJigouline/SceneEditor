@@ -3,6 +3,88 @@ import { v4 as uuid } from 'uuid';
 import * as THREE from 'three';
 import { Point3 } from '../geometries/point3';
 
+class LightExport {
+    private type: LightType;
+    private name: string;
+    private intensity: number;
+    private colour: string;
+
+    constructor(light: Light) {
+        this.type = light.type;
+        this.name = light.name;
+        this.intensity = light.intensity;
+        this.colour = light.colour;
+    }
+}
+
+class AmbientLightExport extends LightExport {
+    constructor(light: Light) {
+        super(light);
+    }
+}
+
+class DirectionalLightExport extends LightExport {
+    private position: Point3;
+    private target: Point3;
+    private castShadow: boolean;
+
+    constructor(light: DirectionalLight) {
+        super(light);
+        this.position = light.position;
+        this.target = light.target;
+        this.castShadow = light.castShadow;
+    }
+}
+
+class SpotLightExport extends LightExport {
+    private position: Point3;
+    private target: Point3;
+    private castShadow: boolean;
+    private angle: number;
+    private decay: number;
+    private penumbra: number;
+    private distance: number;
+
+    constructor(light: SpotLight) {
+        super(light);
+        this.position = light.position;
+        this.target = light.target;
+        this.castShadow = light.castShadow;
+        this.angle = light.angle;
+        this.decay = light.decay;
+        this.penumbra = light.penumbra;
+        this.distance = light.distance;
+    }
+}
+
+class PointLightExport extends LightExport {
+    private position: Point3;
+    private castShadow: boolean;
+    private decay: number;
+    private distance: number;
+
+    constructor(light: PointLight) {
+        super(light);
+        this.position = light.position;
+        this.castShadow = light.castShadow;
+        this.decay = light.decay;
+        this.distance = light.distance;
+    }
+}
+
+class HemisphereLightExport extends LightExport {
+    private position: Point3;
+    private castShadow: boolean;
+    private groundColour: string;
+
+    constructor(light: HemisphereLight) {
+        super(light);
+        this.position = light.position;
+        this.castShadow = light.castShadow;
+        this.groundColour = light.groundColour;
+    }
+}
+
 export class Light {
     type: LightType;
     public light: THREE.Light;
@@ -139,6 +221,23 @@ export class Light {
         }
 
         return ret;
+    }
+
+    public toJSON(): LightExport {
+        switch (this.type) {
+            case LightType.AMBIENT:
+                return new AmbientLightExport(this);
+            case LightType.DIRECTIONAL:
+                return new DirectionalLightExport(this as unknown as DirectionalLight);
+            case LightType.SPOT:
+                return new SpotLightExport(this as unknown as SpotLight);
+            case LightType.POINT:
+                return new PointLightExport(this as unknown as PointLight);
+            case LightType.HEMISPHERE:
+                return new HemisphereLightExport(this as unknown as HemisphereLight);
+        }
+
+        return null;
     }
 }
 

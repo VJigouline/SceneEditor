@@ -54,7 +54,8 @@ digraph SceneEditor {
  }"]
  Light [label="{Light |
    constructor(type: LightType)\n
-   public static CreateLight(light: THREE.Light): Light
+   static CreateLight(light: THREE.Light): Light\n
+   public toJSON(): LightExport
    |
     name: string\n
     intensity: number\n
@@ -70,7 +71,8 @@ digraph SceneEditor {
     lights: Array\<Light\>
  }"]
  LightsLibrary [label="{LightsLibrary |
-   lights: Lights[];
+    name: string\n
+    lights: Lights[]
  }"]
  MaterialLibrary [label="{MaterialLibrary |
    constructor(name: string, description: string)\n
