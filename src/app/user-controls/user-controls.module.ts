@@ -6,12 +6,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
+import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 
 
 @NgModule({
-  declarations: [Point3DComponent, ConfirmationDialogComponent],
+  declarations: [Point3DComponent, ConfirmationDialogComponent, ErrorDialogComponent],
   imports: [
     CommonModule,
     FormsModule,

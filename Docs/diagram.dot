@@ -330,6 +330,12 @@ digraph SceneEditor {
    @Output() lightChange: Light\n
    @Input() Light: DirectionalLight
 }"]
+ ErrorDialogComponent [label="{ErrorDialogComponent |
+   constructor(public dialogRef: MatDialogRef\<ErrorDialogComponent\>,\n
+    @Inject(MAT_DIALOG_DATA) public data: DialogData)\n
+   ngOnInit()
+   |
+}"]
  HemisphereLightEditorComponent [label="{HemisphereLightEditorComponent |
    constructor()\n
    ngOnInit()\n
@@ -580,6 +586,7 @@ digraph SceneEditor {
  DirectionalLightEditorComponent->DirectionalLight
  DirectionalLightEditorComponent->Point3
  DirectionalLightEditorComponent->Point3DComponent
+ ErrorDialogComponent->DialogData
  HemisphereLight->Light
  HemisphereLightEditorComponent->HemisphereLight
  Light->LightType
