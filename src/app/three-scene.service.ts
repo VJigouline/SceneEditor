@@ -7,9 +7,11 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { reject } from 'q';
 import { Light } from './lights/light';
 import { Lights } from './lights/lights';
+import { LightsLibraryService } from './lights/lights-library.service';
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
 import { DragControls } from 'three/examples/jsm/controls/DragControls';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { LightType } from './lights/light-type.enum';
 
 interface ViewerFile extends File {
   relativePath: string;
@@ -50,7 +52,7 @@ export class ThreeSceneService {
   public orbitControls: OrbitControls;
 
   constructor(
-// private http: HttpClient
+    private lightsLibraryService: LightsLibraryService
   ) { }
 
   public getScene(): THREE.Scene {
@@ -65,21 +67,31 @@ export class ThreeSceneService {
 
   public getNewScene(): THREE.Scene {
 
+    const lib = this.lightsLibraryService.getDefaultLibrary();
+
+    if (lib.current >= lib.lights.length) {
+      lib.current = lib.lights.length - 1;
+    }
+
     this.scene = new THREE.Scene();
-    const ambientLight = new THREE.AmbientLight('#050505', 1);
-    ambientLight.name = 'Ambient';
-    this.scene.add(ambientLight);
-    let light = new THREE.DirectionalLight('#ffffff', 3);
-    light.name = 'Directional 1';
-    light.position.set(0, 1000, 1000);
-    this.scene.add(light);
-    this.scene.add(light.target);
-    light = new THREE.DirectionalLight('#ffffff', 4);
-    light.name = 'Directional 2';
-    light.position.set(0, -1000, -1000);
-    this.scene.add(light);
-    this.scene.add(light.target);
     this.transformControl = null;
+
+    if (lib.current < 0) { return; }
+
+    const lights = lib.lights[lib.current];
+    for (const l of lights.lights) {
+      this.scene.add(l.light);
+      switch (l.type) {
+        case LightType.DIRECTIONAL:
+          const dl = l.light as THREE.DirectionalLight;
+          this.scene.add(dl.target);
+          break;
+        case LightType.SPOT:
+          const sl = l.light as THREE.SpotLight;
+          this.scene.add(sl.target);
+          break;
+      }
+    }
 
     return this.scene;
   }

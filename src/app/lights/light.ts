@@ -239,6 +239,17 @@ export class Light {
 
         return null;
     }
+
+    public clone(): Light {
+        const ret = new Light(this.type);
+        ret.name = this.name;
+        ret.intensity = this.intensity;
+        ret.colour = this.colour;
+        ret.position = this.position;
+        ret.target = this.target;
+
+        return ret;
+    }
 }
 
 export class DirectionalLight extends Light {
@@ -251,6 +262,13 @@ export class DirectionalLight extends Light {
 
     constructor() {
         super(LightType.DIRECTIONAL);
+    }
+
+    public clone(): DirectionalLight {
+        const ret = super.clone() as DirectionalLight;
+        ret.castShadow = this.castShadow;
+
+        return ret;
     }
 }
 
@@ -295,6 +313,18 @@ export class SpotLight extends Light {
     constructor() {
         super(LightType.SPOT);
     }
+
+    public clone(): SpotLight {
+        const ret = super.clone() as SpotLight;
+        ret.castShadow = this.castShadow;
+        ret.angle = this.angle;
+        ret.decay = this.decay;
+        ret.distance = this.distance;
+        ret.penumbra = this.penumbra;
+        ret.power = this.power;
+
+        return ret;
+    }
 }
 
 export class PointLight extends Light {
@@ -326,6 +356,16 @@ export class PointLight extends Light {
     constructor() {
         super(LightType.POINT);
     }
+
+    public clone(): PointLight {
+        const ret = super.clone() as PointLight;
+        ret.castShadow = this.castShadow;
+        ret.decay = this.decay;
+        ret.distance = this.distance;
+        ret.power = this.power;
+
+        return ret;
+    }
 }
 
 export class HemisphereLight extends Light {
@@ -345,5 +385,13 @@ export class HemisphereLight extends Light {
 
     constructor() {
         super(LightType.HEMISPHERE);
+    }
+
+    public clone(): HemisphereLight {
+        const ret = super.clone() as HemisphereLight;
+        ret.castShadow = this.castShadow;
+        ret.groundColour = this.groundColour;
+
+        return ret;
     }
 }

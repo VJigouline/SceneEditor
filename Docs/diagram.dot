@@ -27,7 +27,8 @@ digraph SceneEditor {
  // Classes.
  node [fontname="Calibri", fillcolor="white"];
  DirectionalLight [label="{DirectionalLight |
-   constructor()
+   constructor()\n
+   clone(): DirectionalLight
    |
    castShadow: boolean
  }"]
@@ -40,7 +41,8 @@ digraph SceneEditor {
    targetSphere: THREE.Mesh
  }"]
   HemisphereLight [label="{HemisphereLight |
-    constructor()
+    constructor()\n
+    clone(): HemisphereLight
     |
     groundColour: string\n
     castShadow: boolean
@@ -55,7 +57,8 @@ digraph SceneEditor {
  Light [label="{Light |
    constructor(type: LightType)\n
    static CreateLight(light: THREE.Light): Light\n
-   public toJSON(): LightExport
+   clone(): Light\n
+   toJSON(): LightExport
    |
     name: string\n
     intensity: number\n
@@ -66,11 +69,14 @@ digraph SceneEditor {
     target: Point3
  }"]
  Lights [label="{Lights |
+    clone(): Lights
    |
     name: string\n
     lights: Array\<Light\>
  }"]
  LightsLibrary [label="{LightsLibrary |
+    clone(): LightsLibrary
+    |
     name: string\n
     lights: Lights[]
  }"]
@@ -222,7 +228,8 @@ digraph SceneEditor {
     Z: number\n
   }"]
   PointLight [label="{PointLight |
-    constructor()
+    constructor()\n
+    clone(): PointLight
     |
     castShadow: boolean\n
     decay: number\n
@@ -237,7 +244,8 @@ digraph SceneEditor {
    positionSphere: THREE.Mesh
  }"]
   SpotLight [label="{SpotLight |
-    constructor()
+    constructor()\n
+    clone(): SpotLight
     |
     castShadow: boolean\n
     angle: number\n
@@ -526,7 +534,9 @@ digraph SceneEditor {
  // Services
  node [fillcolor="sandybrown"]
  LightsLibraryService [label="{LightsLibraryService |
-   constructor()
+   constructor(private http: HttpClient,\n
+   private errorDialog: MatDialog)\n
+   getDefaultLibrary(): LightsLibrary
    |
    library: LightsLibrary
  }"]
@@ -546,7 +556,7 @@ digraph SceneEditor {
    currentIndex = 0;
  }"]
  ThreeSceneService [label="{ThreeSceneService |
-   constructor()\n
+   constructor(private lightsLibraryService: LightsLibraryService)\n
    getScene(): THREE.Scene\n
    getNewScene(): THREE.Scene\n
    getSceneJSON(): string\n
@@ -613,12 +623,18 @@ digraph SceneEditor {
  LightEditorComponent->SpotLightEditorComponent
  LightEditorComponent->SpotLightHelper
  LightEditorComponent->ThreeSceneService
+ Lights->DirectionalLight
+ Lights->HemisphereLight
  Lights->Light
+ Lights->LightType
+ Lights->PointLightEditorComponent
+ Lights->SpotLight
  LightsLibrary->Lights
  LightsLibraryEditorComponent->Light
  LightsLibraryEditorComponent->LightEditorComponent
  LightsLibraryEditorComponent->LightsLibraryService
  LightsLibraryEditorComponent->ThreeSceneService
+ LightsLibraryService->ErrorDialogComponent
  LightsLibraryService->LightsLibrary
  AppComponent->SceneEditorComponent
  AppModule->AppComponent
@@ -659,6 +675,8 @@ digraph SceneEditor {
  ThreeSceneService->GLTFLoader
  ThreeSceneService->Light
  ThreeSceneService->Lights
+ ThreeSceneService->LightsLibraryService
+ ThreeSceneService->LightType
  ThreeSceneService->OrbitControls
  ThreeSceneService->STLLoader
  ThreeSceneService->ThreeScene

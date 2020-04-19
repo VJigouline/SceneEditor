@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { NewLightComponent } from './new-light/new-light.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -30,6 +31,7 @@ import { UserControlsModule } from '../user-controls/user-controls.module';
   ],
   imports: [
     CommonModule,
+    HttpClientModule,
     MatInputModule,
     MatButtonModule,
     MatCheckboxModule,
