@@ -7,6 +7,7 @@ export class Lights {
 
     public clone(): Lights {
         const ret = new Lights();
+        ret.name = this.name;
 
         for (const light of this.lights) {
             if (!light.clone) {

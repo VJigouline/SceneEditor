@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Lights } from './lights';
 import { LightsLibrary } from './lights-library';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -12,7 +13,28 @@ import DefaultLibrary from '../../assets/lights/default.json';
 })
 export class LightsLibraryService {
 
-  public library = new LightsLibrary();
+  private library: LightsLibrary;
+  public get Library(): LightsLibrary {
+    if (!this.library) { this.library = this.getDefaultLibrary(); }
+
+    return this.library;
+  }
+
+  public get currentLights(): Lights {
+
+    if (!this.library) { return null; }
+
+    if (0 <= this.library.current && this.library.current < this.library.lights.length) {
+      return this.library.lights[this.library.current];
+    }
+
+    if (this.library.lights.length > 0) {
+      this.library.current = 0;
+      return this.library.lights[0];
+    }
+
+    return null;
+  }
 
   constructor(
     private http: HttpClient,
@@ -23,6 +45,8 @@ export class LightsLibraryService {
     const ret = DefaultLibrary as LightsLibrary;
     const lib = new LightsLibrary();
     ret.clone = lib.clone.bind(ret);
+    if (ret.current === undefined) { ret.current = 0; }
+
     return ret.clone();
   }
 

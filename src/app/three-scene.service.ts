@@ -67,7 +67,7 @@ export class ThreeSceneService {
 
   public getNewScene(): THREE.Scene {
 
-    const lib = this.lightsLibraryService.getDefaultLibrary();
+    const lib = this.lightsLibraryService.Library;
 
     if (lib.current >= lib.lights.length) {
       lib.current = lib.lights.length - 1;

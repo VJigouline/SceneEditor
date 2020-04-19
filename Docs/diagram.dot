@@ -385,9 +385,12 @@ digraph SceneEditor {
    onLightChanged(light: Light): void\n
    onLoad(): void\n
    onNew(): void\n
-   onSave(): void
+   onSave(): void\n
+   onSelectionChange(change: MatSelectChange): void
    |
-   @Output() changedLight: Light
+   @Output() changedLight: Light\n
+   Library: LightsLibrary\n
+   Lights: Lights
 }"]
  MaterialEditorComponent [label="{MaterialEditorComponent |
    constructor(private sceneService: ThreeSceneService)\n
@@ -538,7 +541,8 @@ digraph SceneEditor {
    private errorDialog: MatDialog)\n
    getDefaultLibrary(): LightsLibrary
    |
-   library: LightsLibrary
+   Library: LightsLibrary\n
+   currentLights: Lights
  }"]
  MaterialService [label="{MaterialService |
    constructor()\n
@@ -631,10 +635,13 @@ digraph SceneEditor {
  Lights->SpotLight
  LightsLibrary->Lights
  LightsLibraryEditorComponent->Light
+ LightsLibraryEditorComponent->Lights
  LightsLibraryEditorComponent->LightEditorComponent
+ LightsLibraryEditorComponent->LightsLibrary
  LightsLibraryEditorComponent->LightsLibraryService
  LightsLibraryEditorComponent->ThreeSceneService
  LightsLibraryService->ErrorDialogComponent
+ LightsLibraryService->Lights
  LightsLibraryService->LightsLibrary
  AppComponent->SceneEditorComponent
  AppModule->AppComponent

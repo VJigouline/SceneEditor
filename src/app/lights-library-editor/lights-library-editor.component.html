@@ -3,9 +3,43 @@
         <mat-card-title>Lights library</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <app-light-editor
-        (changedLight) = onLightChanged($event);
-        ></app-light-editor>
+        <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width">
+                    <mat-label>Library name</mat-label>
+                    <input [(ngModel)]="Library.name" matInput placeholder="Enter library name">
+                </mat-form-field>
+            </div>
+        </div>
+        <ng-container *ngIf="Lights">
+            <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width">
+                    <mat-label>Select lights to edit</mat-label>
+                    <mat-select [(ngModel)]= "Lights"
+                    (selectionChange)="onSelectionChange($event)"
+                    >
+                        <mat-option *ngFor="let light of Library.lights" [value]="light">{{light.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width">
+                    <mat-label>Lights name</mat-label>
+                    <input [(ngModel)]="Lights.name" matInput placeholder="Enter lights name">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <app-light-editor
+                (changedLight) = onLightChanged($event);
+                ></app-light-editor>
+            </div>
+        </div>
+        </ng-container>
     </mat-card-content>
     <mat-card-actions>
         <button mat-raised-button color="primary" 

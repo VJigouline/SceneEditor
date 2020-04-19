@@ -9,6 +9,9 @@ export class LightsLibrary {
         const ret = new LightsLibrary();
         const lights = new Lights();
 
+        ret.name = this.name;
+        ret.current = this.current;
+
         for (const ls of this.lights) {
             if (!ls.clone) {
                 ls.clone = lights.clone.bind(ls);
