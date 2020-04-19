@@ -22,7 +22,7 @@ export class LightsLibraryService {
 
   public get currentLights(): Lights {
 
-    if (!this.library) { return null; }
+    if (!this.Library) { return null; }
 
     if (0 <= this.library.current && this.library.current < this.library.lights.length) {
       return this.library.lights[this.library.current];
@@ -48,6 +48,11 @@ export class LightsLibraryService {
     if (ret.current === undefined) { ret.current = 0; }
 
     return ret.clone();
+  }
+
+  public setCurrentLights(lights: Lights) {
+    const index = this.Library.lights.indexOf(lights);
+    if (index > -1) { this.Library.current = index; }
   }
 
   // public getLibrary(name: string): LightsLibrary {

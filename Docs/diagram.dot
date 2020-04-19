@@ -357,7 +357,8 @@ digraph SceneEditor {
 }"]
  LightEditorComponent [label="{LightEditorComponent |
    constructor(private sceneService: ThreeSceneService,\n
-   private confirmationDialog: MatDialog)\n
+   private confirmationDialog: MatDialog,\n
+   private libraryService: LightsLibraryService)\n
    ngOnInit()\n
    onIntensityChanged(event: MatSliderChange): void\n
    onLightChanged(event: Light): void
@@ -382,6 +383,7 @@ digraph SceneEditor {
       private sceneService: ThreeSceneService   
    )\n
    ngOnInit()\n
+   onClear(): void\n
    onLightChanged(light: Light): void\n
    onLoad(): void\n
    onNew(): void\n
@@ -539,7 +541,8 @@ digraph SceneEditor {
  LightsLibraryService [label="{LightsLibraryService |
    constructor(private http: HttpClient,\n
    private errorDialog: MatDialog)\n
-   getDefaultLibrary(): LightsLibrary
+   getDefaultLibrary(): LightsLibrary\n
+   setCurrentLights(lights: Lights)
    |
    Library: LightsLibrary\n
    currentLights: Lights
@@ -577,7 +580,8 @@ digraph SceneEditor {
    getLights(): Lights\n
    onDragHoveron(event: DragEvent): void\n
    onTransformDraggingChanged(event: DraggingChangedEvent): void\n
-   removeObjectFromScene(object: THREE.Object3D): void
+   removeObjectFromScene(object: THREE.Object3D): void\n
+   resetLights(): void
    |
    camera: THREE.OrthographicCamera\n
    public orbitControls: OrbitControls\n
@@ -617,6 +621,7 @@ digraph SceneEditor {
  LightEditorComponent->HemisphereLightHelper
  LightEditorComponent->Light
  LightEditorComponent->Lights
+ LightEditorComponent->LightsLibraryService
  LightEditorComponent->LightType
  LightEditorComponent->NewLightComponent
  LightEditorComponent->PointLight

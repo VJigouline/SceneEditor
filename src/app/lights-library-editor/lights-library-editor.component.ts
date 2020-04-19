@@ -18,16 +18,10 @@ export class LightsLibraryEditorComponent implements OnInit {
   @Output() changedLight = new EventEmitter<Light>();
 
   // properties
-  public get Lights(): Lights {
-    return this.libraryService.currentLights;
-  }
-  public set Lights(value: Lights) {
-    if (this.libraryService.currentLights == null) { return; }
-    this.libraryService.currentLights.name = value.name;
-  }
   public get Library(): LightsLibrary {
     return this.libraryService.Library;
   }
+  public Lights: Lights;
 
   constructor(
     private libraryService: LightsLibraryService,
@@ -35,6 +29,7 @@ export class LightsLibraryEditorComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.Lights = this.libraryService.currentLights;
   }
 
   public onSave(): void {
@@ -43,10 +38,19 @@ export class LightsLibraryEditorComponent implements OnInit {
     saveAs.saveAs(blob, this.libraryService.Library.name + '.ltslib');
   }
   public onNew(): void {
-    alert('New light');
+    this.Lights = new Lights();
+    this.Lights.name = 'Light set ' + this.libraryService.Library.lights.length;
+    this.libraryService.Library.current = this.libraryService.Library.lights.length;
+    this.libraryService.Library.lights.push(this.Lights);
+    this.sceneService.resetLights();
+    this.changedLight.emit(null);
   }
   public onLoad(): void {
     alert('Load light library');
+  }
+
+  public onClear(): void {
+
   }
 
   public onLightChanged(light: Light): void {
@@ -54,6 +58,9 @@ export class LightsLibraryEditorComponent implements OnInit {
   }
 
   public onSelectionChange(change: MatSelectChange): void {
-    // this.changeSelection(change.value as Light);
+    this.Lights = change.value as Lights;
+    this.libraryService.setCurrentLights(this.Lights);
+    this.sceneService.resetLights();
+    this.changedLight.emit(null);
   }
 }

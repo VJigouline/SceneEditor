@@ -67,19 +67,18 @@ export class ThreeSceneService {
 
   public getNewScene(): THREE.Scene {
 
-    const lib = this.lightsLibraryService.Library;
-
-    if (lib.current >= lib.lights.length) {
-      lib.current = lib.lights.length - 1;
-    }
-
     this.scene = new THREE.Scene();
     this.transformControl = null;
+    this.addCurrentLights();
 
-    if (lib.current < 0) { return; }
+    return this.scene;
+  }
 
-    const lights = lib.lights[lib.current];
-    for (const l of lights.lights) {
+  private addCurrentLights(): void {
+    const lts = this.lightsLibraryService.currentLights;
+    if (!lts) { return; }
+
+    for (const l of lts.lights) {
       this.scene.add(l.light);
       switch (l.type) {
         case LightType.DIRECTIONAL:
@@ -92,8 +91,6 @@ export class ThreeSceneService {
           break;
       }
     }
-
-    return this.scene;
   }
 
   public getSceneJSON(): string {
@@ -342,6 +339,27 @@ export class ThreeSceneService {
     const index = this.scene.children.indexOf(object);
     if (index > -1) {
       this.scene.children.splice(index, 1);
+    }
+  }
+
+  public resetLights(): void {
+    if (this.scene == null) { return; }
+    this.removeLights();
+    this.addCurrentLights();
+  }
+
+  private removeLights(): void {
+    if (this.scene == null) { return; }
+
+    const lights = new Array<THREE.Object3D>();
+
+    for (const child of this.scene.children) {
+      if (!(child instanceof THREE.Light)) { continue; }
+      lights.push(child);
+    }
+
+    for (const obj of lights) {
+      this.removeObjectFromScene(obj);
     }
   }
 }

@@ -10,6 +10,7 @@ import { PointLightHelper } from '../objects3d/point-light-helper';
 import { SpotLightHelper } from '../objects3d/spot-light-helper';
 import { ConfirmationDialogComponent } from '../user-controls/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { LightsLibraryService } from '../lights/lights-library.service';
 
 import * as THREE from 'three';
 import { MatSelectChange } from '@angular/material/select';
@@ -37,7 +38,6 @@ export class LightEditorComponent implements OnInit {
 
   public get Light(): Light {
     if (this.light == null) {
-      this.Lights = this.getLights();
       if (this.Lights.lights.length > 0) { this.light = this.Lights.lights[0]; }
     }
 
@@ -46,15 +46,17 @@ export class LightEditorComponent implements OnInit {
   public set Light(value: Light) { this.light = value; }
   public maxIntensity = 20;
 
-  public Lights: Lights = new Lights();
+  public get Lights(): Lights {
+    return this.libraryService.currentLights;
+  }
 
   constructor(
     private sceneService: ThreeSceneService,
-    private confirmationDialog: MatDialog
+    private confirmationDialog: MatDialog,
+    private libraryService: LightsLibraryService
   ) { }
 
   ngOnInit() {
-    this.Lights = this.getLights();
     this.light = this.Lights[0];
     this.sceneService.transformControl.addEventListener(
       'objectChange', this.onObjectChange.bind(this));
