@@ -11,26 +11,30 @@ export class Lights {
 
         for (const light of this.lights) {
             if (!light.clone) {
-                const l = new Light(light.type);
-                light.clone = l.clone.bind(light);
+                let l = new Light(light.type);
                 switch (light.type) {
                     case LightType.DIRECTIONAL:
+                        l = new DirectionalLight();
                         const dl = l as DirectionalLight;
                         (light as DirectionalLight).clone = dl.clone.bind(light);
                         break;
                     case LightType.POINT:
+                        l = new PointLight();
                         const pl = l as PointLight;
-                        (light as PointLight).clone = dl.clone.bind(light);
+                        (light as PointLight).clone = pl.clone.bind(light);
                         break;
                     case LightType.HEMISPHERE:
+                        l = new HemisphereLight();
                         const hl = l as HemisphereLight;
-                        (light as HemisphereLight).clone = dl.clone.bind(light);
+                        (light as HemisphereLight).clone = hl.clone.bind(light);
                         break;
                     case LightType.SPOT:
-                        const sl = l as SpotLight;
-                        (light as SpotLight).clone = dl.clone.bind(light);
-                        break;
+                        l = new SpotLight();
+                        l.copy(light);
+                        ret.lights.push(l);
+                        continue;
                 }
+                light.clone = l.clone.bind(light);
             }
             ret.lights.push(light.clone());
         }

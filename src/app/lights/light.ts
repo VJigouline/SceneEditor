@@ -44,6 +44,7 @@ class SpotLightExport extends LightExport {
     private decay: number;
     private penumbra: number;
     private distance: number;
+    private power: number;
 
     constructor(light: SpotLight) {
         super(light);
@@ -250,6 +251,14 @@ export class Light {
 
         return ret;
     }
+
+    public copy(light: Light): void {
+        this.name = light.name;
+        this.intensity = light.intensity;
+        this.colour = light.colour;
+        this.position = light.position;
+        this.target = light.target;
+    }
 }
 
 export class DirectionalLight extends Light {
@@ -321,9 +330,17 @@ export class SpotLight extends Light {
         ret.decay = this.decay;
         ret.distance = this.distance;
         ret.penumbra = this.penumbra;
-        ret.power = this.power;
 
         return ret;
+    }
+
+    public copy(light: SpotLight): void {
+        super.copy(light);
+        this.castShadow = light.castShadow;
+        this.angle = light.angle;
+        this.decay = light.decay;
+        this.distance = light.distance;
+        this.penumbra = light.penumbra;
     }
 }
 

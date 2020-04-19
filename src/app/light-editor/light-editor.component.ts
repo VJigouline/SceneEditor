@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { LightType } from '../lights/light-type.enum';
 import { MatSliderChange } from '@angular/material/slider';
 import { ThreeSceneService } from '../three-scene.service';
@@ -43,7 +43,7 @@ export class LightEditorComponent implements OnInit {
 
     return this.light;
   }
-  public set Light(value: Light) { this.light = value; }
+  @Input() public set Light(value: Light) { this.light = value; }
   public maxIntensity = 20;
 
   public get Lights(): Lights {

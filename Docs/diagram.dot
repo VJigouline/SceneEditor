@@ -58,6 +58,7 @@ digraph SceneEditor {
    constructor(type: LightType)\n
    static CreateLight(light: THREE.Light): Light\n
    clone(): Light\n
+   copy(light: Light): void\n
    toJSON(): LightExport
    |
     name: string\n
@@ -245,7 +246,8 @@ digraph SceneEditor {
  }"]
   SpotLight [label="{SpotLight |
     constructor()\n
-    clone(): SpotLight
+    clone(): SpotLight\n
+    copy(light: SpotLight): void
     |
     castShadow: boolean\n
     angle: number\n
@@ -392,6 +394,7 @@ digraph SceneEditor {
    |
    @Output() changedLight: Light\n
    Library: LightsLibrary\n
+   Light: Light\n
    Lights: Lights
 }"]
  MaterialEditorComponent [label="{MaterialEditorComponent |

@@ -22,6 +22,7 @@ export class LightsLibraryEditorComponent implements OnInit {
     return this.libraryService.Library;
   }
   public Lights: Lights;
+  public Light: Light;
 
   constructor(
     private libraryService: LightsLibraryService,
@@ -54,11 +55,13 @@ export class LightsLibraryEditorComponent implements OnInit {
   }
 
   public onLightChanged(light: Light): void {
+    this.Light = light;
     this.changedLight.emit(light);
   }
 
   public onSelectionChange(change: MatSelectChange): void {
     this.Lights = change.value as Lights;
+    this.Light = this.Lights.lights.length === 0 ? null : this.Lights.lights[0];
     this.libraryService.setCurrentLights(this.Lights);
     this.sceneService.resetLights();
     this.changedLight.emit(null);
