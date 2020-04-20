@@ -7,6 +7,8 @@ import { saveAs } from 'file-saver';
 import { MatSelectChange } from '@angular/material/select';
 import { LightsLibrary } from '../lights/lights-library';
 import { LightEditorComponent } from '../light-editor/light-editor.component';
+import { ConfirmationDialogComponent } from '../user-controls/confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-lights-library-editor',
@@ -30,6 +32,7 @@ export class LightsLibraryEditorComponent implements OnInit {
 
   constructor(
     private libraryService: LightsLibraryService,
+    private confirmationDialog: MatDialog,
     private sceneService: ThreeSceneService
   ) { }
 
@@ -55,7 +58,23 @@ export class LightsLibraryEditorComponent implements OnInit {
   }
 
   public onClear(): void {
+    const dialogRef = this.confirmationDialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      data: {
+        title: 'Clear lights library',
+        label: 'All light sets in the library will be deleted and one empty created. ',
+        message: 'Do you want to continue?'
+      }
+    });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.libraryService.Library.clear();
+        this.Lights = this.libraryService.Library.lights[0];
+        this.sceneService.resetLights();
+        this.changedLight.emit(null);
+      }
+    });
   }
 
   public onLightChanged(light: Light): void {

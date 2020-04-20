@@ -21,4 +21,9 @@ export class LightsLibrary {
 
         return ret;
     }
+
+    public clear(): void {
+        this.lights = [new Lights()];
+        this.current = 0;
+    }
 }

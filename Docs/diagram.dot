@@ -76,6 +76,7 @@ digraph SceneEditor {
     lights: Array\<Light\>
  }"]
  LightsLibrary [label="{LightsLibrary |
+    clear(): void\n
     clone(): LightsLibrary
     |
     name: string\n
@@ -384,6 +385,7 @@ digraph SceneEditor {
  LightsLibraryEditorComponent [label="{LightsLibraryEditorComponent |
    constructor(
       private libraryService: LightsLibraryService,\n
+      private confirmationDialog: MatDialog,\n
       private sceneService: ThreeSceneService   
    )\n
    ngOnInit()\n
@@ -646,6 +648,7 @@ digraph SceneEditor {
  Lights->PointLightEditorComponent
  Lights->SpotLight
  LightsLibrary->Lights
+ LightsLibraryEditorComponent->ConfirmationDialogComponent
  LightsLibraryEditorComponent->Light
  LightsLibraryEditorComponent->Lights
  LightsLibraryEditorComponent->LightEditorComponent
