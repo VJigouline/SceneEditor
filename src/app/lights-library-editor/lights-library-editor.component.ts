@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Light } from '../lights/light';
 import { Lights } from '../lights/lights';
 import { LightsLibraryService } from '../lights/lights-library.service';
@@ -6,6 +6,7 @@ import { ThreeSceneService } from '../three-scene.service';
 import { saveAs } from 'file-saver';
 import { MatSelectChange } from '@angular/material/select';
 import { LightsLibrary } from '../lights/lights-library';
+import { LightEditorComponent } from '../light-editor/light-editor.component';
 
 @Component({
   selector: 'app-lights-library-editor',
@@ -23,6 +24,9 @@ export class LightsLibraryEditorComponent implements OnInit {
   }
   public Lights: Lights;
   public Light: Light;
+
+  @ViewChild('LightEditor')
+  private lightEditor: LightEditorComponent;
 
   constructor(
     private libraryService: LightsLibraryService,
@@ -64,6 +68,15 @@ export class LightsLibraryEditorComponent implements OnInit {
     this.Light = this.Lights.lights.length === 0 ? null : this.Lights.lights[0];
     this.libraryService.setCurrentLights(this.Lights);
     this.sceneService.resetLights();
+    this.changedLight.emit(null);
+  }
+
+  public onSelectedTabChange(index: number) {
+    if (index === 0) {
+      this.lightEditor.updateSelection();
+    } else {
+      this.lightEditor.unsetLightHelper();
+    }
     this.changedLight.emit(null);
   }
 }

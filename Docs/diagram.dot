@@ -370,7 +370,9 @@ digraph SceneEditor {
    onSaveAll()\n
    onNew()\n
    onLoad()\n
-   onSelectionChange(change: MatSelectChange): void
+   onSelectionChange(change: MatSelectChange): void\n
+   unsetLightHelper(): void\n
+   updateSelection(): void
    |
    @Output() newLight: Light\n
    @Output() changedLight: Light\n
@@ -390,6 +392,7 @@ digraph SceneEditor {
    onLoad(): void\n
    onNew(): void\n
    onSave(): void\n
+   onSelectedTabChange(index: number)\n
    onSelectionChange(change: MatSelectChange): void
    |
    @Output() changedLight: Light\n
@@ -471,7 +474,8 @@ digraph SceneEditor {
    public fileLeave(event)\n
    onSceneChange(op: string)\n
    public ResetScene(): void\n
-   onLightChanged(light: Light): void
+   onLightChanged(light: Light): void\n
+   onSelectedTabChange(event: MatTabChangeEvent): void
    |
    @Input() Width: number\n
    @Input() Height: number\n

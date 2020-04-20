@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
 import { LightType } from '../lights/light-type.enum';
 import { MatSliderChange } from '@angular/material/slider';
 import { ThreeSceneService } from '../three-scene.service';
@@ -43,8 +43,18 @@ export class LightEditorComponent implements OnInit {
 
     return this.light;
   }
-  @Input() public set Light(value: Light) { this.light = value; }
+  @Input() public set Light(value: Light) {
+    this.light = value;
+    if (this.light.intensity > this.maxIntensity || 
+      this.light.intensity < this.maxIntensity / 100.0) {
+        this.maxIntensity = this.light.intensity * 2;
+    }
+    this.changeSelection(this.light);
+  }
   public maxIntensity = 20;
+
+  @ViewChild('LightEditor')
+  private lightEditor: LightEditorComponent;
 
   public get Lights(): Lights {
     return this.libraryService.currentLights;
@@ -120,6 +130,10 @@ export class LightEditorComponent implements OnInit {
     this.changeSelection(change.value as Light);
   }
 
+  public updateSelection(): void {
+    this.changeSelection(this.Light);
+  }
+
   private changeSelection(light: Light): void {
 
     this.unsetLightHelper();
@@ -142,7 +156,7 @@ export class LightEditorComponent implements OnInit {
     this.changedLight.emit(light);
   }
 
-  private unsetLightHelper(): void {
+  public unsetLightHelper(): void {
     this.sceneService.removeObjectFromScene(this.directionalLightHelper);
     this.directionalLightHelper = null;
     this.sceneService.removeObjectFromScene(this.hemisphereLightHelper);

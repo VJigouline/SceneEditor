@@ -7,6 +7,7 @@ import { ResizedEvent } from 'angular-resize-event';
 import { LightsLibraryEditorComponent } from '../lights-library-editor/lights-library-editor.component';
 import { MaterialEditorComponent } from '../material-editor/material-editor.component';
 import { Light } from '../lights/light';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-scene-editor',
@@ -83,5 +84,9 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
 
   public onLightChanged(light: Light): void {
     this.threeView.Render();
+  }
+
+  public onSelectedTabChange(event: MatTabChangeEvent): void {
+    this.lightsLirbaryEditor.onSelectedTabChange(event.index);
   }
 }

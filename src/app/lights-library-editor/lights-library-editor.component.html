@@ -34,7 +34,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <app-light-editor [Light]="Light"
+                <app-light-editor #LightEditor [Light]="Light"
                 (changedLight) = onLightChanged($event);
                 ></app-light-editor>
             </div>

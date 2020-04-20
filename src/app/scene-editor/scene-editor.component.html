@@ -1,6 +1,6 @@
 <div [style.width.px]="Width" [style.height]="'100%'" (resized)="onResized($event)">
     <as-split direction="horizontal">
-        <as-split-area size="80">
+        <as-split-area size="79">
             <ngx-file-drop 
             [dropZoneClassName]="'scene-dropzone-content'"
             [contentClassName]="'scene-dropzone-content'"
@@ -12,8 +12,10 @@
                 </ng-template>
             </ngx-file-drop>
         </as-split-area>
-        <as-split-area size="20">
-            <mat-tab-group class="tabheader">
+        <as-split-area size="21">
+            <mat-tab-group class="tabheader"
+            (selectedTabChange)="onSelectedTabChange($event)"
+            >
                 <mat-tab label="Lights" class="tabheader">
                     <app-lights-library-editor #LightsLibraryEditor
                     (changedLight)="onLightChanged($event)"
