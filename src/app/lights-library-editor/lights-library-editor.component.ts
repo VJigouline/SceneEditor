@@ -9,6 +9,7 @@ import { LightsLibrary } from '../lights/lights-library';
 import { LightEditorComponent } from '../light-editor/light-editor.component';
 import { ConfirmationDialogComponent } from '../user-controls/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ErrorDialogComponent } from '../user-controls/error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-lights-library-editor',
@@ -53,9 +54,6 @@ export class LightsLibraryEditorComponent implements OnInit {
     this.sceneService.resetLights();
     this.changedLight.emit(null);
   }
-  public onLoad(): void {
-    alert('Load light library');
-  }
 
   public onClear(): void {
     const dialogRef = this.confirmationDialog.open(ConfirmationDialogComponent, {
@@ -97,5 +95,50 @@ export class LightsLibraryEditorComponent implements OnInit {
       this.lightEditor.unsetLightHelper();
     }
     this.changedLight.emit(null);
+  }
+
+  public onImport(event: any): void {
+    const selectedFile = event.target.files[0];
+    const fileReader = new FileReader();
+    fileReader.readAsText(selectedFile, 'UTF-8');
+    fileReader.onload = () => {
+      try {
+        const lib = JSON.parse(fileReader.result as string) as LightsLibrary;
+        const l = new LightsLibrary();
+        lib.clone = l.clone.bind(lib);
+        if (lib.current === undefined) { lib.current = 0; }
+        this.libraryService.importLibrary(lib.clone());
+        this.libraryService.setCurrentLights(this.Lights);
+        this.sceneService.resetLights();
+        this.changedLight.emit(null);
+        const dialogRef = this.confirmationDialog.open(ErrorDialogComponent, {
+          width: '350px',
+          data: {
+            title: 'Success',
+            label: 'Light library imported from: ',
+            message: selectedFile.name
+          }
+        });
+      } catch (e) {
+        const dialogRef = this.confirmationDialog.open(ErrorDialogComponent, {
+          width: '350px',
+          data: {
+            title: 'Error',
+            label: 'Failure to read lights library: ',
+            message: e
+          }
+        });
+      }
+    };
+    fileReader.onerror = (error) => {
+      const dialogRef = this.confirmationDialog.open(ErrorDialogComponent, {
+        width: '350px',
+        data: {
+          title: 'Error',
+          label: 'Failure to read file: ',
+          message: error
+        }
+      });
+    };
   }
 }

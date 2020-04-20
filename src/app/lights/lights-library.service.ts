@@ -92,4 +92,15 @@ export class LightsLibraryService {
       return of(result as T);
     };
   }
+  public importLibrary(library: LightsLibrary): void {
+    if (this.library.lights.length === 0 ||
+      this.library.lights.length === 1 && this.library.lights[0].lights.length === 0) {
+      this.library = library;
+      return;
+    }
+
+    for (const lights of library.lights) {
+      this.library.lights.push(lights);
+    }
+  }
 }

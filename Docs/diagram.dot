@@ -390,8 +390,8 @@ digraph SceneEditor {
    )\n
    ngOnInit()\n
    onClear(): void\n
+   onImport(event: any): void\n
    onLightChanged(light: Light): void\n
-   onLoad(): void\n
    onNew(): void\n
    onSave(): void\n
    onSelectedTabChange(index: number)\n
@@ -551,6 +551,7 @@ digraph SceneEditor {
    constructor(private http: HttpClient,\n
    private errorDialog: MatDialog)\n
    getDefaultLibrary(): LightsLibrary\n
+   importLibrary(library: LightsLibrary): void\n
    setCurrentLights(lights: Lights)
    |
    Library: LightsLibrary\n
@@ -649,6 +650,7 @@ digraph SceneEditor {
  Lights->SpotLight
  LightsLibrary->Lights
  LightsLibraryEditorComponent->ConfirmationDialogComponent
+ LightsLibraryEditorComponent->ErrorDialogComponent
  LightsLibraryEditorComponent->Light
  LightsLibraryEditorComponent->Lights
  LightsLibraryEditorComponent->LightEditorComponent

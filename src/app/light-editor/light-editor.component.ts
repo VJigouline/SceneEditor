@@ -45,7 +45,8 @@ export class LightEditorComponent implements OnInit {
   }
   @Input() public set Light(value: Light) {
     this.light = value;
-    if (this.light.intensity > this.maxIntensity || 
+    if (!value) { return; }
+    if (this.light.intensity > this.maxIntensity ||
       this.light.intensity < this.maxIntensity / 100.0) {
         this.maxIntensity = this.light.intensity * 2;
     }

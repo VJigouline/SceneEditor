@@ -40,6 +40,11 @@
             </div>
         </div>
         </ng-container>
+        <input
+            style="display: none"
+            type="file" (change)="onImport($event)"
+            accept=".ltslib"
+            #fileInput>
     </mat-card-content>
     <mat-card-actions>
         <button mat-raised-button color="primary" 
@@ -48,7 +53,7 @@
         >New</button>
         <button mat-raised-button color="primary" 
         type="button"
-        (click)="onLoad()"
+        (click)="fileInput.click()"
         >Import</button>
         <button mat-raised-button color="primary" 
         type="button"
