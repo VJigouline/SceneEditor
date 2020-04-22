@@ -33,7 +33,7 @@ digraph SceneEditor {
    castShadow: boolean
  }"]
  DirectionalLightHelper [label="{DirectionalLightHelper |
-   constructor(light: THREE.DirectionalLight)\n
+   constructor(light: THREE.DirectionalLight, scale: number)\n
    update(light: THREE.DirectionalLight): void
    |
    light: THREE.DirectionalLight\n
@@ -48,7 +48,7 @@ digraph SceneEditor {
     castShadow: boolean
   }"]
  HemisphereLightHelper [label="{HemisphereLightHelper |
-   constructor(light: THREE.HemisphereLight)\n
+   constructor(light: THREE.HemisphereLight, scale: number)\n
    update(light: THREE.HemisphereLight): void
    |
    light: THREE.HemisphereLight\n
@@ -239,7 +239,7 @@ digraph SceneEditor {
     power: number
   }"]
  PointLightHelper [label="{PointLightHelper |
-   constructor(light: THREE.PointLight)\n
+   constructor(light: THREE.PointLight, scale: number)\n
    update(light: THREE.PointLight): void
    |
    light: THREE.PointLight\n
@@ -258,7 +258,7 @@ digraph SceneEditor {
     power: number
   }"]
  SpotLightHelper [label="{SpotLightHelper |
-   constructor(light: THREE.SpotLight)\n
+   constructor(light: THREE.SpotLight, scale: number)\n
    update(light: THREE.SpotLight): void
    |
    light: THREE.SpotLight\n
@@ -588,9 +588,11 @@ digraph SceneEditor {
    setMaterial(material: THREE.Material): void\n
    getMaterial(): THREE.Material\n
    getLights(): Lights\n
+   getSceneBox(): THREE.Box3\n
    onDragHoveron(event: DragEvent): void\n
    onTransformDraggingChanged(event: DraggingChangedEvent): void\n
    removeObjectFromScene(object: THREE.Object3D): void\n
+   rescaleScene(): void\n
    resetLights(): void
    |
    camera: THREE.OrthographicCamera\n

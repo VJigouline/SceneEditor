@@ -4,18 +4,20 @@ export class DirectionalLightHelper extends THREE.Object3D {
 
     public positionSphere: THREE.Mesh;
     public targetSphere: THREE.Mesh;
+    private helperScale = 1;
     private material: THREE.MeshPhysicalMaterial;
     private arrow: THREE.ArrowHelper;
 
     public light: THREE.DirectionalLight;
-    constructor(light: THREE.DirectionalLight) {
+    constructor(light: THREE.DirectionalLight, scale: number) {
         super();
+        this.helperScale = scale;
         this.light = light;
         this.create3DObjects();
     }
 
     private create3DObjects() {
-        let geom = new THREE.SphereGeometry(20, 16, 16);
+        let geom = new THREE.SphereGeometry(this.helperScale * 20, 16, 16);
         this.material = new THREE.MeshPhysicalMaterial({color: this.light.color,
             emissive: this.light.color.clone().multiplyScalar(0.5)});
         this.positionSphere = new THREE.Mesh(geom, this.material);
@@ -23,7 +25,7 @@ export class DirectionalLightHelper extends THREE.Object3D {
             this.light.position.y, this.light.position.z);
         this.positionSphere.parent = this;
         this.children.push(this.positionSphere);
-        geom = new THREE.SphereGeometry(10, 16, 16);
+        geom = new THREE.SphereGeometry(this.helperScale * 10, 16, 16);
         this.targetSphere = new THREE.Mesh(geom, this.material);
         this.targetSphere.position.set(this.light.target.position.x,
             this.light.target.position.y, this.light.target.position.z);

@@ -45,10 +45,11 @@ export class LightEditorComponent implements OnInit {
   }
   @Input() public set Light(value: Light) {
     this.light = value;
-    if (!value) { return; }
-    if (this.light.intensity > this.maxIntensity ||
-      this.light.intensity < this.maxIntensity / 100.0) {
-        this.maxIntensity = this.light.intensity * 2;
+    if (value) {
+      if (this.light.intensity > this.maxIntensity ||
+        this.light.intensity < this.maxIntensity / 100.0) {
+          this.maxIntensity = this.light.intensity * 2;
+      }
     }
     this.changeSelection(this.light);
   }
@@ -102,7 +103,7 @@ export class LightEditorComponent implements OnInit {
         break;
       case LightType.SPOT:
         this.light = new SpotLight();
-        this.light.light.position.z = 1000;
+        this.light.light.position.z = 1;
         this.light.name = 'Spotlight ' + this.Lights.lights.length;
         scene.add((this.light.light as THREE.SpotLight).target);
         break;
@@ -139,25 +140,28 @@ export class LightEditorComponent implements OnInit {
 
     this.unsetLightHelper();
 
-    switch (light.type) {
-      case LightType.DIRECTIONAL:
-        this.addDirectionalLightHelper(light);
-        break;
-      case LightType.HEMISPHERE:
-        this.addHemisphereLightHelper(light);
-        break;
-      case LightType.POINT:
-        this.addPointLightHelper(light);
-        break;
-      case LightType.SPOT:
-        this.addSpotLightHelper(light);
-        break;
+    if (light) {
+      switch (light.type) {
+        case LightType.DIRECTIONAL:
+          this.addDirectionalLightHelper(light);
+          break;
+        case LightType.HEMISPHERE:
+          this.addHemisphereLightHelper(light);
+          break;
+        case LightType.POINT:
+          this.addPointLightHelper(light);
+          break;
+        case LightType.SPOT:
+          this.addSpotLightHelper(light);
+          break;
+      }
     }
 
     this.changedLight.emit(light);
   }
 
   public unsetLightHelper(): void {
+    this.sceneService.transformControl.visible = false;
     this.sceneService.removeObjectFromScene(this.directionalLightHelper);
     this.directionalLightHelper = null;
     this.sceneService.removeObjectFromScene(this.hemisphereLightHelper);
@@ -178,7 +182,8 @@ export class LightEditorComponent implements OnInit {
 
     const l = light.light as THREE.DirectionalLight;
 
-    this.directionalLightHelper = new DirectionalLightHelper(l);
+    this.directionalLightHelper = new DirectionalLightHelper(l,
+      this.sceneService.getSceneBox().getBoundingSphere(new THREE.Sphere()).radius / 500);
     scene.add(this.directionalLightHelper);
     this.setDragControl([
       this.directionalLightHelper.positionSphere,
@@ -192,7 +197,8 @@ export class LightEditorComponent implements OnInit {
 
     const l = light.light as THREE.HemisphereLight;
 
-    this.hemisphereLightHelper = new HemisphereLightHelper(l);
+    this.hemisphereLightHelper = new HemisphereLightHelper(l,
+      this.sceneService.getSceneBox().getBoundingSphere(new THREE.Sphere()).radius / 500);
     scene.add(this.hemisphereLightHelper);
     this.setDragControl([
       this.hemisphereLightHelper.positionSphere
@@ -205,7 +211,8 @@ export class LightEditorComponent implements OnInit {
 
     const l = light.light as THREE.PointLight;
 
-    this.pointLightHelper = new PointLightHelper(l);
+    this.pointLightHelper = new PointLightHelper(l,
+      this.sceneService.getSceneBox().getBoundingSphere(new THREE.Sphere()).radius / 1000);
     scene.add(this.pointLightHelper);
     this.setDragControl([
       this.pointLightHelper.positionSphere
@@ -218,7 +225,8 @@ export class LightEditorComponent implements OnInit {
 
     const l = light.light as THREE.SpotLight;
 
-    this.spotLightHelper = new SpotLightHelper(l);
+    this.spotLightHelper = new SpotLightHelper(l,
+      this.sceneService.getSceneBox().getBoundingSphere(new THREE.Sphere()).radius / 1000);
     scene.add(this.spotLightHelper);
     this.setDragControl([
       this.spotLightHelper.positionSphere,
@@ -331,6 +339,7 @@ export class LightEditorComponent implements OnInit {
               this.light = null;
             }
           }
+          this.updateSelection();
           this.changedLight.emit(this.light);
         }
       }

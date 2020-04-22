@@ -322,6 +322,7 @@ export class ThreeSceneService {
   }
 
   public onDragHoveron(event: DragEvent): void {
+    if (!this.transformControl) { return; }
     this.transformControl.enabled = true;
     this.transformControl.attach( event.object );
     this.cancelHideTransform();
@@ -361,5 +362,65 @@ export class ThreeSceneService {
     for (const obj of lights) {
       this.removeObjectFromScene(obj);
     }
+  }
+
+  public getSceneBox(): THREE.Box3 {
+    return this.sceneBox(this.scene);
+  }
+
+  private sceneBox(scene: THREE.Scene): THREE.Box3 {
+    if (!scene) { return; }
+
+    let box: THREE.Box3;
+    for (const object of scene.children) {
+      if (object instanceof THREE.Mesh) {
+        if (box) {
+          box = box.union(new THREE.Box3().setFromObject(object));
+        } else {
+          box = new THREE.Box3().setFromObject(object);
+        }
+      } else if (object instanceof THREE.Scene) {
+        if (box) {
+          box = box.union(this.sceneBox(object as THREE.Scene));
+        } else {
+          box = this.sceneBox(object as THREE.Scene);
+        }
+      }
+    }
+
+    if (!box) {
+      box = new THREE.Box3(new THREE.Vector3(-2000, -2000, -2000),
+        new THREE.Vector3(2000, 2000, 2000));
+    }
+
+    return box;
+  }
+
+  public rescaleScene(): void {
+    if (!this.scene) { return; }
+
+    const box = this.getSceneBox();
+    if (!box) { return; }
+    const direction = new THREE.Vector3();
+    this.camera.getWorldDirection(direction);
+    const sphere = new THREE.Sphere();
+    box.getBoundingSphere(sphere);
+    const center = sphere.center;
+    const radius = sphere.radius;
+    const pos = center.clone().sub(direction.multiplyScalar(1.5 * radius));
+    this.camera.position.set(pos.x, pos.y, pos.z);
+    const aspect = (this.camera.top - this.camera.bottom) / (this.camera.right - this.camera.left);
+    const f = 1.5;
+    this.camera.far = 2 * f * radius;
+    this.camera.near = 0.1 * radius;
+    this.camera.top = f * aspect * radius;
+    this.camera.bottom = -f * aspect * radius;
+    this.camera.left = -f * radius;
+    this.camera.right = f * radius;
+    this.camera.zoom = 1;
+
+    this.camera.updateProjectionMatrix();
+    this.orbitControls.target.set(center.x, center.y, center.z);
+    this.orbitControls.update();
   }
 }

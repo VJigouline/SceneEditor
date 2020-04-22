@@ -79,10 +79,12 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
   }
 
   public ResetScene(): void {
+    this.sceneService.rescaleScene();
     this.threeView.Render();
   }
 
   public onLightChanged(light: Light): void {
+    if (!this.threeView) { return; }
     this.threeView.Render();
   }
 

@@ -52,6 +52,8 @@ export class LightsLibraryEditorComponent implements OnInit {
     this.libraryService.Library.current = this.libraryService.Library.lights.length;
     this.libraryService.Library.lights.push(this.Lights);
     this.sceneService.resetLights();
+    this.lightEditor.Light = null;
+    this.lightEditor.updateSelection();
     this.changedLight.emit(null);
   }
 
@@ -70,6 +72,7 @@ export class LightsLibraryEditorComponent implements OnInit {
         this.libraryService.Library.clear();
         this.Lights = this.libraryService.Library.lights[0];
         this.sceneService.resetLights();
+        this.lightEditor.updateSelection();
         this.changedLight.emit(null);
       }
     });
@@ -83,8 +86,10 @@ export class LightsLibraryEditorComponent implements OnInit {
   public onSelectionChange(change: MatSelectChange): void {
     this.Lights = change.value as Lights;
     this.Light = this.Lights.lights.length === 0 ? null : this.Lights.lights[0];
+    this.lightEditor.Light = this.Light;
     this.libraryService.setCurrentLights(this.Lights);
     this.sceneService.resetLights();
+    this.lightEditor.updateSelection();
     this.changedLight.emit(null);
   }
 
@@ -111,6 +116,7 @@ export class LightsLibraryEditorComponent implements OnInit {
         this.libraryService.setCurrentLights(this.Lights);
         this.sceneService.resetLights();
         this.changedLight.emit(null);
+        this.lightEditor.updateSelection();
         const dialogRef = this.confirmationDialog.open(ErrorDialogComponent, {
           width: '350px',
           data: {

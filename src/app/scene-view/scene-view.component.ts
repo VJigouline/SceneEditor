@@ -126,7 +126,7 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
       this.container.nativeElement.offsetHeight * 5,
       -this.container.nativeElement.offsetHeight * 5, 1, 100000 );
     this.sceneService.camera.position.y = -10000;
-    this.sceneService.camera.position.z = 1;
+    // this.sceneService.camera.position.z = 1;
   }
 
   private Animate(): void {
