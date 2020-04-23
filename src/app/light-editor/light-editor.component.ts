@@ -161,7 +161,9 @@ export class LightEditorComponent implements OnInit {
   }
 
   public unsetLightHelper(): void {
-    this.sceneService.transformControl.visible = false;
+    if (this.sceneService.transformControl) {
+      this.sceneService.transformControl.visible = false;
+    }
     this.sceneService.removeObjectFromScene(this.directionalLightHelper);
     this.directionalLightHelper = null;
     this.sceneService.removeObjectFromScene(this.hemisphereLightHelper);

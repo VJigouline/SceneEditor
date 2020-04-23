@@ -112,7 +112,6 @@ export class ThreeSceneService {
         console.log(`Unprocessed folder ${file.relativePath}`);
       }
     }
-    finished();
   }
 
   public addFile(file: NgxFileDropEntry, files: NgxFileDropEntry[], finished: CallbackFinished): void {
@@ -365,32 +364,37 @@ export class ThreeSceneService {
   }
 
   public getSceneBox(): THREE.Box3 {
-    return this.sceneBox(this.scene);
+
+    let box = this.sceneBox(this.scene, true)
+    if (!box) {
+      box = new THREE.Box3(new THREE.Vector3(-2000, -2000, -2000),
+        new THREE.Vector3(2000, 2000, 2000));
+    }
+    return box;
   }
 
-  private sceneBox(scene: THREE.Scene): THREE.Box3 {
+  private sceneBox(scene: THREE.Object3D, start: boolean): THREE.Box3 {
     if (!scene) { return; }
 
     let box: THREE.Box3;
     for (const object of scene.children) {
-      if (object instanceof THREE.Mesh) {
+      if (object instanceof THREE.Light) {
+        continue;
+      } else if (object instanceof THREE.Mesh) {
         if (box) {
           box = box.union(new THREE.Box3().setFromObject(object));
         } else {
           box = new THREE.Box3().setFromObject(object);
         }
-      } else if (object instanceof THREE.Scene) {
+      } else if ((!start && object.children.length > 0) ||
+        (object instanceof THREE.Scene)) {
         if (box) {
-          box = box.union(this.sceneBox(object as THREE.Scene));
+          const b = this.sceneBox(object, false);
+          if (b) { box = box.union(b); }
         } else {
-          box = this.sceneBox(object as THREE.Scene);
+          box = this.sceneBox(object, false);
         }
       }
-    }
-
-    if (!box) {
-      box = new THREE.Box3(new THREE.Vector3(-2000, -2000, -2000),
-        new THREE.Vector3(2000, 2000, 2000));
     }
 
     return box;
