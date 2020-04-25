@@ -40,13 +40,13 @@
             </div>
         </div>
         </ng-container>
-        <input
-            style="display: none"
-            type="file" (change)="onImport($event)"
-            accept=".ltslib"
-            #fileInput>
     </mat-card-content>
     <mat-card-actions>
+        <input
+            style="display: none"
+            type="file" (input)="onImport($event)"
+            accept=".ltslib"
+            #fileInput>
         <button mat-raised-button color="primary" 
         type="button"
         (click)="onNew()"

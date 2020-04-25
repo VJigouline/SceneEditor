@@ -365,7 +365,7 @@ export class ThreeSceneService {
 
   public getSceneBox(): THREE.Box3 {
 
-    let box = this.sceneBox(this.scene, true)
+    let box = this.sceneBox(this.scene, true);
     if (!box) {
       box = new THREE.Box3(new THREE.Vector3(-2000, -2000, -2000),
         new THREE.Vector3(2000, 2000, 2000));

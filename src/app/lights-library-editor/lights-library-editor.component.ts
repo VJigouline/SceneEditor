@@ -106,6 +106,7 @@ export class LightsLibraryEditorComponent implements OnInit {
     const selectedFile = event.target.files[0];
     const fileReader = new FileReader();
     fileReader.readAsText(selectedFile, 'UTF-8');
+    event.target.value = '';
     fileReader.onload = () => {
       try {
         const lib = JSON.parse(fileReader.result as string) as LightsLibrary;
@@ -115,6 +116,8 @@ export class LightsLibraryEditorComponent implements OnInit {
         this.libraryService.importLibrary(lib.clone());
         this.libraryService.setCurrentLights(this.Lights);
         this.sceneService.resetLights();
+        this.Lights = this.libraryService.currentLights;
+        this.Light = this.Lights.lights.length > 0 ? this.Lights.lights[0] : null;
         this.changedLight.emit(null);
         this.lightEditor.updateSelection();
         const dialogRef = this.confirmationDialog.open(ErrorDialogComponent, {
