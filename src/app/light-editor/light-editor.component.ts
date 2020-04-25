@@ -49,6 +49,7 @@ export class LightEditorComponent implements OnInit {
       if (this.light.intensity > this.maxIntensity ||
         this.light.intensity < this.maxIntensity / 100.0) {
           this.maxIntensity = this.light.intensity * 2;
+          if (this.maxIntensity < 1) { this.maxIntensity = 1; }
       }
     }
     this.changeSelection(this.light);
