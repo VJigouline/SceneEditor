@@ -27,6 +27,10 @@ export class LightsLibraryEditorComponent implements OnInit {
   }
   public Lights: Lights;
   public Light: Light;
+  public get deleteDisabled(): boolean {
+    return this.libraryService.Library.current < 0 ||
+      this.libraryService.Library.current >= this.libraryService.Library.lights.length;
+  }
 
   @ViewChild('LightEditor')
   private lightEditor: LightEditorComponent;
@@ -151,5 +155,24 @@ export class LightsLibraryEditorComponent implements OnInit {
         }
       });
     };
+  }
+
+  public onDelete(): void {
+    if (this.deleteDisabled) { return; }
+    let current = this.libraryService.Library.current;
+    this.libraryService.Library.lights.splice(current, 1);
+    if (current >= this.libraryService.Library.lights.length) { 
+      current = this.libraryService.Library.lights.length - 1;
+    }
+    this.libraryService.Library.current = current;
+    if (current < 0) {
+      this.Lights = null;
+    } else {
+      this.Lights = this.libraryService.Library.lights[current];
+    }
+    this.sceneService.resetLights();
+    this.lightEditor.Light = null;
+    this.lightEditor.updateSelection();
+    this.changedLight.emit(null);
   }
 }

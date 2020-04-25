@@ -53,15 +53,22 @@
         >New</button>
         <button mat-raised-button color="primary" 
         type="button"
+        (click)="onDelete()"
+        [disabled]="deleteDisabled"
+        >Delete set</button>
+        <button mat-raised-button color="primary" 
+        type="button"
         (click)="fileInput.click()"
         >Import</button>
         <button mat-raised-button color="primary" 
         type="button"
         (click)="onSave()"
+        [disabled]="deleteDisabled"
         >Save</button>
         <button mat-raised-button color="primary" 
         type="button"
         (click)="onClear()"
+        [disabled]="deleteDisabled"
         >Clear</button>
     </mat-card-actions>
 </mat-card>

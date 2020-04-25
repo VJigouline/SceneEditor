@@ -390,6 +390,7 @@ digraph SceneEditor {
    )\n
    ngOnInit()\n
    onClear(): void\n
+   onDelete(): void\n
    onImport(event: any): void\n
    onLightChanged(light: Light): void\n
    onNew(): void\n
@@ -400,7 +401,8 @@ digraph SceneEditor {
    @Output() changedLight: Light\n
    Library: LightsLibrary\n
    Light: Light\n
-   Lights: Lights
+   Lights: Lights\n
+   deleteDisabled: boolean
 }"]
  MaterialEditorComponent [label="{MaterialEditorComponent |
    constructor(private sceneService: ThreeSceneService)\n
