@@ -118,8 +118,10 @@ export class LightsLibraryEditorComponent implements OnInit {
         this.sceneService.resetLights();
         this.Lights = this.libraryService.currentLights;
         this.Light = this.Lights.lights.length > 0 ? this.Lights.lights[0] : null;
-        this.changedLight.emit(null);
         this.lightEditor.updateSelection();
+        this.lightEditor.Light = this.libraryService.currentLights.lights.length > 0 ?
+          this.libraryService.currentLights.lights[0] : null;
+        this.changedLight.emit(null);
         const dialogRef = this.confirmationDialog.open(ErrorDialogComponent, {
           width: '350px',
           data: {
