@@ -313,7 +313,9 @@ export class ThreeSceneService {
   }
 
   private detatchTransformObject(): void {
-    this.transformControl.detach();
+    if (this.transformControl) {
+      this.transformControl.detach();
+    }
   }
 
   public onTransformDraggingChanged(event: DraggingChangedEvent): void {
@@ -417,11 +419,11 @@ export class ThreeSceneService {
     const f = 1.5;
     this.camera.far = 2 * f * radius;
     this.camera.near = 0.1 * radius;
-    this.camera.top = f * aspect * radius;
-    this.camera.bottom = -f * aspect * radius;
-    this.camera.left = -f * radius;
-    this.camera.right = f * radius;
-    this.camera.zoom = 1;
+    // this.camera.top = f * aspect * radius;
+    // this.camera.bottom = -f * aspect * radius;
+    // this.camera.left = -f * radius;
+    // this.camera.right = f * radius;
+    this.camera.zoom = 0.5 * (this.camera.right - this.camera.left) * aspect / radius;
 
     this.camera.updateProjectionMatrix();
     this.orbitControls.target.set(center.x, center.y, center.z);

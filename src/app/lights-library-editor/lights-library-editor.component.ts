@@ -175,7 +175,7 @@ export class LightsLibraryEditorComponent implements OnInit {
       if (result) {
         let current = this.libraryService.Library.current;
         this.libraryService.Library.lights.splice(current, 1);
-        if (current >= this.libraryService.Library.lights.length) { 
+        if (current >= this.libraryService.Library.lights.length) {
           current = this.libraryService.Library.lights.length - 1;
         }
         this.libraryService.Library.current = current;

@@ -143,10 +143,7 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   }
 
   private setCameraSize(width: number, height: number): void {
-    const aspect = width / height;
     const camera = this.sceneService.camera;
-    const w = camera.right - camera.left;
-    const h = camera.top - camera.bottom;
     camera.left = -width;
     camera.right = width;
     camera.bottom = -height;
@@ -217,18 +214,7 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   }
 
   public UpdateScene(): void {
-    this.currentMaterial = this.sceneService.getMaterial();
-
-    const box = new THREE.Box3().setFromObject(this.sceneService.getScene());
-    const size = box.getSize(new THREE.Vector3()).length();
-    const center = box.getCenter(new THREE.Vector3());
-
-    const pos = this.sceneService.camera.position;
-  //  this.camera.position.x = center.x;
-  //  this.camera.position.y = center.y;
-  //  this.camera.position.z = center.z;
-    this.sceneService.camera.zoom = (this.sceneService.camera.right - this.sceneService.camera.left) / size;
-    this.sceneService.camera.updateProjectionMatrix();
+    this.sceneService.rescaleScene();
 
     this.Render();
   }
