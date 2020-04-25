@@ -131,7 +131,8 @@ export class LightsLibraryEditorComponent implements OnInit {
           data: {
             title: 'Success',
             label: 'Light library imported from: ',
-            message: selectedFile.name
+            message: selectedFile.name,
+            close: true
           }
         });
       } catch (e) {
@@ -140,7 +141,8 @@ export class LightsLibraryEditorComponent implements OnInit {
           data: {
             title: 'Error',
             label: 'Failure to read lights library: ',
-            message: e
+            message: e,
+            cancel: true
           }
         });
       }
@@ -151,7 +153,8 @@ export class LightsLibraryEditorComponent implements OnInit {
         data: {
           title: 'Error',
           label: 'Failure to read file: ',
-          message: error
+          message: error,
+          cancel: true
         }
       });
     };
@@ -159,20 +162,33 @@ export class LightsLibraryEditorComponent implements OnInit {
 
   public onDelete(): void {
     if (this.deleteDisabled) { return; }
-    let current = this.libraryService.Library.current;
-    this.libraryService.Library.lights.splice(current, 1);
-    if (current >= this.libraryService.Library.lights.length) { 
-      current = this.libraryService.Library.lights.length - 1;
-    }
-    this.libraryService.Library.current = current;
-    if (current < 0) {
-      this.Lights = null;
-    } else {
-      this.Lights = this.libraryService.Library.lights[current];
-    }
-    this.sceneService.resetLights();
-    this.lightEditor.Light = null;
-    this.lightEditor.updateSelection();
-    this.changedLight.emit(null);
+    const dialogRef = this.confirmationDialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      data: {
+        title: 'Delete light set',
+        label: 'Current light set will be deleted. ',
+        message: 'Do you want to continue?'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        let current = this.libraryService.Library.current;
+        this.libraryService.Library.lights.splice(current, 1);
+        if (current >= this.libraryService.Library.lights.length) { 
+          current = this.libraryService.Library.lights.length - 1;
+        }
+        this.libraryService.Library.current = current;
+        if (current < 0) {
+          this.Lights = null;
+        } else {
+          this.Lights = this.libraryService.Library.lights[current];
+        }
+        this.sceneService.resetLights();
+        this.lightEditor.Light = null;
+        this.lightEditor.updateSelection();
+        this.changedLight.emit(null);
+      }
+    });
   }
 }

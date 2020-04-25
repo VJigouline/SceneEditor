@@ -3,5 +3,6 @@
     <p>{{data.label}}<b>{{data.message}}</b></p>
 </mat-card-content>
 <div mat-dialog-actions>
-    <button mat-button class="button cancel" (click)="onNoClick()">Cancel</button>
+    <button *ngIf="data.cancel" mat-button class="button cancel" (click)="onNoClick()">Cancel</button>
+    <button *ngIf="data.close" mat-button class="button ok" (click)="onNoClick()">close</button>
 </div>

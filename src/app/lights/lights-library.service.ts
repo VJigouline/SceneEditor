@@ -84,7 +84,8 @@ export class LightsLibraryService {
         data: {
           title: 'Error',
           label: operation,
-          message: error
+          message: error,
+          cancel: true
         }
       });
 

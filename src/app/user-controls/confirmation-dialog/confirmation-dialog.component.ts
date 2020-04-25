@@ -5,6 +5,8 @@ export interface DialogData {
   title: string;
   label: string;
   message: string;
+  cancel: boolean;
+  close: boolean;
 }
 
 @Component({

@@ -5,6 +5,8 @@ digraph SceneEditor {
   title: string\n
   label: string\n
   message: string\n
+  cancel: boolean\n
+  close: boolean
  }"]
  DragEvent [label="{DragEvent |
   object: THREE.Object3D\n
