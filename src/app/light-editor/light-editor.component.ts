@@ -186,7 +186,7 @@ export class LightEditorComponent implements OnInit {
     const l = light.light as THREE.DirectionalLight;
 
     this.directionalLightHelper = new DirectionalLightHelper(l,
-      this.sceneService.getSceneBox().getBoundingSphere(new THREE.Sphere()).radius / 500);
+      1, this.sceneService.camera);
     scene.add(this.directionalLightHelper);
     this.setDragControl([
       this.directionalLightHelper.positionSphere,
@@ -201,7 +201,7 @@ export class LightEditorComponent implements OnInit {
     const l = light.light as THREE.HemisphereLight;
 
     this.hemisphereLightHelper = new HemisphereLightHelper(l,
-      this.sceneService.getSceneBox().getBoundingSphere(new THREE.Sphere()).radius / 500);
+      1, this.sceneService.camera);
     scene.add(this.hemisphereLightHelper);
     this.setDragControl([
       this.hemisphereLightHelper.positionSphere
@@ -215,7 +215,7 @@ export class LightEditorComponent implements OnInit {
     const l = light.light as THREE.PointLight;
 
     this.pointLightHelper = new PointLightHelper(l,
-      this.sceneService.getSceneBox().getBoundingSphere(new THREE.Sphere()).radius / 1000);
+      1, this.sceneService.camera);
     scene.add(this.pointLightHelper);
     this.setDragControl([
       this.pointLightHelper.positionSphere
@@ -229,7 +229,7 @@ export class LightEditorComponent implements OnInit {
     const l = light.light as THREE.SpotLight;
 
     this.spotLightHelper = new SpotLightHelper(l,
-      this.sceneService.getSceneBox().getBoundingSphere(new THREE.Sphere()).radius / 1000);
+      1, this.sceneService.camera);
     scene.add(this.spotLightHelper);
     this.setDragControl([
       this.spotLightHelper.positionSphere,

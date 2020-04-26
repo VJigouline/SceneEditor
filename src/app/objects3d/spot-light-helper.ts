@@ -7,12 +7,14 @@ export class SpotLightHelper extends THREE.Object3D {
     private lightCone: THREE.Mesh;
     private material: THREE.MeshPhysicalMaterial;
     private arrow: THREE.ArrowHelper;
+    private camera: THREE.Camera;
 
     public light: THREE.SpotLight;
-    constructor(light: THREE.SpotLight, scale: number) {
+    constructor(light: THREE.SpotLight, scale: number, camera: THREE.Camera) {
         super();
         this.light = light;
         this.helperScale = scale;
+        this.camera = camera;
         this.create3DObjects();
     }
 
@@ -38,6 +40,7 @@ export class SpotLightHelper extends THREE.Object3D {
         this.arrow = new THREE.ArrowHelper(dir, this.light.position, len,
             this.light.color.getHex());
         this.children.push(this.arrow);
+        this.updateMatrixWorld();
     }
 
     public update(light: THREE.SpotLight): void {
@@ -54,5 +57,24 @@ export class SpotLightHelper extends THREE.Object3D {
         this.arrow.setDirection(dir);
         this.arrow.setLength(len);
         this.arrow.setColor(light.color.getHex());
+        this.updateMatrixWorld();
+    }
+
+    public updateMatrixWorld(): void {
+        super.updateMatrixWorld();
+
+        let factor: number;
+        if ( (this.camera as THREE.OrthographicCamera).isOrthographicCamera ) {
+            const orthoCam = this.camera as THREE.OrthographicCamera;
+            factor = ( orthoCam.top - orthoCam.bottom ) / orthoCam.zoom;
+        } else {
+            const perspectiveCam = this.camera as THREE.PerspectiveCamera;
+            factor = this.position.distanceTo(
+                perspectiveCam.position ) * Math.min(
+                1.9 * Math.tan( Math.PI * perspectiveCam.fov / 360 ) / perspectiveCam.zoom, 7 );
+        }
+
+        this.positionSphere.scale.set( 1, 1, 1 ).multiplyScalar( factor * this.helperScale / 1000 );
+        this.targetSphere.scale.set( 1, 1, 1 ).multiplyScalar( factor * this.helperScale / 1000 );
     }
 }
