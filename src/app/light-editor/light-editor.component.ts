@@ -37,7 +37,7 @@ export class LightEditorComponent implements OnInit {
   private dragControl: DragControls;
 
   public get Light(): Light {
-    if (this.light == null) {
+    if (!this.light && this.Lights) {
       if (this.Lights.lights.length > 0) { this.light = this.Lights.lights[0]; }
     }
 
@@ -273,7 +273,7 @@ export class LightEditorComponent implements OnInit {
   }
 
   private onObjectChange(): void {
-    if (!this.sceneService.transformControl.enabled) { return; }
+    if (!this.sceneService.transformControl.enabled || !this.light) { return; }
 
     switch (this.light.type) {
       case LightType.DIRECTIONAL:

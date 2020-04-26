@@ -396,6 +396,7 @@ digraph SceneEditor {
    )\n
    ngOnInit()\n
    onClear(): void\n
+   onClone(): void\n
    onDelete(): void\n
    onImport(event: any): void\n
    onLightChanged(light: Light): void\n

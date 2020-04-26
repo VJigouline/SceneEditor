@@ -61,6 +61,17 @@ export class LightsLibraryEditorComponent implements OnInit {
     this.changedLight.emit(null);
   }
 
+  public onClone(): void {
+    this.Lights = this.Lights.clone();
+    this.Lights.name += ' Copy';
+    this.libraryService.Library.current = this.libraryService.Library.lights.length;
+    this.libraryService.Library.lights.push(this.Lights);
+    this.sceneService.resetLights();
+    this.lightEditor.Light = null;
+    this.lightEditor.updateSelection();
+    this.changedLight.emit(null);
+  }
+
   public onClear(): void {
     const dialogRef = this.confirmationDialog.open(ConfirmationDialogComponent, {
       width: '350px',
@@ -122,9 +133,11 @@ export class LightsLibraryEditorComponent implements OnInit {
         this.sceneService.resetLights();
         this.Lights = this.libraryService.currentLights;
         this.Light = this.Lights.lights.length > 0 ? this.Lights.lights[0] : null;
-        this.lightEditor.updateSelection();
-        this.lightEditor.Light = this.libraryService.currentLights.lights.length > 0 ?
-          this.libraryService.currentLights.lights[0] : null;
+        if (this.lightEditor) {
+          this.lightEditor.updateSelection();
+          this.lightEditor.Light = this.libraryService.currentLights.lights.length > 0 ?
+            this.libraryService.currentLights.lights[0] : null;
+        }
         this.changedLight.emit(null);
         const dialogRef = this.confirmationDialog.open(ErrorDialogComponent, {
           width: '350px',

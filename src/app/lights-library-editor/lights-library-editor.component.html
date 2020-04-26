@@ -53,6 +53,11 @@
         >New</button>
         <button mat-raised-button color="primary" 
         type="button"
+        (click)="onClone()"
+        [disabled]="!Lights"
+        >Clone</button>
+        <button mat-raised-button color="primary" 
+        type="button"
         (click)="onDelete()"
         [disabled]="deleteDisabled"
         >Delete set</button>
