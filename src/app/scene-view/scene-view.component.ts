@@ -79,7 +79,8 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   }
 
   public onResized(event: ResizedEvent): void {
-  //  console.log(`OnResize. New width: ${event.newWidth}, new height: ${event.newHeight}`);
+    console.log(`OnResize. New width: ${event.newWidth}, new height: ${event.newHeight}`);
+    this.AreaWidth = event.newWidth;
     this.sceneService.renderer.setSize(this.AreaWidth, this.AreaHeight - 4);
     this.setCameraSize(this.AreaWidth, this.AreaHeight);
     this.Render();
@@ -142,7 +143,7 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     this.sceneService.renderer.render(this.sceneService.getScene(), this.sceneService.camera);
   }
 
-  private setCameraSize(width: number, height: number): void {
+  public setCameraSize(width: number, height: number): void {
     const camera = this.sceneService.camera;
     camera.left = -width;
     camera.right = width;

@@ -516,7 +516,8 @@ digraph SceneEditor {
    ngAfterViewInit()\n
    SetMaterial(material: Material)\n
    onOrbitControlChange(): void\n
-   public Render(): void\n
+   Render(): void\n
+   setCameraSize(width: number, height: number): void\n
    newScene(): void\n
    UpdateScene(): void
    |

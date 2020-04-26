@@ -40,9 +40,12 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
   }
 
   public onResized(event: ResizedEvent): void {
-  //  console.log(`OnResize. New width: ${event.newWidth}, new height: ${event.newHeight}`);
+    // console.log(`editor OnResize. New width: ${event.newWidth}, new height: ${event.newHeight}`);
     this.Width = event.newWidth;
     this.Height = event.newHeight;
+    this.threeView.AreaHeight = event.newHeight;
+    this.threeView.setCameraSize(this.threeView.AreaWidth, this.threeView.AreaHeight);
+    this.sceneService.renderer.setSize(this.threeView.AreaWidth, this.threeView.AreaHeight - 4);
   }
 
   ngAfterViewInit(): void {
