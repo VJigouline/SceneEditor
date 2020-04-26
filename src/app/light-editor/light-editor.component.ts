@@ -165,15 +165,22 @@ export class LightEditorComponent implements OnInit {
     if (this.sceneService.transformControl) {
       this.sceneService.transformControl.visible = false;
     }
+
     this.sceneService.removeObjectFromScene(this.directionalLightHelper);
+    delete this.directionalLightHelper;
     this.directionalLightHelper = null;
     this.sceneService.removeObjectFromScene(this.hemisphereLightHelper);
+    delete this.hemisphereLightHelper;
     this.hemisphereLightHelper = null;
     this.sceneService.removeObjectFromScene(this.spotLightHelper);
+    delete this.spotLightHelper;
     this.spotLightHelper = null;
     this.sceneService.removeObjectFromScene(this.pointLightHelper);
+    delete this.pointLightHelper;
     this.pointLightHelper = null;
     if (this.dragControl) {
+      this.dragControl.enabled = false;
+      this.dragControl.deactivate();
       delete this.dragControl;
       this.dragControl = null;
     }
