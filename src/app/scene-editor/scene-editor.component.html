@@ -22,10 +22,10 @@
                     ></app-lights-library-editor>
                 </mat-tab>
                 <mat-tab label="Materials" class="tabheader">
-                    <app-material-editor #MaterialEditor
+                    <app-materials-library-editor #MaterialEditor
                     (materialChange)="onMaterialChange($event)"
-                    ></app-material-editor>
-                    </mat-tab>
+                    ></app-materials-library-editor>
+                </mat-tab>
                 <mat-tab label="Scene" class="tabheader">
                     <app-scene (sceneChanged)="onSceneChange($event)"></app-scene>
                 </mat-tab>

@@ -1,1 +1,80 @@
-<p>materials-library-editor works!</p>
+<mat-card class="shipping-card">
+    <mat-card-header>
+        <mat-card-title>Materials library</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width">
+                    <mat-label>Library name</mat-label>
+                    <input [(ngModel)]="Library.name" matInput placeholder="Enter library name">
+                </mat-form-field>
+            </div>
+        </div>
+        <ng-container *ngIf="Materials">
+            <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width">
+                    <mat-label>Select materials to edit</mat-label>
+                    <mat-select [(ngModel)]= "Materials"
+                    (selectionChange)="onSelectionChange($event)"
+                    >
+                        <mat-option *ngFor="let material of Library.materials" [value]="material">{{material.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width">
+                    <mat-label>Materials name</mat-label>
+                    <input [(ngModel)]="Materials.name" matInput placeholder="Enter materials name">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <app-material-editor #MaterialEditor [Material]="Material"
+                (changedMaterial) = onMaterialChanged($event);
+                ></app-material-editor>
+            </div>
+        </div>
+        </ng-container>
+    </mat-card-content>
+    <mat-card-actions>
+        <input
+            style="display: none"
+            type="file" (input)="onImport($event)"
+            accept=".ltslib"
+            #fileInput>
+        <button mat-raised-button color="primary" 
+        type="button"
+        (click)="onNew()"
+        >New</button>
+        <button mat-raised-button color="primary" 
+        type="button"
+        (click)="onClone()"
+        [disabled]="!Materials"
+        >Clone</button>
+        <button mat-raised-button color="primary" 
+        type="button"
+        (click)="onDelete()"
+        [disabled]="deleteDisabled"
+        >Delete set</button>
+        <button mat-raised-button color="primary" 
+        type="button"
+        (click)="fileInput.click()"
+        >Import</button>
+        <button mat-raised-button color="primary" 
+        type="button"
+        (click)="onSave()"
+        [disabled]="deleteDisabled"
+        >Save</button>
+        <button mat-raised-button color="primary" 
+        type="button"
+        (click)="onClear()"
+        [disabled]="deleteDisabled"
+        >Clear</button>
+    </mat-card-actions>
+</mat-card>
+    

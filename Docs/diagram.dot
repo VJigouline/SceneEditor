@@ -427,11 +427,36 @@ digraph SceneEditor {
    onSpecularColourChanged(colour: string): void\n
    onShininessChange(event: MatSliderChange): void\n
    onRoughnessChange(event: MatSliderChange): void\n
-   onMetalnessChange(event: MatSliderChange): void
+   onMetalnessChange(event: MatSliderChange): void\n
+   updateSelection(): void
    |
-  @Output() materialChange = new EventEmitter\<Material\>();\n
+  @Output() materialChange: Material;\n
+  @Input() Material: Material\n
   sceneJSON: string;\n
   material = new Material(MaterialType.MESH_STANDARD);\n
+}"]
+ MaterialsLibraryEditorComponent [label="{MaterialsLibraryEditorComponent |
+   constructor(
+      private libraryService: MaterialLibraryService,\n
+      private confirmationDialog: MatDialog,\n
+      private sceneService: ThreeSceneService   
+   )\n
+   ngOnInit()\n
+   onClear(): void\n
+   onClone(): void\n
+   onDelete(): void\n
+   onImport(event: any): void\n
+   onMaterialChanged(material: Material): void\n
+   onNew(): void\n
+   onSave(): void\n
+   onSelectedTabChange(index: number)\n
+   onSelectionChange(change: MatSelectChange): void
+   |
+   @Output() changedMaterial: Material\n
+   Library: MaterialLibrary\n
+   Material: Material\n
+   Materials: Materials\n
+   deleteDisabled: boolean
 }"]
  NewLightComponent [label="{NewLightComponent |
    constructor()\n
@@ -687,6 +712,14 @@ digraph SceneEditor {
  MaterialService->Material
  MaterialEditorComponent->Material
  MaterialEditorComponent->ThreeSceneService
+ MaterialsLibraryEditorComponent->ConfirmationDialogComponent
+ MaterialsLibraryEditorComponent->ErrorDialogComponent
+ MaterialsLibraryEditorComponent->Material
+ MaterialsLibraryEditorComponent->MaterialEditorComponent
+ MaterialsLibraryEditorComponent->MaterialLibrary
+ MaterialsLibraryEditorComponent->MaterialLibraryService
+ MaterialsLibraryEditorComponent->Materials
+ MaterialsLibraryEditorComponent->ThreeSceneService
  Point3DComponent->Point3
  PointLight->Light
  PointLightEditorComponent->PointLight

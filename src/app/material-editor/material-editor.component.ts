@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ThreeSceneService } from '../three-scene.service';
 import { ColorPickerService, Cmyk } from 'ngx-color-picker';
 import { Material } from '../materials/material';
@@ -20,6 +20,7 @@ export class MaterialEditorComponent implements OnInit {
   sceneJSON: string;
   material = new Material(MaterialType.MESH_STANDARD);
   public materialColour = '#ffffff';
+  @Input() public Material: Material;
 
   constructor(
      private sceneService: ThreeSceneService
@@ -35,6 +36,10 @@ export class MaterialEditorComponent implements OnInit {
 
   getSceneJSON(): void {
 // this.sceneService.getSceneJSON().subscribe(sceneJSON => this.sceneJSON = sceneJSON);
+  }
+
+  public updateSelection(): void {
+    console.error('Not implemented.');
   }
 
   public onDiffuseColourChanged(colour: string): void {
