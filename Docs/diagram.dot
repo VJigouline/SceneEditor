@@ -86,15 +86,6 @@ digraph SceneEditor {
     name: string\n
     lights: Lights[]
  }"]
- MaterialLibrary [label="{MaterialLibrary |
-   constructor(name: string, description: string)\n
-   addFromScene(scene: THREE.Scene): void\n
-   clone(): MaterialLibrary 
-   |
-    name: string;\n
-    description: string;\n
-    materials: Material[] = [];
- }"]
  Material  [label="{Material |
    constructor(type: MaterialType)\n
    static create(mat: THREE.Material): Material\n
@@ -225,6 +216,20 @@ digraph SceneEditor {
 \n
     // ThreeJS material\n
     material: THREE.Material\n
+ }"]
+ MaterialLibrary [label="{MaterialLibrary |
+   constructor(name: string, description: string)\n
+   addFromScene(scene: THREE.Scene): void\n
+   clone(): MaterialLibrary 
+   |
+    name: string;\n
+    description: string;\n
+    materials: Material[] = [];
+ }"]
+ Materials [label="{Materials |
+   |
+    name: string;\n
+    materials: Material[];
  }"]
   Point3 [label="{Point3 |
     constructor(x: number, y: number, z: number)
@@ -587,6 +592,7 @@ digraph SceneEditor {
    getScene(): THREE.Scene\n
    getNewScene(): THREE.Scene\n
    getSceneJSON(): string\n
+   getSceneMaterials(): Materials\n
    addFiles(files: NgxFileDropEntry[], finished: CallbackFinished): void\n
    addFile(file: NgxFileDropEntry, files: NgxFileDropEntry[], finished: CallbackFinished): void\n
    addGLTFFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene, finished: CallbackFinished): void \n
@@ -678,6 +684,7 @@ digraph SceneEditor {
  MaterialLibrary->ThreeScene
  MaterialLibrary->Material
  Material->MaterialType
+ Materials->Material
  MaterialService->Material
  MaterialEditorComponent->Material
  MaterialEditorComponent->ThreeSceneService
@@ -713,6 +720,8 @@ digraph SceneEditor {
  ThreeSceneService->Lights
  ThreeSceneService->LightsLibraryService
  ThreeSceneService->LightType
+ ThreeSceneService->Material
+ ThreeSceneService->Materials
  ThreeSceneService->OrbitControls
  ThreeSceneService->STLLoader
  ThreeSceneService->ThreeScene

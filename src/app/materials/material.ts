@@ -340,8 +340,6 @@ export class Material {
 
         return ret;
     }
-    /*
-    */
 
     private static setCommonProperties(m: Material, mat: THREE.Material) {
         m.material = mat;

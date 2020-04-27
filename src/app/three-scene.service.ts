@@ -12,6 +12,9 @@ import { TransformControls } from 'three/examples/jsm/controls/TransformControls
 import { DragControls } from 'three/examples/jsm/controls/DragControls';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { LightType } from './lights/light-type.enum';
+import { Material } from './materials/material';
+import { Materials } from './materials/materials';
+import { map } from 'rxjs/operators';
 
 interface ViewerFile extends File {
   relativePath: string;
@@ -428,5 +431,40 @@ export class ThreeSceneService {
     this.camera.updateProjectionMatrix();
     this.orbitControls.target.set(center.x, center.y, center.z);
     this.orbitControls.update();
+  }
+
+  public getSceneMaterials(): Materials {
+    const ret: Materials = new Materials();
+    ret.name = 'Scene materials';
+
+    if (!this.scene) { return ret; }
+    const mapMaterials = new Map<THREE.Material, Material>();
+    this.childrenMaterials(this.scene.children, mapMaterials);
+    for (const mat of mapMaterials.values()) {
+      ret.materials.push(mat);
+    }
+
+    return ret;
+  }
+
+  private childrenMaterials(children: THREE.Object3D[],
+                            mapMaterials: Map<THREE.Material, Material>): void {
+    for (const child of children) {
+      if (child instanceof THREE.Mesh) {
+        const mesh = child as THREE.Mesh;
+        if (Array.isArray(mesh.material)) {
+          for (const mat of mesh.material as THREE.Material[]) {
+            if (mapMaterials.has(mat)) { continue; }
+            const meshMat = Material.create(mat);
+            if (meshMat) { mapMaterials.set(mat, meshMat); }
+          }
+        } else {
+          if (mapMaterials.has(mesh.material)) { continue; }
+          const meshMat = Material.create(mesh.material);
+          if (meshMat) { mapMaterials.set(mesh.material, meshMat); }
+        }
+      }
+      if (child.children) { this.childrenMaterials(child.children, mapMaterials); }
+    }
   }
 }
