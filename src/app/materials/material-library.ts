@@ -1,43 +1,29 @@
-import { Material } from './material';
-import * as THREE from 'three';
+import { Materials } from './materials';
 
 export class MaterialLibrary {
-    name: string;
-    description: string;
-    materials: Material[] = [];
+  public name = 'Default';
+  public materials = new Array<Materials>();
+  public current = 0;
 
-    constructor(name: string, description: string) {
-        this.name = name;
-        this.description = description;
-    }
+  public clone(): MaterialLibrary {
+      const ret = new MaterialLibrary();
+      const materials = new Materials();
 
-    addFromScene(scene: THREE.Scene): void {
-        for (const sc of scene.children) {
-            for (const child of sc.children) {
-              if (child.type === 'Mesh') {
-                const mesh = child as THREE.Mesh;
-                if (Array.isArray(mesh.material)) {
-                  for (const mat of mesh.material) {
-                    this.materials.push(Material.create(mat));
-                  }
-                } else {
-                    this.materials.push(Material.create(mesh.material));
-                }
-              }
-            }
-        }
-    }
+      ret.name = this.name;
+      ret.current = this.current;
 
-    clone(): MaterialLibrary {
-        const lib = new MaterialLibrary(this.name, this.description);
-        for (const mat of this.materials) {
-          const newMat = mat.clone();
-          if (newMat === null) {
-            continue;
+      for (const mat of this.materials) {
+          if (!mat.clone) {
+            mat.clone = materials.clone.bind(mat);
           }
-          lib.materials.push(newMat);
-        }
+          ret.materials.push(mat.clone());
+      }
 
-        return lib;
-    }
+      return ret;
+  }
+
+  public clear(): void {
+      this.materials = [new Materials()];
+      this.current = 0;
+  }
 }

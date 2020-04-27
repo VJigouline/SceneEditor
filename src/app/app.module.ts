@@ -27,6 +27,7 @@ import { SceneModifierComponent } from './scene-modifier/scene-modifier.componen
 import { LightsModule} from './lights/lights.module';
 import { FormsModule } from '@angular/forms';
 import { UserControlsModule } from './user-controls/user-controls.module';
+import { MaterialsLibraryEditorComponent } from './materials-library-editor/materials-library-editor.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { UserControlsModule } from './user-controls/user-controls.module';
     LightEditorComponent,
     LightsLibraryEditorComponent,
     SceneComponent,
-    SceneModifierComponent
+    SceneModifierComponent,
+    MaterialsLibraryEditorComponent
   ],
   imports: [
     BrowserModule,

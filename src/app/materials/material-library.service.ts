@@ -1,56 +1,57 @@
 import { Injectable } from '@angular/core';
+import { Materials } from './materials';
 import { MaterialLibrary } from './material-library';
-import { Material } from './material';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MaterialLibraryService {
 
-  libraries: MaterialLibrary[];
-  currentIndex = 0;
+  private library: MaterialLibrary;
+  public get Library(): MaterialLibrary {
+    if (!this.library) { this.library = this.getDefaultLibrary(); }
 
-  constructor() { }
-
-  addLibrary(library: MaterialLibrary): void {
-    this.libraries.push(library);
+    return this.library;
   }
 
-  selectLibrary(index: number): void {
-    if (index < 0 || index >= this.libraries.length) {
-      console.error('Invalid library index.');
-    } else {
-      this.currentIndex = index;
-    }
-  }
+  public get currentMaterials(): Materials {
 
-  getNames(): MaterialLibrary[] {
-    const ret: MaterialLibrary[] = [];
+    if (!this.Library) { return null; }
 
-    for (const lib of this.libraries) {
-      ret.push(new MaterialLibrary(lib.name, lib.description));
+    if (0 <= this.library.current && this.library.current < this.library.materials.length) {
+      return this.library.materials[this.library.current];
     }
 
-    return ret;
-  }
-
-  getCurrentLibrary(): MaterialLibrary {
-    if (0 <= this.currentIndex && this.currentIndex < this.libraries.length) {
-      return this.libraries[this.currentIndex];
+    if (this.library.materials.length > 0) {
+      this.library.current = 0;
+      return this.library.materials[0];
     }
 
     return null;
   }
 
-  addNewLibrary(name: string, description: string): void {
-    this.libraries.push(new MaterialLibrary(name, description));
+  constructor() { }
+
+  public getDefaultLibrary(): MaterialLibrary {
+
+    console.error('Not implemented.');
+    return new MaterialLibrary();
   }
 
-  addLibraryClone(library: MaterialLibrary): void {
-    if (library === undefined) {
-      console.error('Undefined library.');
+  public setCurrentMaterials(materials: Materials): void {
+    const index = this.Library.materials.indexOf(materials);
+    if (index > -1) { this.Library.current = index; }
+  }
+
+  public importLibrary(library: MaterialLibrary): void {
+    if (this.library.materials.length === 0 ||
+      this.library.materials.length === 1 && this.library.materials[0].materials.length === 0) {
+      this.library = library;
       return;
     }
-    this.libraries.push(library.clone());
+
+    for (const materials of library.materials) {
+      this.library.materials.push(materials);
+    }
   }
 }

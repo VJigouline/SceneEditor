@@ -219,14 +219,15 @@ digraph SceneEditor {
  }"]
  MaterialLibrary [label="{MaterialLibrary |
    constructor(name: string, description: string)\n
-   addFromScene(scene: THREE.Scene): void\n
+   clear(): void\n
    clone(): MaterialLibrary 
    |
+    current: number\n
     name: string;\n
-    description: string;\n
-    materials: Material[] = [];
+    materials: Materials;
  }"]
  Materials [label="{Materials |
+    clone(): Materials
    |
     name: string;\n
     materials: Material[];
@@ -577,14 +578,12 @@ digraph SceneEditor {
  }"]
  MaterialLibraryService [label="{MaterialLibraryService |
    constructor()\n
-   addLibrary(library: MaterialLibrary): void\n
-   selectLibrary(index: number): void\n
-   getNames(): MaterialLibrary[]\n
-   getCurrentLibrary(): MaterialLibrary\n
-   addNewLibrary(name: string, description: string): void\n
-   addLibraryClone(library: MaterialLibrary): void
+   getDefaultLibrary(): MaterialLibrary\n
+   importLibrary(library: MaterialLibrary): void\n
+   setCurrentMaterials(materials: Materials): void
    |
-   libraries: MaterialLibrary[];\n
+   currentMaterials: Materials
+   Library: MaterialLibrary;\n
    currentIndex = 0;
  }"]
  ThreeSceneService [label="{ThreeSceneService |
@@ -681,8 +680,8 @@ digraph SceneEditor {
  AppComponent->SceneEditorComponent
  AppModule->AppComponent
  MaterialLibraryService->MaterialLibrary
- MaterialLibrary->ThreeScene
- MaterialLibrary->Material
+ MaterialLibraryService->Materials
+ MaterialLibrary->Materials
  Material->MaterialType
  Materials->Material
  MaterialService->Material
