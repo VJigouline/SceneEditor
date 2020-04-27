@@ -315,6 +315,7 @@ digraph SceneEditor {
 
  // External classes.
  node [fillcolor="green"];
+ ColladaLoader
  DRACOLoader
  DragControls
  GLTFLoader
@@ -619,6 +620,7 @@ digraph SceneEditor {
    getSceneMaterials(): Materials\n
    addFiles(files: NgxFileDropEntry[], finished: CallbackFinished): void\n
    addFile(file: NgxFileDropEntry, files: NgxFileDropEntry[], finished: CallbackFinished): void\n
+   addColladaFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene, finished: CallbackFinished): void \n
    addGLTFFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene, finished: CallbackFinished): void \n
    addJSONFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene, finished: CallbackFinished): void\n
    addSTLFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene, finished: CallbackFinished): void\n
@@ -743,6 +745,7 @@ digraph SceneEditor {
  SpotLightEditorComponent->SpotLight
  ViewerFile->File
  ViewerFile->ThreeSceneService
+ ThreeSceneService->ColladaLoader
  ThreeSceneService->DRACOLoader
  ThreeSceneService->DragControls
  ThreeSceneService->DragEvent

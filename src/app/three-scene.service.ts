@@ -4,6 +4,7 @@ import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry, FileSy
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
+import { ColladaLoader } from 'three/examples/jsm/loaders/ColladaLoader';
 import { reject } from 'q';
 import { Light } from './lights/light';
 import { Lights } from './lights/lights';
@@ -126,6 +127,11 @@ export class ThreeSceneService {
     let contentSetter: ContentSetter;
 
     switch (fileExtension) {
+      case 'dae':
+        readerDelegate = this.addColladaFile;
+        reader = this.readColladaFile;
+        contentSetter = this.setContent;
+        break;
       case 'gltf':
       case 'glb':
         readerDelegate = this.addGLTFFile;
@@ -158,6 +164,79 @@ export class ThreeSceneService {
       vf.service = this;
       readerDelegate(vf, file, files, this.scene, finished);
      });
+  }
+
+  public addColladaFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
+                        scene: THREE.Scene, finished: CallbackFinished): void {
+    const rootPath = file.relativePath.replace(file.fileEntry.name, '');
+    const readers: Promise<ViewerFile>[] = [];
+    const fileMap = new Map<string, File>();
+
+    for (const f of files) {
+      if (!f.relativePath.startsWith(rootPath) || file.relativePath === f.relativePath) {
+        continue;
+      }
+      const reader = new Promise<ViewerFile>((ret) => {
+        const fileEntry = f.fileEntry as FileSystemFileEntry;
+        fileEntry.file((data) => {
+          const vf = data as ViewerFile;
+          vf.relativePath = f.relativePath;
+          finished();
+          ret(vf);
+        });
+      });
+      readers.push(reader);
+    }
+
+    Promise.all(readers).then(fs => {
+      for (const f of fs) {
+        fileMap[f.relativePath] = f;
+      }
+      blob.reader(blob, fileMap, scene, finished);
+    });
+  }
+
+  private readColladaFile(blob: ViewerFile, fileMap: Map<string, File>, scene: THREE.Scene, finished: CallbackFinished): void {
+
+    const fileUrl = URL.createObjectURL(blob);
+    const rootPath = blob.relativePath.replace(blob.name, '');
+    const baseURL = THREE.LoaderUtils.extractUrlBase(fileUrl);
+
+    const manager = new THREE.LoadingManager();
+
+    const blobURLs = [];
+
+    // Intercept and override relative URLs.
+    manager.setURLModifier((url: string) => {
+
+      if (url === fileUrl) {
+        return url;
+      }
+
+      const normalizedURL = rootPath + url
+        .replace(baseURL, '')
+        .replace(/^(\.?\/)/, '');
+
+      const data = fileMap[normalizedURL];
+      if (!data) {
+        return url;
+      }
+      const blobURL = URL.createObjectURL(data);
+      blobURLs.push(blobURL);
+      return blobURL;
+    });
+
+    const loader = new ColladaLoader(manager);
+    loader.setCrossOrigin('anonymous');
+
+    loader.load(fileUrl, (file) => {
+      const sceneCollada = file.scene;
+      const clips = file.animations || [];
+      this.contentSetter(scene, sceneCollada, clips);
+
+      // blobURLs.forEach(URL.revokeObjectURL);
+      finished();
+    }, undefined, reject);
   }
 
   public addGLTFFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
