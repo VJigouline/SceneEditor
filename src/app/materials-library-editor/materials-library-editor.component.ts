@@ -198,4 +198,31 @@ export class MaterialsLibraryEditorComponent implements OnInit {
       }
     });
   }
+
+  public onGetFromScene(): void {
+    const materials = this.sceneService.getSceneMaterials();
+    const dialogRef = this.confirmationDialog.open(ConfirmationDialogComponent, {
+      width: '350px',
+      data: {
+        title: 'Add materials from scene',
+        label: materials.materials.length + ' materials will be added. ',
+        message: 'Do you want to continue?'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.Materials = materials;
+        this.Materials.name = 'From scene';
+        this.libraryService.Library.current = this.libraryService.Library.materials.length;
+        this.libraryService.Library.materials.push(this.Materials);
+        this.sceneService.resetLights();
+        if (this.materialEditor) { 
+          this.materialEditor.Material = null;
+          this.materialEditor.updateSelection();
+        }
+        this.changedMaterial.emit(null);
+      }
+    });
+  }
 }

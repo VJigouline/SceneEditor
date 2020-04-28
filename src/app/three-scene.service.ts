@@ -518,7 +518,7 @@ export class ThreeSceneService {
 
     if (!this.scene) { return ret; }
     const mapMaterials = new Map<THREE.Material, Material>();
-    this.childrenMaterials(this.scene.children, mapMaterials);
+    this.childrenMaterials(this.scene.children, true, mapMaterials);
     for (const mat of mapMaterials.values()) {
       ret.materials.push(mat);
     }
@@ -526,7 +526,7 @@ export class ThreeSceneService {
     return ret;
   }
 
-  private childrenMaterials(children: THREE.Object3D[],
+  private childrenMaterials(children: THREE.Object3D[], start: boolean,
                             mapMaterials: Map<THREE.Material, Material>): void {
     for (const child of children) {
       if (child instanceof THREE.Mesh) {
@@ -543,7 +543,10 @@ export class ThreeSceneService {
           if (meshMat) { mapMaterials.set(mesh.material, meshMat); }
         }
       }
-      if (child.children) { this.childrenMaterials(child.children, mapMaterials); }
+      if ((!start && child.children.length > 0) ||
+        (child instanceof THREE.Scene) || (child instanceof THREE.Group)) {
+        this.childrenMaterials(child.children, false, mapMaterials);
+      }
     }
   }
 }

@@ -421,8 +421,6 @@ digraph SceneEditor {
  MaterialEditorComponent [label="{MaterialEditorComponent |
    constructor(private sceneService: ThreeSceneService)\n
    ngOnInit(): void\n
-   onSubmit()\n
-   getSceneJSON(): void\n
    onDiffuseColourChanged(colour: string): void\n
    onEmissiveColourChanged(colour: string): void\n
    onSpecularColourChanged(colour: string): void\n
@@ -446,6 +444,7 @@ digraph SceneEditor {
    onClear(): void\n
    onClone(): void\n
    onDelete(): void\n
+   onGetFromScene(): void\n
    onImport(event: any): void\n
    onMaterialChanged(material: Material): void\n
    onNew(): void\n

@@ -30,14 +30,6 @@ export class MaterialEditorComponent implements OnInit {
     this.sceneService.setMaterial(this.material.material);
   }
 
-  onSubmit() {
-    this.getSceneJSON();
-  }
-
-  getSceneJSON(): void {
-// this.sceneService.getSceneJSON().subscribe(sceneJSON => this.sceneJSON = sceneJSON);
-  }
-
   public updateSelection(): void {
     console.error('Not implemented.');
   }
