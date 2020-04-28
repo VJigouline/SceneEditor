@@ -62,8 +62,7 @@ export class ThreeSceneService {
   public getScene(): THREE.Scene {
 
     if (this.scene === undefined) {
-      this.scene = new THREE.Scene();
-      this.transformControl = null;
+      this.scene = this.getNewScene();
     }
 
     return this.scene;
@@ -72,8 +71,8 @@ export class ThreeSceneService {
   public getNewScene(): THREE.Scene {
 
     this.scene = new THREE.Scene();
-    this.transformControl = null;
     this.addCurrentLights();
+    if (this.transformControl) { this.scene.add(this.transformControl); }
 
     return this.scene;
   }
