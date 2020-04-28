@@ -91,129 +91,37 @@ digraph SceneEditor {
    static create(mat: THREE.Material): Material\n
    clone(): Material
    |
-    alphaTest = 0\n
-    blendDst = THREE.OneMinusSrcAlphaFactor\n
-    blendDstAlpha: number\n
-    blendEquation = THREE.AddEquation\n
-    blendEquationAlpha: number\n
-    blending = THREE.NormalBlending\n
-    blendSrc: number = THREE.SrcAlphaFactor\n
-    blendSrcAlpha: number\n
-    clipIntersection = false\n
-    clippingPlanes: THREE.Plane[]\n
-    clipShadows = true\n
-    colourWrite = true\n
-    depthFunc = THREE.LessEqualDepth\n
-    depthTest = true\n
-    depthWrite = true\n
-    stencilWrite = false\n
-    stencilMask = 0xFF\n
-    stencilFunc = THREE.AlwaysStencilFunc\n
-    stencilRef = 0\n
-    stencilFail = THREE.KeepStencilOp\n
-    stencilZFail = THREE.KeepStencilOp\n
-    stencilZPass = THREE.KeepStencilOp\n
-    flatShading = false\n
-    fog = true\n
-    name = ''\n
-    opacity = 1\n
-    polygonOffset = false\n
-    polygonOffsetFactor = 0\n
-    polygonOffsetUnits = 0\n
-    precision: string\n
-    premultipliedAlpha = false\n
-    dithering = false\n
-    side = THREE.FrontSide\n
-    toneMapped = true\n
-    transparent = false\n
-    vertexColors = THREE.NoColors\n
-    vertexTangents = false\n
-    visible = true\n
-\n
-    linewidth = 1\n
-    dashSize = 3\n
-    gapSize = 1\n
-    scale = 1\n
     type: MaterialType\n
-    colour: string\n
-    specular: string\n
-    emissive: string\n
-    shininess: number\n
-\n
-    alphaMap: THREE.Texture\n
-    aoMap: THREE.Texture\n
-    aoMapIntensity = 1\n
-    bumpMap: THREE.Texture\n
-    bumpScale = 1\n
-    combine: number\n
-    emissiveMap: THREE.Texture\n
-    emissiveIntensity = 1\n
-    envMap: THREE.Texture\n
-    envMapIntensity = 1\n
-    lightMap: THREE.Texture\n
-    lightMapIntensity = 1\n
-    map: THREE.Texture\n
-    metalness = 0.5\n
-    metallnesMap: THREE.Texture\n
-    morphNormals = false\n
-    morphTargets = false\n
-    normalMap: THREE.Texture\n
-    normalMapType = THREE.TangentSpaceNormalMap\n
-    normalScale = new THREE.Vector2(1, 1)\n
-    reflectivity = 1\n
-    refractionRatio = 0.98\n
-    roughness = 0.5\n
-    roughnessMap: THREE.Texture\n
-    skinning = false\n
-    specularMap: THREE.Texture\n
-    wireframe = false\n
-    // wireframeLineWidth = 1\n
-    depthPacking = THREE.BasicDepthPacking\n
-    displacementMap: THREE.Texture\n
-    displacementScale = 1\n
-    displacementBias = 0\n
-\n
-    // availability.\n
-    hasLineWidth = false\n
-    hasDashSize = false\n
-    hasGapSize = false\n
-    hasScale = false\n
-    hasColour = false\n
-    hasSpecular = false\n
-    hasEmissive = false\n
-    hasShininess = false\n
-    hasAlphaMap = false\n
-    hasAoMap = false\n
-    hasAoMapIntensity = false\n
-    hasBumpMap = false\n
-    hasBumpScale = false\n
-    hasCombine = false\n
-    hasEmissiveMap = false\n
-    hasEmissiveIntensity = false\n
-    hasEnvMap = false\n
-    hasEnvMapIntensity = false\n
-    hasLightMap = false\n
-    hasLightMapIntensity = false\n
-    hasMap = false\n
-    hasMetalness = false\n
-    hasMetalnessMap = false\n
-    hasMorphNormals = false\n
-    hasMorphTargets = false\n
-    hasNormalMap = false\n
-    hasNormalMapType = false\n
-    hasNormalScale = false\n
-    hasReflectivity = false\n
-    hasRefractionRatio = false\n
-    hasRoughness = false\n
-    hasRoughnessMap = false\n
-    hasSkinning = false\n
-    hasSpecularMap = false\n
-    hasWireframe = false\n
-    hasDepthPacking = false\n
-    hasDisplacementMap = false\n
-    hasDisplacementScale = false\n
-    hasDisplacementBias = false\n
-\n
+    alphaTest: number\n
+    blendDst: number\n
+    blendDstAlpha: number\n
+    blendEquation: THREE.BlendingEquation\n
+    blendEquationAlpha: number\n
+    blending: THREE.Blending\n
+    blendSrc: THREE.BlendingDstFactor \| THREE.BlendingSrcFactor\n
+    blendSrcAlpha: number\n
+    clipIntersection: boolean\n
+    clippingPlanes: THREE.Plane[]\n
+    clipShadows: boolean\n
+    colourWrite: boolean\n
+    depthFunc: THREE.DepthModes\n
+    depthTest: booleane\n
+    depthWrite: boolean\n
+    stencilWrite: boolean\n
+    flatShading: boolean\n
+    fog: boolean\n
+    name: string\n
+    opacity: number\n
+    polygonOffset: boolean\n
+    polygonOffsetFactor: number\n
+    polygonOffsetUnits: number\n
+    premultipliedAlpha: boolean\n
+    dithering: boolean\n
+    side = THREE.FrontSide\n
+    toneMapped: boolean\n
+    transparent: boolean\n
+    vertexColors = THREE.NoColors\n
+    visible: boolean\n
     // ThreeJS material\n
     material: THREE.Material\n
  }"]
