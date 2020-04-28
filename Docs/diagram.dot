@@ -301,7 +301,7 @@ digraph SceneEditor {
     MESH_MATCAP = 'Mesh Matcap'\n
     MESH_NORMAL = 'Mesh Normal'\n
     MESH_PHONG = 'Mesh Phong'\n
-    MESH_PHISICAL = 'Mesh Phisical'\n
+    MESH_PHYSICAL = 'Mesh Physical'\n
     MESH_STANDARD = 'Mesh Standard'\n
     MESH_TOON = 'Mesh Toon'\n
     POINTS = 'Mesh Points'\n
@@ -419,8 +419,15 @@ digraph SceneEditor {
    deleteDisabled: boolean
 }"]
  MaterialEditorComponent [label="{MaterialEditorComponent |
-   constructor(private sceneService: ThreeSceneService)\n
+   constructor(private sceneService: ThreeSceneService\n
+    private confirmationDialog: MatDialog,\n
+    private libraryService: MaterialLibraryService
+   )\n
    ngOnInit(): void\n
+   onDelete(): void\n
+   onMaterialChanged(material: Material): void\n
+   onNewMaterial(type: MaterialType): void\n
+   onSelectionChange(change: MatSelectChange): void\n
    onDiffuseColourChanged(colour: string): void\n
    onEmissiveColourChanged(colour: string): void\n
    onSpecularColourChanged(colour: string): void\n
@@ -429,8 +436,10 @@ digraph SceneEditor {
    onMetalnessChange(event: MatSliderChange): void\n
    updateSelection(): void
    |
-  @Output() materialChange: Material;\n
+  @Output() newMaterial: Material;\n
+  @Output() changedMaterial: Material;\n
   @Input() Material: Material\n
+  Materials: Materials\n
   sceneJSON: string;\n
   material = new Material(MaterialType.MESH_STANDARD);\n
 }"]
@@ -465,6 +474,15 @@ digraph SceneEditor {
    |
    lightType: LightType,
    lightTypes: Map\<LightType, string\>\n
+}"]
+ NewMaterialComponent [label="{NewMaterialComponent |
+   constructor()\n
+   ngOnInit()\n
+   onNew(): void\n
+   |
+   @Output() newMaterial: MaterialType\n
+   materialType: MaterialType,
+   materialTypes: Map\<MaterialType, string\>\n
 }"]
  Point3DComponent [label="{Point3DComponent |
    constructor()\n
@@ -711,7 +729,11 @@ digraph SceneEditor {
  Material->MaterialType
  Materials->Material
  MaterialService->Material
+ MaterialEditorComponent->ConfirmationDialogComponent
  MaterialEditorComponent->Material
+ MaterialEditorComponent->MaterialLibraryService
+ MaterialEditorComponent->Materials
+ MaterialEditorComponent->NewMaterialComponent
  MaterialEditorComponent->ThreeSceneService
  MaterialsLibraryEditorComponent->ConfirmationDialogComponent
  MaterialsLibraryEditorComponent->ErrorDialogComponent
