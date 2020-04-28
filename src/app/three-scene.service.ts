@@ -471,7 +471,7 @@ export class ThreeSceneService {
           box = new THREE.Box3().setFromObject(object);
         }
       } else if ((!start && object.children.length > 0) ||
-        (object instanceof THREE.Scene)) {
+        (object instanceof THREE.Scene) || (object instanceof THREE.Group)) {
         if (box) {
           const b = this.sceneBox(object, false);
           if (b) { box = box.union(b); }
