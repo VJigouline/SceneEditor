@@ -1,0 +1,13 @@
+<div class="row">
+    <div class="col">
+        <mat-form-field class="full-width">
+        <mat-label>Select material type</mat-label>
+        <mat-select [(value)]="materialType">
+            <mat-option *ngFor="let type of materialTypes" [value]="type.type">{{type.name}}</mat-option>
+        </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="col">
+        <button mat-raised-button color="primary" (click)="onNew()">New</button>
+    </div>
+</div>

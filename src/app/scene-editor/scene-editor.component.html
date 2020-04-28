@@ -23,7 +23,7 @@
                 </mat-tab>
                 <mat-tab label="Materials" class="tabheader">
                     <app-materials-library-editor #MaterialEditor
-                    (materialChange)="onMaterialChange($event)"
+                    (changedMaterial)="onMaterialChange($event)"
                     ></app-materials-library-editor>
                 </mat-tab>
                 <mat-tab label="Scene" class="tabheader">

@@ -1,74 +1,52 @@
-<mat-card class="shipping-card">
+<mat-card>
   <mat-card-header>
-    <mat-card-title>Material editor</mat-card-title>
+      <mat-card-title>Material editor</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div class="row">
-      <div class="col">
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Colour"
-          [value] = "materialColour"
-          [style.background]="materialColour"
-          [cpPosition] = "'bottom'"
-          [(colorPicker)]="materialColour"
-          (colorPickerChange)="onDiffuseColourChanged($event)"
-          >
-        </mat-form-field>
+      <ng-container *ngIf="Materials.materials.length > 0">
+          <div class="row">
+              <div class="col">
+                  <mat-form-field class="full-width">
+                      <mat-label>Select material to edit</mat-label>
+                      <mat-select [(ngModel)]= "Material"
+                      (selectionChange)="onSelectionChange($event)"
+                      >
+                          <mat-option *ngFor="let material of Materials.materials" [value]="material">{{material.name}}</mat-option>
+                      </mat-select>
+                  </mat-form-field>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col">
+                  <mat-form-field class="full-width">
+                      <mat-label>Material name</mat-label>
+                      <input [(ngModel)]="Material.name" matInput placeholder="Enter material name">
+                  </mat-form-field>
+              </div>
+          </div>
+          <!-- <div *ngIf="Material.type == materialType.AMBIENT" class="row">
+              <div class="col">
+                  <app-ambient-material-editor
+                  [Material]="Material"
+                  (materialChange)="onMaterialChanged($event)"
+                  ></app-ambient-material-editor>
+              </div>
+          </div> -->
+      </ng-container>
+      <div class="row">
+          <div class="col">
+            <app-new-material
+               (newMaterial) = "onNewMaterial($event)"
+            ></app-new-material>
+         </div>
       </div>
-    </div>
-    <div *ngIf="material.hasSpecular" class="row">
-      <div class="col">
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Specular colour"
-          [value] = "material.specular"
-          [style.background]="material.specular"
-          [cpPosition] = "'bottom'"
-          [(colorPicker)]="material.specular"
-          (colorPickerChange)="onSpecularColourChanged($event)"
-          >
-        </mat-form-field>
+      <div *ngIf="Materials.materials.length > 0" class="row">
+          <div class="col">
+              <button mat-raised-button color="primary" 
+              type="button"
+              (click)="onDelete()"
+              >Delete material</button>                   
+          </div>
       </div>
-    </div>
-    <div *ngIf="material.hasEmissive" class="row">
-      <div class="col">
-        <mat-form-field class="full-width">
-          <input matInput placeholder="Emissive colour"
-          [value] = "material.emissive"
-          [style.background]="material.emissive"
-          [cpPosition] = "'bottom'"
-          [(colorPicker)]="material.emissive"
-          (colorPickerChange)="onEmissiveColourChanged($event)"
-          >
-        </mat-form-field>
-      </div>
-    </div>
-    <div *ngIf="material.hasShininess" class="row">
-      <div class="col">
-        <mat-slider min="1" max="100" step="1"
-        (input)="onShininessChange($event)"
-        ></mat-slider>
-      </div>
-    </div>
-    <div *ngIf="material.hasRoughness" class="row">
-      <div class="col label">
-        Roughness
-        <mat-slider min="0" max="1" step="0.02"
-        (input)="onRoughnessChange($event)"
-        ></mat-slider>
-      </div>
-    </div>
-    <div *ngIf="material.hasMetalness" class="row">
-      <div class="col label">
-        Metalness
-        <mat-slider min="0" max="1" step="0.02"
-        (input)="onMetalnessChange($event)"
-        ></mat-slider>
-      </div>
-    </div>
   </mat-card-content>
-  <mat-card-actions>
-      <div *ngIf="false">
-        <button mat-raised-button color="primary" type="submit">Save Scene</button>
-      </div>
-  </mat-card-actions>
 </mat-card>

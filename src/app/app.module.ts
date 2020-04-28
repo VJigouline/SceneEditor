@@ -28,6 +28,7 @@ import { LightsModule} from './lights/lights.module';
 import { FormsModule } from '@angular/forms';
 import { UserControlsModule } from './user-controls/user-controls.module';
 import { MaterialsLibraryEditorComponent } from './materials-library-editor/materials-library-editor.component';
+import { MaterialsModule } from './materials/materials.module';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { MaterialsLibraryEditorComponent } from './materials-library-editor/mate
     NgxFileDropModule,
     LightsModule,
     FormsModule,
-    UserControlsModule
+    UserControlsModule,
+    MaterialsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -54,14 +54,15 @@ export class LightEditorComponent implements OnInit {
     }
     this.changeSelection(this.light);
   }
-  public maxIntensity = 20;
-
-  @ViewChild('LightEditor')
-  private lightEditor: LightEditorComponent;
 
   public get Lights(): Lights {
     return this.libraryService.currentLights;
   }
+
+  public maxIntensity = 20;
+
+  @ViewChild('LightEditor')
+  private lightEditor: LightEditorComponent;
 
   constructor(
     private sceneService: ThreeSceneService,
@@ -70,7 +71,7 @@ export class LightEditorComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.light = this.Lights[0];
+    this.light = this.Lights.lights[0];
     this.sceneService.transformControl.addEventListener(
       'objectChange', this.onObjectChange.bind(this));
   }
@@ -123,10 +124,6 @@ export class LightEditorComponent implements OnInit {
   public onLightChanged(light: Light): void {
     this.updateHelpers();
     this.changedLight.emit(light);
-  }
-
-  private getLights(): Lights {
-    return this.sceneService.getLights();
   }
 
   public onSelectionChange(change: MatSelectChange): void {
@@ -338,13 +335,13 @@ export class LightEditorComponent implements OnInit {
         this.sceneService.removeObjectFromScene(this.light.light);
         const index = this.Lights.lights.indexOf(this.light);
         if (index > -1) {
-          delete this.Lights[index];
+          delete this.Lights.lights[index];
           this.Lights.lights.splice(index, 1);
           if (index > 0) {
-            this.light = this.Lights[index - 1];
+            this.light = this.Lights.lights[index - 1];
           } else {
             if (this.Lights.lights.length > 0) {
-              this.light = this.Lights[0];
+              this.light = this.Lights.lights[0];
             } else {
               this.light = null;
             }

@@ -54,6 +54,7 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
   }
 
   onMaterialChange(material: Material) {
+    if (!material) { return; }
     this.threeView.SetMaterial(material);
   }
 

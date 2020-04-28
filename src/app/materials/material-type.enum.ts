@@ -8,7 +8,7 @@ export enum MaterialType {
     MESH_MATCAP = 'Mesh Matcap',
     MESH_NORMAL = 'Mesh Normal',
     MESH_PHONG = 'Mesh Phong',
-    MESH_PHISICAL = 'Mesh Phisical',
+    MESH_PHYSICAL = 'Mesh Physical',
     MESH_STANDARD = 'Mesh Standard',
     MESH_TOON = 'Mesh Toon',
     POINTS = 'Mesh Points',

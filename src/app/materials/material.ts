@@ -184,7 +184,7 @@ export class Material {
             break;
         case MaterialType.MESH_NORMAL:
             break;
-        case MaterialType.MESH_PHISICAL:
+        case MaterialType.MESH_PHYSICAL:
             break;
         case MaterialType.MESH_PHONG:
             break;
