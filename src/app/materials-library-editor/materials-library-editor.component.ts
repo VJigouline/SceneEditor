@@ -52,7 +52,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
   }
   public onNew(): void {
     this.Materials = new Materials();
-    this.Materials.name = 'Light set ' + this.libraryService.Library.materials.length;
+    this.Materials.name = 'Material set ' + this.libraryService.Library.materials.length;
     this.libraryService.Library.current = this.libraryService.Library.materials.length;
     this.libraryService.Library.materials.push(this.Materials);
     this.sceneService.resetLights();
