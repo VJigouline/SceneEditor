@@ -164,6 +164,9 @@ export class Material {
         case 'PointsMaterial':
             ret = new PointsMaterial();
             break;
+        case 'ShadowMaterial':
+            ret = new ShadowMaterial();
+            break;
         default:
             console.error('Unknown material.');
             ret = new MeshStandardMaterial();
@@ -1708,5 +1711,30 @@ export class PointsMaterial extends Material {
         this.map = material.map;
         this.size = material.size;
         this.sizeAttenuation = material.sizeAttenuation;
+    }
+}
+
+export class ShadowMaterial extends Material {
+    public get transparent(): boolean {
+        return (this.material as THREE.ShadowMaterial).transparent;
+    }
+    public set transparent(value: boolean) {
+        (this.material as THREE.ShadowMaterial).transparent = value;
+    }
+
+    constructor(type?: MaterialType) {
+        super(type ? type : MaterialType.SHADOW);
+    }
+
+    public clone(): ShadowMaterial {
+        const ret = new ShadowMaterial();
+        ret.copy(this);
+
+        return ret;
+    }
+
+    public copy(material: ShadowMaterial): void {
+        super.copy(material);
+        this.transparent = material.transparent;
     }
 }

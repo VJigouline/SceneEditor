@@ -432,6 +432,13 @@ MeshToonMaterial [label="{MeshToonMaterial |
     size: number\n
     sizeAttenuation: number
  }"]
+  ShadowMaterial [label="{ShadowMaterial |
+    constructor()\n
+    clone(): ShadowMaterial\n
+    copy(material: ShadowMaterial): void
+    |
+    transparent: boolean
+ }"]
   SpotLight [label="{SpotLight |
     constructor()\n
     clone(): SpotLight\n
@@ -949,6 +956,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  SceneViewComponent->Material
  SceneViewComponent->ThreeScene
  SceneViewComponent->TransformControls
+ ShadowMaterial->Material
  SpotLight->Light
  SpotLightEditorComponent->SpotLight
  ViewerFile->File
