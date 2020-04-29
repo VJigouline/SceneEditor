@@ -171,6 +171,28 @@ digraph SceneEditor {
     name: string;\n
     materials: Material[];
  }"]
+ MeshBasicMaterial [label="{MeshBasicMaterial |
+    constructor()\n
+    clone(): MeshBasicMaterial\n
+    copy(material: MeshBasicMaterial): void
+    |
+    alphaMap: THREE.Texture\n
+    aoMap: THREE.Texture\n
+    aoMapIntensity: number\n
+    colour: THREE.Color\n
+    combine: THREE.Combine\n
+    envMap: THREE.Texture\n
+    map: THREE.Texture\n
+    morphTargets: boolean\n
+    reflectivity: number\n
+    refractionRatio: number\n
+    skinning: boolean\n
+    specularMap: THREE.Texture\n
+    wireframe: boolean\n
+    wireframeLinecap: string\n
+    wireframeLinejoin: string\n
+    wireframeLinewidth: number
+ }"]
   Point3 [label="{Point3 |
     constructor(x: number, y: number, z: number)
     |
@@ -685,6 +707,7 @@ digraph SceneEditor {
  MaterialsLibraryEditorComponent->MaterialLibraryService
  MaterialsLibraryEditorComponent->Materials
  MaterialsLibraryEditorComponent->ThreeSceneService
+ MeshBasicMaterial->Material
  Point3DComponent->Point3
  PointLight->Light
  PointLightEditorComponent->PointLight

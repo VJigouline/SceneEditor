@@ -284,3 +284,133 @@ export class LineDashedMaterial extends LineBasicMaterial {
         this.scale = material.scale;
     }
 }
+
+export class MeshBasicMaterial extends Material {
+    public get alphaMap(): THREE.Texture {
+        return (this.material as THREE.MeshBasicMaterial).alphaMap;
+    }
+    public set alphaMap(value: THREE.Texture) {
+        (this.material as THREE.MeshBasicMaterial).alphaMap = value;
+    }
+    public get aoMap(): THREE.Texture {
+        return (this.material as THREE.MeshBasicMaterial).aoMap;
+    }
+    public set aoMap(value: THREE.Texture) {
+        (this.material as THREE.MeshBasicMaterial).aoMap = value;
+    }
+    public get aoMapIntensity(): number {
+        return (this.material as THREE.MeshBasicMaterial).aoMapIntensity;
+    }
+    public set aoMapIntensity(value: number) {
+        (this.material as THREE.MeshBasicMaterial).aoMapIntensity = value;
+    }
+    public get colour(): THREE.Color {
+        return (this.material as THREE.MeshBasicMaterial).color;
+    }
+    public set colour(value: THREE.Color) {
+        (this.material as THREE.MeshBasicMaterial).color = value;
+    }
+    public get combine(): THREE.Combine {
+        return (this.material as THREE.MeshBasicMaterial).combine;
+    }
+    public set combine(value: THREE.Combine) {
+        (this.material as THREE.MeshBasicMaterial).combine = value;
+    }
+    public get envMap(): THREE.Texture {
+        return (this.material as THREE.MeshBasicMaterial).envMap;
+    }
+    public set envMap(value: THREE.Texture) {
+        (this.material as THREE.MeshBasicMaterial).envMap = value;
+    }
+    public get map(): THREE.Texture {
+        return (this.material as THREE.MeshBasicMaterial).map;
+    }
+    public set map(value: THREE.Texture) {
+        (this.material as THREE.MeshBasicMaterial).map = value;
+    }
+    public get morphTargets(): boolean {
+        return (this.material as THREE.MeshBasicMaterial).morphTargets;
+    }
+    public set morphTargets(value: boolean) {
+        (this.material as THREE.MeshBasicMaterial).morphTargets = value;
+    }
+    public get reflectivity(): number {
+        return (this.material as THREE.MeshBasicMaterial).reflectivity;
+    }
+    public set reflectivity(value: number) {
+        (this.material as THREE.MeshBasicMaterial).reflectivity = value;
+    }
+    public get refractionRatio(): number {
+        return (this.material as THREE.MeshBasicMaterial).refractionRatio;
+    }
+    public set refractionRatio(value: number) {
+        (this.material as THREE.MeshBasicMaterial).refractionRatio = value;
+    }
+    public get skinning(): boolean {
+        return (this.material as THREE.MeshBasicMaterial).skinning;
+    }
+    public set skinning(value: boolean) {
+        (this.material as THREE.MeshBasicMaterial).skinning = value;
+    }
+    public get specularMap(): THREE.Texture {
+        return (this.material as THREE.MeshBasicMaterial).specularMap;
+    }
+    public set specularMap(value: THREE.Texture) {
+        (this.material as THREE.MeshBasicMaterial).specularMap = value;
+    }
+    public get wireframe(): boolean {
+        return (this.material as THREE.MeshBasicMaterial).wireframe;
+    }
+    public set wireframe(value: boolean) {
+        (this.material as THREE.MeshBasicMaterial).wireframe = value;
+    }
+    public get wireframeLinecap(): string {
+        return (this.material as THREE.MeshBasicMaterial).wireframeLinecap;
+    }
+    public set wireframeLinecap(value: string) {
+        (this.material as THREE.MeshBasicMaterial).wireframeLinecap = value;
+    }
+    public get wireframeLinejoin(): string {
+        return (this.material as THREE.MeshBasicMaterial).wireframeLinejoin;
+    }
+    public set wireframeLinejoin(value: string) {
+        (this.material as THREE.MeshBasicMaterial).wireframeLinejoin = value;
+    }
+    public get wireframeLinewidth(): number {
+        return (this.material as THREE.MeshBasicMaterial).wireframeLinewidth;
+    }
+    public set wireframeLinewidth(value: number) {
+        (this.material as THREE.MeshBasicMaterial).wireframeLinewidth = value;
+    }
+
+    constructor(type?: MaterialType) {
+        super(type ? type : MaterialType.MESH_BASIC);
+    }
+
+    public clone(): MeshBasicMaterial {
+        const ret = new MeshBasicMaterial();
+        ret.copy(this);
+
+        return ret;
+    }
+
+    public copy(material: MeshBasicMaterial): void {
+        super.copy(material);
+        this.alphaMap = material.alphaMap;
+        this.aoMap = material.aoMap;
+        this.aoMapIntensity = material.aoMapIntensity;
+        this.colour = material.colour;
+        this.combine = material.combine;
+        this.envMap = material.envMap;
+        this.map = material.map;
+        this.morphTargets = material.morphTargets;
+        this.reflectivity = material.reflectivity;
+        this.refractionRatio = material.refractionRatio;
+        this.skinning = material.skinning;
+        this.specularMap = material.specularMap;
+        this.wireframe = material.wireframe;
+        this.wireframeLinecap = material.wireframeLinecap;
+        this.wireframeLinejoin = material.wireframeLinejoin;
+        this.wireframeLinewidth = material.wireframeLinewidth;
+    }
+}
