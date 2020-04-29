@@ -430,7 +430,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
     colour: THREE.Color\n
     map: THREE.Texture\n
     size: number\n
-    sizeAttenuation: number
+    sizeAttenuation: boolean
  }"]
   ShadowMaterial [label="{ShadowMaterial |
     constructor()\n
@@ -459,6 +459,17 @@ MeshToonMaterial [label="{MeshToonMaterial |
    light: THREE.SpotLight\n
    positionSphere: THREE.Mesh\n
    targetSphere: THREE.Mesh
+ }"]
+  SpriteMaterial [label="{SpriteMaterial |
+    constructor()\n
+    clone(): SpriteMaterial\n
+    copy(material: SpriteMaterial): void
+    |
+    colour: THREE.Color\n
+    fog: boolean\n
+    map: THREE.Texture\n
+    rotation: number\n
+    sizeAttenuation: boolean
  }"]
 
  // Template classes.
@@ -959,6 +970,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  ShadowMaterial->Material
  SpotLight->Light
  SpotLightEditorComponent->SpotLight
+ SpriteMaterial->Material
  ViewerFile->File
  ViewerFile->ThreeSceneService
  ThreeSceneService->ColladaLoader

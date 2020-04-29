@@ -167,6 +167,9 @@ export class Material {
         case 'ShadowMaterial':
             ret = new ShadowMaterial();
             break;
+        case 'SpriteMaterial':
+            ret = new SpriteMaterial();
+            break;
         default:
             console.error('Unknown material.');
             ret = new MeshStandardMaterial();
@@ -1736,5 +1739,58 @@ export class ShadowMaterial extends Material {
     public copy(material: ShadowMaterial): void {
         super.copy(material);
         this.transparent = material.transparent;
+    }
+}
+
+export class SpriteMaterial extends Material {
+    public get colour(): THREE.Color {
+        return (this.material as THREE.SpriteMaterial).color;
+    }
+    public set colour(value: THREE.Color) {
+        (this.material as THREE.SpriteMaterial).color = value;
+    }
+    public get fog(): boolean {
+        return (this.material as THREE.SpriteMaterial).fog;
+    }
+    public set fog(value: boolean) {
+        (this.material as THREE.SpriteMaterial).fog = value;
+    }
+    public get map(): THREE.Texture {
+        return (this.material as THREE.SpriteMaterial).map;
+    }
+    public set map(value: THREE.Texture) {
+        (this.material as THREE.SpriteMaterial).map = value;
+    }
+    public get rotation(): number {
+        return (this.material as THREE.SpriteMaterial).rotation;
+    }
+    public set rotation(value: number) {
+        (this.material as THREE.SpriteMaterial).rotation = value;
+    }
+    public get sizeAttenuation(): boolean {
+        return (this.material as THREE.SpriteMaterial).sizeAttenuation;
+    }
+    public set sizeAttenuation(value: boolean) {
+        (this.material as THREE.SpriteMaterial).sizeAttenuation = value;
+    }
+
+    constructor(type?: MaterialType) {
+        super(type ? type : MaterialType.SPRITE);
+    }
+
+    public clone(): SpriteMaterial {
+        const ret = new SpriteMaterial();
+        ret.copy(this);
+
+        return ret;
+    }
+
+    public copy(material: SpriteMaterial): void {
+        super.copy(material);
+        this.colour = material.colour;
+        this.fog = material.fog;
+        this.map = material.map;
+        this.rotation = material.rotation;
+        this.sizeAttenuation = material.sizeAttenuation;
     }
 }
