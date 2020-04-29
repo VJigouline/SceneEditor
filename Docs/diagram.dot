@@ -88,6 +88,16 @@ digraph SceneEditor {
     name: string\n
     lights: Lights[]
  }"]
+ LineBasicMaterial [label="{LineBasicMaterial |
+    constructor()\n
+    clone(): LineBasicMaterial\n
+    copy(material: LineBasicMaterial): void
+    |
+    colour: THREE.Colour\n
+    linewidth: number\n
+    linecap: string\n
+    linejoin: string
+ }"]
  Material  [label="{Material |
    constructor(type: MaterialType)\n
    static CreateMaterial(mat: THREE.Material): Material\n
@@ -632,6 +642,7 @@ digraph SceneEditor {
  LightsLibraryService->ErrorDialogComponent
  LightsLibraryService->Lights
  LightsLibraryService->LightsLibrary
+ LineBasicMaterial->Material
  AppComponent->SceneEditorComponent
  AppModule->AppComponent
  MaterialLibraryService->MaterialLibrary

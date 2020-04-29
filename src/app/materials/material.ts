@@ -132,7 +132,7 @@ export class Material {
 
         switch (material.type) {
         case 'LineBasicMaterial':
-            ret = new Material(MaterialType.LINE_BASIC);
+            ret = new LineBasicMaterial();
             break;
         case 'LineDashedMaterial':
             ret = new Material(MaterialType.LINE_DASHED);
@@ -197,5 +197,51 @@ export class Material {
         this.transparent = material.transparent;
         this.vertexColors = material.vertexColors;
         this.visible = material.visible;
+    }
+}
+
+export class LineBasicMaterial extends Material {
+    public get colour(): THREE.Color {
+        return (this.material as THREE.LineBasicMaterial).color;
+    }
+    public set colour(value: THREE.Color) {
+        (this.material as THREE.LineBasicMaterial).color = value;
+    }
+    public get linewidth(): number {
+        return (this.material as THREE.LineBasicMaterial).linewidth;
+    }
+    public set linewidth(value: number) {
+        (this.material as THREE.LineBasicMaterial).linewidth = value;
+    }
+    public get linecap(): string {
+        return (this.material as THREE.LineBasicMaterial).linecap;
+    }
+    public set linecap(value: string) {
+        (this.material as THREE.LineBasicMaterial).linecap = value;
+    }
+    public get linejoin(): string {
+        return (this.material as THREE.LineBasicMaterial).linejoin;
+    }
+    public set linejoin(value: string) {
+        (this.material as THREE.LineBasicMaterial).linejoin = value;
+    }
+
+    constructor() {
+        super(MaterialType.LINE_BASIC);
+    }
+
+    public clone(): LineBasicMaterial {
+        const ret = new LineBasicMaterial();
+        ret.copy(this);
+
+        return ret;
+    }
+
+    public copy(material: LineBasicMaterial): void {
+        super.copy(material);
+        this.colour = material.colour;
+        this.linewidth = material.linewidth;
+        this.linecap = material.linecap;
+        this.linejoin = material.linejoin;
     }
 }
