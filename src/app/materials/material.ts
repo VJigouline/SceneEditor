@@ -226,8 +226,8 @@ export class LineBasicMaterial extends Material {
         (this.material as THREE.LineBasicMaterial).linejoin = value;
     }
 
-    constructor() {
-        super(MaterialType.LINE_BASIC);
+    constructor(type?: MaterialType) {
+        super(type ? type : MaterialType.LINE_BASIC);
     }
 
     public clone(): LineBasicMaterial {
@@ -243,5 +243,44 @@ export class LineBasicMaterial extends Material {
         this.linewidth = material.linewidth;
         this.linecap = material.linecap;
         this.linejoin = material.linejoin;
+    }
+}
+
+export class LineDashedMaterial extends LineBasicMaterial {
+    public get dashSize(): number {
+        return (this.material as THREE.LineDashedMaterial).dashSize;
+    }
+    public set dashSize(value: number) {
+        (this.material as THREE.LineDashedMaterial).dashSize = value;
+    }
+    public get gapSize(): number {
+        return (this.material as THREE.LineDashedMaterial).gapSize;
+    }
+    public set gapSize(value: number) {
+        (this.material as THREE.LineDashedMaterial).gapSize = value;
+    }
+    public get scale(): number {
+        return (this.material as THREE.LineDashedMaterial).scale;
+    }
+    public set scale(value: number) {
+        (this.material as THREE.LineDashedMaterial).scale = value;
+    }
+
+    constructor() {
+        super(MaterialType.LINE_DASHED);
+    }
+
+    public clone(): LineDashedMaterial {
+        const ret = new LineDashedMaterial();
+        ret.copy(this);
+
+        return ret;
+    }
+
+    public copy(material: LineDashedMaterial): void {
+        super.copy(material);
+        this.dashSize = material.dashSize;
+        this.gapSize = material.gapSize;
+        this.scale = material.scale;
     }
 }

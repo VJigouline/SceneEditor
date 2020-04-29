@@ -98,6 +98,25 @@ digraph SceneEditor {
     linecap: string\n
     linejoin: string
  }"]
+ LineBasicMaterial [label="{LineBasicMaterial |
+    constructor()\n
+    clone(): LineBasicMaterial\n
+    copy(material: LineBasicMaterial): void
+    |
+    colour: THREE.Colour\n
+    linewidth: number\n
+    linecap: string\n
+    linejoin: string
+ }"]
+ LineDashedMaterial [label="{LineDashedMaterial |
+    constructor()\n
+    clone(): LineDashedMaterial\n
+    copy(material: LineDashedMaterial): void
+    |
+    dashSize: number\n
+    gapSize: number\n
+    scale: number
+ }"]
  Material  [label="{Material |
    constructor(type: MaterialType)\n
    static CreateMaterial(mat: THREE.Material): Material\n
@@ -643,6 +662,7 @@ digraph SceneEditor {
  LightsLibraryService->Lights
  LightsLibraryService->LightsLibrary
  LineBasicMaterial->Material
+ LineDashedMaterial->LineBasicMaterial
  AppComponent->SceneEditorComponent
  AppModule->AppComponent
  MaterialLibraryService->MaterialLibrary
