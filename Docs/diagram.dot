@@ -252,6 +252,26 @@ digraph SceneEditor {
     normalMap: THREE.Texture\n
     normalMapType: THREE.NormalMapTypes\n
     normalScale: THREE.Vector2\n
+    skinning: boolean\n
+    wireframe: boolean\n
+    wireframeLinewidth: number
+ }"]
+ MeshNormalMaterial [label="{MeshNormalMaterial |
+    constructor()\n
+    clone(): MeshNormalMaterial\n
+    copy(material: MeshNormalMaterial): void
+    |
+    bumpMap: THREE.Texture\n
+    bumpScale: number\n
+    displacementMap: THREE.Texture\n
+    displacementScale: number\n
+    displacementBias: number\n
+    fog: boolean\n
+    morphNormals: boolean\n
+    morphTargets: boolean\n
+    normalMap: THREE.Texture\n
+    normalMapType: THREE.NormalMapTypes\n
+    normalScale: THREE.Vector2\n
     skinning: boolean
  }"]
   Point3 [label="{Point3 |
@@ -771,6 +791,7 @@ digraph SceneEditor {
  MeshDepthMaterial->Material
  MeshLambertMaterial->Material
  MeshMatcapMaterial->Material
+ MeshNormalMaterial->Material
  Point3DComponent->Point3
  PointLight->Light
  PointLightEditorComponent->PointLight

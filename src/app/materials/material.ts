@@ -146,6 +146,9 @@ export class Material {
         case 'MeshMatcapMaterial':
             ret = new MeshMatcapMaterial();
             break;
+        case 'MeshNormalMaterial':
+            ret = new MeshNormalMaterial();
+            break;
         case 'MeshStandardMaterial':
             ret = new Material(MaterialType.MESH_STANDARD);
             break;
@@ -766,5 +769,121 @@ export class MeshMatcapMaterial extends Material {
         this.normalMapType = material.normalMapType;
         this.normalScale = material.normalScale;
         this.skinning = material.skinning;
+    }
+}
+
+export class MeshNormalMaterial extends Material {
+    public get bumpMap(): THREE.Texture {
+        return (this.material as THREE.MeshNormalMaterial).bumpMap;
+    }
+    public set bumpMap(value: THREE.Texture) {
+        (this.material as THREE.MeshNormalMaterial).bumpMap = value;
+    }
+    public get bumpScale(): number {
+        return (this.material as THREE.MeshNormalMaterial).bumpScale;
+    }
+    public set bumpScale(value: number) {
+        (this.material as THREE.MeshNormalMaterial).bumpScale = value;
+    }
+    public get displacementMap(): THREE.Texture {
+        return (this.material as THREE.MeshNormalMaterial).displacementMap;
+    }
+    public set displacementMap(value: THREE.Texture) {
+        (this.material as THREE.MeshNormalMaterial).displacementMap = value;
+    }
+    public get displacementScale(): number {
+        return (this.material as THREE.MeshNormalMaterial).displacementScale;
+    }
+    public set displacementScale(value: number) {
+        (this.material as THREE.MeshNormalMaterial).displacementScale = value;
+    }
+    public get displacementBias(): number {
+        return (this.material as THREE.MeshNormalMaterial).displacementBias;
+    }
+    public set displacementBias(value: number) {
+        (this.material as THREE.MeshNormalMaterial).displacementBias = value;
+    }
+    public get fog(): boolean {
+        return (this.material as THREE.MeshNormalMaterial).fog;
+    }
+    public set fog(value: boolean) {
+        (this.material as THREE.MeshNormalMaterial).fog = value;
+    }
+    public get morphNormals(): boolean {
+        return (this.material as THREE.MeshNormalMaterial).morphNormals;
+    }
+    public set morphNormals(value: boolean) {
+        (this.material as THREE.MeshNormalMaterial).morphNormals = value;
+    }
+    public get morphTargets(): boolean {
+        return (this.material as THREE.MeshNormalMaterial).morphTargets;
+    }
+    public set morphTargets(value: boolean) {
+        (this.material as THREE.MeshNormalMaterial).morphNormals = value;
+    }
+    public get normalMap(): THREE.Texture {
+        return (this.material as THREE.MeshNormalMaterial).normalMap;
+    }
+    public set normalMap(value: THREE.Texture) {
+        (this.material as THREE.MeshNormalMaterial).normalMap = value;
+    }
+    public get normalMapType(): THREE.NormalMapTypes {
+        return (this.material as THREE.MeshNormalMaterial).normalMapType;
+    }
+    public set normalMapType(value: THREE.NormalMapTypes) {
+        (this.material as THREE.MeshNormalMaterial).normalMapType = value;
+    }
+    public get normalScale(): THREE.Vector2 {
+        return (this.material as THREE.MeshNormalMaterial).normalScale;
+    }
+    public set normalScale(value: THREE.Vector2) {
+        (this.material as THREE.MeshNormalMaterial).normalScale = value;
+    }
+    public get skinning(): boolean {
+        return (this.material as THREE.MeshNormalMaterial).skinning;
+    }
+    public set skinning(value: boolean) {
+        (this.material as THREE.MeshNormalMaterial).skinning = value;
+    }
+    public get wireframe(): boolean {
+        return (this.material as THREE.MeshNormalMaterial).wireframe;
+    }
+    public set wireframe(value: boolean) {
+        (this.material as THREE.MeshNormalMaterial).wireframe = value;
+    }
+    public get wireframeLinewidth(): number {
+        return (this.material as THREE.MeshNormalMaterial).wireframeLinewidth;
+    }
+    public set wireframeLinewidth(value: number) {
+        (this.material as THREE.MeshNormalMaterial).wireframeLinewidth = value;
+    }
+
+    constructor() {
+        super(MaterialType.MESH_MATCAP);
+    }
+
+    public clone(): MeshNormalMaterial {
+        const ret = new MeshNormalMaterial();
+        ret.copy(this);
+
+        return ret;
+    }
+
+    public copy(material: MeshNormalMaterial): void {
+        super.copy(material);
+        this.bumpMap = material.bumpMap;
+        this.bumpScale = material.bumpScale;
+        this.displacementMap = material.displacementMap;
+        this.displacementScale = material.displacementScale;
+        this.displacementBias = material.displacementBias;
+        this.fog = material.fog;
+        this.morphNormals = material.morphNormals;
+        this.morphTargets = material.morphTargets;
+        this.normalMap = material.normalMap;
+        this.normalMapType = material.normalMapType;
+        this.normalScale = material.normalScale;
+        this.skinning = material.skinning;
+        this.wireframe = material.wireframe;
+        this.wireframeLinewidth = material.wireframeLinewidth;
     }
 }
