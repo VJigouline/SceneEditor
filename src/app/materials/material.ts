@@ -152,6 +152,9 @@ export class Material {
         case 'MeshPhongMaterial':
             ret = new MeshPhongMaterial();
             break;
+        case 'MeshPhysicalMaterial':
+            ret = new MeshPhysicalMaterial();
+            break;
         case 'MeshStandardMaterial':
             ret = new MeshStandardMaterial();
             break;
@@ -1321,8 +1324,8 @@ export class MeshStandardMaterial extends Material {
         (this.material as THREE.MeshStandardMaterial).wireframeLinewidth = value;
     }
 
-    constructor() {
-        super(MaterialType.MESH_STANDARD);
+    constructor(type?: MaterialType) {
+        super(type ? type : MaterialType.MESH_STANDARD);
     }
 
     public clone(): MeshStandardMaterial {
@@ -1365,5 +1368,58 @@ export class MeshStandardMaterial extends Material {
         this.vertexTangents = material.vertexTangents;
         this.wireframe = material.wireframe;
         this.wireframeLinewidth = material.wireframeLinewidth;
+    }
+}
+
+export class MeshPhysicalMaterial extends MeshStandardMaterial {
+    public get clearcoat(): number {
+        return (this.material as THREE.MeshPhysicalMaterial).clearcoat;
+    }
+    public set clearcoat(value: number) {
+        (this.material as THREE.MeshPhysicalMaterial).clearcoat = value;
+    }
+    public get clearcoatNormalMap(): THREE.Texture {
+        return (this.material as THREE.MeshPhysicalMaterial).clearcoatNormalMap;
+    }
+    public set clearcoatNormalMap(value: THREE.Texture) {
+        (this.material as THREE.MeshPhysicalMaterial).clearcoatNormalMap = value;
+    }
+    public get clearcoatNormalScale(): THREE.Vector2 {
+        return (this.material as THREE.MeshPhysicalMaterial).clearcoatNormalScale;
+    }
+    public set clearcoatNormalScale(value: THREE.Vector2) {
+        (this.material as THREE.MeshPhysicalMaterial).clearcoatNormalScale = value;
+    }
+    public get clearcoatRoughness(): number {
+        return (this.material as THREE.MeshPhysicalMaterial).clearcoatRoughness;
+    }
+    public set clearcoatRoughness(value: number) {
+        (this.material as THREE.MeshPhysicalMaterial).clearcoatRoughness = value;
+    }
+    public get reflectivity(): number {
+        return (this.material as THREE.MeshPhysicalMaterial).reflectivity;
+    }
+    public set reflectivity(value: number) {
+        (this.material as THREE.MeshPhysicalMaterial).reflectivity = value;
+    }
+
+    constructor() {
+        super(MaterialType.MESH_PHYSICAL);
+    }
+
+    public clone(): MeshPhysicalMaterial {
+        const ret = new MeshPhysicalMaterial();
+        ret.copy(this);
+
+        return ret;
+    }
+
+    public copy(material: MeshPhysicalMaterial): void {
+        super.copy(material);
+        this.clearcoat = material.clearcoat;
+        this.clearcoatNormalMap = material.clearcoatNormalMap;
+        this.clearcoatNormalScale = material.clearcoatNormalScale;
+        this.clearcoatRoughness = material.clearcoatRoughness;
+        this.reflectivity = material.reflectivity;
     }
 }

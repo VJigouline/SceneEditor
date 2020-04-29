@@ -312,7 +312,18 @@ digraph SceneEditor {
     wireframeLinejoin: string\n
     wireframeLinewidth: number
  }"]
- MeshStandardMaterial [label="{MeshStandardMaterial |
+  MeshPhysicalMaterial [label="{MeshPhysicalMaterial |
+    constructor()\n
+    clone(): MeshPhysicalMaterial\n
+    copy(material: MeshPhysicalMaterial): void
+    |
+    clearcoat: number\n
+    clearcoatNormalMap: THREE.Texture\n
+    clearcoatNormalScale: THREE.Vector2\n
+    clearcoatRoughness: number\n
+    reflectivity: number
+ }"]
+MeshStandardMaterial [label="{MeshStandardMaterial |
     constructor()\n
     clone(): MeshStandardMaterial\n
     copy(material: MeshStandardMaterial): void
@@ -868,6 +879,7 @@ digraph SceneEditor {
  MeshMatcapMaterial->Material
  MeshNormalMaterial->Material
  MeshPhongMaterial->Material
+ MeshPhysicalMaterial->MeshStandardMaterial
  MeshStandardMaterial->Material
  Point3DComponent->Point3
  PointLight->Light
