@@ -30,9 +30,9 @@ export class Lights {
                         break;
                     case LightType.SPOT:
                         l = new SpotLight();
-                        l.copy(light);
-                        ret.lights.push(l);
-                        continue;
+                        const sl = l as SpotLight;
+                        (light as SpotLight).clone = sl.clone.bind(light);
+                        break;
                 }
                 light.clone = l.clone.bind(light);
             }

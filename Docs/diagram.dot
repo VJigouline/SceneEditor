@@ -30,7 +30,8 @@ digraph SceneEditor {
  node [fontname="Calibri", fillcolor="white"];
  DirectionalLight [label="{DirectionalLight |
    constructor()\n
-   clone(): DirectionalLight
+   clone(): DirectionalLight\n
+   copy(light: DirectionalLight): void
    |
    castShadow: boolean
  }"]
@@ -45,7 +46,8 @@ digraph SceneEditor {
  }"]
   HemisphereLight [label="{HemisphereLight |
     constructor()\n
-    clone(): HemisphereLight
+    clone(): HemisphereLight\n
+    copy(light: HemisphereLight): void
     |
     groundColour: string\n
     castShadow: boolean
@@ -149,7 +151,8 @@ digraph SceneEditor {
   }"]
   PointLight [label="{PointLight |
     constructor()\n
-    clone(): PointLight
+    clone(): PointLight\n
+    copy(light: PointLight): void
     |
     castShadow: boolean\n
     decay: number\n

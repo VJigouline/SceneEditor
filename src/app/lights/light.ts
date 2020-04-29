@@ -243,11 +243,7 @@ export class Light {
 
     public clone(): Light {
         const ret = new Light(this.type);
-        ret.name = this.name;
-        ret.intensity = this.intensity;
-        ret.colour = this.colour;
-        ret.position = this.position;
-        ret.target = this.target;
+        ret.copy(this);
 
         return ret;
     }
@@ -274,10 +270,15 @@ export class DirectionalLight extends Light {
     }
 
     public clone(): DirectionalLight {
-        const ret = super.clone() as DirectionalLight;
-        ret.castShadow = this.castShadow;
+        const ret = new DirectionalLight();
+        ret.copy(this);
 
         return ret;
+    }
+
+    public copy(light: DirectionalLight): void {
+        super.copy(light);
+        this.castShadow = light.castShadow;
     }
 }
 
@@ -324,12 +325,8 @@ export class SpotLight extends Light {
     }
 
     public clone(): SpotLight {
-        const ret = super.clone() as SpotLight;
-        ret.castShadow = this.castShadow;
-        ret.angle = this.angle;
-        ret.decay = this.decay;
-        ret.distance = this.distance;
-        ret.penumbra = this.penumbra;
+        const ret = new SpotLight();
+        ret.copy(this);
 
         return ret;
     }
@@ -375,13 +372,17 @@ export class PointLight extends Light {
     }
 
     public clone(): PointLight {
-        const ret = super.clone() as PointLight;
-        ret.castShadow = this.castShadow;
-        ret.decay = this.decay;
-        ret.distance = this.distance;
-        ret.power = this.power;
+        const ret = new PointLight();
+        ret.copy(this);
 
         return ret;
+    }
+
+    public copy(light: PointLight): void {
+        super.copy(light);
+        this.castShadow = light.castShadow;
+        this.decay = light.decay;
+        this.distance = light.distance;
     }
 }
 
@@ -405,10 +406,15 @@ export class HemisphereLight extends Light {
     }
 
     public clone(): HemisphereLight {
-        const ret = super.clone() as HemisphereLight;
-        ret.castShadow = this.castShadow;
-        ret.groundColour = this.groundColour;
+        const ret = new HemisphereLight();
+        ret.copy(this);
 
         return ret;
+    }
+
+    public copy(light: HemisphereLight): void {
+        super.copy(light);
+        this.castShadow = light.castShadow;
+        this.groundColour = light.groundColour;
     }
 }
