@@ -533,12 +533,12 @@ export class ThreeSceneService {
         if (Array.isArray(mesh.material)) {
           for (const mat of mesh.material as THREE.Material[]) {
             if (mapMaterials.has(mat)) { continue; }
-            const meshMat = Material.create(mat);
+            const meshMat = Material.CreateMaterial(mat);
             if (meshMat) { mapMaterials.set(mat, meshMat); }
           }
         } else {
           if (mapMaterials.has(mesh.material)) { continue; }
-          const meshMat = Material.create(mesh.material);
+          const meshMat = Material.CreateMaterial(mesh.material);
           if (meshMat) { mapMaterials.set(mesh.material, meshMat); }
         }
       }

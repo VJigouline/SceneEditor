@@ -90,8 +90,8 @@ digraph SceneEditor {
  }"]
  Material  [label="{Material |
    constructor(type: MaterialType)\n
-   static create(mat: THREE.Material): Material\n
-   clone(): Material
+   static CreateMaterial(mat: THREE.Material): Material\n
+   copy(material: Material): void
    |
     type: MaterialType\n
     alphaTest: number\n

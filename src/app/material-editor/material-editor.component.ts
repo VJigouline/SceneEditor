@@ -163,7 +163,7 @@ export class MaterialEditorComponent implements OnInit {
     } else {
       console.warn(`Unsupported material type: ${material.type}`);
     }
-    this.material.colour = colour;
+    // this.material.colour = colour;
     this.changedMaterial.emit(this.material);
   }
 

@@ -1,4 +1,5 @@
 import { MaterialType } from './material-type.enum';
+import { v4 as uuid } from 'uuid';
 import * as THREE from 'three';
 
 export class Material {
@@ -88,64 +89,66 @@ export class Material {
             this.material = new THREE.MeshDistanceMaterial();
             break;
         case MaterialType.MESH_LAMBERT:
+            this.material = new THREE.MeshLambertMaterial();
             break;
         case MaterialType.MESH_MATCAP:
+            this.material = new THREE.MeshMatcapMaterial();
             break;
         case MaterialType.MESH_NORMAL:
+            this.material = new THREE.MeshNormalMaterial();
             break;
         case MaterialType.MESH_PHYSICAL:
+            this.material = new THREE.MeshPhysicalMaterial(null);
             break;
         case MaterialType.MESH_PHONG:
+            this.material = new THREE.MeshPhongMaterial();
             break;
         case MaterialType.MESH_STANDARD:
             this.material = new THREE.MeshStandardMaterial();
             break;
         case MaterialType.MESH_TOON:
-            console.error('Not implemented.');
+            this.material = new THREE.MeshToonMaterial();
             break;
         case MaterialType.POINTS:
-            console.error('Not implemented.');
+            this.material = new THREE.PointsMaterial();
             break;
         case MaterialType.SHADOW:
-            console.error('Not implemented.');
+            this.material = new THREE.ShadowMaterial();
             break;
         case MaterialType.SPRITE:
-            console.error('Not implemented.');
+            this.material = new THREE.SpriteMaterial();
             break;
         default:
             console.error('Invalid material type.');
             break;
         }
+
+        this.name = uuid();
     }
 
-    static create(mat: THREE.Material): Material {
+    public static CreateMaterial(material: THREE.Material): Material {
 
         let ret: Material;
 
-        switch (mat.type) {
+        switch (material.type) {
         case 'LineBasicMaterial':
             ret = new Material(MaterialType.LINE_BASIC);
-            const m1 = mat as THREE.LineBasicMaterial;
             break;
         case 'LineDashedMaterial':
             ret = new Material(MaterialType.LINE_DASHED);
-            const m2 = mat as THREE.LineDashedMaterial;
+            const m2 = material as THREE.LineDashedMaterial;
             break;
         case 'MeshBasicMaterial':
             ret = new Material(MaterialType.MESH_BASIC);
-            const m3 = mat as THREE.MeshBasicMaterial;
             break;
         case 'MeshDepthMaterial':
             ret = new Material(MaterialType.MESH_DEPTH);
-            const m4 = mat as THREE.MeshDepthMaterial;
             break;
         case 'MeshDistanceMaterial':
             ret = new Material(MaterialType.MESH_DISTANCE);
-            const m = mat as THREE.MeshDistanceMaterial;
             break;
         case 'MeshStandardMaterial':
             ret = new Material(MaterialType.MESH_STANDARD);
-            const m5 = mat as THREE.MeshStandardMaterial;
             break;
         default:
             console.error('Unknown material.');
@@ -153,11 +156,46 @@ export class Material {
             break;
         }
 
+        if (ret) {
+            ret.material = material;
+            if (material && material.name && material.name.length > 0) {
+                ret.name = material.name;
+            }
+        }
+
         return ret;
     }
 
-    clone(): Material {
-        console.error('Not implemented.');
-        return null;
+    public copy(material: Material): void {
+        this.alphaTest = material.alphaTest;
+        this.blendDst = material.blendDst;
+        this.blendDstAlpha = material.blendDstAlpha;
+        this.blendEquation = material.blendEquation;
+        this.blendEquationAlpha = material.blendEquationAlpha;
+        this.blending = material.blending;
+        this.blendSrc = material.blendSrc;
+        this.blendSrcAlpha = material.blendSrcAlpha;
+        this.clipIntersection = material.clipIntersection;
+        this.clippingPlanes = material.clippingPlanes;
+        this.clipShadows = material.clipShadows;
+        this.colourWrite = material.colourWrite;
+        this.depthFunc = material.depthFunc;
+        this.depthTest = material.depthTest;
+        this.depthWrite = material.depthWrite;
+        this.stencilWrite = material.stencilWrite;
+        this.flatShading = material.flatShading;
+        this.fog = material.fog;
+        this.name = material.name;
+        this.opacity = material.opacity;
+        this.polygonOffset = material.polygonOffset;
+        this.polygonOffsetFactor = material.polygonOffsetFactor;
+        this.polygonOffsetUnits = material.polygonOffsetUnits;
+        this.premultipliedAlpha = material.premultipliedAlpha;
+        this.dithering = material.dithering;
+        this.side = material.side;
+        this.toneMapped = material.toneMapped;
+        this.transparent = material.transparent;
+        this.vertexColors = material.vertexColors;
+        this.visible = material.visible;
     }
 }

@@ -219,7 +219,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
         this.libraryService.Library.current = this.libraryService.Library.materials.length;
         this.libraryService.Library.materials.push(this.Materials);
         this.sceneService.resetLights();
-        if (this.materialEditor) { 
+        if (this.materialEditor) {
           this.materialEditor.Material = null;
           this.materialEditor.updateSelection();
         }
