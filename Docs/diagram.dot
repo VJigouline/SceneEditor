@@ -923,6 +923,20 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MaterialLibrary->Materials
  Material->MaterialType
  Materials->Material
+ Materials->LineBasicMaterial
+ Materials->LineDashedMaterial
+ Materials->MeshBasicMaterial
+ Materials->MeshDepthMaterial
+ Materials->MeshLambertMaterial
+ Materials->MeshMatcapMaterial
+ Materials->MeshNormalMaterial
+ Materials->MeshPhongMaterial
+ Materials->MeshPhysicalMaterial
+ Materials->MeshStandardMaterial
+ Materials->MeshToonMaterial
+ Materials->PointsMaterial
+ Materials->ShadowMaterial
+ Materials->SpriteMaterial
  MaterialService->Material
  MaterialEditorComponent->ConfirmationDialogComponent
  MaterialEditorComponent->Material
