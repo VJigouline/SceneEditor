@@ -72,8 +72,6 @@ export class MaterialEditorComponent implements OnInit {
         break;
       case MaterialType.MESH_DEPTH:
         break;
-      case MaterialType.MESH_DISTANCE:
-        break;
       case MaterialType.MESH_LAMBERT:
         break;
       case MaterialType.MESH_MATCAP:

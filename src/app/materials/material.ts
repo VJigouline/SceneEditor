@@ -85,9 +85,6 @@ export class Material {
         case MaterialType.MESH_DEPTH:
             this.material = new THREE.MeshDepthMaterial();
             break;
-        case MaterialType.MESH_DISTANCE:
-            this.material = new THREE.MeshDistanceMaterial();
-            break;
         case MaterialType.MESH_LAMBERT:
             this.material = new THREE.MeshLambertMaterial();
             break;
@@ -135,17 +132,16 @@ export class Material {
             ret = new LineBasicMaterial();
             break;
         case 'LineDashedMaterial':
-            ret = new Material(MaterialType.LINE_DASHED);
-            const m2 = material as THREE.LineDashedMaterial;
+            ret = new LineDashedMaterial();
             break;
         case 'MeshBasicMaterial':
-            ret = new Material(MaterialType.MESH_BASIC);
+            ret = new MeshBasicMaterial();
             break;
         case 'MeshDepthMaterial':
-            ret = new Material(MaterialType.MESH_DEPTH);
+            ret = new MeshDepthMaterial();
             break;
-        case 'MeshDistanceMaterial':
-            ret = new Material(MaterialType.MESH_DISTANCE);
+        case 'MeshLambertMaterial':
+            ret = new MeshLambertMaterial();
             break;
         case 'MeshStandardMaterial':
             ret = new Material(MaterialType.MESH_STANDARD);
@@ -471,6 +467,178 @@ export class MeshDepthMaterial extends Material {
         this.displacementBias = material.displacementBias;
         this.fog = material.fog;
         this.wireframe = material.wireframe;
+        this.wireframeLinewidth = material.wireframeLinewidth;
+    }
+}
+
+export class MeshLambertMaterial extends Material {
+    public get alphaMap(): THREE.Texture {
+        return (this.material as THREE.MeshLambertMaterial).alphaMap;
+    }
+    public set alphaMap(value: THREE.Texture) {
+        (this.material as THREE.MeshLambertMaterial).alphaMap = value;
+    }
+    public get aoMap(): THREE.Texture {
+        return (this.material as THREE.MeshLambertMaterial).aoMap;
+    }
+    public set aoMap(value: THREE.Texture) {
+        (this.material as THREE.MeshLambertMaterial).aoMap = value;
+    }
+    public get aoMapIntensity(): number {
+        return (this.material as THREE.MeshLambertMaterial).aoMapIntensity;
+    }
+    public set aoMapIntensity(value: number) {
+        (this.material as THREE.MeshLambertMaterial).aoMapIntensity = value;
+    }
+    public get colour(): THREE.Color {
+        return (this.material as THREE.MeshLambertMaterial).color;
+    }
+    public set colour(value: THREE.Color) {
+        (this.material as THREE.MeshLambertMaterial).color = value;
+    }
+    public get combine(): THREE.Combine {
+        return (this.material as THREE.MeshLambertMaterial).combine;
+    }
+    public set combine(value: THREE.Combine) {
+        (this.material as THREE.MeshLambertMaterial).combine = value;
+    }
+    public get emissive(): THREE.Color {
+        return (this.material as THREE.MeshLambertMaterial).emissive;
+    }
+    public set emissive(value: THREE.Color) {
+        (this.material as THREE.MeshLambertMaterial).emissive = value;
+    }
+    public get emissiveMap(): THREE.Texture {
+        return (this.material as THREE.MeshLambertMaterial).emissiveMap;
+    }
+    public set emissiveMap(value: THREE.Texture) {
+        (this.material as THREE.MeshLambertMaterial).emissiveMap = value;
+    }
+    public get emissiveIntensity(): number {
+        return (this.material as THREE.MeshLambertMaterial).emissiveIntensity;
+    }
+    public set emissiveIntensity(value: number) {
+        (this.material as THREE.MeshLambertMaterial).emissiveIntensity = value;
+    }
+    public get envMap(): THREE.Texture {
+        return (this.material as THREE.MeshLambertMaterial).envMap;
+    }
+    public set envMap(value: THREE.Texture) {
+        (this.material as THREE.MeshLambertMaterial).envMap = value;
+    }
+    public get lightMap(): THREE.Texture {
+        return (this.material as THREE.MeshLambertMaterial).lightMap;
+    }
+    public set lightMap(value: THREE.Texture) {
+        (this.material as THREE.MeshLambertMaterial).lightMap = value;
+    }
+    public get lightMapIntensity(): number {
+        return (this.material as THREE.MeshLambertMaterial).lightMapIntensity;
+    }
+    public set lightMapIntensity(value: number) {
+        (this.material as THREE.MeshLambertMaterial).lightMapIntensity = value;
+    }
+    public get map(): THREE.Texture {
+        return (this.material as THREE.MeshLambertMaterial).map;
+    }
+    public set map(value: THREE.Texture) {
+        (this.material as THREE.MeshLambertMaterial).map = value;
+    }
+    public get morphNormals(): boolean {
+        return (this.material as THREE.MeshLambertMaterial).morphNormals;
+    }
+    public set morphNormals(value: boolean) {
+        (this.material as THREE.MeshLambertMaterial).morphNormals = value;
+    }
+    public get morphTargets(): boolean {
+        return (this.material as THREE.MeshLambertMaterial).morphTargets;
+    }
+    public set morphTargets(value: boolean) {
+        (this.material as THREE.MeshLambertMaterial).morphNormals = value;
+    }
+    public get reflectivity(): number {
+        return (this.material as THREE.MeshLambertMaterial).reflectivity;
+    }
+    public set reflectivity(value: number) {
+        (this.material as THREE.MeshLambertMaterial).reflectivity = value;
+    }
+    public get refractionRatio(): number {
+        return (this.material as THREE.MeshLambertMaterial).refractionRatio;
+    }
+    public set refractionRatio(value: number) {
+        (this.material as THREE.MeshLambertMaterial).refractionRatio = value;
+    }
+    public get skinning(): boolean {
+        return (this.material as THREE.MeshLambertMaterial).skinning;
+    }
+    public set skinning(value: boolean) {
+        (this.material as THREE.MeshLambertMaterial).skinning = value;
+    }
+    public get specularMap(): THREE.Texture {
+        return (this.material as THREE.MeshLambertMaterial).specularMap;
+    }
+    public set specularMap(value: THREE.Texture) {
+        (this.material as THREE.MeshLambertMaterial).specularMap = value;
+    }
+    public get wireframe(): boolean {
+        return (this.material as THREE.MeshLambertMaterial).wireframe;
+    }
+    public set wireframe(value: boolean) {
+        (this.material as THREE.MeshLambertMaterial).wireframe = value;
+    }
+    public get wireframeLinecap(): string {
+        return (this.material as THREE.MeshLambertMaterial).wireframeLinecap;
+    }
+    public set wireframeLinecap(value: string) {
+        (this.material as THREE.MeshLambertMaterial).wireframeLinecap = value;
+    }
+    public get wireframeLinejoin(): string {
+        return (this.material as THREE.MeshLambertMaterial).wireframeLinejoin;
+    }
+    public set wireframeLinejoin(value: string) {
+        (this.material as THREE.MeshLambertMaterial).wireframeLinejoin = value;
+    }
+    public get wireframeLinewidth(): number {
+        return (this.material as THREE.MeshLambertMaterial).wireframeLinewidth;
+    }
+    public set wireframeLinewidth(value: number) {
+        (this.material as THREE.MeshLambertMaterial).wireframeLinewidth = value;
+    }
+
+    constructor() {
+        super(MaterialType.MESH_LAMBERT);
+    }
+
+    public clone(): MeshLambertMaterial {
+        const ret = new MeshLambertMaterial();
+        ret.copy(this);
+
+        return ret;
+    }
+
+    public copy(material: MeshLambertMaterial): void {
+        super.copy(material);
+        this.alphaMap = material.alphaMap;
+        this.aoMap = material.aoMap;
+        this.aoMapIntensity = material.aoMapIntensity;
+        this.colour = material.colour;
+        this.combine = material.combine;
+        this.emissive = material.emissive;
+        this.emissiveMap = material.emissiveMap;
+        this.emissiveIntensity = material.emissiveIntensity;
+        this.envMap = material.envMap;
+        this.lightMap = material.lightMap;
+        this.lightMapIntensity = material.lightMapIntensity;
+        this.map = material.map;
+        this.morphNormals = material.morphNormals;
+        this.morphTargets = material.morphTargets;
+        this.reflectivity = material.reflectivity;
+        this.refractionRatio = material.refractionRatio;
+        this.skinning = material.skinning;
+        this.specularMap = material.specularMap;
+        this.wireframe = material.wireframe;
+        this.wireframeLinecap = material.wireframeLinecap;
+        this.wireframeLinejoin = material.wireframeLinejoin;
         this.wireframeLinewidth = material.wireframeLinewidth;
     }
 }

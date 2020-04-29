@@ -3,7 +3,6 @@ export enum MaterialType {
     LINE_DASHED = 'Line Dashed',
     MESH_BASIC = 'Mesh Basic',
     MESH_DEPTH = 'Mesh Depth',
-    MESH_DISTANCE = 'Mesh Distance',
     MESH_LAMBERT = 'Mesh Lambert',
     MESH_MATCAP = 'Mesh Matcap',
     MESH_NORMAL = 'Mesh Normal',
