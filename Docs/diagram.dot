@@ -193,6 +193,18 @@ digraph SceneEditor {
     wireframeLinejoin: string\n
     wireframeLinewidth: number
  }"]
+ MeshDepthMaterial [label="{MeshDepthMaterial |
+    constructor()\n
+    clone(): MeshDepthMaterial\n
+    copy(material: MeshDepthMaterial): void
+    |
+    displacementMap: THREE.Texture\n
+    displacementScale: number\n
+    displacementBias: number\n
+    fog: boolean\n
+    wireframe: boolean\n
+    wireframeLinewidth: number
+ }"]
   Point3 [label="{Point3 |
     constructor(x: number, y: number, z: number)
     |
@@ -708,6 +720,7 @@ digraph SceneEditor {
  MaterialsLibraryEditorComponent->Materials
  MaterialsLibraryEditorComponent->ThreeSceneService
  MeshBasicMaterial->Material
+ MeshDepthMaterial->Material
  Point3DComponent->Point3
  PointLight->Light
  PointLightEditorComponent->PointLight

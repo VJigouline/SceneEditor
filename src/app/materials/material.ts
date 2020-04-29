@@ -414,3 +414,63 @@ export class MeshBasicMaterial extends Material {
         this.wireframeLinewidth = material.wireframeLinewidth;
     }
 }
+
+export class MeshDepthMaterial extends Material {
+    public get displacementMap(): THREE.Texture {
+        return (this.material as THREE.MeshDepthMaterial).displacementMap;
+    }
+    public set displacementMap(value: THREE.Texture) {
+        (this.material as THREE.MeshDepthMaterial).displacementMap = value;
+    }
+    public get displacementScale(): number {
+        return (this.material as THREE.MeshDepthMaterial).displacementScale;
+    }
+    public set displacementScale(value: number) {
+        (this.material as THREE.MeshDepthMaterial).displacementScale = value;
+    }
+    public get displacementBias(): number {
+        return (this.material as THREE.MeshDepthMaterial).displacementBias;
+    }
+    public set displacementBias(value: number) {
+        (this.material as THREE.MeshDepthMaterial).displacementBias = value;
+    }
+    public get fog(): boolean {
+        return (this.material as THREE.MeshDepthMaterial).fog;
+    }
+    public set fog(value: boolean) {
+        (this.material as THREE.MeshDepthMaterial).fog = value;
+    }
+    public get wireframe(): boolean {
+        return (this.material as THREE.MeshDepthMaterial).wireframe;
+    }
+    public set wireframe(value: boolean) {
+        (this.material as THREE.MeshDepthMaterial).wireframe = value;
+    }
+    public get wireframeLinewidth(): number {
+        return (this.material as THREE.MeshDepthMaterial).wireframeLinewidth;
+    }
+    public set wireframeLinewidth(value: number) {
+        (this.material as THREE.MeshDepthMaterial).wireframeLinewidth = value;
+    }
+
+    constructor() {
+        super(MaterialType.MESH_DEPTH);
+    }
+
+    public clone(): MeshDepthMaterial {
+        const ret = new MeshDepthMaterial();
+        ret.copy(this);
+
+        return ret;
+    }
+
+    public copy(material: MeshDepthMaterial): void {
+        super.copy(material);
+        this.displacementMap = material.displacementMap;
+        this.displacementScale = material.displacementScale;
+        this.displacementBias = material.displacementBias;
+        this.fog = material.fog;
+        this.wireframe = material.wireframe;
+        this.wireframeLinewidth = material.wireframeLinewidth;
+    }
+}
