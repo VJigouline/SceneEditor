@@ -158,6 +158,9 @@ export class Material {
         case 'MeshStandardMaterial':
             ret = new MeshStandardMaterial();
             break;
+        case 'MeshToonMaterial':
+            ret = new MeshToonMaterial();
+            break;
         default:
             console.error('Unknown material.');
             ret = new Material(MaterialType.MESH_STANDARD);
@@ -1421,5 +1424,240 @@ export class MeshPhysicalMaterial extends MeshStandardMaterial {
         this.clearcoatNormalScale = material.clearcoatNormalScale;
         this.clearcoatRoughness = material.clearcoatRoughness;
         this.reflectivity = material.reflectivity;
+    }
+}
+
+export class MeshToonMaterial extends Material {
+    public get alphaMap(): THREE.Texture {
+        return (this.material as THREE.MeshToonMaterial).alphaMap;
+    }
+    public set alphaMap(value: THREE.Texture) {
+        (this.material as THREE.MeshToonMaterial).alphaMap = value;
+    }
+    public get aoMap(): THREE.Texture {
+        return (this.material as THREE.MeshToonMaterial).aoMap;
+    }
+    public set aoMap(value: THREE.Texture) {
+        (this.material as THREE.MeshToonMaterial).aoMap = value;
+    }
+    public get aoMapIntensity(): number {
+        return (this.material as THREE.MeshToonMaterial).aoMapIntensity;
+    }
+    public set aoMapIntensity(value: number) {
+        (this.material as THREE.MeshToonMaterial).aoMapIntensity = value;
+    }
+    public get bumpMap(): THREE.Texture {
+        return (this.material as THREE.MeshToonMaterial).bumpMap;
+    }
+    public set bumpMap(value: THREE.Texture) {
+        (this.material as THREE.MeshToonMaterial).bumpMap = value;
+    }
+    public get bumpScale(): number {
+        return (this.material as THREE.MeshToonMaterial).bumpScale;
+    }
+    public set bumpScale(value: number) {
+        (this.material as THREE.MeshToonMaterial).bumpScale = value;
+    }
+    public get colour(): THREE.Color {
+        return (this.material as THREE.MeshToonMaterial).color;
+    }
+    public set colour(value: THREE.Color) {
+        (this.material as THREE.MeshToonMaterial).color = value;
+    }
+    public get displacementMap(): THREE.Texture {
+        return (this.material as THREE.MeshToonMaterial).displacementMap;
+    }
+    public set displacementMap(value: THREE.Texture) {
+        (this.material as THREE.MeshToonMaterial).displacementMap = value;
+    }
+    public get displacementScale(): number {
+        return (this.material as THREE.MeshToonMaterial).displacementScale;
+    }
+    public set displacementScale(value: number) {
+        (this.material as THREE.MeshToonMaterial).displacementScale = value;
+    }
+    public get displacementBias(): number {
+        return (this.material as THREE.MeshToonMaterial).displacementBias;
+    }
+    public set displacementBias(value: number) {
+        (this.material as THREE.MeshToonMaterial).displacementBias = value;
+    }
+    public get emissive(): THREE.Color {
+        return (this.material as THREE.MeshToonMaterial).emissive;
+    }
+    public set emissive(value: THREE.Color) {
+        (this.material as THREE.MeshToonMaterial).emissive = value;
+    }
+    public get emissiveMap(): THREE.Texture {
+        return (this.material as THREE.MeshToonMaterial).emissiveMap;
+    }
+    public set emissiveMap(value: THREE.Texture) {
+        (this.material as THREE.MeshToonMaterial).emissiveMap = value;
+    }
+    public get emissiveIntensity(): number {
+        return (this.material as THREE.MeshToonMaterial).emissiveIntensity;
+    }
+    public set emissiveIntensity(value: number) {
+        (this.material as THREE.MeshToonMaterial).emissiveIntensity = value;
+    }
+    public get envMap(): THREE.Texture {
+        return (this.material as THREE.MeshToonMaterial).envMap;
+    }
+    public set envMap(value: THREE.Texture) {
+        (this.material as THREE.MeshToonMaterial).envMap = value;
+    }
+    public get gradientMap(): THREE.Texture {
+        return (this.material as THREE.MeshToonMaterial).gradientMap;
+    }
+    public set gradientMap(value: THREE.Texture) {
+        (this.material as THREE.MeshToonMaterial).gradientMap = value;
+    }
+    public get lightMap(): THREE.Texture {
+        return (this.material as THREE.MeshToonMaterial).lightMap;
+    }
+    public set lightMap(value: THREE.Texture) {
+        (this.material as THREE.MeshToonMaterial).lightMap = value;
+    }
+    public get lightMapIntensity(): number {
+        return (this.material as THREE.MeshToonMaterial).lightMapIntensity;
+    }
+    public set lightMapIntensity(value: number) {
+        (this.material as THREE.MeshToonMaterial).lightMapIntensity = value;
+    }
+    public get map(): THREE.Texture {
+        return (this.material as THREE.MeshToonMaterial).map;
+    }
+    public set map(value: THREE.Texture) {
+        (this.material as THREE.MeshToonMaterial).map = value;
+    }
+    public get morphNormals(): boolean {
+        return (this.material as THREE.MeshToonMaterial).morphNormals;
+    }
+    public set morphNormals(value: boolean) {
+        (this.material as THREE.MeshToonMaterial).morphNormals = value;
+    }
+    public get morphTargets(): boolean {
+        return (this.material as THREE.MeshToonMaterial).morphTargets;
+    }
+    public set morphTargets(value: boolean) {
+        (this.material as THREE.MeshToonMaterial).morphNormals = value;
+    }
+    public get normalMap(): THREE.Texture {
+        return (this.material as THREE.MeshToonMaterial).normalMap;
+    }
+    public set normalMap(value: THREE.Texture) {
+        (this.material as THREE.MeshToonMaterial).normalMap = value;
+    }
+    public get normalMapType(): THREE.NormalMapTypes {
+        return (this.material as THREE.MeshToonMaterial).normalMapType;
+    }
+    public set normalMapType(value: THREE.NormalMapTypes) {
+        (this.material as THREE.MeshToonMaterial).normalMapType = value;
+    }
+    public get normalScale(): THREE.Vector2 {
+        return (this.material as THREE.MeshToonMaterial).normalScale;
+    }
+    public set normalScale(value: THREE.Vector2) {
+        (this.material as THREE.MeshToonMaterial).normalScale = value;
+    }
+    public get refractionRatio(): number {
+        return (this.material as THREE.MeshToonMaterial).refractionRatio;
+    }
+    public set refractionRatio(value: number) {
+        (this.material as THREE.MeshToonMaterial).refractionRatio = value;
+    }
+    public get shininess(): number {
+        return (this.material as THREE.MeshToonMaterial).shininess;
+    }
+    public set shininess(value: number) {
+        (this.material as THREE.MeshToonMaterial).shininess = value;
+    }
+    public get skinning(): boolean {
+        return (this.material as THREE.MeshPhongMaterial).skinning;
+    }
+    public set skinning(value: boolean) {
+        (this.material as THREE.MeshToonMaterial).skinning = value;
+    }
+    public get specular(): THREE.Color {
+        return (this.material as THREE.MeshToonMaterial).specular;
+    }
+    public set specular(value: THREE.Color) {
+        (this.material as THREE.MeshToonMaterial).specular = value;
+    }
+    public get specularMap(): THREE.Texture {
+        return (this.material as THREE.MeshToonMaterial).specularMap;
+    }
+    public set specularMap(value: THREE.Texture) {
+        (this.material as THREE.MeshToonMaterial).specularMap = value;
+    }
+    public get wireframe(): boolean {
+        return (this.material as THREE.MeshToonMaterial).wireframe;
+    }
+    public set wireframe(value: boolean) {
+        (this.material as THREE.MeshToonMaterial).wireframe = value;
+    }
+    public get wireframeLinecap(): string {
+        return (this.material as THREE.MeshToonMaterial).wireframeLinecap;
+    }
+    public set wireframeLinecap(value: string) {
+        (this.material as THREE.MeshToonMaterial).wireframeLinecap = value;
+    }
+    public get wireframeLinejoin(): string {
+        return (this.material as THREE.MeshToonMaterial).wireframeLinejoin;
+    }
+    public set wireframeLinejoin(value: string) {
+        (this.material as THREE.MeshToonMaterial).wireframeLinejoin = value;
+    }
+    public get wireframeLinewidth(): number {
+        return (this.material as THREE.MeshToonMaterial).wireframeLinewidth;
+    }
+    public set wireframeLinewidth(value: number) {
+        (this.material as THREE.MeshToonMaterial).wireframeLinewidth = value;
+    }
+
+    constructor(type?: MaterialType) {
+        super(type ? type : MaterialType.MESH_TOON);
+    }
+
+    public clone(): MeshToonMaterial {
+        const ret = new MeshToonMaterial();
+        ret.copy(this);
+
+        return ret;
+    }
+
+    public copy(material: MeshToonMaterial): void {
+        super.copy(material);
+        this.alphaMap = material.alphaMap;
+        this.aoMap = material.aoMap;
+        this.aoMapIntensity = material.aoMapIntensity;
+        this.bumpMap = material.bumpMap;
+        this.bumpScale = material.bumpScale;
+        this.colour = material.colour;
+        this.displacementMap = material.displacementMap;
+        this.displacementScale = material.displacementScale;
+        this.displacementBias = material.displacementBias;
+        this.emissive = material.emissive;
+        this.emissiveMap = material.emissiveMap;
+        this.emissiveIntensity = material.emissiveIntensity;
+        this.envMap = material.envMap;
+        this.gradientMap = material.gradientMap;
+        this.lightMap = material.lightMap;
+        this.lightMapIntensity = material.lightMapIntensity;
+        this.map = material.map;
+        this.morphNormals = material.morphNormals;
+        this.morphTargets = material.morphTargets;
+        this.normalMap = material.normalMap;
+        this.normalMapType = material.normalMapType;
+        this.normalScale = material.normalScale;
+        this.refractionRatio = material.refractionRatio;
+        this.shininess = material.shininess;
+        this.skinning = material.skinning;
+        this.specular = material.specular;
+        this.specularMap = material.specularMap;
+        this.wireframe = material.wireframe;
+        this.wireframeLinecap = material.wireframeLinecap;
+        this.wireframeLinejoin = material.wireframeLinejoin;
+        this.wireframeLinewidth = material.wireframeLinewidth;
     }
 }
