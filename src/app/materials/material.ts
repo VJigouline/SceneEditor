@@ -143,6 +143,9 @@ export class Material {
         case 'MeshLambertMaterial':
             ret = new MeshLambertMaterial();
             break;
+        case 'MeshMatcapMaterial':
+            ret = new MeshMatcapMaterial();
+            break;
         case 'MeshStandardMaterial':
             ret = new Material(MaterialType.MESH_STANDARD);
             break;
@@ -640,5 +643,128 @@ export class MeshLambertMaterial extends Material {
         this.wireframeLinecap = material.wireframeLinecap;
         this.wireframeLinejoin = material.wireframeLinejoin;
         this.wireframeLinewidth = material.wireframeLinewidth;
+    }
+}
+
+export class MeshMatcapMaterial extends Material {
+    public get alphaMap(): THREE.Texture {
+        return (this.material as THREE.MeshMatcapMaterial).alphaMap;
+    }
+    public set alphaMap(value: THREE.Texture) {
+        (this.material as THREE.MeshMatcapMaterial).alphaMap = value;
+    }
+    public get bumpMap(): THREE.Texture {
+        return (this.material as THREE.MeshMatcapMaterial).bumpMap;
+    }
+    public set bumpMap(value: THREE.Texture) {
+        (this.material as THREE.MeshMatcapMaterial).bumpMap = value;
+    }
+    public get bumpScale(): number {
+        return (this.material as THREE.MeshMatcapMaterial).bumpScale;
+    }
+    public set bumpScale(value: number) {
+        (this.material as THREE.MeshMatcapMaterial).bumpScale = value;
+    }
+    public get colour(): THREE.Color {
+        return (this.material as THREE.MeshMatcapMaterial).color;
+    }
+    public set colour(value: THREE.Color) {
+        (this.material as THREE.MeshMatcapMaterial).color = value;
+    }
+    public get displacementMap(): THREE.Texture {
+        return (this.material as THREE.MeshMatcapMaterial).displacementMap;
+    }
+    public set displacementMap(value: THREE.Texture) {
+        (this.material as THREE.MeshMatcapMaterial).displacementMap = value;
+    }
+    public get displacementScale(): number {
+        return (this.material as THREE.MeshMatcapMaterial).displacementScale;
+    }
+    public set displacementScale(value: number) {
+        (this.material as THREE.MeshMatcapMaterial).displacementScale = value;
+    }
+    public get displacementBias(): number {
+        return (this.material as THREE.MeshMatcapMaterial).displacementBias;
+    }
+    public set displacementBias(value: number) {
+        (this.material as THREE.MeshMatcapMaterial).displacementBias = value;
+    }
+    public get map(): THREE.Texture {
+        return (this.material as THREE.MeshMatcapMaterial).map;
+    }
+    public set map(value: THREE.Texture) {
+        (this.material as THREE.MeshMatcapMaterial).map = value;
+    }
+    public get matcap(): THREE.Texture {
+        return (this.material as THREE.MeshMatcapMaterial).matcap;
+    }
+    public set matcap(value: THREE.Texture) {
+        (this.material as THREE.MeshMatcapMaterial).matcap = value;
+    }
+    public get morphNormals(): boolean {
+        return (this.material as THREE.MeshMatcapMaterial).morphNormals;
+    }
+    public set morphNormals(value: boolean) {
+        (this.material as THREE.MeshMatcapMaterial).morphNormals = value;
+    }
+    public get morphTargets(): boolean {
+        return (this.material as THREE.MeshMatcapMaterial).morphTargets;
+    }
+    public set morphTargets(value: boolean) {
+        (this.material as THREE.MeshMatcapMaterial).morphNormals = value;
+    }
+    public get normalMap(): THREE.Texture {
+        return (this.material as THREE.MeshMatcapMaterial).normalMap;
+    }
+    public set normalMap(value: THREE.Texture) {
+        (this.material as THREE.MeshMatcapMaterial).normalMap = value;
+    }
+    public get normalMapType(): THREE.NormalMapTypes {
+        return (this.material as THREE.MeshMatcapMaterial).normalMapType;
+    }
+    public set normalMapType(value: THREE.NormalMapTypes) {
+        (this.material as THREE.MeshMatcapMaterial).normalMapType = value;
+    }
+    public get normalScale(): THREE.Vector2 {
+        return (this.material as THREE.MeshMatcapMaterial).normalScale;
+    }
+    public set normalScale(value: THREE.Vector2) {
+        (this.material as THREE.MeshMatcapMaterial).normalScale = value;
+    }
+    public get skinning(): boolean {
+        return (this.material as THREE.MeshMatcapMaterial).skinning;
+    }
+    public set skinning(value: boolean) {
+        (this.material as THREE.MeshMatcapMaterial).skinning = value;
+    }
+
+    constructor() {
+        super(MaterialType.MESH_MATCAP);
+    }
+
+    public clone(): MeshMatcapMaterial {
+        const ret = new MeshMatcapMaterial();
+        ret.copy(this);
+
+        return ret;
+    }
+
+    public copy(material: MeshMatcapMaterial): void {
+        super.copy(material);
+        this.alphaMap = material.alphaMap;
+        this.bumpMap = material.bumpMap;
+        this.bumpScale = material.bumpScale;
+        this.colour = material.colour;
+        this.displacementMap = material.displacementMap;
+        this.displacementScale = material.displacementScale;
+        this.displacementBias = material.displacementBias;
+        this.map = material.map;
+        this.matcap = material.matcap;
+        this.morphNormals = material.morphNormals;
+        this.morphTargets = material.morphTargets;
+        this.normalMap = material.normalMap;
+        this.normalMapType = material.normalMapType;
+        this.normalScale = material.normalScale;
+        this.skinning = material.skinning;
     }
 }
