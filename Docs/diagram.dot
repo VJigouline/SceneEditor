@@ -312,6 +312,43 @@ digraph SceneEditor {
     wireframeLinejoin: string\n
     wireframeLinewidth: number
  }"]
+ MeshStandardMaterial [label="{MeshStandardMaterial |
+    constructor()\n
+    clone(): MeshStandardMaterial\n
+    copy(material: MeshStandardMaterial): void
+    |
+    alphaMap: THREE.Texture\n
+    aoMap: THREE.Texture\n
+    aoMapIntensity: number\n
+    bumpMap: THREE.Texture\n
+    bumpScale: number\n
+    colour: THREE.Color\n
+    displacementMap: THREE.Texture\n
+    displacementScale: number\n
+    displacementBias: number\n
+    emissive: THREE.Color\n
+    emissiveMap: THREE.Texture\n
+    emissiveIntensity: number\n
+    envMap: THREE.Texture\n
+    envMapIntensity: number\n
+    lightMap: THREE.Texture\n
+    lightMapIntensity: number\n
+    map: THREE.Texture\n
+    metalness: number\n
+    metalnessMap: THREE.Texture\n
+    morphNormals: boolean\n
+    morphTargets: boolean\n
+    normalMap: THREE.Texture\n
+    normalMapType: THREE.NormalMapTypes\n
+    normalScale: THREE.Vector2\n
+    refractionRatio: number\n
+    roughness: number\n
+    roughnessMap: THREE.Texture\n
+    skinning: boolean\n
+    vertexTangents: boolean\n
+    wireframe: boolean\n
+    wireframeLinewidth: number
+ }"]
   Point3 [label="{Point3 |
     constructor(x: number, y: number, z: number)
     |
@@ -831,6 +868,7 @@ digraph SceneEditor {
  MeshMatcapMaterial->Material
  MeshNormalMaterial->Material
  MeshPhongMaterial->Material
+ MeshStandardMaterial->Material
  Point3DComponent->Point3
  PointLight->Light
  PointLightEditorComponent->PointLight
