@@ -161,9 +161,12 @@ export class Material {
         case 'MeshToonMaterial':
             ret = new MeshToonMaterial();
             break;
+        case 'PointsMaterial':
+            ret = new PointsMaterial();
+            break;
         default:
             console.error('Unknown material.');
-            ret = new Material(MaterialType.MESH_STANDARD);
+            ret = new MeshStandardMaterial();
             break;
         }
 
@@ -1659,5 +1662,51 @@ export class MeshToonMaterial extends Material {
         this.wireframeLinecap = material.wireframeLinecap;
         this.wireframeLinejoin = material.wireframeLinejoin;
         this.wireframeLinewidth = material.wireframeLinewidth;
+    }
+}
+
+export class PointsMaterial extends Material {
+    public get colour(): THREE.Color {
+        return (this.material as THREE.PointsMaterial).color;
+    }
+    public set colour(value: THREE.Color) {
+        (this.material as THREE.PointsMaterial).color = value;
+    }
+    public get map(): THREE.Texture {
+        return (this.material as THREE.PointsMaterial).map;
+    }
+    public set map(value: THREE.Texture) {
+        (this.material as THREE.PointsMaterial).map = value;
+    }
+    public get size(): number {
+        return (this.material as THREE.PointsMaterial).size;
+    }
+    public set size(value: number) {
+        (this.material as THREE.PointsMaterial).size = value;
+    }
+    public get sizeAttenuation(): boolean {
+        return (this.material as THREE.PointsMaterial).sizeAttenuation;
+    }
+    public set sizeAttenuation(value: boolean) {
+        (this.material as THREE.PointsMaterial).sizeAttenuation = value;
+    }
+
+    constructor(type?: MaterialType) {
+        super(type ? type : MaterialType.POINTS);
+    }
+
+    public clone(): PointsMaterial {
+        const ret = new PointsMaterial();
+        ret.copy(this);
+
+        return ret;
+    }
+
+    public copy(material: PointsMaterial): void {
+        super.copy(material);
+        this.colour = material.colour;
+        this.map = material.map;
+        this.size = material.size;
+        this.sizeAttenuation = material.sizeAttenuation;
     }
 }

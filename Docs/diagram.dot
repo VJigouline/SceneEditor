@@ -422,6 +422,16 @@ MeshToonMaterial [label="{MeshToonMaterial |
    light: THREE.PointLight\n
    positionSphere: THREE.Mesh
  }"]
+  PointsMaterial [label="{PointsMaterial |
+    constructor()\n
+    clone(): PointsMaterial\n
+    copy(material: PointsMaterial): void
+    |
+    colour: THREE.Color\n
+    map: THREE.Texture\n
+    size: number\n
+    sizeAttenuation: number
+ }"]
   SpotLight [label="{SpotLight |
     constructor()\n
     clone(): SpotLight\n
@@ -922,6 +932,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  Point3DComponent->Point3
  PointLight->Light
  PointLightEditorComponent->PointLight
+ PointsMaterial->Material
  SceneComponent->SceneModifierComponent
  SceneComponent->SceneSaverComponent
  SceneEditorComponent->Light
