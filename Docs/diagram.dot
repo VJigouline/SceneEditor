@@ -939,10 +939,24 @@ MeshToonMaterial [label="{MeshToonMaterial |
  Materials->SpriteMaterial
  MaterialService->Material
  MaterialEditorComponent->ConfirmationDialogComponent
+ MaterialEditorComponent->LineBasicMaterial
+ MaterialEditorComponent->LineDashedMaterial
  MaterialEditorComponent->Material
  MaterialEditorComponent->MaterialLibraryService
  MaterialEditorComponent->Materials
+ MaterialEditorComponent->MeshBasicMaterial
+ MaterialEditorComponent->MeshDepthMaterial
+ MaterialEditorComponent->MeshLambertMaterial
+ MaterialEditorComponent->MeshMatcapMaterial
+ MaterialEditorComponent->MeshNormalMaterial
+ MaterialEditorComponent->MeshPhongMaterial
+ MaterialEditorComponent->MeshPhysicalMaterial
+ MaterialEditorComponent->MeshStandardMaterial
+ MaterialEditorComponent->MeshToonMaterial
  MaterialEditorComponent->NewMaterialComponent
+ MaterialEditorComponent->PointsMaterial
+ MaterialEditorComponent->ShadowMaterial
+ MaterialEditorComponent->SpriteMaterial
  MaterialEditorComponent->ThreeSceneService
  MaterialsLibraryEditorComponent->ConfirmationDialogComponent
  MaterialsLibraryEditorComponent->ErrorDialogComponent

@@ -11,7 +11,7 @@ export class NewMaterialComponent implements OnInit {
   @Output() newMaterial = new EventEmitter<MaterialType>();
 
   // properties
-  materialType = MaterialType.MESH_PHYSICAL;
+  materialType = MaterialType.MESH_STANDARD;
   public materialTypes = [
     { type: MaterialType.LINE_BASIC, name: 'Line Basic' },
     { type: MaterialType.LINE_DASHED, name: 'Line Dashed' },
