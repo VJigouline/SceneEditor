@@ -11,9 +11,10 @@ import { MatSliderModule } from '@angular/material/slider';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MeshStandardMaterialEditorComponent } from './mesh-standard-material-editor/mesh-standard-material-editor.component';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { BaseMaterialEditorComponent } from './base-material-editor/base-material-editor.component';
 
 @NgModule({
-  declarations: [NewMaterialComponent, MeshStandardMaterialEditorComponent],
+  declarations: [NewMaterialComponent, MeshStandardMaterialEditorComponent, BaseMaterialEditorComponent],
   imports: [
     CommonModule,
     MatInputModule,

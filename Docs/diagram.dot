@@ -529,6 +529,16 @@ MeshToonMaterial [label="{MeshToonMaterial |
    @Input() Light: Light\n
    Colour: string
 }"]
+ BaseMaterialEditorComponent [label="{BaseMaterialEditorComponent |
+   constructor()\n
+   ngOnInit()\n
+   onOpacityChanged(event: MatSliderChange): void\n
+   onTransparentChange(event: MatCheckboxChange): void\n
+   onVisibleChange(event: MatCheckboxChange): void
+   |
+   @Output() materialChange: Material\n
+   @Input() Material: Material\n
+}"]
  ConfirmationDialogComponent [label="{ConfirmationDialogComponent |
    constructor(public dialogRef: MatDialogRef\<ConfirmationDialogComponent\>,\n
     @Inject(MAT_DIALOG_DATA) public data: DialogData)\n
@@ -663,10 +673,13 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MeshStandardMaterialEditorComponent [label="{MeshStandardMaterialEditorComponent |
    constructor()\n
    ngOnInit()\n
+   onBaseMaterialChanged(material: MeshStandardMaterial): void\n
    onColourChanged(colour: string): void\n
    onEmissiveIntensityChanged(event: MatSliderChange): void\n
    onMetalnessChanged(event: MatSliderChange): void\n
-   onRoughnessChanged(event: MatSliderChange): void
+   onRoughnessChanged(event: MatSliderChange): void\n
+   onWireframeChange(event: MatCheckboxChange): void\n
+   onWireframeLinewidthChanged(event: MatSliderChange): void
    |
    @Output() materialChange: MeshStandardMaterial\n
    @Input() Material: MeshStandardMaterial
@@ -874,6 +887,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  // Inheritance.
  node [fillcolor="white"];
  AmbientLightEditorComponent->Light
+ BaseMaterialEditorComponent->Material
  ConfirmationDialogComponent->DialogData
  DirectionalLight->Light
  DirectionalLightEditorComponent->DirectionalLight
@@ -986,6 +1000,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MeshPhongMaterial->Material
  MeshPhysicalMaterial->MeshStandardMaterial
  MeshStandardMaterial->Material
+ MeshStandardMaterialEditorComponent->BaseMaterialEditorComponent
  MeshStandardMaterialEditorComponent->MeshStandardMaterial
  MeshToonMaterial->Material
  Point3DComponent->Point3

@@ -53,3 +53,28 @@
         ></mat-slider>
     </div>
 </div>
+<div *ngIf="Material" class="row">
+    <div class="col">
+        <mat-checkbox
+        [(checked)]="Material.wireframe"
+        (change) = "onWireframeChange($event)"
+        >
+        Show as wireframe
+        </mat-checkbox>
+    </div>
+</div>
+<!--
+<div *ngIf="Material && Material.wireframe" class="row">
+    <div class="col label">
+        Wireframe line width {{Material.wireframeLinewidth}}
+        <mat-slider min="0" max="10" step="1"
+        (input)="onWireframeLinewidthChanged($event)"
+        [(value)]="Material.wireframeLinewidth"
+        ></mat-slider>
+    </div>
+</div>
+-->
+<app-base-material-editor
+    (materialChange)="onBaseMaterialChanged($event)"
+    [(Material)]="Material"
+></app-base-material-editor>

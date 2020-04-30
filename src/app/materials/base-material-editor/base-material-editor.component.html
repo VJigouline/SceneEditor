@@ -1,0 +1,29 @@
+<div *ngIf="Material" class="row">
+    <div class="col">
+        <mat-checkbox
+        [(checked)]="Material.transparent"
+        (change) = "onTransparentChange($event)"
+        >
+        Transparent
+        </mat-checkbox>
+    </div>
+</div>
+<div *ngIf="Material && Material.transparent" class="row">
+    <div class="col label">
+        Opacity {{Material.opacity}}
+        <mat-slider min="0" max="1" step="0.01"
+        (input)="onOpacityChanged($event)"
+        [(value)]="Material.opacity"
+        ></mat-slider>
+    </div>
+</div>
+<div *ngIf="Material" class="row">
+    <div class="col">
+        <mat-checkbox
+        [(checked)]="Material.visible"
+        (change) = "onVisibleChange($event)"
+        >
+        Visible
+        </mat-checkbox>
+    </div>
+</div>
