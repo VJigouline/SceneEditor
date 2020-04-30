@@ -222,7 +222,7 @@ export class Material {
 
 export class LineBasicMaterial extends Material {
     public get colour(): string {
-        return (this.material as THREE.LineBasicMaterial).color.getHexString();
+        return '#' + (this.material as THREE.LineBasicMaterial).color.getHexString();
     }
     public set colour(value: string) {
         (this.material as THREE.LineBasicMaterial).color =
@@ -326,7 +326,7 @@ export class MeshBasicMaterial extends Material {
         (this.material as THREE.MeshBasicMaterial).aoMapIntensity = value;
     }
     public get colour(): string {
-        return (this.material as THREE.MeshBasicMaterial).color.getHexString();
+        return '#' + (this.material as THREE.MeshBasicMaterial).color.getHexString();
     }
     public set colour(value: string) {
         (this.material as THREE.MeshBasicMaterial).color =
@@ -517,7 +517,7 @@ export class MeshLambertMaterial extends Material {
         (this.material as THREE.MeshLambertMaterial).aoMapIntensity = value;
     }
     public get colour(): string {
-        return (this.material as THREE.MeshLambertMaterial).color.getHexString();
+        return '#' + (this.material as THREE.MeshLambertMaterial).color.getHexString();
     }
     public set colour(value: string) {
         (this.material as THREE.MeshLambertMaterial).color =
@@ -530,7 +530,7 @@ export class MeshLambertMaterial extends Material {
         (this.material as THREE.MeshLambertMaterial).combine = value;
     }
     public get emissive(): string {
-        return (this.material as THREE.MeshLambertMaterial).emissive.getHexString();
+        return '#' + (this.material as THREE.MeshLambertMaterial).emissive.getHexString();
     }
     public set emissive(value: string) {
         (this.material as THREE.MeshLambertMaterial).emissive =
@@ -691,7 +691,7 @@ export class MeshMatcapMaterial extends Material {
         (this.material as THREE.MeshMatcapMaterial).bumpScale = value;
     }
     public get colour(): string {
-        return (this.material as THREE.MeshMatcapMaterial).color.getHexString();
+        return '#' + (this.material as THREE.MeshMatcapMaterial).color.getHexString();
     }
     public set colour(value: string) {
         (this.material as THREE.MeshMatcapMaterial).color =
@@ -943,7 +943,7 @@ export class MeshPhongMaterial extends Material {
         (this.material as THREE.MeshPhongMaterial).bumpScale = value;
     }
     public get colour(): string {
-        return (this.material as THREE.MeshPhongMaterial).color.getHexString();
+        return '#' + (this.material as THREE.MeshPhongMaterial).color.getHexString();
     }
     public set colour(value: string) {
         (this.material as THREE.MeshPhongMaterial).color =
@@ -974,7 +974,7 @@ export class MeshPhongMaterial extends Material {
         (this.material as THREE.MeshPhongMaterial).displacementBias = value;
     }
     public get emissive(): string {
-        return (this.material as THREE.MeshPhongMaterial).emissive.getHexString();
+        return '#' + (this.material as THREE.MeshPhongMaterial).emissive.getHexString();
     }
     public set emissive(value: string) {
         (this.material as THREE.MeshPhongMaterial).emissive =
@@ -1071,7 +1071,7 @@ export class MeshPhongMaterial extends Material {
         (this.material as THREE.MeshPhongMaterial).skinning = value;
     }
     public get specular(): string {
-        return (this.material as THREE.MeshPhongMaterial).specular.getHexString();
+        return '#' + (this.material as THREE.MeshPhongMaterial).specular.getHexString();
     }
     public set specular(value: string) {
         (this.material as THREE.MeshPhongMaterial).specular =
@@ -1188,7 +1188,7 @@ export class MeshStandardMaterial extends Material {
         (this.material as THREE.MeshStandardMaterial).bumpScale = value;
     }
     public get colour(): string {
-        return (this.material as THREE.MeshStandardMaterial).color.getHexString();
+        return '#' + (this.material as THREE.MeshStandardMaterial).color.getHexString();
     }
     public set colour(value: string) {
         (this.material as THREE.MeshStandardMaterial).color =
@@ -1213,7 +1213,7 @@ export class MeshStandardMaterial extends Material {
         (this.material as THREE.MeshStandardMaterial).displacementBias = value;
     }
     public get emissive(): string {
-        return (this.material as THREE.MeshStandardMaterial).emissive.getHexString();
+        return '#' + (this.material as THREE.MeshStandardMaterial).emissive.getHexString();
     }
     public set emissive(value: string) {
         (this.material as THREE.MeshStandardMaterial).emissive =
@@ -1478,7 +1478,7 @@ export class MeshToonMaterial extends Material {
         (this.material as THREE.MeshToonMaterial).bumpScale = value;
     }
     public get colour(): string {
-        return (this.material as THREE.MeshToonMaterial).color.getHexString();
+        return '#' + (this.material as THREE.MeshToonMaterial).color.getHexString();
     }
     public set colour(value: string) {
         (this.material as THREE.MeshToonMaterial).color =
@@ -1503,7 +1503,7 @@ export class MeshToonMaterial extends Material {
         (this.material as THREE.MeshToonMaterial).displacementBias = value;
     }
     public get emissive(): string {
-        return (this.material as THREE.MeshToonMaterial).emissive.getHexString();
+        return '#' + (this.material as THREE.MeshToonMaterial).emissive.getHexString();
     }
     public set emissive(value: string) {
         (this.material as THREE.MeshToonMaterial).emissive =
@@ -1600,7 +1600,7 @@ export class MeshToonMaterial extends Material {
         (this.material as THREE.MeshToonMaterial).skinning = value;
     }
     public get specular(): string {
-        return (this.material as THREE.MeshToonMaterial).specular.getHexString();
+        return '#' + (this.material as THREE.MeshToonMaterial).specular.getHexString();
     }
     public set specular(value: string) {
         (this.material as THREE.MeshToonMaterial).specular =
@@ -1686,7 +1686,7 @@ export class MeshToonMaterial extends Material {
 
 export class PointsMaterial extends Material {
     public get colour(): string {
-        return (this.material as THREE.PointsMaterial).color.getHexString();
+        return '#' + (this.material as THREE.PointsMaterial).color.getHexString();
     }
     public set colour(value: string) {
         (this.material as THREE.PointsMaterial).color =
@@ -1758,7 +1758,7 @@ export class ShadowMaterial extends Material {
 
 export class SpriteMaterial extends Material {
     public get colour(): string {
-        return (this.material as THREE.SpriteMaterial).color.getHexString();
+        return '#' + (this.material as THREE.SpriteMaterial).color.getHexString();
     }
     public set colour(value: string) {
         (this.material as THREE.SpriteMaterial).color =
