@@ -9,10 +9,11 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { MatSliderModule } from '@angular/material/slider';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { MeshStandardMaterialEditorComponent } from './mesh-standard-material-editor/mesh-standard-material-editor.component';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 @NgModule({
-  declarations: [NewMaterialComponent],
+  declarations: [NewMaterialComponent, MeshStandardMaterialEditorComponent],
   imports: [
     CommonModule,
     MatInputModule,
@@ -22,10 +23,12 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatRadioModule,
     MatCardModule,
     MatSliderModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ColorPickerModule
   ],
   exports: [
-    NewMaterialComponent
+    NewMaterialComponent,
+    MeshStandardMaterialEditorComponent
   ]
 })
 export class MaterialsModule { }

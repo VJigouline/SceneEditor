@@ -93,7 +93,7 @@ digraph SceneEditor {
     clone(): LineBasicMaterial\n
     copy(material: LineBasicMaterial): void
     |
-    colour: THREE.Colour\n
+    colour: string\n
     linewidth: number\n
     linecap: string\n
     linejoin: string
@@ -103,7 +103,7 @@ digraph SceneEditor {
     clone(): LineBasicMaterial\n
     copy(material: LineBasicMaterial): void
     |
-    colour: THREE.Colour\n
+    colour: string\n
     linewidth: number\n
     linecap: string\n
     linejoin: string
@@ -179,7 +179,7 @@ digraph SceneEditor {
     alphaMap: THREE.Texture\n
     aoMap: THREE.Texture\n
     aoMapIntensity: number\n
-    colour: THREE.Color\n
+    colour: string\n
     combine: THREE.Combine\n
     envMap: THREE.Texture\n
     map: THREE.Texture\n
@@ -213,9 +213,9 @@ digraph SceneEditor {
     alphaMap: THREE.Texture\n
     aoMap: THREE.Texture\n
     aoMapIntensity: number\n
-    colour: THREE.Color\n
+    colour: string\n
     combine: THREE.Combine\n
-    emissive: THREE.Color\n
+    emissive: string\n
     emissiveMap: THREE.Texture\n
     emissiveIntensity: number\n
     envMap: THREE.Texture\n
@@ -241,7 +241,7 @@ digraph SceneEditor {
     alphaMap: THREE.Texture\n
     bumpMap: THREE.Texture\n
     bumpScale: number\n
-    colour: THREE.Color\n
+    colour: string\n
     displacementMap: THREE.Texture\n
     displacementScale: number\n
     displacementBias: number\n
@@ -284,12 +284,12 @@ digraph SceneEditor {
     aoMapIntensity: number\n
     bumpMap: THREE.Texture\n
     bumpScale: number\n
-    colour: THREE.Color\n
+    colour: string\n
     combine: THREE.Combine\n
     displacementMap: THREE.Texture\n
     displacementScale: number\n
     displacementBias: number\n
-    emissive: THREE.Color\n
+    emissive: string\n
     emissiveMap: THREE.Texture\n
     emissiveIntensity: number\n
     envMap: THREE.Texture\n
@@ -305,7 +305,7 @@ digraph SceneEditor {
     refractionRatio: number\n
     shininess: number\n
     skinning: boolean\n
-    specular: THREE.Color\n
+    specular: string\n
     specularMap: THREE.Texture\n
     wireframe: boolean\n
     wireframeLinecap: string\n
@@ -333,11 +333,11 @@ MeshStandardMaterial [label="{MeshStandardMaterial |
     aoMapIntensity: number\n
     bumpMap: THREE.Texture\n
     bumpScale: number\n
-    colour: THREE.Color\n
+    colour: string\n
     displacementMap: THREE.Texture\n
     displacementScale: number\n
     displacementBias: number\n
-    emissive: THREE.Color\n
+    emissive: string\n
     emissiveMap: THREE.Texture\n
     emissiveIntensity: number\n
     envMap: THREE.Texture\n
@@ -370,11 +370,11 @@ MeshToonMaterial [label="{MeshToonMaterial |
     aoMapIntensity: number\n
     bumpMap: THREE.Texture\n
     bumpScale: number\n
-    colour: THREE.Color\n
+    colour: string\n
     displacementMap: THREE.Texture\n
     displacementScale: number\n
     displacementBias: number\n
-    emissive: THREE.Color\n
+    emissive: string\n
     emissiveMap: THREE.Texture\n
     emissiveIntensity: number\n
     envMap: THREE.Texture\n
@@ -390,7 +390,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
     refractionRatio: number\n
     shininess: number\n
     skinning: boolean\n
-    specular: THREE.Color\n
+    specular: string\n
     specularMap: THREE.Texture\n
     wireframe: boolean\n
     wireframeLinecap: string\n
@@ -427,7 +427,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
     clone(): PointsMaterial\n
     copy(material: PointsMaterial): void
     |
-    colour: THREE.Color\n
+    colour: string\n
     map: THREE.Texture\n
     size: number\n
     sizeAttenuation: boolean
@@ -465,7 +465,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
     clone(): SpriteMaterial\n
     copy(material: SpriteMaterial): void
     |
-    colour: THREE.Color\n
+    colour: string\n
     fog: boolean\n
     map: THREE.Texture\n
     rotation: number\n
@@ -659,6 +659,14 @@ MeshToonMaterial [label="{MeshToonMaterial |
    Material: Material\n
    Materials: Materials\n
    deleteDisabled: boolean
+}"]
+ MeshStandardMaterialEditorComponent [label="{MeshStandardMaterialEditorComponent |
+   constructor()\n
+   ngOnInit()\n
+   onColourChanged(colour: string): void
+   |
+   @Output() materialChange: MeshStandardMaterial\n
+   @Input() Material: MeshStandardMaterial
 }"]
  NewLightComponent [label="{NewLightComponent |
    constructor()\n
@@ -952,6 +960,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MaterialEditorComponent->MeshPhongMaterial
  MaterialEditorComponent->MeshPhysicalMaterial
  MaterialEditorComponent->MeshStandardMaterial
+ MaterialEditorComponent->MeshStandardMaterialEditorComponent
  MaterialEditorComponent->MeshToonMaterial
  MaterialEditorComponent->NewMaterialComponent
  MaterialEditorComponent->PointsMaterial
@@ -974,6 +983,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MeshPhongMaterial->Material
  MeshPhysicalMaterial->MeshStandardMaterial
  MeshStandardMaterial->Material
+ MeshStandardMaterialEditorComponent->MeshStandardMaterial
  MeshToonMaterial->Material
  Point3DComponent->Point3
  PointLight->Light

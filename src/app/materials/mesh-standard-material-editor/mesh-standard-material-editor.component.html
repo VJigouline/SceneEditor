@@ -1,0 +1,14 @@
+<div *ngIf="Material" class="row">
+    <div class="col">
+      <mat-form-field class="full-width">
+        <input matInput placeholder="Material.colour"
+        cpAlphaChannel="enabled"
+        [value] = "this.Material.colour"
+        [style.background]="this.Material.colour"
+        [cpPosition] = "'bottom'"
+        [(colorPicker)]="this.Material.colour"
+        (colorPickerChange)="onColourChanged($event)"
+        >
+      </mat-form-field>
+    </div>
+</div>

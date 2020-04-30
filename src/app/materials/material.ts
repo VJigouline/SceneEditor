@@ -221,11 +221,12 @@ export class Material {
 }
 
 export class LineBasicMaterial extends Material {
-    public get colour(): THREE.Color {
-        return (this.material as THREE.LineBasicMaterial).color;
+    public get colour(): string {
+        return (this.material as THREE.LineBasicMaterial).color.getHexString();
     }
-    public set colour(value: THREE.Color) {
-        (this.material as THREE.LineBasicMaterial).color = value;
+    public set colour(value: string) {
+        (this.material as THREE.LineBasicMaterial).color =
+            new THREE.Color(value);
     }
     public get linewidth(): number {
         return (this.material as THREE.LineBasicMaterial).linewidth;
@@ -324,11 +325,12 @@ export class MeshBasicMaterial extends Material {
     public set aoMapIntensity(value: number) {
         (this.material as THREE.MeshBasicMaterial).aoMapIntensity = value;
     }
-    public get colour(): THREE.Color {
-        return (this.material as THREE.MeshBasicMaterial).color;
+    public get colour(): string {
+        return (this.material as THREE.MeshBasicMaterial).color.getHexString();
     }
-    public set colour(value: THREE.Color) {
-        (this.material as THREE.MeshBasicMaterial).color = value;
+    public set colour(value: string) {
+        (this.material as THREE.MeshBasicMaterial).color =
+            new THREE.Color(value);
     }
     public get combine(): THREE.Combine {
         return (this.material as THREE.MeshBasicMaterial).combine;
@@ -514,11 +516,12 @@ export class MeshLambertMaterial extends Material {
     public set aoMapIntensity(value: number) {
         (this.material as THREE.MeshLambertMaterial).aoMapIntensity = value;
     }
-    public get colour(): THREE.Color {
-        return (this.material as THREE.MeshLambertMaterial).color;
+    public get colour(): string {
+        return (this.material as THREE.MeshLambertMaterial).color.getHexString();
     }
-    public set colour(value: THREE.Color) {
-        (this.material as THREE.MeshLambertMaterial).color = value;
+    public set colour(value: string) {
+        (this.material as THREE.MeshLambertMaterial).color =
+            new THREE.Color(value);
     }
     public get combine(): THREE.Combine {
         return (this.material as THREE.MeshLambertMaterial).combine;
@@ -526,11 +529,12 @@ export class MeshLambertMaterial extends Material {
     public set combine(value: THREE.Combine) {
         (this.material as THREE.MeshLambertMaterial).combine = value;
     }
-    public get emissive(): THREE.Color {
-        return (this.material as THREE.MeshLambertMaterial).emissive;
+    public get emissive(): string {
+        return (this.material as THREE.MeshLambertMaterial).emissive.getHexString();
     }
-    public set emissive(value: THREE.Color) {
-        (this.material as THREE.MeshLambertMaterial).emissive = value;
+    public set emissive(value: string) {
+        (this.material as THREE.MeshLambertMaterial).emissive =
+            new THREE.Color(value);
     }
     public get emissiveMap(): THREE.Texture {
         return (this.material as THREE.MeshLambertMaterial).emissiveMap;
@@ -686,11 +690,12 @@ export class MeshMatcapMaterial extends Material {
     public set bumpScale(value: number) {
         (this.material as THREE.MeshMatcapMaterial).bumpScale = value;
     }
-    public get colour(): THREE.Color {
-        return (this.material as THREE.MeshMatcapMaterial).color;
+    public get colour(): string {
+        return (this.material as THREE.MeshMatcapMaterial).color.getHexString();
     }
-    public set colour(value: THREE.Color) {
-        (this.material as THREE.MeshMatcapMaterial).color = value;
+    public set colour(value: string) {
+        (this.material as THREE.MeshMatcapMaterial).color =
+            new THREE.Color(value);
     }
     public get displacementMap(): THREE.Texture {
         return (this.material as THREE.MeshMatcapMaterial).displacementMap;
@@ -937,11 +942,12 @@ export class MeshPhongMaterial extends Material {
     public set bumpScale(value: number) {
         (this.material as THREE.MeshPhongMaterial).bumpScale = value;
     }
-    public get colour(): THREE.Color {
-        return (this.material as THREE.MeshPhongMaterial).color;
+    public get colour(): string {
+        return (this.material as THREE.MeshPhongMaterial).color.getHexString();
     }
-    public set colour(value: THREE.Color) {
-        (this.material as THREE.MeshPhongMaterial).color = value;
+    public set colour(value: string) {
+        (this.material as THREE.MeshPhongMaterial).color =
+            new THREE.Color(value);
     }
     public get combine(): THREE.Combine {
         return (this.material as THREE.MeshPhongMaterial).combine;
@@ -967,11 +973,12 @@ export class MeshPhongMaterial extends Material {
     public set displacementBias(value: number) {
         (this.material as THREE.MeshPhongMaterial).displacementBias = value;
     }
-    public get emissive(): THREE.Color {
-        return (this.material as THREE.MeshPhongMaterial).emissive;
+    public get emissive(): string {
+        return (this.material as THREE.MeshPhongMaterial).emissive.getHexString();
     }
-    public set emissive(value: THREE.Color) {
-        (this.material as THREE.MeshPhongMaterial).emissive = value;
+    public set emissive(value: string) {
+        (this.material as THREE.MeshPhongMaterial).emissive =
+            new THREE.Color(value);
     }
     public get emissiveMap(): THREE.Texture {
         return (this.material as THREE.MeshPhongMaterial).emissiveMap;
@@ -1063,11 +1070,12 @@ export class MeshPhongMaterial extends Material {
     public set skinning(value: boolean) {
         (this.material as THREE.MeshPhongMaterial).skinning = value;
     }
-    public get specular(): THREE.Color {
-        return (this.material as THREE.MeshPhongMaterial).specular;
+    public get specular(): string {
+        return (this.material as THREE.MeshPhongMaterial).specular.getHexString();
     }
-    public set specular(value: THREE.Color) {
-        (this.material as THREE.MeshPhongMaterial).specular = value;
+    public set specular(value: string) {
+        (this.material as THREE.MeshPhongMaterial).specular =
+            new THREE.Color(value);
     }
     public get specularMap(): THREE.Texture {
         return (this.material as THREE.MeshPhongMaterial).specularMap;
@@ -1179,11 +1187,12 @@ export class MeshStandardMaterial extends Material {
     public set bumpScale(value: number) {
         (this.material as THREE.MeshStandardMaterial).bumpScale = value;
     }
-    public get colour(): THREE.Color {
-        return (this.material as THREE.MeshStandardMaterial).color;
+    public get colour(): string {
+        return (this.material as THREE.MeshStandardMaterial).color.getHexString();
     }
-    public set colour(value: THREE.Color) {
-        (this.material as THREE.MeshStandardMaterial).color = value;
+    public set colour(value: string) {
+        (this.material as THREE.MeshStandardMaterial).color =
+            new THREE.Color(value);
     }
     public get displacementMap(): THREE.Texture {
         return (this.material as THREE.MeshStandardMaterial).displacementMap;
@@ -1203,11 +1212,12 @@ export class MeshStandardMaterial extends Material {
     public set displacementBias(value: number) {
         (this.material as THREE.MeshStandardMaterial).displacementBias = value;
     }
-    public get emissive(): THREE.Color {
-        return (this.material as THREE.MeshStandardMaterial).emissive;
+    public get emissive(): string {
+        return (this.material as THREE.MeshStandardMaterial).emissive.getHexString();
     }
-    public set emissive(value: THREE.Color) {
-        (this.material as THREE.MeshStandardMaterial).emissive = value;
+    public set emissive(value: string) {
+        (this.material as THREE.MeshStandardMaterial).emissive =
+            new THREE.Color(value);
     }
     public get emissiveMap(): THREE.Texture {
         return (this.material as THREE.MeshStandardMaterial).emissiveMap;
@@ -1467,11 +1477,12 @@ export class MeshToonMaterial extends Material {
     public set bumpScale(value: number) {
         (this.material as THREE.MeshToonMaterial).bumpScale = value;
     }
-    public get colour(): THREE.Color {
-        return (this.material as THREE.MeshToonMaterial).color;
+    public get colour(): string {
+        return (this.material as THREE.MeshToonMaterial).color.getHexString();
     }
-    public set colour(value: THREE.Color) {
-        (this.material as THREE.MeshToonMaterial).color = value;
+    public set colour(value: string) {
+        (this.material as THREE.MeshToonMaterial).color =
+            new THREE.Color(value);
     }
     public get displacementMap(): THREE.Texture {
         return (this.material as THREE.MeshToonMaterial).displacementMap;
@@ -1491,11 +1502,12 @@ export class MeshToonMaterial extends Material {
     public set displacementBias(value: number) {
         (this.material as THREE.MeshToonMaterial).displacementBias = value;
     }
-    public get emissive(): THREE.Color {
-        return (this.material as THREE.MeshToonMaterial).emissive;
+    public get emissive(): string {
+        return (this.material as THREE.MeshToonMaterial).emissive.getHexString();
     }
-    public set emissive(value: THREE.Color) {
-        (this.material as THREE.MeshToonMaterial).emissive = value;
+    public set emissive(value: string) {
+        (this.material as THREE.MeshToonMaterial).emissive =
+            new THREE.Color(value);
     }
     public get emissiveMap(): THREE.Texture {
         return (this.material as THREE.MeshToonMaterial).emissiveMap;
@@ -1587,11 +1599,12 @@ export class MeshToonMaterial extends Material {
     public set skinning(value: boolean) {
         (this.material as THREE.MeshToonMaterial).skinning = value;
     }
-    public get specular(): THREE.Color {
-        return (this.material as THREE.MeshToonMaterial).specular;
+    public get specular(): string {
+        return (this.material as THREE.MeshToonMaterial).specular.getHexString();
     }
-    public set specular(value: THREE.Color) {
-        (this.material as THREE.MeshToonMaterial).specular = value;
+    public set specular(value: string) {
+        (this.material as THREE.MeshToonMaterial).specular =
+            new THREE.Color(value);
     }
     public get specularMap(): THREE.Texture {
         return (this.material as THREE.MeshToonMaterial).specularMap;
@@ -1672,11 +1685,12 @@ export class MeshToonMaterial extends Material {
 }
 
 export class PointsMaterial extends Material {
-    public get colour(): THREE.Color {
-        return (this.material as THREE.PointsMaterial).color;
+    public get colour(): string {
+        return (this.material as THREE.PointsMaterial).color.getHexString();
     }
-    public set colour(value: THREE.Color) {
-        (this.material as THREE.PointsMaterial).color = value;
+    public set colour(value: string) {
+        (this.material as THREE.PointsMaterial).color =
+            new THREE.Color(value);
     }
     public get map(): THREE.Texture {
         return (this.material as THREE.PointsMaterial).map;
@@ -1743,11 +1757,12 @@ export class ShadowMaterial extends Material {
 }
 
 export class SpriteMaterial extends Material {
-    public get colour(): THREE.Color {
-        return (this.material as THREE.SpriteMaterial).color;
+    public get colour(): string {
+        return (this.material as THREE.SpriteMaterial).color.getHexString();
     }
-    public set colour(value: THREE.Color) {
-        (this.material as THREE.SpriteMaterial).color = value;
+    public set colour(value: string) {
+        (this.material as THREE.SpriteMaterial).color =
+            new THREE.Color(value);
     }
     public get fog(): boolean {
         return (this.material as THREE.SpriteMaterial).fog;
