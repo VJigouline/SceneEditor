@@ -865,6 +865,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
    getMaterial(): THREE.Material\n
    getLights(): Lights\n
    getSceneBox(): THREE.Box3\n
+   getSelectableObjects(): THREE.Object3D[]\n
    onDragHoveron(event: DragEvent): void\n
    onTransformDraggingChanged(event: DraggingChangedEvent): void\n
    removeObjectFromScene(object: THREE.Object3D): void\n
@@ -985,6 +986,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MaterialEditorComponent->SpriteMaterial
  MaterialEditorComponent->ThreeSceneService
  MaterialsLibraryEditorComponent->ConfirmationDialogComponent
+ MaterialsLibraryEditorComponent->DragEvent
  MaterialsLibraryEditorComponent->ErrorDialogComponent
  MaterialsLibraryEditorComponent->Material
  MaterialsLibraryEditorComponent->MaterialEditorComponent
@@ -1011,7 +1013,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  SceneComponent->SceneSaverComponent
  SceneEditorComponent->Light
  SceneEditorComponent->LightsLibraryEditorComponent
- SceneEditorComponent->MaterialEditorComponent
+ SceneEditorComponent->MaterialsLibraryEditorComponent
  SceneEditorComponent->SceneComponent
  SceneEditorComponent->SceneViewComponent
  SceneEditorComponent->ThreeSceneService

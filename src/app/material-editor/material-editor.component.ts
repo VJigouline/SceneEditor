@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
 import { ThreeSceneService } from '../three-scene.service';
-import { ColorPickerService, Cmyk } from 'ngx-color-picker';
 import { Material, LineDashedMaterial, LineBasicMaterial,
   MeshBasicMaterial, MeshDepthMaterial, MeshLambertMaterial,
   MeshMatcapMaterial, MeshNormalMaterial, MeshPhongMaterial,
@@ -14,7 +13,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MaterialLibraryService } from '../materials/material-library.service';
 import * as THREE from 'three';
 import { MatSelectChange } from '@angular/material/select';
-import { DragControls } from 'three/examples/jsm/controls/DragControls';
 
 @Component({
   selector: 'app-material-editor',
@@ -30,7 +28,6 @@ export class MaterialEditorComponent implements OnInit {
   // properties
   materialType: typeof MaterialType = MaterialType;
   private material: Material;
-  private dragControl: DragControls;
 
   public get Material(): Material {
     if (!this.material && this.Materials) {

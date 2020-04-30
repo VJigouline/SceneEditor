@@ -5,9 +5,9 @@ import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 
 import { ThreeSceneService } from '../three-scene.service';
 import { ResizedEvent } from 'angular-resize-event';
 import { LightsLibraryEditorComponent } from '../lights-library-editor/lights-library-editor.component';
-import { MaterialEditorComponent } from '../material-editor/material-editor.component';
 import { Light } from '../lights/light';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MaterialsLibraryEditorComponent } from '../materials-library-editor/materials-library-editor.component';
 
 @Component({
   selector: 'app-scene-editor',
@@ -27,7 +27,7 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
   @ViewChild('LightsLibraryEditor')
   private lightsLirbaryEditor: LightsLibraryEditorComponent;
   @ViewChild('MaterialEditor')
-  private materialEditor: MaterialEditorComponent;
+  private materialEditor: MaterialsLibraryEditorComponent;
 
   constructor(
     private sceneService: ThreeSceneService,
@@ -54,8 +54,8 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
   }
 
   onMaterialChange(material: Material) {
-    if (!material) { return; }
-    this.threeView.SetMaterial(material);
+    if (!this.threeView) { return; }
+    this.threeView.Render();
   }
 
   public dropped(files: NgxFileDropEntry[]) {
@@ -94,5 +94,6 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
 
   public onSelectedTabChange(event: MatTabChangeEvent): void {
     this.lightsLirbaryEditor.onSelectedTabChange(event.index);
+    this.materialEditor.onSelectedTabChange(event.index);
   }
 }

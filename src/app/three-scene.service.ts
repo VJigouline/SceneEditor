@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { DragEvent } from './interfaces';
 import * as THREE from 'three';
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry, FileSystemEntry } from 'ngx-file-drop';
 import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
@@ -15,19 +16,12 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { LightType } from './lights/light-type.enum';
 import { Material } from './materials/material';
 import { Materials } from './materials/materials';
-import { map } from 'rxjs/operators';
 
 interface ViewerFile extends File {
   relativePath: string;
   reader: CompoundReader;
   contentSetter: ContentSetter;
   service: ThreeSceneService;
-}
-
-interface DragEvent {
-  object: THREE.Object3D;
-  target: DragControls;
-  type: string;
 }
 
 interface DraggingChangedEvent {
@@ -546,6 +540,28 @@ export class ThreeSceneService {
       if ((!start && child.children.length > 0) ||
         (child instanceof THREE.Scene) || (child instanceof THREE.Group)) {
         this.childrenMaterials(child.children, false, mapMaterials);
+      }
+    }
+  }
+
+  public getSelectableObjects(): THREE.Object3D[] {
+    const ret: THREE.Object3D[] = new Array<THREE.Object3D>();
+
+    if (!this.scene) { return ret; }
+    this.childrenSelectableObjects(this.scene.children, true, ret);
+
+    return ret;
+  }
+
+  private childrenSelectableObjects(children: THREE.Object3D[], start: boolean,
+                                    objects: THREE.Object3D[]): void {
+    for (const child of children) {
+      if (child instanceof THREE.Mesh) {
+        objects.push(child);
+      }
+      if ((!start && child.children.length > 0) ||
+        (child instanceof THREE.Scene) || (child instanceof THREE.Group)) {
+        this.childrenSelectableObjects(child.children, false, objects);
       }
     }
   }
