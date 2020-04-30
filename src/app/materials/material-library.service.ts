@@ -35,7 +35,10 @@ export class MaterialLibraryService {
   public getDefaultLibrary(): MaterialLibrary {
 
     console.error('Not implemented.');
-    return new MaterialLibrary();
+    const ret = new MaterialLibrary();
+    ret.materials.push(new Materials());
+
+    return ret;
   }
 
   public setCurrentMaterials(materials: Materials): void {

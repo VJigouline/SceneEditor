@@ -1,7 +1,11 @@
 import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
 import { ThreeSceneService } from '../three-scene.service';
 import { ColorPickerService, Cmyk } from 'ngx-color-picker';
-import { Material } from '../materials/material';
+import { Material, LineDashedMaterial, LineBasicMaterial,
+  MeshBasicMaterial, MeshDepthMaterial, MeshLambertMaterial,
+  MeshMatcapMaterial, MeshNormalMaterial, MeshPhongMaterial,
+  MeshPhysicalMaterial, MeshStandardMaterial, MeshToonMaterial,
+  PointsMaterial, ShadowMaterial, SpriteMaterial } from '../materials/material';
 import { MatSliderChange } from '@angular/material/slider';
 import { MaterialType } from '../materials/material-type.enum';
 import { Materials } from '../materials/materials';
@@ -63,37 +67,50 @@ export class MaterialEditorComponent implements OnInit {
 
     switch (type) {
       case MaterialType.LINE_BASIC:
-        // this.light = new Light(type);
-        // this.light.name = 'Ambient ' + this.Lights.lights.length;
+        this.material = new LineBasicMaterial();
         break;
       case MaterialType.LINE_DASHED:
+        this.material = new LineDashedMaterial();
         break;
       case MaterialType.MESH_BASIC:
+        this.material = new MeshBasicMaterial();
         break;
       case MaterialType.MESH_DEPTH:
+        this.material = new MeshDepthMaterial();
         break;
       case MaterialType.MESH_LAMBERT:
+        this.material = new MeshLambertMaterial();
         break;
       case MaterialType.MESH_MATCAP:
+        this.material = new MeshMatcapMaterial();
         break;
       case MaterialType.MESH_NORMAL:
+        this.material = new MeshNormalMaterial();
         break;
       case MaterialType.MESH_PHONG:
+        this.material = new MeshPhongMaterial();
         break;
       case MaterialType.MESH_PHYSICAL:
+        this.material = new MeshPhysicalMaterial();
         break;
       case MaterialType.MESH_STANDARD:
+        this.material = new MeshStandardMaterial();
         break;
       case MaterialType.MESH_TOON:
+        this.material = new MeshToonMaterial();
         break;
       case MaterialType.POINTS:
+        this.material = new PointsMaterial();
         break;
       case MaterialType.SHADOW:
+        this.material = new ShadowMaterial();
         break;
       case MaterialType.SPRITE:
+        this.material = new SpriteMaterial();
         break;
     }
     this.Materials.materials.push(this.material);
+    this.material.name = `${this.material.type} ` + this.Materials.materials.length;
     this.newMaterial.emit(this.material);
     this.changeSelection(this.material);
    }
