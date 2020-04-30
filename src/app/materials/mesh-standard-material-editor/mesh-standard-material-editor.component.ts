@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MeshStandardMaterial } from '../material';
+import { MatSliderChange } from '@angular/material/slider';
 
 @Component({
   selector: 'app-mesh-standard-material-editor',
@@ -19,6 +20,21 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
   }
 
   public onColourChanged(colour: string): void {
+    this.materialChange.emit(this.Material);
+  }
+
+  public onEmissiveIntensityChanged(event: MatSliderChange): void {
+    this.Material.emissiveIntensity = Math.round((event.value + Number.EPSILON) * 100) / 100;
+    this.materialChange.emit(this.Material);
+  }
+
+  public onMetalnessChanged(event: MatSliderChange): void {
+    this.Material.metalness = Math.round((event.value + Number.EPSILON) * 100) / 100;
+    this.materialChange.emit(this.Material);
+  }
+
+  public onRoughnessChanged(event: MatSliderChange): void {
+    this.Material.roughness = Math.round((event.value + Number.EPSILON) * 100) / 100;
     this.materialChange.emit(this.Material);
   }
 }

@@ -51,7 +51,7 @@ export class ThreeSceneService {
   public camera: THREE.OrthographicCamera;
   public renderer: THREE.WebGLRenderer;
   private material: THREE.Material = new THREE.MeshStandardMaterial( {
-    color: 0xff5533, metalness: 0.5, roughness: 0.8, name: 'Default' } );
+    color: '#fd421d', metalness: 1, roughness: 0.5, name: 'Default' } );
   public transformControl: TransformControls;
   private hidingTransform: number;
   public orbitControls: OrbitControls;

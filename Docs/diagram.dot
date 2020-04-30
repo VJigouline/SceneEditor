@@ -663,7 +663,10 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MeshStandardMaterialEditorComponent [label="{MeshStandardMaterialEditorComponent |
    constructor()\n
    ngOnInit()\n
-   onColourChanged(colour: string): void
+   onColourChanged(colour: string): void\n
+   onEmissiveIntensityChanged(event: MatSliderChange): void\n
+   onMetalnessChanged(event: MatSliderChange): void\n
+   onRoughnessChanged(event: MatSliderChange): void
    |
    @Output() materialChange: MeshStandardMaterial\n
    @Input() Material: MeshStandardMaterial

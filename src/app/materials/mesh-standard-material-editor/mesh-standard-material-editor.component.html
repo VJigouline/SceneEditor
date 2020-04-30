@@ -26,3 +26,30 @@
     </mat-form-field>
     </div>
 </div>
+<div *ngIf="Material" class="row">
+    <div class="col label">
+        Emissive intensity {{Material.emissiveIntensity}}
+        <mat-slider min="0" max="10" step="0.01"
+        (input)="onEmissiveIntensityChanged($event)"
+        [(value)]="Material.emissiveIntensity"
+        ></mat-slider>
+    </div>
+</div>
+<div *ngIf="Material" class="row">
+    <div class="col label">
+        Metalness {{Material.metalness}}
+        <mat-slider min="0" max="1" step="0.01"
+        (input)="onMetalnessChanged($event)"
+        [(value)]="Material.metalness"
+        ></mat-slider>
+    </div>
+</div>
+<div *ngIf="Material" class="row">
+    <div class="col label">
+        Roughness {{Material.roughness}}
+        <mat-slider min="0" max="1" step="0.01"
+        (input)="onRoughnessChanged($event)"
+        [(value)]="Material.roughness"
+        ></mat-slider>
+    </div>
+</div>
