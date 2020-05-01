@@ -42,6 +42,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
   private highlightedObjectMaterial: THREE.Material | THREE.Material[];
   private selectedMaterial: THREE.Material;
   private highlightedMaterial: THREE.Material;
+  private doHighlighting = true;
 
   @ViewChild('MaterialEditor')
   private materialEditor: MaterialEditorComponent;
@@ -280,7 +281,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
   private onDragHoveron(event: DragEvent): void {
     this.removeHighlighting();
     this.removeSelection();
-    if (event.object instanceof THREE.Mesh) {
+    if (event.object instanceof THREE.Mesh && this.doHighlighting) {
       const mesh = event.object as THREE.Mesh;
       if (mesh !== this.selectedObject) {
         this.highlightedObject = mesh;
@@ -319,11 +320,17 @@ export class MaterialsLibraryEditorComponent implements OnInit {
     }
   }
 
+  private suspendHighlighting(timeout: number) {
+    this.doHighlighting = false;
+    setTimeout(() => { this.doHighlighting = true; }, timeout);
+  }
+
   private onDragStart(event: DragEvent): void {
     this.removeSelection();
     this.removeHighlighting();
     if (event.object instanceof THREE.Mesh) {
       this.selectMesh(event.object as THREE.Mesh);
+      this.suspendHighlighting(2000);
     }
     this.changedMaterial.emit(null);
   }
@@ -352,6 +359,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
           if (result) {
             this.addMaterial(mat);
+            this.suspendHighlighting(2000);
           }
         });
       }
