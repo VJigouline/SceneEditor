@@ -219,7 +219,6 @@ export class MaterialsLibraryEditorComponent implements OnInit {
         } else {
           this.Materials = this.libraryService.Library.materials[current];
         }
-        this.sceneService.resetLights();
         this.materialEditor.Material = null;
         this.materialEditor.updateSelection();
         this.changedMaterial.emit(null);
@@ -339,10 +338,38 @@ export class MaterialsLibraryEditorComponent implements OnInit {
         }
       }
     } else {
-      this.selectMaterial(mesh.material as THREE.Material);
+      if (!this.selectMaterial(mesh.material as THREE.Material)) {
+        const mat = mesh.material as THREE.Material;
+        const dialogRef = this.confirmationDialog.open(ConfirmationDialogComponent, {
+          width: '350px',
+          data: {
+            title: 'Add material',
+            label: 'Material not found. ',
+            message: 'Do you want to add selected material to the current library?'
+          }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          if (result) {
+            this.addMaterial(mat);
+          }
+        });
+      }
     }
     mesh.material = this.selectedMaterial;
   }
+
+  private addMaterial(material: THREE.Material): void {
+
+    const scene = this.sceneService.getScene();
+    if (scene == null) { return; }
+    const mat = Material.CreateMaterial(material);
+    this.Materials.materials.push(mat);
+    this.Material = mat;
+    this.materialEditor.Material = mat;
+    this.materialEditor.updateSelection();
+    this.changedMaterial.emit(mat);
+}
 
   private hasMaterial(material: THREE.Material): boolean {
     for (const materials of this.libraryService.Library.materials) {
