@@ -35,6 +35,7 @@ export class LightEditorComponent implements OnInit {
   private pointLightHelper: PointLightHelper;
   private spotLightHelper: SpotLightHelper;
   private dragControl: DragControls;
+  public lightCopy: Light;
 
   public get Light(): Light {
     if (!this.light && this.Lights) {
@@ -352,4 +353,24 @@ export class LightEditorComponent implements OnInit {
       }
     });
   }
+
+  public onCopy(): void {
+    if (!this.Light) { return; }
+    this.lightCopy = this.Light.clone();
+  }
+
+  public onPaste(): void {
+    if (!this.lightCopy || !this.Lights ) { return; }
+
+    const scene = this.sceneService.getScene();
+    if (scene == null) { return; }
+
+    this.light = this.lightCopy.clone();
+    this.light.name += ' Copy';
+    scene.add(this.light.light);
+    this.Lights.lights.push(this.light);
+    this.newLight.emit(this.light);
+    this.changeSelection(this.light);
+  }
 }
+

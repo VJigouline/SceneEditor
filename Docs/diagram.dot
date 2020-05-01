@@ -582,7 +582,9 @@ MeshToonMaterial [label="{MeshToonMaterial |
    onIntensityChanged(event: MatSliderChange): void\n
    onLightChanged(event: Light): void
    onNewLight(type: LightType): void\n
+   onCopy(): void\n
    onDelete(): void\n
+   onPaste(): void\n
    onSave()\n
    onSaveAll()\n
    onNew()\n
@@ -597,6 +599,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
    Lights: Lights\n
    Light: Light\n
    maxIntensity: number\n
+   lightCopy: Light
 }"]
  LightsLibraryEditorComponent [label="{LightsLibraryEditorComponent |
    constructor(

@@ -96,12 +96,23 @@
               ></app-new-light>
            </div>
         </div>
-        <div *ngIf="Lights.lights.length > 0" class="row">
+        <div class="row">
             <div class="col">
                 <button mat-raised-button color="primary" 
                 type="button"
                 (click)="onDelete()"
+                [disabled] = "!Lights.lights.length"
                 >Delete light</button>                   
+                <button mat-raised-button color="primary" 
+                type="button"
+                (click)="onCopy()"
+                [disabled] = "!Lights.lights.length"
+                >Copy</button>                   
+                <button mat-raised-button color="primary" 
+                type="button"
+                (click)="onPaste()"
+                [disabled] = "!lightCopy"
+                >Paste</button>                   
             </div>
         </div>
     </mat-card-content>
