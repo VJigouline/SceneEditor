@@ -43,6 +43,8 @@ export class MaterialsLibraryEditorComponent implements OnInit {
   private selectedMaterial: THREE.Material;
   private highlightedMaterial: THREE.Material;
   private doHighlighting = true;
+  private updateDragControl = true;
+  private activeTab = false;
 
   @ViewChild('MaterialEditor')
   private materialEditor: MaterialEditorComponent;
@@ -132,11 +134,13 @@ export class MaterialsLibraryEditorComponent implements OnInit {
 
   public onSelectedTabChange(index: number) {
     if (index === 1) {
-      this.setDragControl();
+      if (this.updateDragControl) { this.setDragControl(); }
+      this.activeTab = true;
     } else {
       this.removeDragControl();
       this.removeHighlighting();
       this.removeSelection();
+      this.activeTab = false;
     }
   }
 
@@ -263,7 +267,13 @@ export class MaterialsLibraryEditorComponent implements OnInit {
     }
   }
 
-  private setDragControl(): void {
+  public setDragControl(force = false): void {
+    if (!this.activeTab) {
+      this.updateDragControl = true;
+      return;
+    }
+    if (force) { this.updateDragControl = true; }
+    if (!this.updateDragControl) { return; }
     this.dragControl = this.sceneService.getDragControl(
       this.sceneService.getSelectableObjects()
     );
@@ -276,11 +286,11 @@ export class MaterialsLibraryEditorComponent implements OnInit {
       this.onDragStart.bind(this));
     this.dragControl.addEventListener('drag',
       this.onDragStart.bind(this));
+    this.updateDragControl = false;
   }
 
   private onDragHoveron(event: DragEvent): void {
     this.removeHighlighting();
-    this.removeSelection();
     if (event.object instanceof THREE.Mesh && this.doHighlighting) {
       const mesh = event.object as THREE.Mesh;
       if (mesh !== this.selectedObject) {
@@ -294,7 +304,6 @@ export class MaterialsLibraryEditorComponent implements OnInit {
 
   private onDragHoveroff(event: DragEvent): void {
     this.removeHighlighting();
-    this.removeSelection();
     this.changedMaterial.emit(null);
   }
 
@@ -322,7 +331,11 @@ export class MaterialsLibraryEditorComponent implements OnInit {
 
   private suspendHighlighting(timeout: number) {
     this.doHighlighting = false;
-    setTimeout(() => { this.doHighlighting = true; }, timeout);
+    setTimeout(() => {
+      this.doHighlighting = true;
+      this.removeSelection();
+      this.changedMaterial.emit(null);
+    }, timeout);
   }
 
   private onDragStart(event: DragEvent): void {
@@ -330,7 +343,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
     this.removeHighlighting();
     if (event.object instanceof THREE.Mesh) {
       this.selectMesh(event.object as THREE.Mesh);
-      this.suspendHighlighting(2000);
+      this.suspendHighlighting(1000);
     }
     this.changedMaterial.emit(null);
   }

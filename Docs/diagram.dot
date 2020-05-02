@@ -665,7 +665,8 @@ MeshToonMaterial [label="{MeshToonMaterial |
    onNew(): void\n
    onSave(): void\n
    onSelectedTabChange(index: number)\n
-   onSelectionChange(change: MatSelectChange): void
+   onSelectionChange(change: MatSelectChange): void\n
+   setDragControl(force = false): void
    |
    @Output() changedMaterial: Material\n
    Library: MaterialLibrary\n
