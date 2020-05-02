@@ -843,9 +843,6 @@ MeshToonMaterial [label="{MeshToonMaterial |
    Library: LightsLibrary\n
    currentLights: Lights
  }"]
- MaterialService [label="{MaterialService |
-   constructor()\n
- }"]
  MaterialLibraryService [label="{MaterialLibraryService |
    constructor()\n
    getDefaultLibrary(): MaterialLibrary\n

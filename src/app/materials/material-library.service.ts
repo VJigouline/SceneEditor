@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Materials } from './materials';
 import { MaterialLibrary } from './material-library';
+import DefaultLibrary from '../../assets/materials/default.json';
 
 @Injectable({
   providedIn: 'root'
@@ -34,11 +35,18 @@ export class MaterialLibraryService {
 
   public getDefaultLibrary(): MaterialLibrary {
 
-    console.error('Not implemented.');
-    const ret = new MaterialLibrary();
-    ret.materials.push(new Materials());
+    // return new MaterialLibrary();
+    const ret = DefaultLibrary as MaterialLibrary;
+    const lib = new MaterialLibrary();
+    ret.clone = lib.clone.bind(ret);
+    if (ret.current === undefined) { ret.current = 0; }
+    for (const ms of ret.materials) {
+      for (const m of ms.materials) {
+        m.visible = true;
+      }
+    }
 
-    return ret;
+    return ret.clone();
   }
 
   public setCurrentMaterials(materials: Materials): void {
@@ -47,6 +55,11 @@ export class MaterialLibraryService {
   }
 
   public importLibrary(library: MaterialLibrary): void {
+    for (const ms of library.materials) {
+      for (const m of ms.materials) {
+        m.visible = true;
+      }
+    }
     if (this.library.materials.length === 0 ||
       this.library.materials.length === 1 && this.library.materials[0].materials.length === 0) {
       this.library = library;

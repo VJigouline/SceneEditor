@@ -73,7 +73,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
   public onSave(): void {
     const json = JSON.stringify(this.libraryService.Library);
     const blob = new Blob([json], {type: 'text/plain;charset=utf-8'});
-    saveAs.saveAs(blob, this.libraryService.Library.name + '.ltslib');
+    saveAs.saveAs(blob, this.libraryService.Library.name + '.matlib');
   }
   public onNew(): void {
     this.Materials = new Materials();
@@ -113,6 +113,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
       if (result) {
         this.libraryService.Library.clear();
         this.Materials = this.libraryService.Library.materials[0];
+        this.Material = null;
         this.sceneService.resetLights();
         this.materialEditor.updateSelection();
         this.changedMaterial.emit(null);
@@ -167,6 +168,9 @@ export class MaterialsLibraryEditorComponent implements OnInit {
           this.materialEditor.updateSelection();
           this.materialEditor.Material = this.libraryService.currentMaterials.materials.length > 0 ?
             this.libraryService.currentMaterials.materials[0] : null;
+        }
+        if (!this.Material) {
+          this.Material = this.libraryService.currentMaterials.materials[0];
         }
         this.changedMaterial.emit(null);
         const dialogRef = this.confirmationDialog.open(ErrorDialogComponent, {

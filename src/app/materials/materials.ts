@@ -18,72 +18,72 @@ export class Materials {
                 case MaterialType.LINE_BASIC:
                     const lbm = new LineBasicMaterial();
                     lbm.copy(material as LineBasicMaterial);
-                    this.materials.push(lbm);
+                    ret.materials.push(lbm);
                     break;
                 case MaterialType.LINE_DASHED:
                     const ldm = new LineDashedMaterial();
                     ldm.copy(material as LineDashedMaterial);
-                    this.materials.push(ldm);
+                    ret.materials.push(ldm);
                     break;
                 case MaterialType.MESH_BASIC:
                     const mbm = new MeshBasicMaterial();
                     mbm.copy(material as MeshBasicMaterial);
-                    this.materials.push(mbm);
+                    ret.materials.push(mbm);
                     break;
                 case MaterialType.MESH_DEPTH:
                     const mdm = new MeshDepthMaterial();
                     mdm.copy(material as MeshDepthMaterial);
-                    this.materials.push(mdm);
+                    ret.materials.push(mdm);
                     break;
                 case MaterialType.MESH_LAMBERT:
                     const mlm = new MeshLambertMaterial();
                     mlm.copy(material as MeshLambertMaterial);
-                    this.materials.push(mlm);
+                    ret.materials.push(mlm);
                     break;
                 case MaterialType.MESH_MATCAP:
                     const mmm = new MeshMatcapMaterial();
                     mmm.copy(material as MeshMatcapMaterial);
-                    this.materials.push(mmm);
+                    ret.materials.push(mmm);
                     break;
                 case MaterialType.MESH_NORMAL:
                     const mnm = new MeshNormalMaterial();
                     mnm.copy(material as MeshNormalMaterial);
-                    this.materials.push(mnm);
+                    ret.materials.push(mnm);
                     break;
                 case MaterialType.MESH_PHONG:
                     const mphong = new MeshPhongMaterial();
                     mphong.copy(material as MeshPhongMaterial);
-                    this.materials.push(mphong);
+                    ret.materials.push(mphong);
                     break;
                 case MaterialType.MESH_PHYSICAL:
                     const mpm = new MeshPhysicalMaterial();
                     mpm.copy(material as MeshPhysicalMaterial);
-                    this.materials.push(mpm);
+                    ret.materials.push(mpm);
                     break;
                 case MaterialType.MESH_STANDARD:
                     const msm = new MeshStandardMaterial();
                     msm.copy(material as MeshStandardMaterial);
-                    this.materials.push(msm);
+                    ret.materials.push(msm);
                     break;
                 case MaterialType.MESH_TOON:
                     const mtm = new MeshToonMaterial();
                     mtm.copy(material as MeshToonMaterial);
-                    this.materials.push(mtm);
+                    ret.materials.push(mtm);
                     break;
                 case MaterialType.POINTS:
                     const pm = new PointsMaterial();
                     pm.copy(material as PointsMaterial);
-                    this.materials.push(pm);
+                    ret.materials.push(pm);
                     break;
                 case MaterialType.SHADOW:
                     const sm = new ShadowMaterial();
                     sm.copy(material as ShadowMaterial);
-                    this.materials.push(sm);
+                    ret.materials.push(sm);
                     break;
                 case MaterialType.SPRITE:
                     const spm = new SpriteMaterial();
                     spm.copy(material as SpriteMaterial);
-                    this.materials.push(spm);
+                    ret.materials.push(spm);
                     break;
                 default:
                     console.error('Unknown material type.');

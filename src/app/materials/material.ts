@@ -2,6 +2,125 @@ import { MaterialType } from './material-type.enum';
 import { v4 as uuid } from 'uuid';
 import * as THREE from 'three';
 
+export class MaterialExport {
+    private type: MaterialType;
+
+    private alphaTest: number;
+    private blendDst: number;
+    private blendDstAlpha: number;
+    private blendEquation: THREE.BlendingEquation;
+    private blendEquationAlpha: number;
+    private blending: THREE.Blending;
+    private blendSrc: THREE.BlendingDstFactor | THREE.BlendingSrcFactor;
+    private blendSrcAlpha: number;
+    private clipShadows: boolean;
+    private colourWrite: boolean;
+    private depthFunc: THREE.DepthModes;
+    private depthTest: boolean;
+    private depthWrite: boolean;
+    private stencilWrite: boolean;
+    private flatShading: boolean;
+    private fog: boolean;
+    private name: string;
+    private opacity: number;
+    private side: THREE.Side;
+    private toneMapped: boolean;
+    private transparent: boolean;
+
+    constructor(material: Material) {
+        this.type = material.type;
+        this.alphaTest = material.alphaTest;
+        this.blendDst = material.blendDst;
+        this.blendDstAlpha = material.blendDstAlpha;
+        this.blendEquation = material.blendEquation;
+        this.blendEquationAlpha = material.blendEquationAlpha;
+        this.blending = material.blending;
+        this.blendSrc = material.blendSrc;
+        this.blendSrcAlpha = material.blendSrcAlpha;
+        this.clipShadows = material.clipShadows;
+        this.colourWrite = material.colourWrite;
+        this.depthFunc = material.depthFunc;
+        this.depthTest = material.depthTest;
+        this.depthWrite = material.depthWrite;
+        this.stencilWrite = material.stencilWrite;
+        this.flatShading = material.flatShading;
+        this.fog = material.fog;
+        this.name = material.name;
+        this.opacity = material.opacity;
+        this.side = material.side;
+        this.toneMapped = material.toneMapped;
+        this.transparent = material.transparent;
+    }
+}
+export class MeshStandardMaterialExport extends MaterialExport {
+    private alphaMap: THREE.Texture;
+    // private aoMap: THREE.Texture;
+    private aoMapIntensity: number;
+    // private bumpMap: THREE.Texture;
+    private bumpScale: number;
+    private colour: string;
+    // private displacementMap: THREE.Texture;
+    private displacementScale: number;
+    private displacementBias: number;
+    private emissive: string;
+    // private emissiveMap: THREE.Texture;
+    private emissiveIntensity: number;
+    // private envMap: THREE.Texture;
+    private envMapIntensity: number;
+    // private lightMap: THREE.Texture;
+    private lightMapIntensity: number;
+    // private map: THREE.Texture;
+    private metalness: number;
+    // private metalnessMap: THREE.Texture;
+    private morphNormals: boolean;
+    private morphTargets: boolean;
+    // private normalMap: THREE.Texture;
+    private normalMapType: THREE.NormalMapTypes;
+    private normalScale: THREE.Vector2;
+    private refractionRatio: number;
+    private roughness: number;
+    // private roughnessMap: THREE.Texture;
+    private skinning: boolean;
+    private vertexTangents: boolean;
+    private wireframe: boolean;
+    private wireframeLinewidth: number;
+
+    constructor(material: MeshStandardMaterial) {
+        super(material);
+        this.alphaMap = material.alphaMap;
+        // this.aoMap = material.aoMap;
+        this.aoMapIntensity = material.aoMapIntensity;
+        // this.bumpMap = material.bumpMap;
+        this.bumpScale = material.bumpScale;
+        this.colour = material.colour;
+        // this.displacementMap = material.displacementMap;
+        this.displacementScale = material.displacementScale;
+        this.displacementBias = material.displacementBias;
+        this.emissive = material.emissive;
+        // this.emissiveMap = material.emissiveMap;
+        this.emissiveIntensity = material.emissiveIntensity;
+        // this.envMap = material.envMap;
+        this.envMapIntensity = material.envMapIntensity;
+        // this.lightMap = material.lightMap;
+        this.lightMapIntensity = material.lightMapIntensity;
+        // this.map = material.map;
+        this.metalness = material.metalness;
+        // this.metalnessMap = material.metalnessMap;
+        this.morphNormals = material.morphNormals;
+        this.morphTargets = material.morphTargets;
+        // this.normalMap = material.normalMap;
+        this.normalMapType = material.normalMapType;
+        this.normalScale = material.normalScale;
+        this.refractionRatio = material.refractionRatio;
+        this.roughness = material.roughness;
+        // this.roughnessMap = material.roughnessMap;
+        this.skinning = material.skinning;
+        this.vertexTangents = material.vertexTangents;
+        this.wireframe = material.wireframe;
+        this.wireframeLinewidth = material.wireframeLinewidth;
+    }
+}
+
 export class Material {
     // properties
     public type: MaterialType;
@@ -221,34 +340,59 @@ export class Material {
 
     public clone(): Material {
         switch (this.type) {
+        case MaterialType.LINE_BASIC:
+            return (this as unknown as LineBasicMaterial).clone();
+        case MaterialType.LINE_DASHED:
+            return (this as unknown as LineDashedMaterial).clone();
+        case MaterialType.MESH_BASIC:
+            return (this as unknown as MeshBasicMaterial).clone();
+        case MaterialType.MESH_DEPTH:
+            return (this as unknown as MeshDepthMaterial).clone();
+        case MaterialType.MESH_LAMBERT:
+            return (this as unknown as MeshLambertMaterial).clone();
+        case MaterialType.MESH_MATCAP:
+            return (this as unknown as MeshMatcapMaterial).clone();
+        case MaterialType.MESH_NORMAL:
+            return (this as unknown as MeshNormalMaterial).clone();
+        case MaterialType.MESH_PHONG:
+            return (this as unknown as MeshPhongMaterial).clone();
+        case MaterialType.MESH_PHYSICAL:
+            return (this as unknown as MeshPhysicalMaterial).clone();
+        case MaterialType.MESH_STANDARD:
+            return (this as unknown as MeshStandardMaterial).clone();
+        case MaterialType.MESH_TOON:
+            return (this as unknown as MeshToonMaterial).clone();
+        case MaterialType.POINTS:
+            return (this as unknown as PointsMaterial).clone();
+        case MaterialType.SHADOW:
+            return (this as unknown as ShadowMaterial).clone();
+        case MaterialType.SPRITE:
+            return (this as unknown as SpriteMaterial).clone();
+        default:
+            console.error('Unknown material.');
+            break;
+        }
+
+        return null;
+    }
+
+    public toJSON(): MaterialExport {
+        switch (this.type) {
             case MaterialType.LINE_BASIC:
-                return (this as unknown as LineBasicMaterial).clone();
             case MaterialType.LINE_DASHED:
-                return (this as unknown as LineDashedMaterial).clone();
             case MaterialType.MESH_BASIC:
-                return (this as unknown as MeshBasicMaterial).clone();
             case MaterialType.MESH_DEPTH:
-                return (this as unknown as MeshDepthMaterial).clone();
             case MaterialType.MESH_LAMBERT:
-                return (this as unknown as MeshLambertMaterial).clone();
             case MaterialType.MESH_MATCAP:
-                return (this as unknown as MeshMatcapMaterial).clone();
             case MaterialType.MESH_NORMAL:
-                return (this as unknown as MeshNormalMaterial).clone();
             case MaterialType.MESH_PHONG:
-                return (this as unknown as MeshPhongMaterial).clone();
             case MaterialType.MESH_PHYSICAL:
-                return (this as unknown as MeshPhysicalMaterial).clone();
             case MaterialType.MESH_STANDARD:
-                return (this as unknown as MeshStandardMaterial).clone();
+                return new MeshStandardMaterialExport(this as unknown as MeshStandardMaterial);
             case MaterialType.MESH_TOON:
-                return (this as unknown as MeshToonMaterial).clone();
             case MaterialType.POINTS:
-                return (this as unknown as PointsMaterial).clone();
             case MaterialType.SHADOW:
-                return (this as unknown as ShadowMaterial).clone();
             case MaterialType.SPRITE:
-                return (this as unknown as SpriteMaterial).clone();
             default:
                 console.error('Unknown material.');
                 break;
