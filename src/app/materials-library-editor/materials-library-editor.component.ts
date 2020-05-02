@@ -60,6 +60,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
 
   ngOnInit() {
     this.Materials = this.libraryService.currentMaterials;
+    this.Material = this.Materials.materials[0];
     this.highlightedMaterial = new THREE.MeshStandardMaterial( {
       color: '#ff00ff', metalness: 1, roughness: 0.5, name: 'Highlight',
       transparent: true, opacity: 0.5

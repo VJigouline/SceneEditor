@@ -36,7 +36,8 @@ export class MaterialLibraryService {
   public getDefaultLibrary(): MaterialLibrary {
 
     // return new MaterialLibrary();
-    const ret = DefaultLibrary as MaterialLibrary;
+    const ml = new MaterialLibrary();
+    const ret = DefaultLibrary as unknown as MaterialLibrary;
     const lib = new MaterialLibrary();
     ret.clone = lib.clone.bind(ret);
     if (ret.current === undefined) { ret.current = 0; }
