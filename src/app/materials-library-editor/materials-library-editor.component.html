@@ -33,6 +33,14 @@
             </div>
         </div>
         <div class="row">
+        <mat-checkbox
+        [(checked)]="assignMaterial"
+        (change) = "onAssignMaterialChange($event)"
+        >
+        Assign current material
+        </mat-checkbox>
+        </div>
+        <div class="row">
             <div class="col">
                 <app-material-editor #MaterialEditor [Material]="Material"
                 (changedMaterial) = onMaterialChanged($event);

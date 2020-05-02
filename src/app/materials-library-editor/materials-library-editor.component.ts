@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../user-controls/error-dialog/error-dialog.component';
 import { DragControls } from 'three/examples/jsm/controls/DragControls';
 import { DragEvent } from '../interfaces';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 import * as THREE from 'three';
 
@@ -35,6 +36,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
     return this.libraryService.Library.current < 0 ||
       this.libraryService.Library.current >= this.libraryService.Library.materials.length;
   }
+  public assignMaterial = false;
   private dragControl: DragControls;
   private selectedObject: THREE.Object3D;
   private highlightedObject: THREE.Object3D;
@@ -351,6 +353,14 @@ export class MaterialsLibraryEditorComponent implements OnInit {
   private selectMesh(mesh: THREE.Mesh): void {
     this.selectedObject = mesh;
     this.selectedObjectMaterial = mesh.material;
+    if (this.assignMaterial) {
+      if (this.Material) {
+        mesh.material = this.Material.material;
+        this.selectedObjectMaterial = mesh.material;
+        this.changedMaterial.emit(null);
+      }
+      return;
+    }
     if (Array.isArray(mesh.material)) {
       for (const m of mesh.material as THREE.Material[]) {
         if (this.selectMaterial(m)) {
@@ -418,5 +428,9 @@ export class MaterialsLibraryEditorComponent implements OnInit {
     }
 
     return false;
+  }
+
+  public onAssignMaterialChange(event: MatCheckboxChange): void {
+    this.assignMaterial = event.checked;
   }
 }

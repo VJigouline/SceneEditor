@@ -40,11 +40,12 @@
             ></app-new-material>
          </div>
       </div>
-      <div *ngIf="Materials.materials.length > 0" class="row">
+      <div class="row">
           <div class="col">
               <button mat-raised-button color="primary" 
               type="button"
               (click)="onDelete()"
+              [disabled]="!Materials.materials.length"
               >Delete material</button>                   
           </div>
       </div>

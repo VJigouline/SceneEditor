@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -55,6 +56,7 @@ import { MaterialsModule } from './materials/materials.module';
     MatSelectModule,
     MatRadioModule,
     MatCardModule,
+    MatCheckboxModule,
     MatSliderModule,
     ReactiveFormsModule,
     ColorPickerModule,

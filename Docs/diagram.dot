@@ -656,6 +656,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
       private sceneService: ThreeSceneService   
    )\n
    ngOnInit()\n
+   onAssignMaterialChange(event: MatCheckboxChange): void\n
    onClear(): void\n
    onClone(): void\n
    onDelete(): void\n
@@ -672,6 +673,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
    Library: MaterialLibrary\n
    Material: Material\n
    Materials: Materials\n
+   assignMaterial: boolean\n
    deleteDisabled: boolean
 }"]
  MeshStandardMaterialEditorComponent [label="{MeshStandardMaterialEditorComponent |
