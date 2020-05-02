@@ -47,7 +47,17 @@
               (click)="onDelete()"
               [disabled]="!Materials.materials.length"
               >Delete material</button>                   
-          </div>
+              <button mat-raised-button color="primary" 
+              type="button"
+              (click)="onCopy()"
+              [disabled] = "!Materials.materials.length"
+              >Copy</button>                   
+              <button mat-raised-button color="primary" 
+              type="button"
+              (click)="onPaste()"
+              [disabled] = "!materialCopy"
+              >Paste</button>                   
+        </div>
       </div>
   </mat-card-content>
 </mat-card>

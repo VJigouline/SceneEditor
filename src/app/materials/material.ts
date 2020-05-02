@@ -218,6 +218,44 @@ export class Material {
         this.vertexColors = material.vertexColors;
         this.visible = material.visible;
     }
+
+    public clone(): Material {
+        switch (this.type) {
+            case MaterialType.LINE_BASIC:
+                return (this as unknown as LineBasicMaterial).clone();
+            case MaterialType.LINE_DASHED:
+                return (this as unknown as LineDashedMaterial).clone();
+            case MaterialType.MESH_BASIC:
+                return (this as unknown as MeshBasicMaterial).clone();
+            case MaterialType.MESH_DEPTH:
+                return (this as unknown as MeshDepthMaterial).clone();
+            case MaterialType.MESH_LAMBERT:
+                return (this as unknown as MeshLambertMaterial).clone();
+            case MaterialType.MESH_MATCAP:
+                return (this as unknown as MeshMatcapMaterial).clone();
+            case MaterialType.MESH_NORMAL:
+                return (this as unknown as MeshNormalMaterial).clone();
+            case MaterialType.MESH_PHONG:
+                return (this as unknown as MeshPhongMaterial).clone();
+            case MaterialType.MESH_PHYSICAL:
+                return (this as unknown as MeshPhysicalMaterial).clone();
+            case MaterialType.MESH_STANDARD:
+                return (this as unknown as MeshStandardMaterial).clone();
+            case MaterialType.MESH_TOON:
+                return (this as unknown as MeshToonMaterial).clone();
+            case MaterialType.POINTS:
+                return (this as unknown as PointsMaterial).clone();
+            case MaterialType.SHADOW:
+                return (this as unknown as ShadowMaterial).clone();
+            case MaterialType.SPRITE:
+                return (this as unknown as SpriteMaterial).clone();
+            default:
+                console.error('Unknown material.');
+                break;
+            }
+
+        return null;
+    }
 }
 
 export class LineBasicMaterial extends Material {

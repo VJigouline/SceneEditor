@@ -120,6 +120,7 @@ digraph SceneEditor {
  Material  [label="{Material |
    constructor(type: MaterialType)\n
    static CreateMaterial(mat: THREE.Material): Material\n
+   clone(): Material\n
    copy(material: Material): void
    |
     type: MaterialType\n
@@ -630,9 +631,11 @@ MeshToonMaterial [label="{MeshToonMaterial |
     private libraryService: MaterialLibraryService
    )\n
    ngOnInit(): void\n
+   onCopy(): void\n
    onDelete(): void\n
    onMaterialChanged(material: Material): void\n
    onNewMaterial(type: MaterialType): void\n
+   onPaste(): void\n
    onSelectionChange(change: MatSelectChange): void\n
    onDiffuseColourChanged(colour: string): void\n
    onEmissiveColourChanged(colour: string): void\n
@@ -648,6 +651,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
   Materials: Materials\n
   sceneJSON: string;\n
   material = new Material(MaterialType.MESH_STANDARD);\n
+  materialCopy: Material
 }"]
  MaterialsLibraryEditorComponent [label="{MaterialsLibraryEditorComponent |
    constructor(

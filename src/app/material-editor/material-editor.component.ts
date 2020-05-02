@@ -28,6 +28,7 @@ export class MaterialEditorComponent implements OnInit {
   // properties
   materialType: typeof MaterialType = MaterialType;
   private material: Material;
+  public materialCopy: Material;
 
   public get Material(): Material {
     if (!this.material && this.Materials) {
@@ -235,5 +236,22 @@ export class MaterialEditorComponent implements OnInit {
       console.warn(`Shininess not supported in  ${material.type}`);
     }
     this.changedMaterial.emit(this.material);
+  }
+
+  public onCopy(): void {
+    if (!this.Material) { return; }
+    this.materialCopy = this.Material.clone();
+  }
+
+  public onPaste(): void {
+    if (!this.materialCopy || !this.Materials ) { return; }
+
+    const scene = this.sceneService.getScene();
+    if (scene == null) { return; }
+
+    this.material = this.materialCopy.clone();
+    this.material.name += ' Copy';
+    this.Materials.materials.push(this.material);
+    this.newMaterial.emit(this.material);
   }
 }

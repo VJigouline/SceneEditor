@@ -47,6 +47,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
   private doHighlighting = true;
   private updateDragControl = true;
   private activeTab = false;
+  private dialogRaised = false;
 
   @ViewChild('MaterialEditor')
   private materialEditor: MaterialEditorComponent;
@@ -370,21 +371,25 @@ export class MaterialsLibraryEditorComponent implements OnInit {
     } else {
       if (!this.selectMaterial(mesh.material as THREE.Material)) {
         const mat = mesh.material as THREE.Material;
-        const dialogRef = this.confirmationDialog.open(ConfirmationDialogComponent, {
-          width: '350px',
-          data: {
-            title: 'Add material',
-            label: 'Material not found. ',
-            message: 'Do you want to add selected material to the current library?'
-          }
-        });
+        if (!this.dialogRaised) {
+          this.dialogRaised = true;
+          const dialogRef = this.confirmationDialog.open(ConfirmationDialogComponent, {
+            width: '350px',
+            data: {
+              title: 'Add material',
+              label: 'Material not found. ',
+              message: 'Do you want to add selected material to the current library?'
+            }
+          });
 
-        dialogRef.afterClosed().subscribe(result => {
-          if (result) {
-            this.addMaterial(mat);
-            this.suspendHighlighting(2000);
-          }
-        });
+          dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+              this.addMaterial(mat);
+              this.suspendHighlighting(2000);
+            }
+            this.dialogRaised = false;
+          });
+        }
       }
     }
     mesh.material = this.selectedMaterial;
