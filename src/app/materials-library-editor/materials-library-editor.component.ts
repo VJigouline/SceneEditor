@@ -140,7 +140,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
   public onSelectedTabChange(index: number) {
     if (index === 1) {
       this.activeTab = true;
-      if (this.updateDragControl) { this.setDragControl(); }
+      this.setDragControl();
     } else {
       this.removeDragControl();
       this.removeHighlighting();
