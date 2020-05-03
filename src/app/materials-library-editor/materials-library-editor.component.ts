@@ -10,8 +10,7 @@ import { MaterialEditorComponent } from '../material-editor/material-editor.comp
 import { ConfirmationDialogComponent } from '../user-controls/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../user-controls/error-dialog/error-dialog.component';
-import { DragControls } from 'three/examples/jsm/controls/DragControls';
-import { DragEvent } from '../interfaces';
+import { DragControls, DragEvent } from 'three/examples/jsm/controls/DragControls';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
 import * as THREE from 'three';
@@ -298,6 +297,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
   }
 
   private onDragHoveron(event: DragEvent): void {
+    if (event.event.altKey) { return; }
     this.removeHighlighting();
     if (event.object instanceof THREE.Mesh && this.doHighlighting) {
       const mesh = event.object as THREE.Mesh;
@@ -347,19 +347,20 @@ export class MaterialsLibraryEditorComponent implements OnInit {
   }
 
   private onDragStart(event: DragEvent): void {
+    if (event.event.button !== 0 || event.event.altKey) { return; }
     this.removeSelection();
     this.removeHighlighting();
     if (event.object instanceof THREE.Mesh) {
-      this.selectMesh(event.object as THREE.Mesh);
+      this.selectMesh(event.object as THREE.Mesh, event.event.ctrlKey);
       this.suspendHighlighting(1000);
     }
     this.changedMaterial.emit(null);
   }
 
-  private selectMesh(mesh: THREE.Mesh): void {
+  private selectMesh(mesh: THREE.Mesh, assign: boolean): void {
     this.selectedObject = mesh;
     this.selectedObjectMaterial = mesh.material;
-    if (this.assignMaterial) {
+    if (assign || this.assignMaterial) {
       if (this.Material) {
         mesh.material = this.Material.material;
         this.selectedObjectMaterial = mesh.material;
