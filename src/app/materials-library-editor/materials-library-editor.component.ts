@@ -141,6 +141,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
       this.activeTab = true;
       this.setDragControl();
     } else {
+      this.updateDragControl = true;
       this.removeDragControl();
       this.removeHighlighting();
       this.removeSelection();
