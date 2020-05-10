@@ -133,6 +133,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
   }
 
   public onMaterialChanged(material: Material): void {
+    if (this.Material !== material) { this.materialPreview.updateObject(null); }
     this.Material = material;
     this.updateMaterial(material);
   }
@@ -145,6 +146,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
     this.sceneService.resetLights();
     this.materialEditor.updateSelection();
     this.updateMaterial(null);
+    this.materialPreview.updateObject(null);
   }
 
   public onSelectedTabChange(index: number) {
@@ -376,6 +378,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
       if (this.Material) {
         mesh.material = this.Material.material;
         this.selectedObjectMaterial = mesh.material;
+        this.materialPreview.updateObject(mesh);
         this.updateMaterial(null);
       }
       return;
@@ -404,10 +407,13 @@ export class MaterialsLibraryEditorComponent implements OnInit {
             if (result) {
               this.addMaterial(mat);
               this.suspendHighlighting(2000);
+              this.materialPreview.updateObject(mesh);
             }
             this.dialogRaised = false;
           });
         }
+      } else {
+        this.materialPreview.updateObject(mesh);
       }
     }
     mesh.material = this.selectedMaterial;

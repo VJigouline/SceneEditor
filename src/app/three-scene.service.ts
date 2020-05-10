@@ -490,7 +490,7 @@ export class ThreeSceneService {
   }
 
   public rescaleScene(camera: THREE.OrthographicCamera = null,
-                      box: THREE.Box3 = null): void {
+                      box: THREE.Box3 = null, orbitControls: OrbitControls = null): void {
     if (!box && this.scene) { box = this.getSceneBox(); }
     if (!box) { return; }
     if (!camera) { camera = this.camera; }
@@ -513,8 +513,9 @@ export class ThreeSceneService {
     camera.zoom = 0.5 * (camera.right - camera.left) * aspect / radius;
 
     camera.updateProjectionMatrix();
-    this.orbitControls.target.set(center.x, center.y, center.z);
-    this.orbitControls.update();
+    if (!orbitControls) { orbitControls = this.orbitControls; }
+    orbitControls.target.set(center.x, center.y, center.z);
+    orbitControls.update();
   }
 
   public getSceneMaterials(): Materials {

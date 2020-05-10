@@ -685,7 +685,8 @@ MeshToonMaterial [label="{MeshToonMaterial |
    constructor(private sceneService: ThreeSceneService)\n
    Render(): void\n
    resetLights(): void\n
-   updateMaterial(material: Material): void
+   updateMaterial(material: Material): void\n
+   updateObject(object: THREE.Object3D): void
    |
    @Input() AreaWidth: number\n
    @Input() AreaHeight: number\n
@@ -897,7 +898,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
    onDragHoveron(event: DragEvent): void\n
    onTransformDraggingChanged(event: DraggingChangedEvent): void\n
    removeObjectFromScene(object: THREE.Object3D, scene: THREE.Scene = null): void\n
-   rescaleScene(camera: THREE.OrthographicCamera = null, box: THREE.Box3 = null): void\n
+   rescaleScene(camera: THREE.OrthographicCamera = null, box: THREE.Box3 = null, orbitControls: OrbitControls = null): void\n
    resetLights(scene: THREE.Scene = null): void
    |
    camera: THREE.OrthographicCamera\n

@@ -103,4 +103,27 @@ export class MaterialPreviewComponent implements OnInit, AfterViewInit {
   public resetLights(): void {
     this.sceneService.resetLights(this.scene);
   }
+
+  public updateObject(object: THREE.Object3D): void {
+    if (this.object === object) { return; }
+    if (this.object) {
+      this.sceneService.removeObjectFromScene(this.object, this.scene);
+    } else if (object) {
+      this.sceneService.removeObjectFromScene(this.objectDefault, this.scene);
+    }
+    this.object = null;
+    if (object instanceof THREE.Mesh) {
+      this.object = (object as THREE.Mesh).clone();
+    }
+    if (this.object instanceof THREE.Mesh) {
+      this.scene.add(this.object);
+      const box = new THREE.Box3().setFromObject(this.object);
+      this.sceneService.rescaleScene(this.camera, box, this.orbitControls);
+    } else {
+      this.scene.add(this.objectDefault);
+      const box2 = new THREE.Box3().setFromObject(this.objectDefault);
+      this.sceneService.rescaleScene(this.camera, box2, this.orbitControls);
+    }
+    this.Render();
+  }
 }
