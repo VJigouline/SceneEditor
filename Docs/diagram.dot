@@ -821,6 +821,15 @@ MeshToonMaterial [label="{MeshToonMaterial |
    @Output() lightChange: Light\n
    @Input() Light: SpotLight
 }"]
+ TextureEditorComponent [label="{TextureEditorComponent |
+   constructor(private sceneService: ThreeSceneService)\n
+   ngOnInit()\n
+   Render(): void
+   |
+   @Input() AreaWidth: number;
+   @Input() AreaHeight: number;
+   @Input() Material: Material;
+}"]
  AppComponent [label="{AppComponent |
    ngOnInit()\n
    |
@@ -859,6 +868,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
    getNewScene(): THREE.Scene\n
    getSceneJSON(): string\n
    getSceneMaterials(): Materials\n
+   addCurrentLights(scene: THREE.Scene): void\n
    addFiles(files: NgxFileDropEntry[], finished: CallbackFinished): void\n
    addFile(file: NgxFileDropEntry, files: NgxFileDropEntry[], finished: CallbackFinished): void\n
    addColladaFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene, finished: CallbackFinished): void \n
@@ -875,9 +885,9 @@ MeshToonMaterial [label="{MeshToonMaterial |
    getSelectableObjects(): THREE.Object3D[]\n
    onDragHoveron(event: DragEvent): void\n
    onTransformDraggingChanged(event: DraggingChangedEvent): void\n
-   removeObjectFromScene(object: THREE.Object3D): void\n
-   rescaleScene(): void\n
-   resetLights(): void
+   removeObjectFromScene(object: THREE.Object3D, scene: THREE.Scene = null): void\n
+   rescaleScene(camera: THREE.OrthographicCamera = null, box: THREE.Box3 = null): void\n
+   resetLights(scene: THREE.Scene = null): void
    |
    camera: THREE.OrthographicCamera\n
    public orbitControls: OrbitControls\n
@@ -992,6 +1002,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MaterialEditorComponent->ShadowMaterial
  MaterialEditorComponent->SpriteMaterial
  MaterialEditorComponent->ThreeSceneService
+ MaterialEditorComponent->TextureEditorComponent
  MaterialsLibraryEditorComponent->ConfirmationDialogComponent
  MaterialsLibraryEditorComponent->DragEvent
  MaterialsLibraryEditorComponent->ErrorDialogComponent
@@ -1055,4 +1066,6 @@ MeshToonMaterial [label="{MeshToonMaterial |
  ThreeSceneService->ThreeScene
  ThreeSceneService->TransformControls
  ThreeSceneService->ViewerFile
+ TextureEditorComponent->Material
+ TextureEditorComponent->ThreeSceneService
 }

@@ -1,22 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NewMaterialComponent } from './new-material/new-material.component';
+import { TextureEditorComponent } from './texture-editor/texture-editor.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatExpansionModule } from '@angular/material/expansion';
+import {MatExpansionModule} from '@angular/material/expansion';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { MatSliderModule } from '@angular/material/slider';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MeshStandardMaterialEditorComponent } from './mesh-standard-material-editor/mesh-standard-material-editor.component';
-import { ColorPickerModule } from 'ngx-color-picker';
-import { BaseMaterialEditorComponent } from './base-material-editor/base-material-editor.component';
-import { TexturesModule } from '../textures/textures.module';
 
 @NgModule({
-  declarations: [NewMaterialComponent, MeshStandardMaterialEditorComponent, BaseMaterialEditorComponent],
+  declarations: [TextureEditorComponent],
   imports: [
     CommonModule,
     MatInputModule,
@@ -27,13 +23,10 @@ import { TexturesModule } from '../textures/textures.module';
     MatRadioModule,
     MatCardModule,
     MatSliderModule,
-    ReactiveFormsModule,
-    ColorPickerModule,
-    TexturesModule
+    ReactiveFormsModule
   ],
   exports: [
-    NewMaterialComponent,
-    MeshStandardMaterialEditorComponent
+    TextureEditorComponent
   ]
 })
-export class MaterialsModule { }
+export class TexturesModule { }

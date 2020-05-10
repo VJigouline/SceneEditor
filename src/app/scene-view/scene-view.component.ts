@@ -79,7 +79,7 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   }
 
   public onResized(event: ResizedEvent): void {
-    console.log(`OnResize. New width: ${event.newWidth}, new height: ${event.newHeight}`);
+    // console.log(`OnResize. New width: ${event.newWidth}, new height: ${event.newHeight}`);
     this.AreaWidth = event.newWidth;
     this.sceneService.renderer.setSize(this.AreaWidth, this.AreaHeight - 4);
     this.setCameraSize(this.AreaWidth, this.AreaHeight);

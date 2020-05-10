@@ -63,6 +63,11 @@
         </mat-checkbox>
     </div>
 </div>
+<div *ngIf="Material" class="row">
+    <div class="col">
+        <app-texture-editor [Material]="Material"></app-texture-editor>
+    </div>
+</div>
 <!--
 <div *ngIf="Material && Material.wireframe" class="row">
     <div class="col label">

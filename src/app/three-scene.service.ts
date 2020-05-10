@@ -66,26 +66,26 @@ export class ThreeSceneService {
   public getNewScene(): THREE.Scene {
 
     this.scene = new THREE.Scene();
-    this.addCurrentLights();
+    this.addCurrentLights(this.scene);
     if (this.transformControl) { this.scene.add(this.transformControl); }
 
     return this.scene;
   }
 
-  private addCurrentLights(): void {
+  public addCurrentLights(scene: THREE.Scene): void {
     const lts = this.lightsLibraryService.currentLights;
     if (!lts) { return; }
 
     for (const l of lts.lights) {
-      this.scene.add(l.light);
+      scene.add(l.light);
       switch (l.type) {
         case LightType.DIRECTIONAL:
           const dl = l.light as THREE.DirectionalLight;
-          this.scene.add(dl.target);
+          scene.add(dl.target);
           break;
         case LightType.SPOT:
           const sl = l.light as THREE.SpotLight;
-          this.scene.add(sl.target);
+          scene.add(sl.target);
           break;
       }
     }
@@ -409,29 +409,31 @@ export class ThreeSceneService {
     this.renderer.render(this.getScene(), this.camera);
   }
 
-  public removeObjectFromScene(object: THREE.Object3D): void {
+  public removeObjectFromScene(object: THREE.Object3D, scene: THREE.Scene = null): void {
     if (object == null) { return; }
 
-    if (this.scene == null) { return; }
+    if (scene == null) { scene = this.scene; }
+    if (scene == null) { return; }
 
-    const index = this.scene.children.indexOf(object);
+    const index = scene.children.indexOf(object);
     if (index > -1) {
       this.scene.children.splice(index, 1);
     }
   }
 
-  public resetLights(): void {
-    if (this.scene == null) { return; }
-    this.removeLights();
-    this.addCurrentLights();
+  public resetLights(scene: THREE.Scene = null): void {
+    if (scene == null) { scene = this.scene;}
+    if (scene == null) { return; }
+    this.removeLights(scene);
+    this.addCurrentLights(scene);
   }
 
-  private removeLights(): void {
-    if (this.scene == null) { return; }
+  private removeLights(scene: THREE.Scene): void {
+    if (scene == null) { return; }
 
     const lights = new Array<THREE.Object3D>();
 
-    for (const child of this.scene.children) {
+    for (const child of scene.children) {
       if (!(child instanceof THREE.Light)) { continue; }
       lights.push(child);
     }
@@ -478,30 +480,30 @@ export class ThreeSceneService {
     return box;
   }
 
-  public rescaleScene(): void {
-    if (!this.scene) { return; }
-
-    const box = this.getSceneBox();
+  public rescaleScene(camera: THREE.OrthographicCamera = null, 
+                      box: THREE.Box3 = null): void {
+    if (!box && this.scene) { box = this.getSceneBox(); }
     if (!box) { return; }
+    if (!camera) { camera = this.camera; }
     const direction = new THREE.Vector3();
-    this.camera.getWorldDirection(direction);
+    camera.getWorldDirection(direction);
     const sphere = new THREE.Sphere();
     box.getBoundingSphere(sphere);
     const center = sphere.center;
     const radius = sphere.radius;
     const pos = center.clone().sub(direction.multiplyScalar(1.5 * radius));
-    this.camera.position.set(pos.x, pos.y, pos.z);
-    const aspect = (this.camera.top - this.camera.bottom) / (this.camera.right - this.camera.left);
+    camera.position.set(pos.x, pos.y, pos.z);
+    const aspect = (camera.top - camera.bottom) / (camera.right - camera.left);
     const f = 1.5;
-    this.camera.far = 2 * f * radius;
-    this.camera.near = 0.1 * radius;
-    // this.camera.top = f * aspect * radius;
-    // this.camera.bottom = -f * aspect * radius;
-    // this.camera.left = -f * radius;
-    // this.camera.right = f * radius;
-    this.camera.zoom = 0.5 * (this.camera.right - this.camera.left) * aspect / radius;
+    camera.far = 2 * f * radius;
+    camera.near = 0.1 * radius;
+    // camera.top = f * aspect * radius;
+    // camera.bottom = -f * aspect * radius;
+    // camera.left = -f * radius;
+    // camera.right = f * radius;
+    camera.zoom = 0.5 * (camera.right - camera.left) * aspect / radius;
 
-    this.camera.updateProjectionMatrix();
+    camera.updateProjectionMatrix();
     this.orbitControls.target.set(center.x, center.y, center.z);
     this.orbitControls.update();
   }

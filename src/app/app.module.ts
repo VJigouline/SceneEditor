@@ -30,6 +30,7 @@ import { FormsModule } from '@angular/forms';
 import { UserControlsModule } from './user-controls/user-controls.module';
 import { MaterialsLibraryEditorComponent } from './materials-library-editor/materials-library-editor.component';
 import { MaterialsModule } from './materials/materials.module';
+import { TexturesModule } from './textures/textures.module';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { MaterialsModule } from './materials/materials.module';
     LightsModule,
     FormsModule,
     UserControlsModule,
-    MaterialsModule
+    MaterialsModule,
+    TexturesModule
   ],
   providers: [],
   bootstrap: [AppComponent]
