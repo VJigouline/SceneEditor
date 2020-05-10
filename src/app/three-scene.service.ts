@@ -73,20 +73,29 @@ export class ThreeSceneService {
   }
 
   public addCurrentLights(scene: THREE.Scene): void {
+    if (!scene) { return; }
     const lts = this.lightsLibraryService.currentLights;
     if (!lts) { return; }
+    const clone = scene !== this.scene;
 
     for (const l of lts.lights) {
-      scene.add(l.light);
-      switch (l.type) {
-        case LightType.DIRECTIONAL:
-          const dl = l.light as THREE.DirectionalLight;
-          scene.add(dl.target);
-          break;
-        case LightType.SPOT:
-          const sl = l.light as THREE.SpotLight;
-          scene.add(sl.target);
-          break;
+      if (clone) {
+        const light = l.clone();
+        scene.add(light.light);
+      } else {
+        scene.add(l.light);
+      }
+      if (!clone) {
+        switch (l.type) {
+          case LightType.DIRECTIONAL:
+            const dl = l.light as THREE.DirectionalLight;
+            scene.add(dl.target);
+            break;
+          case LightType.SPOT:
+            const sl = l.light as THREE.SpotLight;
+            scene.add(sl.target);
+            break;
+        }
       }
     }
   }
@@ -422,7 +431,7 @@ export class ThreeSceneService {
   }
 
   public resetLights(scene: THREE.Scene = null): void {
-    if (scene == null) { scene = this.scene;}
+    if (scene == null) { scene = this.scene; }
     if (scene == null) { return; }
     this.removeLights(scene);
     this.addCurrentLights(scene);
@@ -480,7 +489,7 @@ export class ThreeSceneService {
     return box;
   }
 
-  public rescaleScene(camera: THREE.OrthographicCamera = null, 
+  public rescaleScene(camera: THREE.OrthographicCamera = null,
                       box: THREE.Box3 = null): void {
     if (!box && this.scene) { box = this.getSceneBox(); }
     if (!box) { return; }
