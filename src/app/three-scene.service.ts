@@ -417,7 +417,7 @@ export class ThreeSceneService {
 
     const index = scene.children.indexOf(object);
     if (index > -1) {
-      this.scene.children.splice(index, 1);
+      scene.children.splice(index, 1);
     }
   }
 
@@ -439,7 +439,7 @@ export class ThreeSceneService {
     }
 
     for (const obj of lights) {
-      this.removeObjectFromScene(obj);
+      this.removeObjectFromScene(obj, scene);
     }
   }
 

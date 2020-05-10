@@ -6,11 +6,11 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 @Component({
-  selector: 'app-texture-editor',
-  templateUrl: './texture-editor.component.html',
-  styleUrls: ['./texture-editor.component.scss']
+  selector: 'app-material-preview',
+  templateUrl: './material-preview.component.html',
+  styleUrls: ['./material-preview.component.scss']
 })
-export class TextureEditorComponent implements OnInit, AfterViewInit {
+export class MaterialPreviewComponent implements OnInit, AfterViewInit {
   @ViewChild('matContainer', { static: true })
   container: ElementRef;
 
@@ -31,7 +31,6 @@ export class TextureEditorComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngAfterViewInit(): void {
-    return;
     this.InitialiseCamera();
     this.InitialiseScene();
 
@@ -79,7 +78,6 @@ export class TextureEditorComponent implements OnInit, AfterViewInit {
 }
 
   public Render(): void {
-    return;
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -93,5 +91,16 @@ export class TextureEditorComponent implements OnInit, AfterViewInit {
     // this.sceneService.renderer.setSize(this.AreaWidth, this.AreaHeight - 4);
     // this.setCameraSize(this.AreaWidth, this.AreaHeight);
     // this.Render();
+  }
+
+  public updateMaterial(material: Material): void {
+    if (!material) { return; }
+    if (this.objectDefault instanceof THREE.Mesh) {
+      (this.objectDefault as THREE.Mesh).material = material.material;
+    }
+  }
+
+  public resetLights(): void {
+    this.sceneService.resetLights(this.scene);
   }
 }

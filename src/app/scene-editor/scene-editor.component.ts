@@ -89,6 +89,7 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
   }
 
   public onLightChanged(light: Light): void {
+    if (this.materialEditor) { this.materialEditor.onLightsChanged(); }
     if (!this.threeView) { return; }
     this.threeView.Render();
   }

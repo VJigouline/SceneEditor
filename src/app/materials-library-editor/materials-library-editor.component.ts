@@ -14,6 +14,7 @@ import { DragControls, DragEvent } from 'three/examples/jsm/controls/DragControl
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
 import * as THREE from 'three';
+import { MaterialPreviewComponent } from '../materials/material-preview/material-preview.component';
 
 @Component({
   selector: 'app-materials-library-editor',
@@ -50,6 +51,8 @@ export class MaterialsLibraryEditorComponent implements OnInit {
 
   @ViewChild('MaterialEditor')
   private materialEditor: MaterialEditorComponent;
+  @ViewChild('MaterialPreview')
+  private materialPreview: MaterialPreviewComponent;
 
   constructor(
     private libraryService: MaterialLibraryService,
@@ -70,6 +73,14 @@ export class MaterialsLibraryEditorComponent implements OnInit {
      } );
   }
 
+  private updateMaterial(material: Material): void {
+    if (this.materialPreview) {
+      this.materialPreview.updateMaterial(material);
+      this.materialPreview.Render();
+    }
+    this.changedMaterial.emit(material);
+  }
+
   public onSave(): void {
     const json = JSON.stringify(this.libraryService.Library);
     const blob = new Blob([json], {type: 'text/plain;charset=utf-8'});
@@ -85,7 +96,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
       this.materialEditor.Material = null;
       this.materialEditor.updateSelection();
     }
-    this.changedMaterial.emit(null);
+    this.updateMaterial(null);
   }
 
   public onClone(): void {
@@ -96,7 +107,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
     this.sceneService.resetLights();
     this.materialEditor.Material = null;
     this.materialEditor.updateSelection();
-    this.changedMaterial.emit(null);
+    this.updateMaterial(null);
   }
 
   public onClear(): void {
@@ -116,14 +127,14 @@ export class MaterialsLibraryEditorComponent implements OnInit {
         this.Material = null;
         this.sceneService.resetLights();
         this.materialEditor.updateSelection();
-        this.changedMaterial.emit(null);
+        this.updateMaterial(null);
       }
     });
   }
 
   public onMaterialChanged(material: Material): void {
     this.Material = material;
-    this.changedMaterial.emit(material);
+    this.updateMaterial(material);
   }
 
   public onSelectionChange(change: MatSelectChange): void {
@@ -133,7 +144,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
     this.libraryService.setCurrentMaterials(this.Materials);
     this.sceneService.resetLights();
     this.materialEditor.updateSelection();
-    this.changedMaterial.emit(null);
+    this.updateMaterial(null);
   }
 
   public onSelectedTabChange(index: number) {
@@ -173,7 +184,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
         if (!this.Material) {
           this.Material = this.libraryService.currentMaterials.materials[0];
         }
-        this.changedMaterial.emit(null);
+        this.updateMaterial(null);
         const dialogRef = this.confirmationDialog.open(ErrorDialogComponent, {
           width: '350px',
           data: {
@@ -234,7 +245,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
         }
         this.materialEditor.Material = null;
         this.materialEditor.updateSelection();
-        this.changedMaterial.emit(null);
+        this.updateMaterial(null);
       }
     });
   }
@@ -261,7 +272,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
           this.materialEditor.Material = null;
           this.materialEditor.updateSelection();
         }
-        this.changedMaterial.emit(null);
+        this.updateMaterial(null);
       }
     });
   }
@@ -308,12 +319,12 @@ export class MaterialsLibraryEditorComponent implements OnInit {
         mesh.material = this.highlightedMaterial;
       }
     }
-    this.changedMaterial.emit(null);
+    this.updateMaterial(null);
   }
 
   private onDragHoveroff(event: DragEvent): void {
     this.removeHighlighting();
-    this.changedMaterial.emit(null);
+    this.updateMaterial(null);
   }
 
   private removeHighlighting(): void {
@@ -343,7 +354,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
     setTimeout(() => {
       this.doHighlighting = true;
       this.removeSelection();
-      this.changedMaterial.emit(null);
+      this.updateMaterial(null);
     }, timeout);
   }
 
@@ -355,7 +366,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
       this.selectMesh(event.object as THREE.Mesh, event.event.ctrlKey);
       this.suspendHighlighting(1000);
     }
-    this.changedMaterial.emit(null);
+    this.updateMaterial(null);
   }
 
   private selectMesh(mesh: THREE.Mesh, assign: boolean): void {
@@ -365,7 +376,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
       if (this.Material) {
         mesh.material = this.Material.material;
         this.selectedObjectMaterial = mesh.material;
-        this.changedMaterial.emit(null);
+        this.updateMaterial(null);
       }
       return;
     }
@@ -411,7 +422,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
     this.Material = mat;
     this.materialEditor.Material = mat;
     this.materialEditor.updateSelection();
-    this.changedMaterial.emit(mat);
+    this.updateMaterial(mat);
 }
 
   private hasMaterial(material: THREE.Material): boolean {
@@ -444,5 +455,10 @@ export class MaterialsLibraryEditorComponent implements OnInit {
 
   public onAssignMaterialChange(event: MatCheckboxChange): void {
     this.assignMaterial = event.checked;
+  }
+
+  public onLightsChanged(): void {
+    this.materialPreview.resetLights();
+    this.materialPreview.Render();
   }
 }

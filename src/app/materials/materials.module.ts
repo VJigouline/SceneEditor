@@ -14,9 +14,10 @@ import { MeshStandardMaterialEditorComponent } from './mesh-standard-material-ed
 import { ColorPickerModule } from 'ngx-color-picker';
 import { BaseMaterialEditorComponent } from './base-material-editor/base-material-editor.component';
 import { TexturesModule } from '../textures/textures.module';
+import { MaterialPreviewComponent } from './material-preview/material-preview.component';
 
 @NgModule({
-  declarations: [NewMaterialComponent, MeshStandardMaterialEditorComponent, BaseMaterialEditorComponent],
+  declarations: [NewMaterialComponent, MeshStandardMaterialEditorComponent, BaseMaterialEditorComponent, MaterialPreviewComponent],
   imports: [
     CommonModule,
     MatInputModule,
@@ -33,7 +34,8 @@ import { TexturesModule } from '../textures/textures.module';
   ],
   exports: [
     NewMaterialComponent,
-    MeshStandardMaterialEditorComponent
+    MeshStandardMaterialEditorComponent,
+    MaterialPreviewComponent
   ]
 })
 export class MaterialsModule { }

@@ -666,6 +666,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
    onDelete(): void\n
    onGetFromScene(): void\n
    onImport(event: any): void\n
+   onLightsChanged(): void\n
    onMaterialChanged(material: Material): void\n
    onNew(): void\n
    onSave(): void\n
@@ -679,6 +680,16 @@ MeshToonMaterial [label="{MeshToonMaterial |
    Materials: Materials\n
    assignMaterial: boolean\n
    deleteDisabled: boolean
+}"]
+ MaterialPreviewComponent [label="{MaterialPreviewComponent |
+   constructor(private sceneService: ThreeSceneService)\n
+   Render(): void\n
+   resetLights(): void\n
+   updateMaterial(material: Material): void
+   |
+   @Input() AreaWidth: number\n
+   @Input() AreaHeight: number\n
+   @Input() Material: Material
 }"]
  MeshStandardMaterialEditorComponent [label="{MeshStandardMaterialEditorComponent |
    constructor()\n
@@ -1010,8 +1021,11 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MaterialsLibraryEditorComponent->MaterialEditorComponent
  MaterialsLibraryEditorComponent->MaterialLibrary
  MaterialsLibraryEditorComponent->MaterialLibraryService
+ MaterialsLibraryEditorComponent->MaterialPreviewComponent
  MaterialsLibraryEditorComponent->Materials
  MaterialsLibraryEditorComponent->ThreeSceneService
+ MaterialPreviewComponent->Material
+ MaterialPreviewComponent->ThreeSceneService
  MeshBasicMaterial->Material
  MeshDepthMaterial->Material
  MeshLambertMaterial->Material
@@ -1022,6 +1036,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MeshStandardMaterial->Material
  MeshStandardMaterialEditorComponent->BaseMaterialEditorComponent
  MeshStandardMaterialEditorComponent->MeshStandardMaterial
+ MeshStandardMaterialEditorComponent->TextureEditorComponent
  MeshToonMaterial->Material
  Point3DComponent->Point3
  PointLight->Light

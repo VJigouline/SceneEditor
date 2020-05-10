@@ -42,6 +42,12 @@
         </div>
         <div class="row">
             <div class="col">
+                <app-material-preview #MaterialPreview [Material]="Material"
+                ></app-material-preview>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
                 <app-material-editor #MaterialEditor [Material]="Material"
                 (changedMaterial) = onMaterialChanged($event);
                 ></app-material-editor>
