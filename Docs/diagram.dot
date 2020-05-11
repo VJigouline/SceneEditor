@@ -653,6 +653,18 @@ MeshToonMaterial [label="{MeshToonMaterial |
   material = new Material(MaterialType.MESH_STANDARD);\n
   materialCopy: Material
 }"]
+ MaterialPreviewComponent [label="{MaterialPreviewComponent |
+   constructor(private sceneService: ThreeSceneService)\n
+   onEditorResized(event: ResizedEvent): void\n
+   Render(): void\n
+   resetLights(): void\n
+   updateMaterial(material: Material): void\n
+   updateObject(object: THREE.Object3D): void
+   |
+   @Input() AreaWidth: number\n
+   @Input() AreaHeight: number\n
+   @Input() Material: Material
+}"]
  MaterialsLibraryEditorComponent [label="{MaterialsLibraryEditorComponent |
    constructor(
       private libraryService: MaterialLibraryService,\n
@@ -664,6 +676,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
    onClear(): void\n
    onClone(): void\n
    onDelete(): void\n
+   onEditorResized(event: ResizedEvent): void\n
    onGetFromScene(): void\n
    onImport(event: any): void\n
    onLightsChanged(): void\n
@@ -680,17 +693,6 @@ MeshToonMaterial [label="{MeshToonMaterial |
    Materials: Materials\n
    assignMaterial: boolean\n
    deleteDisabled: boolean
-}"]
- MaterialPreviewComponent [label="{MaterialPreviewComponent |
-   constructor(private sceneService: ThreeSceneService)\n
-   Render(): void\n
-   resetLights(): void\n
-   updateMaterial(material: Material): void\n
-   updateObject(object: THREE.Object3D): void
-   |
-   @Input() AreaWidth: number\n
-   @Input() AreaHeight: number\n
-   @Input() Material: Material
 }"]
  MeshStandardMaterialEditorComponent [label="{MeshStandardMaterialEditorComponent |
    constructor()\n
@@ -757,6 +759,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  SceneComponent [label="{SceneComponent |
    constructor()\n
    ngOnInit()\n
+   onEditorResized(event: ResizedEvent): void\n
    onSceneChange(op: string): void
    |
    @Output() sceneChanged = new EventEmitter\<string\>()

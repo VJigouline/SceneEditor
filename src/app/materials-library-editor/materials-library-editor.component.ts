@@ -15,6 +15,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 
 import * as THREE from 'three';
 import { MaterialPreviewComponent } from '../materials/material-preview/material-preview.component';
+import { ResizedEvent } from 'angular-resize-event';
 
 @Component({
   selector: 'app-materials-library-editor',
@@ -466,5 +467,9 @@ export class MaterialsLibraryEditorComponent implements OnInit {
   public onLightsChanged(): void {
     this.materialPreview.resetLights();
     this.materialPreview.Render();
+  }
+
+  public onEditorResized(event: ResizedEvent): void {
+    this.materialPreview.onEditorResized(event);
   }
 }

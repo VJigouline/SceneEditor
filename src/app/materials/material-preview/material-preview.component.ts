@@ -114,6 +114,8 @@ export class MaterialPreviewComponent implements OnInit, AfterViewInit {
     this.object = null;
     if (object instanceof THREE.Mesh) {
       this.object = (object as THREE.Mesh).clone();
+      this.object.matrixAutoUpdate = false;
+      this.object.matrix.copy(this.object.matrixWorld);
     }
     if (this.object instanceof THREE.Mesh) {
       this.scene.add(this.object);
@@ -124,6 +126,17 @@ export class MaterialPreviewComponent implements OnInit, AfterViewInit {
       const box2 = new THREE.Box3().setFromObject(this.objectDefault);
       this.sceneService.rescaleScene(this.camera, box2, this.orbitControls);
     }
+    this.Render();
+  }
+
+  public onEditorResized(event: ResizedEvent): void {
+    const w = event.newWidth - 80;
+    const h = 3 * w / 4;
+    this.AreaWidth = w;
+    this.AreaHeight = h;
+    // this.threeView.AreaHeight = event.newHeight;
+    // this.threeView.setCameraSize(this.threeView.AreaWidth, this.threeView.AreaHeight);
+    this.renderer.setSize(this.AreaWidth, this.AreaHeight);
     this.Render();
   }
 }

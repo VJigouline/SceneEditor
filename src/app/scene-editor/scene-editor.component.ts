@@ -48,6 +48,10 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
     this.sceneService.renderer.setSize(this.threeView.AreaWidth, this.threeView.AreaHeight - 4);
   }
 
+  public onEditorResized(event: ResizedEvent): void {
+    this.materialEditor.onEditorResized(event);
+  }
+
   ngAfterViewInit(): void {
     this.Width = this.elRef.nativeElement.width;
     this.Height = this.elRef.nativeElement.height;
