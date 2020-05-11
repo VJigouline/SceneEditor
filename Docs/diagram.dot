@@ -474,7 +474,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  }"]
   Texture [label="{Texture |
     constructor(type: TextureType)\n
-    static CreateMaterial(texture: THREE.Texture): Texture\n
+    static CreateTexture(texture: THREE.Texture): Texture\n
     clone(): Texture\n
     copy(texture: Texture): void
     |
@@ -728,11 +728,13 @@ MeshToonMaterial [label="{MeshToonMaterial |
    onEmissiveIntensityChanged(event: MatSliderChange): void\n
    onMetalnessChanged(event: MatSliderChange): void\n
    onRoughnessChanged(event: MatSliderChange): void\n
+   onTextureChanged(event: Texture): void\n
    onWireframeChange(event: MatCheckboxChange): void\n
    onWireframeLinewidthChanged(event: MatSliderChange): void
    |
    @Output() materialChange: MeshStandardMaterial\n
-   @Input() Material: MeshStandardMaterial
+   @Input() Material: MeshStandardMaterial\n
+   ColourTexture: Texture\n
 }"]
  NewLightComponent [label="{NewLightComponent |
    constructor()\n
@@ -864,12 +866,11 @@ MeshToonMaterial [label="{MeshToonMaterial |
 }"]
  TextureEditorComponent [label="{TextureEditorComponent |
    constructor(private sceneService: ThreeSceneService)\n
-   ngOnInit()\n
-   Render(): void
+   onImageImport(event: any): void
    |
-   @Input() AreaWidth: number;
-   @Input() AreaHeight: number;
-   @Input() Material: Material;
+   @Input() Material: Material;\n
+   @Input() Texture(): Texture\n
+   @Output() changedTexture: Texture
 }"]
  AppComponent [label="{AppComponent |
    ngOnInit()\n
@@ -1066,6 +1067,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MeshStandardMaterial->Material
  MeshStandardMaterialEditorComponent->BaseMaterialEditorComponent
  MeshStandardMaterialEditorComponent->MeshStandardMaterial
+ MeshStandardMaterialEditorComponent->Texture
  MeshStandardMaterialEditorComponent->TextureEditorComponent
  MeshToonMaterial->Material
  Point3DComponent->Point3
@@ -1094,6 +1096,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  SpriteMaterial->Material
  Texture->TextureType
  TextureEditorComponent->Material
+ TextureEditorComponent->Texture
  TextureEditorComponent->ThreeSceneService
  ThreeSceneService->ColladaLoader
  ThreeSceneService->DRACOLoader

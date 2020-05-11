@@ -3,6 +3,7 @@ import { MeshStandardMaterial } from '../material';
 import { MatSliderChange } from '@angular/material/slider';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { TextureEditorComponent } from 'src/app/textures/texture-editor/texture-editor.component';
+import { Texture } from '../../textures/texture';
 
 @Component({
   selector: 'app-mesh-standard-material-editor',
@@ -20,6 +21,12 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
   // properties
   @Input() Material: MeshStandardMaterial;
 
+  public get ColourTexture(): Texture {
+    return this.Material && this.Material.map ?
+      Texture.CreateTexture(this.Material.map) : null;
+  }
+  public set ColourTexture(value: Texture) {}
+
   constructor() { }
 
   ngOnInit(): void {
@@ -27,7 +34,6 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
 
   private updateMaterial(material: MeshStandardMaterial): void {
     this.materialChange.emit(material);
-    this.textureEditor.Render();
   }
 
   public onBaseMaterialChanged(material: MeshStandardMaterial): void {
@@ -50,6 +56,17 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
 
   public onRoughnessChanged(event: MatSliderChange): void {
     this.Material.roughness = Math.round((event.value + Number.EPSILON) * 100) / 100;
+    this.updateMaterial(this.Material);
+  }
+
+  public onTextureChanged(event: Texture): void {
+    if (event) {
+      if (this.Material.map !== event.texture) {
+        this.Material.map = event.texture;
+      } else {
+        this.Material.map = null;
+      }
+    }
     this.updateMaterial(this.Material);
   }
 

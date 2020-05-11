@@ -51,7 +51,7 @@ export class Texture {
         this.name = uuid();
     }
 
-    public static CreateMaterial(texture: THREE.Texture): Texture {
+    public static CreateTexture(texture: THREE.Texture): Texture {
 
         let ret: Texture;
 

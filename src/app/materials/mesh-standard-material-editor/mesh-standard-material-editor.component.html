@@ -65,7 +65,11 @@
 </div>
 <div *ngIf="Material" class="row">
     <div class="col">
-        <app-texture-editor #TextureEditor [Material]="Material"></app-texture-editor>
+        <app-texture-editor #TextureEditor 
+        [Material]="Material"
+        [Texture]="ColourTexture"
+        (changedTexture)="onTextureChanged($event)"
+        ></app-texture-editor>
     </div>
 </div>
 <!--

@@ -1,97 +1,74 @@
-import { Component, OnInit, ViewChild, ElementRef, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { ResizedEvent } from 'angular-resize-event';
 import { ThreeSceneService } from '../../three-scene.service';
 import { Material } from '../../materials/material';
+import { Texture } from '../texture';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 @Component({
   selector: 'app-texture-editor',
   templateUrl: './texture-editor.component.html',
   styleUrls: ['./texture-editor.component.scss']
 })
-export class TextureEditorComponent implements OnInit, AfterViewInit {
-  @ViewChild('matContainer', { static: true })
-  container: ElementRef;
+export class TextureEditorComponent implements OnInit {
+  @ViewChild('imagePreview', { static: true })
+  imagePreview: ElementRef<HTMLDivElement>;
+
+  // events
+  @Output() changedTexture = new EventEmitter<Texture>();
 
   // View area size.
-  @Input() AreaWidth = 250;
-  @Input() AreaHeight = 200;
   @Input() Material: Material;
+  public get Texture(): Texture { return this.texture; }
+  @Input() public set Texture(value: Texture) {
+    this.texture = value;
+    if (this.imagePreview) {
+      this.imagePreview.nativeElement.innerHTML = '';
+      if (value && value.image) {
+        if (value.image.width > 250) {
+          const f = 250 / value.image.width;
+          value.image.width = 250;
+          value.image.height *= f;
+        }
+        this.imagePreview.nativeElement.appendChild(value.image);
+      }
+    }
+  }
+  public get hasImage(): boolean { return !!this.texture && !!this.texture.image; }
 
-  private camera: THREE.OrthographicCamera;
-  private scene: THREE.Scene;
-  private renderer: THREE.WebGLRenderer;
-  private orbitControls: OrbitControls;
-  private objectDefault: THREE.Object3D;
-  private object: THREE.Object3D;
+  private texture: Texture;
 
   constructor(
     private sceneService: ThreeSceneService
   ) { }
 
-  ngAfterViewInit(): void {
-    return;
-    this.InitialiseCamera();
-    this.InitialiseScene();
-
-    this.Render();
-  }
-
   ngOnInit(): void {
-  }
-
-  private InitialiseCamera(): void {
-    this.camera = new THREE.OrthographicCamera( -this.AreaWidth * 5,
-      this.AreaWidth * 5,
-      this.AreaHeight * 5,
-      -this.AreaHeight * 5, 1, 100000 );
-    this.camera.position.z = 10000;
-  }
-
-  private InitialiseScene(): void {
-    this.scene = new THREE.Scene();
-    this.sceneService.addCurrentLights(this.scene);
-
-    this.renderer = new THREE.WebGLRenderer();
-    this.renderer.physicallyCorrectLights = true;
-    this.renderer.gammaInput = true;
-    this.renderer.gammaOutput = true;
-    this.renderer.shadowMap.enabled = true;
-    this.renderer.toneMapping = THREE.ReinhardToneMapping;
-    this.renderer.setPixelRatio( window.devicePixelRatio );
-    this.renderer.setClearColor(0, 1);
-    this.renderer.setSize(this.AreaWidth, this.AreaHeight);
-    this.container.nativeElement.appendChild( this.renderer.domElement );
-
-    this.orbitControls = new OrbitControls( this.camera, this.renderer.domElement );
-    // OrbitControl prevents wheel event bubbling. This settings is to redraw after zoom.
-    this.orbitControls.addEventListener('end', this.onOrbitControlChange.bind(this));
-    this.orbitControls.addEventListener('change', this.onOrbitControlChange.bind(this));
-    this.orbitControls.screenSpacePanning = true;
-
-    const geometry = new THREE.BoxBufferGeometry( 200, 200, 200 );
-
-    this.objectDefault = new THREE.Mesh( geometry, this.Material.material );
-    this.scene.add( this.objectDefault );
-    const box = new THREE.Box3().setFromObject(this.objectDefault);
-    this.sceneService.rescaleScene(this.camera, box);
-}
-
-  public Render(): void {
-    return;
-    this.renderer.render(this.scene, this.camera);
-  }
-
-  private onOrbitControlChange(): void {
-    this.Render();
   }
 
   onResized(event: ResizedEvent): void {
     console.log(`OnResize. New width: ${event.newWidth}, new height: ${event.newHeight}`);
-    this.AreaWidth = event.newWidth;
+    // this.AreaWidth = event.newWidth;
     // this.sceneService.renderer.setSize(this.AreaWidth, this.AreaHeight - 4);
     // this.setCameraSize(this.AreaWidth, this.AreaHeight);
     // this.Render();
+  }
+
+  public onImageImport(event: any): void {
+    const selectedFile = event.target.files[0];
+    const fileUrl = URL.createObjectURL(selectedFile);
+    if (this.hasImage) {
+      this.Texture.texture.image.src = fileUrl;
+    } else {
+      const texture = new THREE.TextureLoader().load(fileUrl);
+      if (this.Texture) {
+        this.Texture.texture = texture;
+      } else {
+        this.Texture = Texture.CreateTexture(texture);
+      }
+    }
+    event.target.value = '';
+    this.Texture.texture.needsUpdate = true;
+
+    this.changedTexture.emit(this.Texture);
   }
 }
