@@ -472,12 +472,39 @@ MeshToonMaterial [label="{MeshToonMaterial |
     rotation: number\n
     sizeAttenuation: boolean
  }"]
+  Texture [label="{Texture |
+    constructor(type: TextureType)\n
+    static CreateMaterial(texture: THREE.Texture): Texture\n
+    clone(): Texture\n
+    copy(texture: Texture): void
+    |
+    type: TextureType\n
+    anisotropy: number\n
+    center: THREE.Vector2\n
+    datatype: THREE.TextureDataType\n
+    format: THREE.PixelFormat\n
+    image: HTMLImageElement\n
+    magFilter: THREE.TextureFilter\n
+    minFilter: THREE.TextureFilter\n
+    mapping: THREE.Mapping\n
+    name: string\n
+    offset: THREE.Vector2\n
+    repeat: THREE.Vector2\n
+    rotation: number\n
+    wrapS: THREE.Wrapping\n
+    wrapT: THREE.Wrapping\n
+    texture: THREE.Texture;
+ }"]
 
  // Template classes.
  node [fontname="Calibri", fillcolor="lightyellow"];
  
  // Enumerators.
  node [fontname="Calibri", fillcolor="plum1"];
+ ExportFileType [label="{ExportFileType |
+    GLTF = 'gltf'\n
+    THREE_SCENE = 'three'
+ }"]
  LightType [label="{LightType |
     AMBIENT = 'Ambient'\n
     DIRECTIONAL = 'Directional'\n
@@ -502,9 +529,8 @@ MeshToonMaterial [label="{MeshToonMaterial |
     SHADOW = 'Shadow'\n
     SPRITE = 'Sprite'
  }"]
- ExportFileType [label="{ExportFileType |
-    GLTF = 'gltf'\n
-    THREE_SCENE = 'three'
+ TextureType [label="{TextureType |
+    TEXTURE = 'Texture'
  }"]
 
  // External classes.
@@ -1066,8 +1092,9 @@ MeshToonMaterial [label="{MeshToonMaterial |
  SpotLight->Light
  SpotLightEditorComponent->SpotLight
  SpriteMaterial->Material
- ViewerFile->File
- ViewerFile->ThreeSceneService
+ Texture->TextureType
+ TextureEditorComponent->Material
+ TextureEditorComponent->ThreeSceneService
  ThreeSceneService->ColladaLoader
  ThreeSceneService->DRACOLoader
  ThreeSceneService->DragControls
@@ -1085,6 +1112,6 @@ MeshToonMaterial [label="{MeshToonMaterial |
  ThreeSceneService->ThreeScene
  ThreeSceneService->TransformControls
  ThreeSceneService->ViewerFile
- TextureEditorComponent->Material
- TextureEditorComponent->ThreeSceneService
+ ViewerFile->File
+ ViewerFile->ThreeSceneService
 }
