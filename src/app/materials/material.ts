@@ -1441,7 +1441,9 @@ export class MeshStandardMaterial extends Material {
         return (this.material as THREE.MeshStandardMaterial).map;
     }
     public set map(value: THREE.Texture) {
+        if ((this.material as THREE.MeshStandardMaterial).map === value) { return; }
         (this.material as THREE.MeshStandardMaterial).map = value;
+        this.material.needsUpdate = true;
     }
     public get metalness(): number {
         return (this.material as THREE.MeshStandardMaterial).metalness;

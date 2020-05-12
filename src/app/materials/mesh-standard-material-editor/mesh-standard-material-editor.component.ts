@@ -63,9 +63,9 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
     if (event) {
       if (this.Material.map !== event.texture) {
         this.Material.map = event.texture;
-      } else {
-        this.Material.map = null;
       }
+    } else {
+      this.Material.map = null;
     }
     this.updateMaterial(this.Material);
   }

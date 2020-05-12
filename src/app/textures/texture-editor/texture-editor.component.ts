@@ -25,11 +25,11 @@ export class TextureEditorComponent implements OnInit {
     if (this.imagePreview) {
       this.imagePreview.nativeElement.innerHTML = '';
       if (value && value.image) {
-        if (value.image.width > 250) {
-          const f = 250 / value.image.width;
-          value.image.width = 250;
-          value.image.height *= f;
-        }
+        // if (value.image.width > 250) {
+        //   const f = 250 / value.image.width;
+        //   value.image.width = 250;
+        //   value.image.height *= f;
+        // }
         this.imagePreview.nativeElement.appendChild(value.image);
       }
     }
@@ -58,17 +58,20 @@ export class TextureEditorComponent implements OnInit {
     const fileUrl = URL.createObjectURL(selectedFile);
     if (this.hasImage) {
       this.Texture.texture.image.src = fileUrl;
+      this.Texture.texture.needsUpdate = true;
+      this.changedTexture.emit(this.Texture);
     } else {
-      const texture = new THREE.TextureLoader().load(fileUrl);
-      if (this.Texture) {
-        this.Texture.texture = texture;
-      } else {
-        this.Texture = Texture.CreateTexture(texture);
-      }
+      new THREE.TextureLoader().load(fileUrl,
+        (texture) => {
+          if (this.Texture) {
+            this.Texture.texture = texture;
+          } else {
+            this.Texture = Texture.CreateTexture(texture);
+          }
+          this.Texture.texture.needsUpdate = true;
+          this.changedTexture.emit(this.Texture);
+        });
     }
     event.target.value = '';
-    this.Texture.texture.needsUpdate = true;
-
-    this.changedTexture.emit(this.Texture);
   }
 }
