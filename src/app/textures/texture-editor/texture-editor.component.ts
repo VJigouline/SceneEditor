@@ -4,6 +4,7 @@ import { ThreeSceneService } from '../../three-scene.service';
 import { Material } from '../../materials/material';
 import { Texture } from '../texture';
 import * as THREE from 'three';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-texture-editor',
@@ -37,6 +38,12 @@ export class TextureEditorComponent implements OnInit {
   public get hasImage(): boolean { return !!this.texture && !!this.texture.image; }
   public get Name(): string { return this.texture.name; }
   public set Name(value: string) { this.texture.name = value; }
+
+  public wrappingTypes = [
+    { type: THREE.RepeatWrapping, name: 'Repeat' },
+    { type: THREE.ClampToEdgeWrapping, name: 'Clamp to edges' },
+    { type: THREE.MirroredRepeatWrapping, name: 'Mirrored repeat' }
+  ];
 
   private texture: Texture;
 
@@ -75,5 +82,15 @@ export class TextureEditorComponent implements OnInit {
         });
     }
     event.target.value = '';
+  }
+
+  public onWrapUChange(change: MatSelectChange): void {
+    this.Texture.wrapS = change.value;
+    this.changedTexture.emit(this.Texture);
+  }
+
+  public onWrapVChange(change: MatSelectChange): void {
+    this.Texture.wrapT = change.value;
+    this.changedTexture.emit(this.Texture);
   }
 }

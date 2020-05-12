@@ -866,7 +866,9 @@ MeshToonMaterial [label="{MeshToonMaterial |
 }"]
  TextureEditorComponent [label="{TextureEditorComponent |
    constructor(private sceneService: ThreeSceneService)\n
-   onImageImport(event: any): void
+   onImageImport(event: any): void\n
+   onWrapUChange(change: MatSelectChange): void\n
+   onWrapVChange(change: MatSelectChange): void
    |
    @Input() Material: Material;\n
    @Input() Texture(): Texture\n

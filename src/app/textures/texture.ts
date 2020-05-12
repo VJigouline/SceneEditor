@@ -30,9 +30,17 @@ export class Texture {
     public get rotation(): number { return this.texture.rotation; }
     public set rotation(value: number) { this.texture.rotation = value; }
     public get wrapS(): THREE.Wrapping { return this.texture.wrapS; }
-    public set wrapS(value: THREE.Wrapping) { this.texture.wrapS = value; }
+    public set wrapS(value: THREE.Wrapping) {
+        if (this.texture.wrapS === value) { return; }
+        this.texture.wrapS = value;
+        this.texture.needsUpdate = true;
+    }
     public get wrapT(): THREE.Wrapping { return this.texture.wrapT; }
-    public set wrapT(value: THREE.Wrapping) { this.texture.wrapT = value; }
+    public set wrapT(value: THREE.Wrapping) {
+        if (this.texture.wrapT === value) { return; }
+        this.texture.wrapT = value;
+        this.texture.needsUpdate = true;
+     }
 
     // ThreeJS texture
     public texture: THREE.Texture;

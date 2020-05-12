@@ -19,6 +19,30 @@
                     </mat-form-field>
                 </div>
             </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="full-width">
+                    <mat-label>Select U wrapping type</mat-label>
+                    <mat-select [(value)]="Texture.wrapS"
+                    (selectionChange)="onWrapUChange($event)"
+                    >
+                        <mat-option *ngFor="let type of wrappingTypes" [value]="type.type">{{type.name}}</mat-option>
+                    </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="full-width">
+                    <mat-label>Select V wrapping type</mat-label>
+                    <mat-select [(value)]="Texture.wrapT"
+                    (selectionChange)="onWrapVChange($event)"
+                    >
+                        <mat-option *ngFor="let type of wrappingTypes" [value]="type.type">{{type.name}}</mat-option>
+                    </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
         </ng-container>
         <mat-card-actions>
             <input
