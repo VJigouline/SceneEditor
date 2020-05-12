@@ -5,7 +5,7 @@
             <mat-panel-description>Open to edit texture</mat-panel-description>
         </mat-expansion-panel-header>
         <div #imagePreview class="col"></div>
-        <div *ngIf="!Texture" class="row">
+        <div *ngIf="!hasImage" class="row">
             <div class="col">
                 Texture not defined.
             </div>
@@ -13,7 +13,10 @@
         <ng-container *ngIf="hasImage">
             <div class="row">
                 <div class="col">
-                    
+                    <mat-form-field class="full-width">
+                        <mat-label>Texture name</mat-label>
+                        <input [(ngModel)]="Name" matInput placeholder="Enter texture name">
+                    </mat-form-field>
                 </div>
             </div>
         </ng-container>

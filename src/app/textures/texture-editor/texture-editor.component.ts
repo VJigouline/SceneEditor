@@ -35,6 +35,8 @@ export class TextureEditorComponent implements OnInit {
     }
   }
   public get hasImage(): boolean { return !!this.texture && !!this.texture.image; }
+  public get Name(): string { return this.texture.name; }
+  public set Name(value: string) { this.texture.name = value; }
 
   private texture: Texture;
 

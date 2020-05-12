@@ -870,7 +870,8 @@ MeshToonMaterial [label="{MeshToonMaterial |
    |
    @Input() Material: Material;\n
    @Input() Texture(): Texture\n
-   @Output() changedTexture: Texture
+   @Output() changedTexture: Texture\n
+   Name: string
 }"]
  AppComponent [label="{AppComponent |
    ngOnInit()\n

@@ -1,0 +1,44 @@
+.full-width {
+    width: 100%;
+  }
+  
+  .shipping-card {
+    min-width: 120px;
+    margin: 20px auto;
+  }
+  
+  .mat-radio-button {
+    display: block;
+    margin: 5px 0;
+  }
+  
+  .row {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .col {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  .col:last-child {
+    margin-right: 0;
+  }
+  
+  .label {
+    color: rgba(0,0,0,.54);
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+  }
+    
+  mat-slider {
+    width: 100%;
+  }
+  
+  .mat-raised-button {
+    margin-right: 8px;
+    margin-bottom: 2px;
+  }
+  
