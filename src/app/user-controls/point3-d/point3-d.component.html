@@ -1,11 +1,12 @@
 <mat-label class="label">{{Label}}</mat-label>
-<mat-grid-list [cols]="enableCheckboxes ? 6 : 3" rowHeight="55px">
+<mat-grid-list [cols]="nCols" rowHeight="55px">
     <mat-grid-tile colspan=1>
         <mat-form-field class="full-width">
             <input matInput placeholder="X" width=4 type="number"
             [(ngModel)] = "X"
             [disabled] = "!enableX"
             (input) = "onChange()"
+            [step] = "step"
             >
         </mat-form-field>
     </mat-grid-tile>
@@ -18,22 +19,24 @@
             [(ngModel)] = "Y"
             [disabled] = "!enableY"
             (input) = "onChange()"
+            [step] = "step"
              >
         </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile *ngIf="enableCheckboxes" colspan=1>
         <mat-checkbox [(ngModel)]="enableY"></mat-checkbox>
     </mat-grid-tile>
-    <mat-grid-tile colspan=1>
+    <mat-grid-tile *ngIf="showZ" colspan=1>
         <mat-form-field class="full-width">
             <input matInput placeholder="Z" width=4 type="number"
             [(ngModel)] = "Z"
             [disabled] = "!enableZ"
             (input) = "onChange()"
+            [step] = "step"
              >
         </mat-form-field>
     </mat-grid-tile>
-    <mat-grid-tile *ngIf="enableCheckboxes" colspan=1>
+    <mat-grid-tile *ngIf="enableCheckboxes && showZ" colspan=1>
         <mat-checkbox [(ngModel)]="enableZ"></mat-checkbox>
     </mat-grid-tile>
 </mat-grid-list>

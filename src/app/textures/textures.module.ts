@@ -12,6 +12,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { MatSliderModule } from '@angular/material/slider';
 import { ReactiveFormsModule } from '@angular/forms';
+import { UserControlsModule } from '../user-controls/user-controls.module';
 
 @NgModule({
   declarations: [TextureEditorComponent],
@@ -27,7 +28,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatRadioModule,
     MatCardModule,
     MatSliderModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    UserControlsModule
   ],
   exports: [
     TextureEditorComponent

@@ -5,6 +5,8 @@ import { Material } from '../../materials/material';
 import { Texture } from '../texture';
 import * as THREE from 'three';
 import { MatSelectChange } from '@angular/material/select';
+import { Point3 } from '../../geometries/point3';
+import { MatSliderChange } from '@angular/material/slider';
 
 @Component({
   selector: 'app-texture-editor',
@@ -44,6 +46,17 @@ export class TextureEditorComponent implements OnInit {
     { type: THREE.ClampToEdgeWrapping, name: 'Clamp to edges' },
     { type: THREE.MirroredRepeatWrapping, name: 'Mirrored repeat' }
   ];
+
+  public get Offset(): Point3 { return new Point3(this.Texture.offset.x, this.texture.offset.y, 0); }
+  public set Offset(value: Point3) {
+    this.Texture.offset.x = value.X;
+    this.Texture.offset.y = value.Y;
+  }
+  public get Repeat(): Point3 { return new Point3(this.Texture.repeat.x, this.texture.repeat.y, 0); }
+  public set Repeat(value: Point3) {
+    this.Texture.repeat.x = value.X;
+    this.Texture.repeat.y = value.Y;
+  }
 
   private texture: Texture;
 
@@ -91,6 +104,26 @@ export class TextureEditorComponent implements OnInit {
 
   public onWrapVChange(change: MatSelectChange): void {
     this.Texture.wrapT = change.value;
+    this.changedTexture.emit(this.Texture);
+  }
+
+  public onOffsetChange(position: Point3): void {
+    this.Texture.offset.x = position.X;
+    this.Texture.offset.y = position.Y;
+    this.Texture.texture.needsUpdate = true;
+    this.changedTexture.emit(this.Texture);
+  }
+
+  public onRepeatChange(position: Point3): void {
+    this.Texture.repeat.x = position.X;
+    this.Texture.repeat.y = position.Y;
+    this.Texture.texture.needsUpdate = true;
+    this.changedTexture.emit(this.Texture);
+  }
+
+  public onRotationChanged(event: MatSliderChange): void {
+    this.Texture.rotation = Math.round((event.value + Number.EPSILON) * 100) / 100;
+    this.Texture.texture.needsUpdate = true;
     this.changedTexture.emit(this.Texture);
   }
 }

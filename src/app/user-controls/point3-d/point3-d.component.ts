@@ -21,6 +21,14 @@ export class Point3DComponent implements OnInit {
   @Input() enableZ = true;
 
   @Input() enableCheckboxes = false;
+  @Input() showZ = true;
+  @Input() step = 1;
+
+  get nCols(): number {
+    let ret = this.showZ ? 3 : 2;
+    if (this.enableCheckboxes) { ret *= 2; }
+    return ret;
+  }
 
   get X(): number { return this.Point.X; }
   set X(value: number) {

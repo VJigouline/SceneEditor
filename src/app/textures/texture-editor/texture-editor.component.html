@@ -43,6 +43,35 @@
                     </mat-form-field>
                 </div>
             </div>
+            <div class="row">
+                <app-point3-d
+                Label='Texture offset'
+                step="0.01"
+                [Point]='Offset'
+                [showZ]="false"
+                (changePoint)="onOffsetChange($event)"
+                class="full-width"
+                ></app-point3-d>
+            </div>
+            <div class="row">
+                <app-point3-d
+                Label='Texture repeat'
+                step="0.01"
+                [Point]='Repeat'
+                [showZ]="false"
+                (changePoint)="onRepeatChange($event)"
+                class="full-width"
+                ></app-point3-d>
+            </div>
+            <div class="row">
+                <div class="col label">
+                    Texture rotation {{Texture.rotation}}
+                    <mat-slider min="-3.14" max="3.14" step="0.01"
+                    (input)="onRotationChanged($event)"
+                    [(value)]="Texture.rotation"
+                    ></mat-slider>
+                </div>
+            </div>
         </ng-container>
         <mat-card-actions>
             <input
