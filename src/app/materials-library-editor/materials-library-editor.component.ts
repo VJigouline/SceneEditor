@@ -17,11 +17,18 @@ import * as THREE from 'three';
 import { MaterialPreviewComponent } from '../materials/material-preview/material-preview.component';
 import { ResizedEvent } from 'angular-resize-event';
 
+interface UVs {
+  uv0: THREE.Vector2;
+  uv1: THREE.Vector2;
+  uv2: THREE.Vector2;
+}
+
 @Component({
   selector: 'app-materials-library-editor',
   templateUrl: './materials-library-editor.component.html',
   styleUrls: ['./materials-library-editor.component.scss']
 })
+
 export class MaterialsLibraryEditorComponent implements OnInit {
 
   // events
@@ -375,6 +382,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
 
   private selectMesh(mesh: THREE.Mesh, assign: boolean): void {
     this.selectedObject = mesh;
+    this.generateMissingUVs(mesh, true);
     this.selectedObjectMaterial = mesh.material;
     if (assign || this.assignMaterial) {
       if (this.Material) {
@@ -421,6 +429,30 @@ export class MaterialsLibraryEditorComponent implements OnInit {
     mesh.material = this.selectedMaterial;
   }
 
+  private generateMissingUVs(mesh: THREE.Mesh, first: boolean) {
+    if (!(mesh.geometry instanceof THREE.BufferGeometry)) { return; }
+    const g = mesh.geometry as THREE.BufferGeometry;
+    if (g.attributes.uv) { return; }
+
+    // find out the dimensions, to let texture size 100% fit without stretching
+    g.computeBoundingBox();
+    const bboxSize = g.boundingBox.getSize(new THREE.Vector3());
+    const uvMapSize = Math.min(bboxSize.x, bboxSize.y, bboxSize.z);
+
+    // calculate UV coordinates, if uv attribute is not present, it will be added
+    this.applyBoxUV(g, new THREE.Matrix4(), uvMapSize);
+
+    // let three.js know
+    (g.attributes.uv as THREE.BufferAttribute).needsUpdate = true;
+
+    if (!first) { return; }
+    const objects = this.sceneService.getSelectableObjects();
+    for (const o of objects) {
+      if (!(o instanceof THREE.Mesh)) { continue; }
+      this.generateMissingUVs(o as THREE.Mesh, false);
+    }
+  }
+
   private addMaterial(material: THREE.Material): void {
 
     const scene = this.sceneService.getScene();
@@ -431,7 +463,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
     this.materialEditor.Material = mat;
     this.materialEditor.updateSelection();
     this.updateMaterial(mat);
-}
+  }
 
   private hasMaterial(material: THREE.Material): boolean {
     for (const materials of this.libraryService.Library.materials) {
@@ -472,5 +504,168 @@ export class MaterialsLibraryEditorComponent implements OnInit {
 
   public onEditorResized(event: ResizedEvent): void {
     this.materialPreview.onEditorResized(event);
+  }
+
+  private _applyBoxUV(geom: THREE.BufferGeometry, transformMatrix: THREE.Matrix4, 
+                      bbox: THREE.Box3, bboxMaxSize: number) {
+
+    const coords = [];
+    coords.length = 2 * geom.attributes.position.array.length / 3;
+
+    // geom.removeAttribute('uv');
+    if (geom.attributes.uv === undefined) {
+        geom.addAttribute('uv', new THREE.Float32BufferAttribute(coords, 2));
+    }
+
+    // maps 3 verts of 1 face on the better side of the cube
+    // side of the cube can be XY, XZ or YZ
+    const makeUVs = (v0: THREE.Vector3, v1: THREE.Vector3, v2: THREE.Vector3): UVs => {
+
+        // pre-rotate the model so that cube sides match world axis
+        v0.applyMatrix4(transformMatrix);
+        v1.applyMatrix4(transformMatrix);
+        v2.applyMatrix4(transformMatrix);
+
+        // get normal of the face, to know into which cube side it maps better
+        const n = new THREE.Vector3();
+        n.crossVectors(v1.clone().sub(v0), v1.clone().sub(v2)).normalize();
+
+        n.x = Math.abs(n.x);
+        n.y = Math.abs(n.y);
+        n.z = Math.abs(n.z);
+
+        const uv0 = new THREE.Vector2();
+        const uv1 = new THREE.Vector2();
+        const uv2 = new THREE.Vector2();
+        // xz mapping
+        if (n.y > n.x && n.y > n.z) {
+            uv0.x = (v0.x - bbox.min.x) / bboxMaxSize;
+            uv0.y = (bbox.max.z - v0.z) / bboxMaxSize;
+
+            uv1.x = (v1.x - bbox.min.x) / bboxMaxSize;
+            uv1.y = (bbox.max.z - v1.z) / bboxMaxSize;
+
+            uv2.x = (v2.x - bbox.min.x) / bboxMaxSize;
+            uv2.y = (bbox.max.z - v2.z) / bboxMaxSize;
+        } else
+        if (n.x > n.y && n.x > n.z) {
+            uv0.x = (v0.z - bbox.min.z) / bboxMaxSize;
+            uv0.y = (v0.y - bbox.min.y) / bboxMaxSize;
+
+            uv1.x = (v1.z - bbox.min.z) / bboxMaxSize;
+            uv1.y = (v1.y - bbox.min.y) / bboxMaxSize;
+
+            uv2.x = (v2.z - bbox.min.z) / bboxMaxSize;
+            uv2.y = (v2.y - bbox.min.y) / bboxMaxSize;
+        } else
+        if (n.z > n.y && n.z > n.x) {
+            uv0.x = (v0.x - bbox.min.x) / bboxMaxSize;
+            uv0.y = (v0.y - bbox.min.y) / bboxMaxSize;
+
+            uv1.x = (v1.x - bbox.min.x) / bboxMaxSize;
+            uv1.y = (v1.y - bbox.min.y) / bboxMaxSize;
+
+            uv2.x = (v2.x - bbox.min.x) / bboxMaxSize;
+            uv2.y = (v2.y - bbox.min.y) / bboxMaxSize;
+        }
+
+        return { uv0, uv1, uv2 };
+    };
+
+    if (geom.index) { // is it indexed buffer geometry?
+        for (let vi = 0; vi < geom.index.array.length; vi += 3) {
+            const idx0 = geom.index.array[vi];
+            const idx1 = geom.index.array[vi + 1];
+            const idx2 = geom.index.array[vi + 2];
+
+            const vx0 = geom.attributes.position.array[3 * idx0];
+            const vy0 = geom.attributes.position.array[3 * idx0 + 1];
+            const vz0 = geom.attributes.position.array[3 * idx0 + 2];
+
+            const vx1 = geom.attributes.position.array[3 * idx1];
+            const vy1 = geom.attributes.position.array[3 * idx1 + 1];
+            const vz1 = geom.attributes.position.array[3 * idx1 + 2];
+
+            const vx2 = geom.attributes.position.array[3 * idx2];
+            const vy2 = geom.attributes.position.array[3 * idx2 + 1];
+            const vz2 = geom.attributes.position.array[3 * idx2 + 2];
+
+            const v0 = new THREE.Vector3(vx0, vy0, vz0);
+            const v1 = new THREE.Vector3(vx1, vy1, vz1);
+            const v2 = new THREE.Vector3(vx2, vy2, vz2);
+
+            const uvs = makeUVs(v0, v1, v2);
+
+            coords[2 * idx0] = uvs.uv0.x;
+            coords[2 * idx0 + 1] = uvs.uv0.y;
+
+            coords[2 * idx1] = uvs.uv1.x;
+            coords[2 * idx1 + 1] = uvs.uv1.y;
+
+            coords[2 * idx2] = uvs.uv2.x;
+            coords[2 * idx2 + 1] = uvs.uv2.y;
+        }
+    } else {
+        for (let vi = 0; vi < geom.attributes.position.array.length; vi += 9) {
+          const vx0 = geom.attributes.position.array[vi];
+          const vy0 = geom.attributes.position.array[vi + 1];
+          const vz0 = geom.attributes.position.array[vi + 2];
+
+          const vx1 = geom.attributes.position.array[vi + 3];
+          const vy1 = geom.attributes.position.array[vi + 4];
+          const vz1 = geom.attributes.position.array[vi + 5];
+
+          const vx2 = geom.attributes.position.array[vi + 6];
+          const vy2 = geom.attributes.position.array[vi + 7];
+          const vz2 = geom.attributes.position.array[vi + 8];
+
+          const v0 = new THREE.Vector3(vx0, vy0, vz0);
+          const v1 = new THREE.Vector3(vx1, vy1, vz1);
+          const v2 = new THREE.Vector3(vx2, vy2, vz2);
+
+          const uvs = makeUVs(v0, v1, v2);
+
+          const idx0 = vi / 3;
+          const idx1 = idx0 + 1;
+          const idx2 = idx0 + 2;
+
+          coords[2 * idx0] = uvs.uv0.x;
+          coords[2 * idx0 + 1] = uvs.uv0.y;
+
+          coords[2 * idx1] = uvs.uv1.x;
+          coords[2 * idx1 + 1] = uvs.uv1.y;
+
+          coords[2 * idx2] = uvs.uv2.x;
+          coords[2 * idx2 + 1] = uvs.uv2.y;
+        }
+    }
+
+    geom.attributes.uv.array = new Float32Array(coords);
+}
+
+private applyBoxUV(bufferGeometry: THREE.BufferGeometry, transformMatrix: THREE.Matrix4, boxSize: number) {
+
+    if (transformMatrix === undefined) {
+        transformMatrix = new THREE.Matrix4();
+    }
+
+    if (boxSize === undefined) {
+      const geom = bufferGeometry;
+      geom.computeBoundingBox();
+      const bbox = geom.boundingBox;
+
+      const bboxSizeX = bbox.max.x - bbox.min.x;
+      const bboxSizeZ = bbox.max.z - bbox.min.z;
+      const bboxSizeY = bbox.max.y - bbox.min.y;
+
+      boxSize = Math.max(bboxSizeX, bboxSizeY, bboxSizeZ);
+    }
+
+    const uvBbox = new THREE.Box3(
+      new THREE.Vector3(-boxSize / 2, -boxSize / 2, -boxSize / 2),
+      new THREE.Vector3(boxSize / 2, boxSize / 2, boxSize / 2)
+      );
+
+    this._applyBoxUV(bufferGeometry, transformMatrix, uvBbox, boxSize);
   }
 }
