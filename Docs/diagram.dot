@@ -495,6 +495,12 @@ MeshToonMaterial [label="{MeshToonMaterial |
     wrapT: THREE.Wrapping\n
     texture: THREE.Texture;
  }"]
+  Vector2 [label="{Vector2 |
+    constructor(x: number, y: number)
+    |
+    X: number\n
+    Y: number
+  }"]
 
  // Template classes.
  node [fontname="Calibri", fillcolor="lightyellow"];
