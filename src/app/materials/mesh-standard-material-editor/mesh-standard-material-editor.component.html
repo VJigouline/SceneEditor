@@ -1,77 +1,91 @@
-<div *ngIf="Material" class="row">
-    <div class="col">
-      <mat-form-field class="full-width">
-        <input matInput placeholder="Material colour"
-        cpAlphaChannel="disabled"
-        [value] = "this.Material.colour"
-        [style.background]="this.Material.colour"
-        [cpPosition] = "'bottom'"
-        [(colorPicker)]="this.Material.colour"
-        (colorPickerChange)="onColourChanged($event)"
-        >
-      </mat-form-field>
-    </div>
-</div>
-<div *ngIf="Material" class="row">
-    <div class="col">
-    <mat-form-field class="full-width">
-        <input matInput placeholder="Emissive colour"
-        cpAlphaChannel="disabled"
-        [value] = "this.Material.emissive"
-        [style.background]="this.Material.emissive"
-        [cpPosition] = "'bottom'"
-        [(colorPicker)]="this.Material.emissive"
-        (colorPickerChange)="onColourChanged($event)"
-        >
-    </mat-form-field>
-    </div>
-</div>
-<div *ngIf="Material" class="row">
-    <div class="col label">
-        Emissive intensity {{Material.emissiveIntensity}}
-        <mat-slider min="0" max="10" step="0.01"
-        (input)="onEmissiveIntensityChanged($event)"
-        [(value)]="Material.emissiveIntensity"
-        ></mat-slider>
-    </div>
-</div>
-<div *ngIf="Material" class="row">
-    <div class="col label">
-        Metalness {{Material.metalness}}
-        <mat-slider min="0" max="1" step="0.01"
-        (input)="onMetalnessChanged($event)"
-        [(value)]="Material.metalness"
-        ></mat-slider>
-    </div>
-</div>
-<div *ngIf="Material" class="row">
-    <div class="col label">
-        Roughness {{Material.roughness}}
-        <mat-slider min="0" max="1" step="0.01"
-        (input)="onRoughnessChanged($event)"
-        [(value)]="Material.roughness"
-        ></mat-slider>
-    </div>
-</div>
-<div *ngIf="Material" class="row">
-    <div class="col">
-        <mat-checkbox
-        [(checked)]="Material.wireframe"
-        (change) = "onWireframeChange($event)"
-        >
-        Show as wireframe
-        </mat-checkbox>
-    </div>
-</div>
-<div *ngIf="Material" class="row">
-    <div class="col">
-        <app-texture-editor #TextureEditor 
-        [Material]="Material"
-        [Texture]="ColourTexture"
-        (changedTexture)="onTextureChanged($event)"
-        ></app-texture-editor>
-    </div>
-</div>
+<mat-accordion>
+    <mat-expansion-panel expanded=true>
+        <mat-expansion-panel-header>
+            <mat-panel-title>Mesh Standard Material</mat-panel-title>
+            <mat-panel-description>Open</mat-panel-description>
+        </mat-expansion-panel-header>
+        <div *ngIf="Material" class="row">
+            <div class="col">
+            <mat-form-field class="full-width">
+                <input matInput placeholder="Material colour"
+                cpAlphaChannel="disabled"
+                [value] = "this.Material.colour"
+                [style.background]="this.Material.colour"
+                [cpPosition] = "'bottom'"
+                [(colorPicker)]="this.Material.colour"
+                (colorPickerChange)="onColourChanged($event)"
+                >
+            </mat-form-field>
+            </div>
+        </div>
+        <div *ngIf="Material" class="row">
+            <div class="col">
+            <mat-form-field class="full-width">
+                <input matInput placeholder="Emissive colour"
+                cpAlphaChannel="disabled"
+                [value] = "this.Material.emissive"
+                [style.background]="this.Material.emissive"
+                [cpPosition] = "'bottom'"
+                [(colorPicker)]="this.Material.emissive"
+                (colorPickerChange)="onColourChanged($event)"
+                >
+            </mat-form-field>
+            </div>
+        </div>
+        <div *ngIf="Material" class="row">
+            <div class="col label">
+                Emissive intensity {{Material.emissiveIntensity}}
+                <mat-slider min="0" max="10" step="0.01"
+                (input)="onEmissiveIntensityChanged($event)"
+                [(value)]="Material.emissiveIntensity"
+                ></mat-slider>
+            </div>
+        </div>
+        <div *ngIf="Material" class="row">
+            <div class="col label">
+                Metalness {{Material.metalness}}
+                <mat-slider min="0" max="1" step="0.01"
+                (input)="onMetalnessChanged($event)"
+                [(value)]="Material.metalness"
+                ></mat-slider>
+            </div>
+        </div>
+        <div *ngIf="Material" class="row">
+            <div class="col label">
+                Roughness {{Material.roughness}}
+                <mat-slider min="0" max="1" step="0.01"
+                (input)="onRoughnessChanged($event)"
+                [(value)]="Material.roughness"
+                ></mat-slider>
+            </div>
+        </div>
+        <div *ngIf="Material" class="row">
+            <div class="col">
+                <mat-checkbox
+                [(checked)]="Material.wireframe"
+                (change) = "onWireframeChange($event)"
+                >
+                Show as wireframe
+                </mat-checkbox>
+            </div>
+        </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>Texture</mat-panel-title>
+            <mat-panel-description>Open</mat-panel-description>
+        </mat-expansion-panel-header>
+        <div *ngIf="Material" class="row">
+            <div class="col">
+                <app-texture-editor #TextureEditor 
+                [Material]="Material"
+                [Texture]="ColourTexture"
+                (changedTexture)="onTextureChanged($event)"
+                ></app-texture-editor>
+            </div>
+        </div>
+    </mat-expansion-panel>
+</mat-accordion>
 <!--
 <div *ngIf="Material && Material.wireframe" class="row">
     <div class="col label">

@@ -1,94 +1,86 @@
-<mat-accordion>
-    <mat-expansion-panel>
-        <mat-expansion-panel-header>
-            <mat-panel-title>Texture</mat-panel-title>
-            <mat-panel-description>Open to edit texture</mat-panel-description>
-        </mat-expansion-panel-header>
-        <div #imagePreview class="col"></div>
-        <div *ngIf="!hasImage" class="row">
-            <div class="col">
-                Texture not defined.
-            </div>
+<div #imagePreview class="col"></div>
+<div *ngIf="!hasImage" class="row">
+    <div class="col">
+        Texture not defined.
+    </div>
+</div>
+<ng-container *ngIf="hasImage">
+    <div class="row">
+        <div class="col">
+            <mat-form-field class="full-width">
+                <mat-label>Texture name</mat-label>
+                <input [(ngModel)]="Name" matInput placeholder="Enter texture name">
+            </mat-form-field>
         </div>
-        <ng-container *ngIf="hasImage">
-            <div class="row">
-                <div class="col">
-                    <mat-form-field class="full-width">
-                        <mat-label>Texture name</mat-label>
-                        <input [(ngModel)]="Name" matInput placeholder="Enter texture name">
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <mat-form-field class="full-width">
-                    <mat-label>Select U wrapping type</mat-label>
-                    <mat-select [(value)]="Texture.wrapS"
-                    (selectionChange)="onWrapUChange($event)"
-                    >
-                        <mat-option *ngFor="let type of wrappingTypes" [value]="type.type">{{type.name}}</mat-option>
-                    </mat-select>
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <mat-form-field class="full-width">
-                    <mat-label>Select V wrapping type</mat-label>
-                    <mat-select [(value)]="Texture.wrapT"
-                    (selectionChange)="onWrapVChange($event)"
-                    >
-                        <mat-option *ngFor="let type of wrappingTypes" [value]="type.type">{{type.name}}</mat-option>
-                    </mat-select>
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="row">
-                <app-point3-d
-                Label='Texture offset'
-                step="0.01"
-                [Point]='Offset'
-                [showZ]="false"
-                (changePoint)="onOffsetChange($event)"
-                class="full-width"
-                ></app-point3-d>
-            </div>
-            <div class="row">
-                <app-point3-d
-                Label='Texture repeat'
-                step="0.01"
-                [Point]='Repeat'
-                [showZ]="false"
-                (changePoint)="onRepeatChange($event)"
-                class="full-width"
-                ></app-point3-d>
-            </div>
-            <div class="row">
-                <div class="col label">
-                    Texture rotation {{Texture.rotation}}
-                    <mat-slider min="-3.14" max="3.14" step="0.01"
-                    (input)="onRotationChanged($event)"
-                    [(value)]="Texture.rotation"
-                    ></mat-slider>
-                </div>
-            </div>
-        </ng-container>
-        <mat-card-actions>
-            <input
-                style="display: none"
-                type="file" (input)="onImageImport($event)"
-                accept="image/*"
-                #imageInput>
-            <button mat-raised-button color="primary" 
-            type="button"
-            (click)="imageInput.click()"
-            >Get image</button>
-                <!--
-            <button mat-raised-button color="primary" 
-            type="button"
-            (click)="onNew()"
-            >New</button>
-                -->
-        </mat-card-actions>
-    </mat-expansion-panel>
-</mat-accordion>
+    </div>
+    <div class="row">
+        <div class="col">
+            <mat-form-field class="full-width">
+            <mat-label>Select U wrapping type</mat-label>
+            <mat-select [(value)]="Texture.wrapS"
+            (selectionChange)="onWrapUChange($event)"
+            >
+                <mat-option *ngFor="let type of wrappingTypes" [value]="type.type">{{type.name}}</mat-option>
+            </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <mat-form-field class="full-width">
+            <mat-label>Select V wrapping type</mat-label>
+            <mat-select [(value)]="Texture.wrapT"
+            (selectionChange)="onWrapVChange($event)"
+            >
+                <mat-option *ngFor="let type of wrappingTypes" [value]="type.type">{{type.name}}</mat-option>
+            </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <app-point3-d
+        Label='Texture offset'
+        step="0.01"
+        [Point]='Offset'
+        [showZ]="false"
+        (changePoint)="onOffsetChange($event)"
+        class="full-width"
+        ></app-point3-d>
+    </div>
+    <div class="row">
+        <app-point3-d
+        Label='Texture repeat'
+        step="0.01"
+        [Point]='Repeat'
+        [showZ]="false"
+        (changePoint)="onRepeatChange($event)"
+        class="full-width"
+        ></app-point3-d>
+    </div>
+    <div class="row">
+        <div class="col label">
+            Texture rotation {{Texture.rotation}}
+            <mat-slider min="-3.14" max="3.14" step="0.01"
+            (input)="onRotationChanged($event)"
+            [(value)]="Texture.rotation"
+            ></mat-slider>
+        </div>
+    </div>
+</ng-container>
+<mat-card-actions>
+    <input
+        style="display: none"
+        type="file" (input)="onImageImport($event)"
+        accept="image/*"
+        #imageInput>
+    <button mat-raised-button color="primary" 
+    type="button"
+    (click)="imageInput.click()"
+    >Get image</button>
+        <!--
+    <button mat-raised-button color="primary" 
+    type="button"
+    (click)="onNew()"
+    >New</button>
+        -->
+</mat-card-actions>
