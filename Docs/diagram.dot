@@ -121,7 +121,8 @@ digraph SceneEditor {
    constructor(type: MaterialType)\n
    static CreateMaterial(mat: THREE.Material): Material\n
    clone(): Material\n
-   copy(material: Material): void
+   copy(material: Material): void\n
+   update(): void
    |
     type: MaterialType\n
     alphaTest: number\n
@@ -316,7 +317,8 @@ digraph SceneEditor {
   MeshPhysicalMaterial [label="{MeshPhysicalMaterial |
     constructor()\n
     clone(): MeshPhysicalMaterial\n
-    copy(material: MeshPhysicalMaterial): void
+    copy(material: MeshPhysicalMaterial): void\n
+    update(): void
     |
     clearcoat: number\n
     clearcoatNormalMap: THREE.Texture\n
@@ -327,7 +329,9 @@ digraph SceneEditor {
 MeshStandardMaterial [label="{MeshStandardMaterial |
     constructor()\n
     clone(): MeshStandardMaterial\n
-    copy(material: MeshStandardMaterial): void
+    copy(material: MeshStandardMaterial): void\n
+    static fromMaterial(material: THREE.MeshStandardMaterial): MeshStandardMaterial\n
+    update(): void
     |
     alphaMap: THREE.Texture\n
     aoMap: THREE.Texture\n
@@ -475,21 +479,22 @@ MeshToonMaterial [label="{MeshToonMaterial |
   Texture [label="{Texture |
     constructor(type: TextureType)\n
     static CreateTexture(texture: THREE.Texture): Texture\n
+    static string2Image(img: string \| HTMLImageElement): HTMLImageElement\n
     clone(): Texture\n
     copy(texture: Texture): void
     |
     type: TextureType\n
     anisotropy: number\n
-    center: THREE.Vector2\n
+    center: Vector2\n
     datatype: THREE.TextureDataType\n
     format: THREE.PixelFormat\n
-    image: HTMLImageElement\n
+    image: HTMLImageElement \| string\n
     magFilter: THREE.TextureFilter\n
     minFilter: THREE.TextureFilter\n
     mapping: THREE.Mapping\n
     name: string\n
-    offset: THREE.Vector2\n
-    repeat: THREE.Vector2\n
+    offset: Vector2\n
+    repeat: Vector2\n
     rotation: number\n
     wrapS: THREE.Wrapping\n
     wrapT: THREE.Wrapping\n
@@ -1033,6 +1038,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  Materials->PointsMaterial
  Materials->ShadowMaterial
  Materials->SpriteMaterial
+ Materials->Texture
  MaterialService->Material
  MaterialEditorComponent->ConfirmationDialogComponent
  MaterialEditorComponent->LineBasicMaterial
@@ -1076,6 +1082,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MeshPhongMaterial->Material
  MeshPhysicalMaterial->MeshStandardMaterial
  MeshStandardMaterial->Material
+ MeshStandardMaterial->Texture
  MeshStandardMaterialEditorComponent->BaseMaterialEditorComponent
  MeshStandardMaterialEditorComponent->MeshStandardMaterial
  MeshStandardMaterialEditorComponent->Texture
@@ -1106,11 +1113,13 @@ MeshToonMaterial [label="{MeshToonMaterial |
  SpotLightEditorComponent->SpotLight
  SpriteMaterial->Material
  Texture->TextureType
+ Texture->Vector2
  TextureEditorComponent->Material
  TextureEditorComponent->Point3
  TextureEditorComponent->Point3DComponent
  TextureEditorComponent->Texture
  TextureEditorComponent->ThreeSceneService
+ TextureEditorComponent->Vector2
  ThreeSceneService->ColladaLoader
  ThreeSceneService->DRACOLoader
  ThreeSceneService->DragControls

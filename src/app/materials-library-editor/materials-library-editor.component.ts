@@ -153,7 +153,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
     this.libraryService.setCurrentMaterials(this.Materials);
     this.sceneService.resetLights();
     this.materialEditor.updateSelection();
-    this.updateMaterial(null);
+    this.updateMaterial(this.Material);
     this.materialPreview.updateObject(null);
   }
 
@@ -283,7 +283,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
           this.materialEditor.Material = null;
           this.materialEditor.updateSelection();
         }
-        this.updateMaterial(null);
+        this.updateMaterial(this.materialEditor.Material);
       }
     });
   }
@@ -506,7 +506,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
     this.materialPreview.onEditorResized(event);
   }
 
-  private _applyBoxUV(geom: THREE.BufferGeometry, transformMatrix: THREE.Matrix4, 
+  private _applyBoxUV(geom: THREE.BufferGeometry, transformMatrix: THREE.Matrix4,
                       bbox: THREE.Box3, bboxMaxSize: number) {
 
     const coords = [];

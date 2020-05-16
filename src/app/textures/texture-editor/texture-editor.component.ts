@@ -7,6 +7,7 @@ import * as THREE from 'three';
 import { MatSelectChange } from '@angular/material/select';
 import { Point3 } from '../../geometries/point3';
 import { MatSliderChange } from '@angular/material/slider';
+import { Vector2 } from '../../geometries/vector2';
 
 @Component({
   selector: 'app-texture-editor',
@@ -33,7 +34,7 @@ export class TextureEditorComponent implements OnInit {
         //   value.image.width = 250;
         //   value.image.height *= f;
         // }
-        this.imagePreview.nativeElement.appendChild(value.image);
+        this.imagePreview.nativeElement.appendChild(value.texture.image);
       }
     }
   }
@@ -47,15 +48,13 @@ export class TextureEditorComponent implements OnInit {
     { type: THREE.MirroredRepeatWrapping, name: 'Mirrored repeat' }
   ];
 
-  public get Offset(): Point3 { return new Point3(this.Texture.offset.x, this.texture.offset.y, 0); }
+  public get Offset(): Point3 { return new Point3(this.Texture.offset.X, this.texture.offset.Y, 0); }
   public set Offset(value: Point3) {
-    this.Texture.offset.x = value.X;
-    this.Texture.offset.y = value.Y;
+    this.Texture.offset = new Vector2(value.X, value.Y);
   }
-  public get Repeat(): Point3 { return new Point3(this.Texture.repeat.x, this.texture.repeat.y, 0); }
+  public get Repeat(): Point3 { return new Point3(this.Texture.repeat.X, this.texture.repeat.Y, 0); }
   public set Repeat(value: Point3) {
-    this.Texture.repeat.x = value.X;
-    this.Texture.repeat.y = value.Y;
+    this.Texture.repeat = new Vector2(value.X, value.Y);
   }
 
   private texture: Texture;
@@ -85,11 +84,7 @@ export class TextureEditorComponent implements OnInit {
     } else {
       new THREE.TextureLoader().load(fileUrl,
         (texture) => {
-          if (this.Texture) {
-            this.Texture.texture = texture;
-          } else {
-            this.Texture = Texture.CreateTexture(texture);
-          }
+          this.Texture = Texture.CreateTexture(texture);
           this.Texture.texture.needsUpdate = true;
           this.changedTexture.emit(this.Texture);
         });
@@ -108,15 +103,13 @@ export class TextureEditorComponent implements OnInit {
   }
 
   public onOffsetChange(position: Point3): void {
-    this.Texture.offset.x = position.X;
-    this.Texture.offset.y = position.Y;
+    this.Texture.offset = new Vector2(position.X, position.Y);
     this.Texture.texture.needsUpdate = true;
     this.changedTexture.emit(this.Texture);
   }
 
   public onRepeatChange(position: Point3): void {
-    this.Texture.repeat.x = position.X;
-    this.Texture.repeat.y = position.Y;
+    this.Texture.repeat = new Vector2(position.X, position.Y);
     this.Texture.texture.needsUpdate = true;
     this.changedTexture.emit(this.Texture);
   }

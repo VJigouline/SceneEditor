@@ -96,6 +96,7 @@ export class MaterialPreviewComponent implements OnInit, AfterViewInit {
   public updateMaterial(material: Material): void {
     if (!material) { return; }
     if (this.objectDefault instanceof THREE.Mesh) {
+      material.update();
       (this.objectDefault as THREE.Mesh).material = material.material;
     }
   }

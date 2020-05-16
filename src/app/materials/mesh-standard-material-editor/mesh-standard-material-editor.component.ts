@@ -22,8 +22,7 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
   @Input() Material: MeshStandardMaterial;
 
   public get ColourTexture(): Texture {
-    return this.Material && this.Material.map ?
-      Texture.CreateTexture(this.Material.map) : null;
+    return this.Material ? this.Material.map : null;
   }
   public set ColourTexture(value: Texture) {}
 
@@ -61,8 +60,10 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
 
   public onTextureChanged(event: Texture): void {
     if (event) {
-      if (this.Material.map !== event.texture) {
-        this.Material.map = event.texture;
+      if (this.Material.map !== event) {
+        this.Material.map = event;
+        (this.Material.material as THREE.MeshStandardMaterial).map = event.texture;
+        this.Material.material.needsUpdate = true;
       }
     } else {
       this.Material.map = null;
