@@ -51,6 +51,33 @@ export class MaterialExport {
         this.toneMapped = material.toneMapped;
         this.transparent = material.transparent;
     }
+
+    public static img2base64(img: HTMLImageElement): string {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.height = img.height;
+        canvas.width = img.width;
+        ctx.drawImage(img, 0, 0);
+        return canvas.toDataURL();
+    }
+
+    public static cloneTexture(map: THREE.Texture, img: string): THREE.Texture {
+        if (!map) { return null; }
+
+        if ((!map.image || !(map.image instanceof HTMLImageElement)) && img) {
+            map.image = document.createElement('img');
+            (map.image as HTMLImageElement).src = img;
+        }
+        const ret = new THREE.Texture(map.image, map.mapping, map.wrapS, map.wrapT,
+            map.magFilter, map.minFilter, map.format, map.type, map.anisotropy, map.encoding);
+        ret.name = map.name;
+        ret.offset.set(map.offset[0], map.offset[1]);
+        ret.repeat.set(map.repeat[0], map.repeat[1]);
+        ret.rotation = map.rotation;
+        ret.needsUpdate = true;
+
+        return ret;
+    }
 }
 export class MeshStandardMaterialExport extends MaterialExport {
     private alphaMap: THREE.Texture;
@@ -69,7 +96,8 @@ export class MeshStandardMaterialExport extends MaterialExport {
     private envMapIntensity: number;
     // private lightMap: THREE.Texture;
     private lightMapIntensity: number;
-    // private map: THREE.Texture;
+    private map: THREE.Texture;
+    private mapImg: string;
     private metalness: number;
     // private metalnessMap: THREE.Texture;
     private morphNormals: boolean;
@@ -103,7 +131,10 @@ export class MeshStandardMaterialExport extends MaterialExport {
         this.envMapIntensity = material.envMapIntensity;
         // this.lightMap = material.lightMap;
         this.lightMapIntensity = material.lightMapIntensity;
-        // this.map = material.map;
+        this.map = material.map;
+        if (material.map && material.map.image) {
+            this.mapImg = MaterialExport.img2base64(material.map.image);
+        }
         this.metalness = material.metalness;
         // this.metalnessMap = material.metalnessMap;
         this.morphNormals = material.morphNormals;
@@ -1445,6 +1476,7 @@ export class MeshStandardMaterial extends Material {
         (this.material as THREE.MeshStandardMaterial).map = value;
         this.material.needsUpdate = true;
     }
+    public mapImg: string;
     public get metalness(): number {
         return (this.material as THREE.MeshStandardMaterial).metalness;
     }
@@ -1559,7 +1591,7 @@ export class MeshStandardMaterial extends Material {
         this.envMapIntensity = material.envMapIntensity;
         this.lightMap = material.lightMap;
         this.lightMapIntensity = material.lightMapIntensity;
-        this.map = material.map;
+        this.map = MaterialExport.cloneTexture(material.map, material.mapImg);
         this.metalness = material.metalness;
         this.metalnessMap = material.metalnessMap;
         this.morphNormals = material.morphNormals;
