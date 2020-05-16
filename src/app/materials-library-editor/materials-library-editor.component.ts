@@ -115,7 +115,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
     this.sceneService.resetLights();
     this.materialEditor.Material = null;
     this.materialEditor.updateSelection();
-    this.updateMaterial(null);
+    this.updateMaterial(this.materialEditor.Material);
   }
 
   public onClear(): void {

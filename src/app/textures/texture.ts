@@ -156,7 +156,7 @@ export class Texture {
         this.center = texture.center;
         this.datatype = texture.datatype;
         this.format = texture.format;
-        this.image = texture.image;
+        this.image = Texture.string2Image(TextureExport.img2base64(texture.image as HTMLImageElement));
         this.magFilter = texture.magFilter;
         this.minFilter = texture.minFilter;
         this.mapping = texture.mapping;
