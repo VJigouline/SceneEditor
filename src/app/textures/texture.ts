@@ -156,7 +156,11 @@ export class Texture {
         this.center = texture.center;
         this.datatype = texture.datatype;
         this.format = texture.format;
-        this.image = Texture.string2Image(TextureExport.img2base64(texture.image as HTMLImageElement));
+        if (texture.image instanceof HTMLImageElement) {
+            this.image = Texture.string2Image(TextureExport.img2base64(texture.image as HTMLImageElement));
+        } else {
+            this.image = texture.image;
+        }
         this.magFilter = texture.magFilter;
         this.minFilter = texture.minFilter;
         this.mapping = texture.mapping;

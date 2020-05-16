@@ -735,6 +735,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
    constructor()\n
    ngOnInit()\n
    onBaseMaterialChanged(material: MeshStandardMaterial): void\n
+   onAlphaMapChanged(event: Texture): void\n
    onColourChanged(colour: string): void\n
    onEmissiveIntensityChanged(event: MatSliderChange): void\n
    onMetalnessChanged(event: MatSliderChange): void\n
@@ -745,7 +746,8 @@ MeshToonMaterial [label="{MeshToonMaterial |
    |
    @Output() materialChange: MeshStandardMaterial\n
    @Input() Material: MeshStandardMaterial\n
-   ColourTexture: Texture\n
+   AlphaMap: Texture\n
+   ColourTexture: Texture
 }"]
  NewLightComponent [label="{NewLightComponent |
    constructor()\n

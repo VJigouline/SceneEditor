@@ -25,6 +25,10 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
     return this.Material ? this.Material.map : null;
   }
   public set ColourTexture(value: Texture) {}
+  public get AlphaMap(): Texture {
+    return this.Material ? this.Material.alphaMap : null;
+  }
+  public set AlphaMap(value: Texture) {}
 
   constructor() { }
 
@@ -63,7 +67,7 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
       if (this.Material.map !== event) {
         this.Material.map = event;
         (this.Material.material as THREE.MeshStandardMaterial).map = event.texture;
-        this.Material.material.needsUpdate = true;
+        this.Material.update();
       }
     } else {
       this.Material.map = null;
@@ -78,6 +82,19 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
 
   public onWireframeLinewidthChanged(event: MatSliderChange): void {
     this.Material.wireframeLinewidth = Math.round(event.value + Number.EPSILON);
+    this.updateMaterial(this.Material);
+  }
+
+  public onAlphaMapChanged(event: Texture): void {
+    if (event) {
+      if (this.Material.alphaMap !== event) {
+        this.Material.alphaMap = event;
+        (this.Material.material as THREE.MeshStandardMaterial).alphaMap = event.texture;
+        this.Material.update();
+      }
+    } else {
+      this.Material.alphaMap = null;
+    }
     this.updateMaterial(this.Material);
   }
 }

@@ -85,6 +85,21 @@
             </div>
         </div>
     </mat-expansion-panel>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>Alpha map</mat-panel-title>
+            <mat-panel-description>Open</mat-panel-description>
+        </mat-expansion-panel-header>
+        <div *ngIf="Material" class="row">
+            <div class="col">
+                <app-texture-editor #TextureEditor 
+                [Material]="Material"
+                [Texture]="AlphaMap"
+                (changedTexture)="onAlphaMapChanged($event)"
+                ></app-texture-editor>
+            </div>
+        </div>
+    </mat-expansion-panel>
 </mat-accordion>
 <!--
 <div *ngIf="Material && Material.wireframe" class="row">
