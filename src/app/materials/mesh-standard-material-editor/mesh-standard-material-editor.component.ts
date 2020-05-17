@@ -103,6 +103,7 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
       }
     } else {
       this.Material.map = null;
+      (this.Material.material as THREE.MeshStandardMaterial).map = null;
     }
     this.updateMaterial(this.Material);
   }
@@ -126,6 +127,7 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
       }
     } else {
       this.Material.alphaMap = null;
+      (this.Material.material as THREE.MeshStandardMaterial).alphaMap = null;
     }
     this.updateMaterial(this.Material);
   }
@@ -139,6 +141,7 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
       }
     } else {
       this.Material.bumpMap = null;
+      (this.Material.material as THREE.MeshStandardMaterial).bumpMap = null;
     }
     this.updateMaterial(this.Material);
   }
@@ -157,6 +160,7 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
       }
     } else {
       this.Material.displacementMap = null;
+      (this.Material.material as THREE.MeshStandardMaterial).displacementMap = null;
     }
     this.updateMaterial(this.Material);
   }
@@ -182,6 +186,7 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
       }
     } else {
       this.Material.emissiveMap = null;
+      (this.Material.material as THREE.MeshStandardMaterial).emissiveMap = null;
     }
     this.updateMaterial(this.Material);
   }
@@ -197,6 +202,9 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
       }
     } else {
       this.Material.metalnessMap = null;
+      (this.Material.material as THREE.MeshStandardMaterial).metalnessMap = null;
+      this.Material.roughnessMap = null;
+      (this.Material.material as THREE.MeshStandardMaterial).roughnessMap = null;
     }
     this.updateMaterial(this.Material);
   }
@@ -210,6 +218,7 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
       }
     } else {
       this.Material.roughnessMap = null;
+      (this.Material.material as THREE.MeshStandardMaterial).roughnessMap = null;
     }
     this.updateMaterial(this.Material);
   }

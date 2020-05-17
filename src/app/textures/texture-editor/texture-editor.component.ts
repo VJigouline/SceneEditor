@@ -74,6 +74,10 @@ export class TextureEditorComponent implements OnInit {
     // this.Render();
   }
 
+  public onDelete(): void {
+    this.changedTexture.emit(null);
+  }
+
   public onImageImport(event: any): void {
     const selectedFile = event.target.files[0];
     const fileUrl = URL.createObjectURL(selectedFile);
