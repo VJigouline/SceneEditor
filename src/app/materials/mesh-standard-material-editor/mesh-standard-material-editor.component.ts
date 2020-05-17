@@ -49,6 +49,10 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
     return this.Material ? this.Material.displacementBias : 1;
   }
   public set DisplacementMapBias(value: number) {}
+  public get EmissiveMap(): Texture {
+    return this.Material ? this.Material.emissiveMap : null;
+  }
+  public set EmissiveMap(value: Texture) {}
 
   constructor() { }
 
@@ -158,6 +162,19 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
   public onDisplacementMapBiasChanged(event: MatSliderChange): void {
     this.Material.displacementBias = Math.round((event.value + Number.EPSILON) * 100) / 100;
     this.Material.update();
+    this.updateMaterial(this.Material);
+  }
+
+  public onEmissiveMapChanged(event: Texture): void {
+    if (event) {
+      if (this.Material.emissiveMap !== event) {
+        this.Material.emissiveMap = event;
+        (this.Material.material as THREE.MeshStandardMaterial).emissiveMap = event.texture;
+        this.Material.update();
+      }
+    } else {
+      this.Material.emissiveMap = null;
+    }
     this.updateMaterial(this.Material);
   }
 }

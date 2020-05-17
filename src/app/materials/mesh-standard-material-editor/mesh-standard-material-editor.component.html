@@ -155,6 +155,20 @@
         </div>
     </mat-expansion-panel>
     -->
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>Emissive map</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngIf="Material" class="row">
+            <div class="col">
+                <app-texture-editor #TextureEditor 
+                [Material]="Material"
+                [Texture]="EmissiveMap"
+                (changedTexture)="onEmissiveMapChanged($event)"
+                ></app-texture-editor>
+            </div>
+        </div>
+    </mat-expansion-panel>
 </mat-accordion>
 <app-base-material-editor
     (materialChange)="onBaseMaterialChanged($event)"
