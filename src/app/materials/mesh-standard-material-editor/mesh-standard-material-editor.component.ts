@@ -4,6 +4,10 @@ import { MatSliderChange } from '@angular/material/slider';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { TextureEditorComponent } from 'src/app/textures/texture-editor/texture-editor.component';
 import { Texture } from '../../textures/texture';
+import { Point3 } from '../../geometries/point3';
+import { TextureUsage } from '../../textures/texture-type.enum';
+
+import * as THREE from 'three';
 
 @Component({
   selector: 'app-mesh-standard-material-editor',
@@ -53,6 +57,19 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
     return this.Material ? this.Material.emissiveMap : null;
   }
   public set EmissiveMap(value: Texture) {}
+  public get NormalMap(): Texture {
+    return this.Material ? this.Material.normalMap : null;
+  }
+  public set NormalMap(value: Texture) {}
+  public get NormalMapScale(): Point3 {
+    return this.Material ? new Point3 (this.Material.normalScale.x,
+      this.Material.normalScale.y, 0) : new Point3(1, 1, 0);
+  }
+  public set NormalMapScale(value: Point3) {}
+  public get NormalMapType(): THREE.NormalMapTypes {
+    return this.Material ? this.Material.normalMapType : THREE.TangentSpaceNormalMap;
+  }
+  public set NormalMapType(value: THREE.NormalMapTypes) {}
   public get MetalnessMap(): Texture {
     return this.Material ? this.Material.metalnessMap : null;
   }
@@ -61,6 +78,9 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
     return this.Material ? this.Material.roughnessMap : null;
   }
   public set RoughnessMap(value: Texture) {}
+
+  bumpMapUsage = TextureUsage.BUMP_MAP;
+  normalMapUsage = TextureUsage.NORMAL_MAP;
 
   constructor() { }
 
@@ -146,8 +166,8 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
     this.updateMaterial(this.Material);
   }
 
-  public onBumpMapScaleChanged(event: MatSliderChange): void {
-    this.Material.bumpScale = Math.round((event.value + Number.EPSILON) * 100) / 100;
+  public onBumpMapScaleChanged(event: number): void {
+    this.Material.bumpScale = event;
     this.updateMaterial(this.Material);
   }
 
@@ -188,6 +208,30 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
       this.Material.emissiveMap = null;
       (this.Material.material as THREE.MeshStandardMaterial).emissiveMap = null;
     }
+    this.updateMaterial(this.Material);
+  }
+
+  public onNormalMapChanged(event: Texture): void {
+    if (event) {
+      if (this.Material.normalMap !== event) {
+        this.Material.normalMap = event;
+        (this.Material.material as THREE.MeshStandardMaterial).normalMap = event.texture;
+        this.Material.update();
+      }
+    } else {
+      this.Material.normalMap = null;
+      (this.Material.material as THREE.MeshStandardMaterial).normalMap = null;
+    }
+    this.updateMaterial(this.Material);
+  }
+
+  public onNormalMapScaleUChanged(value: number): void {
+    this.Material.normalScale = new THREE.Vector2(value, this.Material.normalScale.y);
+    this.updateMaterial(this.Material);
+  }
+
+  public onNormalMapScaleVChanged(value: number): void {
+    this.Material.normalScale = new THREE.Vector2(this.Material.normalScale.x, value);
     this.updateMaterial(this.Material);
   }
 

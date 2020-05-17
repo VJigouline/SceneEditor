@@ -8,6 +8,9 @@ import { MatSelectChange } from '@angular/material/select';
 import { Point3 } from '../../geometries/point3';
 import { MatSliderChange } from '@angular/material/slider';
 import { Vector2 } from '../../geometries/vector2';
+import { TextureUsage } from '../texture-type.enum';
+import { MeshStandardMaterial } from 'three';
+import { MaterialType } from 'src/app/materials/material-type.enum';
 
 @Component({
   selector: 'app-texture-editor',
@@ -20,6 +23,9 @@ export class TextureEditorComponent implements OnInit {
 
   // events
   @Output() changedTexture = new EventEmitter<Texture>();
+  @Output() changedScale = new EventEmitter<number>();
+  @Output() changedScale2 = new EventEmitter<number>();
+  @Output() changedNormalMapType = new EventEmitter<THREE.NormalMapTypes>();
 
   // View area size.
   @Input() Material: Material;
@@ -38,14 +44,61 @@ export class TextureEditorComponent implements OnInit {
       }
     }
   }
+  @Input() Usage = TextureUsage.TEXTURE;
   public get hasImage(): boolean { return !!this.texture && !!this.texture.image; }
   public get Name(): string { return this.texture.name; }
   public set Name(value: string) { this.texture.name = value; }
+  public get hasScale(): boolean { return this.hasImage &&
+    (this.Usage === TextureUsage.BUMP_MAP || this.Usage === TextureUsage.NORMAL_MAP); }
+  public get hasScale2(): boolean { return this.hasImage && this.Usage === TextureUsage.NORMAL_MAP; }
+  public get scaleName(): string { return this.hasScale2 ? 'Normal map scale U' : 'Bump map scale'; }
+  public get scaleValue(): number {
+    if (this.hasScale) {
+      if (this.Usage === TextureUsage.BUMP_MAP) {
+        if (this.Material.type === MaterialType.MESH_STANDARD) {
+          return (this.Material as undefined as MeshStandardMaterial).bumpScale;
+        }
+      } else {
+        if (this.Material.type === MaterialType.MESH_STANDARD) {
+          return (this.Material as undefined as MeshStandardMaterial).normalScale.x;
+        }
+      }
+    }
+    return 1;
+  }
+  public set scaleValue(value: number) {}
+  public get scale2Value(): number {
+    if (this.hasScale2) {
+      if (this.Material.type === MaterialType.MESH_STANDARD) {
+        return (this.Material as undefined as MeshStandardMaterial).normalScale.y;
+      }
+    }
+    return 1;
+  }
+  public set scale2Value(value: number) {}
+  public get normalMapMapping(): THREE.NormalMapTypes {
+    if (this.hasScale2) {
+      return (this.Material as undefined as MeshStandardMaterial).normalMapType;
+    }
+
+    return THREE.TangentSpaceNormalMap;
+  }
+  public set normalMapMapping(value: THREE.NormalMapTypes) {
+    if (this.hasScale2) {
+      (this.Material as undefined as MeshStandardMaterial).normalMapType = value;
+      this.changedTexture.emit(this.Texture);
+    }
+  }
 
   public wrappingTypes = [
     { type: THREE.RepeatWrapping, name: 'Repeat' },
     { type: THREE.ClampToEdgeWrapping, name: 'Clamp to edges' },
     { type: THREE.MirroredRepeatWrapping, name: 'Mirrored repeat' }
+  ];
+
+  public normalMapMappings = [
+    { type: THREE.TangentSpaceNormalMap, name: 'Tangent space' },
+    { type: THREE.ObjectSpaceNormalMap, name: 'Object space' },
   ];
 
   public get Offset(): Point3 { return new Point3(this.Texture.offset.X, this.texture.offset.Y, 0); }
@@ -121,6 +174,19 @@ export class TextureEditorComponent implements OnInit {
   public onRotationChanged(event: MatSliderChange): void {
     this.Texture.rotation = Math.round((event.value + Number.EPSILON) * 100) / 100;
     this.Texture.texture.needsUpdate = true;
+    this.changedTexture.emit(this.Texture);
+  }
+
+  public onScaleChanged(event: MatSliderChange): void {
+    this.changedScale.emit(Math.round((event.value + Number.EPSILON) * 100) / 100);
+  }
+
+  public onScale2Changed(event: MatSliderChange): void {
+    this.changedScale2.emit(Math.round((event.value + Number.EPSILON) * 100) / 100);
+  }
+
+  public onNormalMapMappingChange(change: MatSelectChange): void {
+    this.changedNormalMapType.emit(change.value);
     this.changedTexture.emit(this.Texture);
   }
 }

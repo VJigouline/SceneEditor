@@ -103,20 +103,13 @@
             <mat-panel-title>Bump map</mat-panel-title>
         </mat-expansion-panel-header>
         <div *ngIf="Material" class="row">
-            <div class="col label">
-                Bump map scale {{BumpMapScale}}
-                <mat-slider min="-1" max="1" step="0.01"
-                (input)="onBumpMapScaleChanged($event)"
-                [(value)]="BumpMapScale"
-                ></mat-slider>
-            </div>
-        </div>
-        <div *ngIf="Material" class="row">
             <div class="col">
                 <app-texture-editor #TextureEditor 
                 [Material]="Material"
                 [Texture]="BumpMap"
+                [Usage]="bumpMapUsage"
                 (changedTexture)="onBumpMapChanged($event)"
+                (changedScale)="onBumpMapScaleChanged($event)"
                 ></app-texture-editor>
             </div>
         </div>
@@ -165,6 +158,23 @@
                 [Material]="Material"
                 [Texture]="EmissiveMap"
                 (changedTexture)="onEmissiveMapChanged($event)"
+                ></app-texture-editor>
+            </div>
+        </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>Normal map</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngIf="Material" class="row">
+            <div class="col">
+                <app-texture-editor #TextureEditor 
+                [Material]="Material"
+                [Texture]="NormalMap"
+                [Usage]="normalMapUsage"
+                (changedTexture)="onNormalMapChanged($event)"
+                (changedScale)="onNormalMapScaleUChanged($event)"
+                (changedScale2)="onNormalMapScaleVChanged($event)"
                 ></app-texture-editor>
             </div>
         </div>

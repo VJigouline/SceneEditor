@@ -15,6 +15,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import { BaseMaterialEditorComponent } from './base-material-editor/base-material-editor.component';
 import { TexturesModule } from '../textures/textures.module';
 import { MaterialPreviewComponent } from './material-preview/material-preview.component';
+import { UserControlsModule } from '../user-controls/user-controls.module';
 
 @NgModule({
   declarations: [NewMaterialComponent, MeshStandardMaterialEditorComponent, BaseMaterialEditorComponent, MaterialPreviewComponent],
@@ -30,7 +31,8 @@ import { MaterialPreviewComponent } from './material-preview/material-preview.co
     MatSliderModule,
     ReactiveFormsModule,
     ColorPickerModule,
-    TexturesModule
+    TexturesModule,
+    UserControlsModule
   ],
   exports: [
     NewMaterialComponent,

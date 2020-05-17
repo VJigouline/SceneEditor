@@ -543,6 +543,19 @@ MeshToonMaterial [label="{MeshToonMaterial |
  TextureType [label="{TextureType |
     TEXTURE = 'Texture'
  }"]
+ TextureUsage [label="{TextureUsage |
+    ALPHA_MAP = 1\n
+    AO_MAP\n
+    BUMP_MAP\n
+    DISPLACEMENT_MAP\n
+    EMISSIVE_MAP\n
+    ENVIRONMENT_MAP\n
+    LIGHT_MAP\n
+    TEXTURE\n
+    METALNESS_MAP\n
+    NORMAL_MAP\n
+    ROUGHNESS_MAP
+ }"]
 
  // External classes.
  node [fillcolor="green"];
@@ -737,7 +750,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
    onBaseMaterialChanged(material: MeshStandardMaterial): void\n
    onAlphaMapChanged(event: Texture): void\n
    onBumpMapChanged(event: Texture): void\n
-   onBumpMapScaleChanged(event: MatSliderChange): void\n
+   onBumpMapScaleChanged(event: number): void\n
    onColourChanged(colour: string): void\n
    onDisplacementMapChanged(event: Texture): void\n
    onDisplacementMapScaleChanged(event: MatSliderChange): void\n
@@ -746,6 +759,9 @@ MeshToonMaterial [label="{MeshToonMaterial |
    onEmissiveMapChanged(event: Texture): void\n
    onMetalnessChanged(event: MatSliderChange): void\n
    onMetalnessMapChanged(event: Texture): void\n
+   onNormalMapChanged(event: Texture): void\n
+   onNormalMapScaleUChanged(value: number): void\n
+   onNormalMapScaleVChanged(value: number): void\n
    onRoughnessChanged(event: MatSliderChange): void\n
    onRoughnessMapChanged(event: Texture): void\n
    onTextureChanged(event: Texture): void\n
@@ -762,6 +778,9 @@ MeshToonMaterial [label="{MeshToonMaterial |
    DisplacementMapBias: number\n
    DisplacementMapScale: number\n
    EmissiveMap: Texture\n
+   NormalMap: Texture\n
+   NormalMapScale: Point3\n
+   NormalMapType: THREE.NormalMapTypes\n
    MetalnessMap: Texture\n
    RoughnessMap: Texture\n
 }"]
@@ -899,11 +918,18 @@ MeshToonMaterial [label="{MeshToonMaterial |
    constructor(private sceneService: ThreeSceneService)\n
    onDelete(): void\n
    onImageImport(event: any): void\n
+   onNormalMapMappingChange(change: MatSelectChange): void\n
+   onScaleChanged(event: MatSliderChange): void\n
+   onScale2Changed(event: MatSliderChange): void\n
    onWrapUChange(change: MatSelectChange): void\n
    onWrapVChange(change: MatSelectChange): void
    |
    @Input() Material: Material;\n
-   @Input() Texture(): Texture\n
+   @Input() Texture: Texture\n
+   @Input() Usage: TextureUsage\n
+   @Output() changedNormalMapType: THREE.NormalMapTypes\n
+   @Output() changedScale: number\n
+   @Output() changedScale2: number\n
    @Output() changedTexture: Texture\n
    Name: string
 }"]
@@ -1104,8 +1130,10 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MeshStandardMaterial->Texture
  MeshStandardMaterialEditorComponent->BaseMaterialEditorComponent
  MeshStandardMaterialEditorComponent->MeshStandardMaterial
+ MeshStandardMaterialEditorComponent->Point3
  MeshStandardMaterialEditorComponent->Texture
  MeshStandardMaterialEditorComponent->TextureEditorComponent
+ MeshStandardMaterialEditorComponent->TextureUsage
  MeshToonMaterial->Material
  Point3DComponent->Point3
  PointLight->Light
@@ -1134,10 +1162,13 @@ MeshToonMaterial [label="{MeshToonMaterial |
  Texture->TextureType
  Texture->Vector2
  TextureEditorComponent->Material
+ TextureEditorComponent->MaterialType
+ TextureEditorComponent->MeshStandardMaterial
  TextureEditorComponent->Point3
  TextureEditorComponent->Point3DComponent
  TextureEditorComponent->Texture
  TextureEditorComponent->ThreeSceneService
+ TextureEditorComponent->TextureUsage
  TextureEditorComponent->Vector2
  ThreeSceneService->ColladaLoader
  ThreeSceneService->DRACOLoader

@@ -1,3 +1,17 @@
 export enum TextureType {
     TEXTURE = 'Texture'
 }
+
+export enum TextureUsage {
+    ALPHA_MAP = 1,
+    AO_MAP,
+    BUMP_MAP,
+    DISPLACEMENT_MAP,
+    EMISSIVE_MAP,
+    ENVIRONMENT_MAP,
+    LIGHT_MAP,
+    TEXTURE,
+    METALNESS_MAP,
+    NORMAL_MAP,
+    ROUGHNESS_MAP
+}

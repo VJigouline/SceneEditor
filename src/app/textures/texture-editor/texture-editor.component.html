@@ -66,6 +66,36 @@
             ></mat-slider>
         </div>
     </div>
+    <div *ngIf="hasScale2" class="row">
+        <div class="col">
+            <mat-form-field class="full-width">
+            <mat-label>Normal map type</mat-label>
+            <mat-select [(value)]="normalMapMapping"
+            (selectionChange)="onNormalMapMappingChange($event)"
+            >
+                <mat-option *ngFor="let type of normalMapMappings" [value]="type.type">{{type.name}}</mat-option>
+            </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <div *ngIf="hasScale" class="row">
+        <div class="col label">
+            {{scaleName}} {{scaleValue}}
+            <mat-slider min="-1" max="1" step="0.01"
+            (input)="onScaleChanged($event)"
+            [(value)]="scaleValue"
+            ></mat-slider>
+        </div>
+    </div>
+    <div *ngIf="hasScale2" class="row">
+        <div class="col label">
+            'Normal map scale V' {{scale2Value}}
+            <mat-slider min="-1" max="1" step="0.01"
+            (input)="onScale2Changed($event)"
+            [(value)]="scale2Value"
+            ></mat-slider>
+        </div>
+    </div>
 </ng-container>
 <mat-card-actions>
     <input
