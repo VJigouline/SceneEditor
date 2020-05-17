@@ -736,6 +736,8 @@ MeshToonMaterial [label="{MeshToonMaterial |
    ngOnInit()\n
    onBaseMaterialChanged(material: MeshStandardMaterial): void\n
    onAlphaMapChanged(event: Texture): void\n
+   onBumpMapChanged(event: Texture): void\n
+   onBumpMapScaleChanged(event: MatSliderChange): void\n
    onColourChanged(colour: string): void\n
    onEmissiveIntensityChanged(event: MatSliderChange): void\n
    onMetalnessChanged(event: MatSliderChange): void\n
@@ -747,6 +749,8 @@ MeshToonMaterial [label="{MeshToonMaterial |
    @Output() materialChange: MeshStandardMaterial\n
    @Input() Material: MeshStandardMaterial\n
    AlphaMap: Texture\n
+   BumpMap: Texture\n
+   BumpMapScale: number\n
    ColourTexture: Texture
 }"]
  NewLightComponent [label="{NewLightComponent |

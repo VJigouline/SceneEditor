@@ -29,6 +29,14 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
     return this.Material ? this.Material.alphaMap : null;
   }
   public set AlphaMap(value: Texture) {}
+  public get BumpMap(): Texture {
+    return this.Material ? this.Material.bumpMap : null;
+  }
+  public set BumpMap(value: Texture) {}
+  public get BumpMapScale(): number {
+    return this.Material ? this.Material.bumpScale : 1;
+  }
+  public set BumpMapScale(value: number) {}
 
   constructor() { }
 
@@ -95,6 +103,24 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
     } else {
       this.Material.alphaMap = null;
     }
+    this.updateMaterial(this.Material);
+  }
+
+  public onBumpMapChanged(event: Texture): void {
+    if (event) {
+      if (this.Material.bumpMap !== event) {
+        this.Material.bumpMap = event;
+        (this.Material.material as THREE.MeshStandardMaterial).bumpMap = event.texture;
+        this.Material.update();
+      }
+    } else {
+      this.Material.bumpMap = null;
+    }
+    this.updateMaterial(this.Material);
+  }
+
+  public onBumpMapScaleChanged(event: MatSliderChange): void {
+    this.Material.bumpScale = Math.round((event.value + Number.EPSILON) * 100) / 100;
     this.updateMaterial(this.Material);
   }
 }
