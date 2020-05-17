@@ -171,7 +171,7 @@
     </mat-expansion-panel>
     <mat-expansion-panel>
         <mat-expansion-panel-header>
-            <mat-panel-title>Metalness map</mat-panel-title>
+            <mat-panel-title>Metalness/Roughness map</mat-panel-title>
         </mat-expansion-panel-header>
         <div *ngIf="Material" class="row">
             <div class="col">
@@ -183,6 +183,7 @@
             </div>
         </div>
     </mat-expansion-panel>
+    <!--
     <mat-expansion-panel>
         <mat-expansion-panel-header>
             <mat-panel-title>Roughness map</mat-panel-title>
@@ -197,6 +198,7 @@
             </div>
         </div>
     </mat-expansion-panel>
+    -->
 </mat-accordion>
 <app-base-material-editor
     (materialChange)="onBaseMaterialChanged($event)"

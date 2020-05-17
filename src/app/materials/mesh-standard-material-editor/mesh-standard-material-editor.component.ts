@@ -190,7 +190,9 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
     if (event) {
       if (this.Material.metalnessMap !== event) {
         this.Material.metalnessMap = event;
+        this.Material.roughnessMap = event;
         (this.Material.material as THREE.MeshStandardMaterial).metalnessMap = event.texture;
+        (this.Material.material as THREE.MeshStandardMaterial).roughnessMap = event.texture;
         this.Material.update();
       }
     } else {
