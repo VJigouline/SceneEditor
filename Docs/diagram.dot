@@ -747,6 +747,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
    onMetalnessChanged(event: MatSliderChange): void\n
    onMetalnessMapChanged(event: Texture): void\n
    onRoughnessChanged(event: MatSliderChange): void\n
+   onRoughnessMapChanged(event: Texture): void\n
    onTextureChanged(event: Texture): void\n
    onWireframeChange(event: MatCheckboxChange): void\n
    onWireframeLinewidthChanged(event: MatSliderChange): void
@@ -762,6 +763,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
    DisplacementMapScale: number\n
    EmissiveMap: Texture\n
    MetalnessMap: Texture\n
+   RoughnessMap: Texture\n
 }"]
  NewLightComponent [label="{NewLightComponent |
    constructor()\n

@@ -57,6 +57,10 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
     return this.Material ? this.Material.metalnessMap : null;
   }
   public set MetalnessMap(value: Texture) {}
+  public get RoughnessMap(): Texture {
+    return this.Material ? this.Material.roughnessMap : null;
+  }
+  public set RoughnessMap(value: Texture) {}
 
   constructor() { }
 
@@ -191,6 +195,19 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
       }
     } else {
       this.Material.metalnessMap = null;
+    }
+    this.updateMaterial(this.Material);
+  }
+
+  public onRoughnessMapChanged(event: Texture): void {
+    if (event) {
+      if (this.Material.roughnessMap !== event) {
+        this.Material.roughnessMap = event;
+        (this.Material.material as THREE.MeshStandardMaterial).roughnessMap = event.texture;
+        this.Material.update();
+      }
+    } else {
+      this.Material.roughnessMap = null;
     }
     this.updateMaterial(this.Material);
   }
