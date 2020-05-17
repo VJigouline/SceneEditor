@@ -37,6 +37,18 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
     return this.Material ? this.Material.bumpScale : 1;
   }
   public set BumpMapScale(value: number) {}
+  public get DisplacementMap(): Texture {
+    return this.Material ? this.Material.displacementMap : null;
+  }
+  public set DisplacementMap(value: Texture) {}
+  public get DisplacementMapScale(): number {
+    return this.Material ? this.Material.displacementScale : 1;
+  }
+  public set DisplacementMapScale(value: number) {}
+  public get DisplacementMapBias(): number {
+    return this.Material ? this.Material.displacementBias : 1;
+  }
+  public set DisplacementMapBias(value: number) {}
 
   constructor() { }
 
@@ -121,6 +133,31 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
 
   public onBumpMapScaleChanged(event: MatSliderChange): void {
     this.Material.bumpScale = Math.round((event.value + Number.EPSILON) * 100) / 100;
+    this.updateMaterial(this.Material);
+  }
+
+  public onDisplacementMapChanged(event: Texture): void {
+    if (event) {
+      if (this.Material.displacementMap !== event) {
+        this.Material.displacementMap = event;
+        (this.Material.material as THREE.MeshStandardMaterial).displacementMap = event.texture;
+        this.Material.update();
+      }
+    } else {
+      this.Material.displacementMap = null;
+    }
+    this.updateMaterial(this.Material);
+  }
+
+  public onDisplacementMapScaleChanged(event: MatSliderChange): void {
+    this.Material.displacementScale = Math.round((event.value + Number.EPSILON) * 100) / 100;
+    this.Material.update();
+    this.updateMaterial(this.Material);
+  }
+
+  public onDisplacementMapBiasChanged(event: MatSliderChange): void {
+    this.Material.displacementBias = Math.round((event.value + Number.EPSILON) * 100) / 100;
+    this.Material.update();
     this.updateMaterial(this.Material);
   }
 }

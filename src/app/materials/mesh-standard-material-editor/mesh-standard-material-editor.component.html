@@ -121,18 +121,41 @@
             </div>
         </div>
     </mat-expansion-panel>
+    <!--
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>Displacement map</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngIf="Material" class="row">
+            <div class="col label">
+                Displacement map scale {{DisplacementMapScale}}
+                <mat-slider min="-10" max="10" step="0.01"
+                (input)="onDisplacementMapScaleChanged($event)"
+                [(value)]="DisplacementMapScale"
+                ></mat-slider>
+            </div>
+        </div>
+        <div *ngIf="Material" class="row">
+            <div class="col label">
+                Displacement map bias {{DisplacementMapBias}}
+                <mat-slider min="-10" max="10" step="0.01"
+                (input)="onDisplacementMapBiasChanged($event)"
+                [(value)]="DisplacementMapBias"
+                ></mat-slider>
+            </div>
+        </div>
+        <div *ngIf="Material" class="row">
+            <div class="col">
+                <app-texture-editor #TextureEditor 
+                [Material]="Material"
+                [Texture]="DisplacementMap"
+                (changedTexture)="onDisplacementMapChanged($event)"
+                ></app-texture-editor>
+            </div>
+        </div>
+    </mat-expansion-panel>
+    -->
 </mat-accordion>
-<!--
-<div *ngIf="Material && Material.wireframe" class="row">
-    <div class="col label">
-        Wireframe line width {{Material.wireframeLinewidth}}
-        <mat-slider min="0" max="10" step="1"
-        (input)="onWireframeLinewidthChanged($event)"
-        [(value)]="Material.wireframeLinewidth"
-        ></mat-slider>
-    </div>
-</div>
--->
 <app-base-material-editor
     (materialChange)="onBaseMaterialChanged($event)"
     [(Material)]="Material"

@@ -84,7 +84,7 @@ export class MaterialPreviewComponent implements OnInit, AfterViewInit {
     this.sceneService.addCurrentLights(this.scene);
     this.scene.add( object );
     const box = new THREE.Box3().setFromObject(object);
-    this.sceneService.rescaleScene(this.camera, box);
+    this.sceneService.rescaleScene(this.camera, box, this.orbitControls);
     this.Render();
   }
 
