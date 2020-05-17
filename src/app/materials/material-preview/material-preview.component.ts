@@ -75,10 +75,28 @@ export class MaterialPreviewComponent implements OnInit, AfterViewInit {
     this.scene.add( this.objectDefault );
     const box = new THREE.Box3().setFromObject(this.objectDefault);
     this.sceneService.rescaleScene(this.camera, box);
-}
+  }
+
+  private resetScene(object: THREE.Object3D) {
+    if (!object) { object = this.objectDefault; }
+    this.object = object;
+    this.scene = new THREE.Scene();
+    this.sceneService.addCurrentLights(this.scene);
+    this.scene.add( object );
+    const box = new THREE.Box3().setFromObject(object);
+    this.sceneService.rescaleScene(this.camera, box);
+    this.Render();
+  }
 
   public Render(): void {
+    let update = false;
+    if (this.object && this.object instanceof THREE.Mesh) {
+      update = ((this.object as THREE.Mesh).material as THREE.Material).needsUpdate;
+    }
     this.renderer.render(this.scene, this.camera);
+    if (update) {
+      ((this.object as THREE.Mesh).material as THREE.Material).needsUpdate = true;
+    }
   }
 
   private onOrbitControlChange(): void {
@@ -107,27 +125,13 @@ export class MaterialPreviewComponent implements OnInit, AfterViewInit {
 
   public updateObject(object: THREE.Object3D): void {
     if (this.object === object) { return; }
-    if (this.object) {
-      this.sceneService.removeObjectFromScene(this.object, this.scene);
-    } else if (object) {
-      this.sceneService.removeObjectFromScene(this.objectDefault, this.scene);
-    }
-    this.object = null;
+    let o = null;
     if (object instanceof THREE.Mesh) {
-      this.object = (object as THREE.Mesh).clone();
-      this.object.matrixAutoUpdate = false;
-      this.object.matrix.copy(this.object.matrixWorld);
+      o = (object as THREE.Mesh).clone();
+      o.matrixAutoUpdate = false;
+      o.matrix.copy(object.matrixWorld);
     }
-    if (this.object instanceof THREE.Mesh) {
-      this.scene.add(this.object);
-      const box = new THREE.Box3().setFromObject(this.object);
-      this.sceneService.rescaleScene(this.camera, box, this.orbitControls);
-    } else {
-      this.scene.add(this.objectDefault);
-      const box2 = new THREE.Box3().setFromObject(this.objectDefault);
-      this.sceneService.rescaleScene(this.camera, box2, this.orbitControls);
-    }
-    this.Render();
+    this.resetScene(o);
   }
 
   public onEditorResized(event: ResizedEvent): void {
