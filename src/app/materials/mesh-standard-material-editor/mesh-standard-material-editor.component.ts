@@ -53,6 +53,10 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
     return this.Material ? this.Material.emissiveMap : null;
   }
   public set EmissiveMap(value: Texture) {}
+  public get MetalnessMap(): Texture {
+    return this.Material ? this.Material.metalnessMap : null;
+  }
+  public set MetalnessMap(value: Texture) {}
 
   constructor() { }
 
@@ -174,6 +178,19 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
       }
     } else {
       this.Material.emissiveMap = null;
+    }
+    this.updateMaterial(this.Material);
+  }
+
+  public onMetalnessMapChanged(event: Texture): void {
+    if (event) {
+      if (this.Material.metalnessMap !== event) {
+        this.Material.metalnessMap = event;
+        (this.Material.material as THREE.MeshStandardMaterial).metalnessMap = event.texture;
+        this.Material.update();
+      }
+    } else {
+      this.Material.metalnessMap = null;
     }
     this.updateMaterial(this.Material);
   }

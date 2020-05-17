@@ -741,10 +741,11 @@ MeshToonMaterial [label="{MeshToonMaterial |
    onColourChanged(colour: string): void\n
    onDisplacementMapChanged(event: Texture): void\n
    onDisplacementMapScaleChanged(event: MatSliderChange): void\n
+   onDisplacementMapBiasChanged(event: MatSliderChange): void\n
    onEmissiveIntensityChanged(event: MatSliderChange): void\n
    onEmissiveMapChanged(event: Texture): void\n
-   onDisplacementMapBiasChanged(event: MatSliderChange): void\n
    onMetalnessChanged(event: MatSliderChange): void\n
+   onMetalnessMapChanged(event: Texture): void\n
    onRoughnessChanged(event: MatSliderChange): void\n
    onTextureChanged(event: Texture): void\n
    onWireframeChange(event: MatCheckboxChange): void\n
@@ -760,6 +761,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
    DisplacementMapBias: number\n
    DisplacementMapScale: number\n
    EmissiveMap: Texture\n
+   MetalnessMap: Texture\n
 }"]
  NewLightComponent [label="{NewLightComponent |
    constructor()\n
