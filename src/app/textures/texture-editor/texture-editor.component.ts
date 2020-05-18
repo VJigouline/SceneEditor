@@ -11,6 +11,7 @@ import { Vector2 } from '../../geometries/vector2';
 import { TextureUsage } from '../texture-type.enum';
 import { MeshStandardMaterial } from 'three';
 import { MaterialType } from 'src/app/materials/material-type.enum';
+import { Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-texture-editor',
@@ -35,11 +36,7 @@ export class TextureEditorComponent implements OnInit {
     if (this.imagePreview) {
       this.imagePreview.nativeElement.innerHTML = '';
       if (value && value.image) {
-        // if (value.image.width > 250) {
-        //   const f = 250 / value.image.width;
-        //   value.image.width = 250;
-        //   value.image.height *= f;
-        // }
+        this.renderer.setStyle(value.texture.image, 'max-width', '100%');
         this.imagePreview.nativeElement.appendChild(value.texture.image);
       }
     }
@@ -113,7 +110,8 @@ export class TextureEditorComponent implements OnInit {
   private texture: Texture;
 
   constructor(
-    private sceneService: ThreeSceneService
+    private sceneService: ThreeSceneService,
+    private renderer: Renderer2
   ) { }
 
   ngOnInit(): void {

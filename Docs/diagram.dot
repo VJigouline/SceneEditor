@@ -915,7 +915,8 @@ MeshToonMaterial [label="{MeshToonMaterial |
    @Input() Light: SpotLight
 }"]
  TextureEditorComponent [label="{TextureEditorComponent |
-   constructor(private sceneService: ThreeSceneService)\n
+   constructor(private sceneService: ThreeSceneService,\n
+    private renderer: Renderer2)\n
    onDelete(): void\n
    onImageImport(event: any): void\n
    onNormalMapMappingChange(change: MatSelectChange): void\n
