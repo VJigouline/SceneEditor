@@ -82,13 +82,13 @@ export class Texture {
     public set wrapS(value: THREE.Wrapping) {
         if (this.texture.wrapS === value) { return; }
         this.texture.wrapS = value;
-        this.texture.needsUpdate = true;
+        // this.texture.needsUpdate = true;
     }
     public get wrapT(): THREE.Wrapping { return this.texture.wrapT; }
     public set wrapT(value: THREE.Wrapping) {
         if (this.texture.wrapT === value) { return; }
         this.texture.wrapT = value;
-        this.texture.needsUpdate = true;
+        // this.texture.needsUpdate = true;
      }
 
     // ThreeJS texture

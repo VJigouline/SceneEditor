@@ -164,6 +164,22 @@
     </mat-expansion-panel>
     <mat-expansion-panel>
         <mat-expansion-panel-header>
+            <mat-panel-title>Environment map</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngIf="Material" class="row">
+            <div class="col">
+                <app-texture-editor #TextureEditor 
+                [Material]="Material"
+                [Texture]="EnvironmentMap"
+                [Usage]="environmentMapUsage"
+                (changedTexture)="onEnvironmentMapChanged($event)"
+                (changedScale)="onEnvironmentMapIntensityChanged($event)"
+                ></app-texture-editor>
+            </div>
+        </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
             <mat-panel-title>Normal map</mat-panel-title>
         </mat-expansion-panel-header>
         <div *ngIf="Material" class="row">

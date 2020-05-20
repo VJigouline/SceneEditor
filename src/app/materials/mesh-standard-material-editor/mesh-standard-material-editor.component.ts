@@ -57,6 +57,14 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
     return this.Material ? this.Material.emissiveMap : null;
   }
   public set EmissiveMap(value: Texture) {}
+  public get EnvironmentMap(): Texture {
+    return this.Material ? this.Material.envMap : null;
+  }
+  public set EnvironmentMap(value: Texture) {}
+  public get EnvironmentMapIntensity(): number {
+    return this.Material ? this.Material.envMapIntensity : 1;
+  }
+  public set EnvironmentMapIntensity(value: number) {}
   public get NormalMap(): Texture {
     return this.Material ? this.Material.normalMap : null;
   }
@@ -81,6 +89,7 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
 
   bumpMapUsage = TextureUsage.BUMP_MAP;
   normalMapUsage = TextureUsage.NORMAL_MAP;
+  environmentMapUsage = TextureUsage.ENVIRONMENT_MAP;
 
   constructor() { }
 
@@ -208,6 +217,25 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
       this.Material.emissiveMap = null;
       (this.Material.material as THREE.MeshStandardMaterial).emissiveMap = null;
     }
+    this.updateMaterial(this.Material);
+  }
+
+  public onEnvironmentMapChanged(event: Texture): void {
+    if (event) {
+      if (this.Material.envMap !== event) {
+        this.Material.envMap = event;
+        (this.Material.material as THREE.MeshStandardMaterial).envMap = event.texture;
+        this.Material.update();
+      }
+    } else {
+      this.Material.envMap = null;
+      (this.Material.material as THREE.MeshStandardMaterial).envMap = null;
+    }
+    this.updateMaterial(this.Material);
+  }
+
+  public onEnvironmentMapIntensityChanged(value: number): void {
+    this.Material.envMapIntensity = value;
     this.updateMaterial(this.Material);
   }
 
