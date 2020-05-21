@@ -11,6 +11,8 @@ import { TextureUsage } from '../texture-type.enum';
 import { MeshStandardMaterial } from 'three';
 import { MaterialType } from 'src/app/materials/material-type.enum';
 import { Renderer2 } from '@angular/core';
+import { CubeMapDialogComponent, CubeMapDialogData } from '../cube-map-dialog/cube-map-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-texture-editor',
@@ -107,11 +109,21 @@ export class TextureEditorComponent implements OnInit {
     this.Texture.repeat = new Vector2(value.X, value.Y);
   }
 
+  environmentMapUsage = TextureUsage.ENVIRONMENT_MAP;
+
   private texture: Texture;
+  private data: CubeMapDialogData = {
+    imgNegX: null, imgPosX: null,
+    imgNegY: null, imgPosY: null,
+    imgNegZ: null, imgPosZ: null
+  };
+
+  private images: HTMLImageElement[] = [];
 
   constructor(
     private sceneService: ThreeSceneService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -122,6 +134,43 @@ export class TextureEditorComponent implements OnInit {
   }
 
   public onImageImport(event: any): void {
+    if (!event) {
+      if (this.Usage === TextureUsage.ENVIRONMENT_MAP) {
+        const dialogRef = this.dialog.open(CubeMapDialogComponent, {
+          disableClose: true,
+          width: '840px',
+          data: this.data
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          if (result) {
+            if (this.hasImage) {
+              if (this.data.imgPosX) { this.Texture.image[0] = this.data.imgPosX; }
+              if (this.data.imgNegX) { this.Texture.image[1] = this.data.imgNegX; }
+              if (this.data.imgPosY) { this.Texture.image[2] = this.data.imgPosY; }
+              if (this.data.imgNegY) { this.Texture.image[3] = this.data.imgNegY; }
+              if (this.data.imgPosZ) { this.Texture.image[4] = this.data.imgPosZ; }
+              if (this.data.imgNegZ) { this.Texture.image[5] = this.data.imgNegZ; }
+              this.Texture.texture.needsUpdate = true;
+              this.changedTexture.emit(this.Texture);
+            } else {
+              const a = new THREE.CubeTextureLoader().load([
+                this.data.imgPosX.src, this.data.imgNegX.src,
+                this.data.imgPosY.src, this.data.imgNegY.src,
+                this.data.imgPosZ.src, this.data.imgNegZ.src],
+                (texture) => {
+                  this.Texture = Texture.CreateTexture(texture);
+                  this.changedTexture.emit(this.Texture);
+                }
+              );
+            }
+          }
+        });
+      } else {
+        console.error('Invalid event.');
+      }
+      return;
+    }
     const selectedFile = event.target.files[0];
     const fileUrl = URL.createObjectURL(selectedFile);
     if (this.hasImage) {
@@ -132,21 +181,23 @@ export class TextureEditorComponent implements OnInit {
       } else {
         this.Texture.texture.image.src = fileUrl;
       }
-      this.changedTexture.emit(this.Texture);
+      // this.changedTexture.emit(this.Texture);
     } else {
       if (this.Usage === TextureUsage.ENVIRONMENT_MAP) {
-        new THREE.CubeTextureLoader().load([URL.createObjectURL(selectedFile),
-          URL.createObjectURL(selectedFile), URL.createObjectURL(selectedFile),
-          URL.createObjectURL(selectedFile), URL.createObjectURL(selectedFile),
-          URL.createObjectURL(selectedFile)],
-          (texture) => {
-            this.Texture = Texture.CreateTexture(texture);
-            this.changedTexture.emit(this.Texture);
-          });
+        console.error('Invalid event.');
+        return;
       } else {
         new THREE.TextureLoader().load(fileUrl,
           (texture) => {
             this.Texture = Texture.CreateTexture(texture);
+            if (this.Usage === TextureUsage.ENVIRONMENT_MAP) {
+              this.Texture.texture.encoding = THREE.sRGBEncoding;
+              this.Texture.texture.mapping = THREE.SphericalReflectionMapping;
+              this.images.push(this.Texture.image as HTMLImageElement);
+              (this.Texture.image as HTMLImageElement).onload = () => {
+                this.changedTexture.emit(this.Texture);
+              }
+            }
             this.changedTexture.emit(this.Texture);
           });
       }

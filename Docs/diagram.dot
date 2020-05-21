@@ -1,6 +1,14 @@
 digraph SceneEditor {
  // Interfaces.
  node [shape=record, fontname="Calibri italic", fontsize="14", style="filled", fillcolor="lightyellow", shape="record"];
+ CubeMapDialogData [label="{CubeMapDialogData |
+  imgPosX: HTMLImageElement\n
+  imgNegX: HTMLImageElement\n
+  imgPosY: HTMLImageElement\n
+  imgNegY: HTMLImageElement\n
+  imgPosZ: HTMLImageElement\n
+  imgNegZ: HTMLImageElement\n
+ }"]
  DialogData [label="{DialogData |
   title: string\n
   label: string\n
@@ -591,6 +599,14 @@ MeshToonMaterial [label="{MeshToonMaterial |
    @Input() Material: Material\n
 }"]
  ConfirmationDialogComponent [label="{ConfirmationDialogComponent |
+   constructor(public dialogRef: MatDialogRef\<CubeMapDialogComponent\>,\n
+    private detector: ChangeDetectorRef,\n
+    @Inject(MAT_DIALOG_DATA) public data: CubeMapDialogData
+)\n
+   ngOnInit()
+   |
+}"]
+ CubeMapDialogComponent [label="{CubeMapDialogComponent |
    constructor(public dialogRef: MatDialogRef\<ConfirmationDialogComponent\>,\n
     @Inject(MAT_DIALOG_DATA) public data: DialogData)\n
    ngOnInit()
@@ -1011,6 +1027,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  AmbientLightEditorComponent->Light
  BaseMaterialEditorComponent->Material
  ConfirmationDialogComponent->DialogData
+ CubeMapDialogComponent->CubeMapDialogData
  DirectionalLight->Light
  DirectionalLightEditorComponent->DirectionalLight
  DirectionalLightEditorComponent->Point3
@@ -1162,6 +1179,8 @@ MeshToonMaterial [label="{MeshToonMaterial |
  SpriteMaterial->Material
  Texture->TextureType
  Texture->Vector2
+ TextureEditorComponent->CubeMapDialogComponent
+ TextureEditorComponent->CubeMapDialogData
  TextureEditorComponent->Material
  TextureEditorComponent->MaterialType
  TextureEditorComponent->MeshStandardMaterial

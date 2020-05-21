@@ -1,0 +1,59 @@
+<h2>Cube map image loader</h2>
+<mat-grid-list cols="4" rowHeight="200px">
+    <mat-grid-tile></mat-grid-tile>
+    <mat-grid-tile #posY [style.background]="'lightgray'">
+        <input
+        style="display: none"
+        type="file" (input)="onImagePosY($event)"
+        accept="image/*"
+        #imagePosYInput>
+        <button mat-button class="button ok" (click)="imagePosYInput.click()">Get +Y</button>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="2"></mat-grid-tile>
+    <mat-grid-tile #negX [style.background]="'lightgray'">
+        <input
+        style="display: none"
+        type="file" (input)="onImageNegX($event)"
+        accept="image/*"
+        #imageNegXInput>
+        <button mat-button class="button ok" (click)="imageNegXInput.click()">Get -X</button>
+    </mat-grid-tile>
+    <mat-grid-tile #posZ [style.background]="'lightgray'">
+        <input
+        style="display: none"
+        type="file" (input)="onImagePosZ($event)"
+        accept="image/*"
+        #imagePosZInput>
+        <button mat-button class="button ok" (click)="imagePosZInput.click()">Get +Z</button>
+    </mat-grid-tile>
+    <mat-grid-tile #posX [style.background]="'lightgray'">
+        <input
+        style="display: none"
+        type="file" (input)="onImagePosX($event)"
+        accept="image/*"
+        #imagePosXInput>
+        <button mat-button class="button ok" (click)="imagePosXInput.click()">Get +X</button>
+    </mat-grid-tile>
+    <mat-grid-tile #negZ [style.background]="'lightgray'">
+        <input
+        style="display: none"
+        type="file" (input)="onImageNegZ($event)"
+        accept="image/*"
+        #imageNegZInput>
+        <button mat-button class="button ok" (click)="imageNegZInput.click()">Get -Z</button>
+    </mat-grid-tile>
+    <mat-grid-tile></mat-grid-tile>
+    <mat-grid-tile #negY [style.background]="'lightgray'">
+        <input
+        style="display: none"
+        type="file" (input)="onImageNegY($event)"
+        accept="image/*"
+        #imageNegYInput>
+        <button mat-button class="button ok" (click)="imageNegYInput.click()">Get -Y</button>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="2"></mat-grid-tile>
+</mat-grid-list>
+<div mat-dialog-actions class="button">
+    <button mat-button class="button ok" [mat-dialog-close]="true" cdkFocusInitial [disabled]="invalid">Ok</button>
+    <button mat-button class="button cancel" (click)="onNoClick()">Cancel</button>
+</div>

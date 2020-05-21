@@ -105,7 +105,7 @@
         #imageInput>
     <button mat-raised-button color="primary" 
     type="button"
-    (click)="imageInput.click()"
+    (click)="Usage === environmentMapUsage ? onImageImport(null) : imageInput.click()"
     >Get image</button>
      <button mat-raised-button color="primary" 
     type="button"

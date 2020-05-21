@@ -1,0 +1,20 @@
+@import '../themes/default-dialog.scss';
+
+.button {
+    justify-content: flex-end !important;
+}
+
+  
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.col {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.col:last-child {
+    margin-right: 0;
+}
