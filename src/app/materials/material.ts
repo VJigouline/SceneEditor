@@ -1569,7 +1569,7 @@ export class MeshStandardMaterial extends Material {
         if (this.bumpMap) { this.bumpMap.texture.needsUpdate = true; }
         if (this.displacementMap) { this.displacementMap.texture.needsUpdate = true; }
         if (this.emissiveMap) { this.emissiveMap.texture.needsUpdate = true; }
-        // if (this.envMap) { this.envMap.texture.needsUpdate = true; }
+        if (this.envMap) { this.envMap.texture.needsUpdate = true; }
         if (this.lightMap) { this.lightMap.texture.needsUpdate = true; }
         if (this.map) { this.map.texture.needsUpdate = true; }
         if (this.metalnessMap) { this.metalnessMap.texture.needsUpdate = true; }
@@ -1638,7 +1638,7 @@ export class MeshPhysicalMaterial extends MeshStandardMaterial {
         if (this.bumpMap) { this.bumpMap.texture.needsUpdate = true; }
         if (this.displacementMap) { this.displacementMap.texture.needsUpdate = true; }
         if (this.emissiveMap) { this.emissiveMap.texture.needsUpdate = true; }
-        // if (this.envMap) { this.envMap.texture.needsUpdate = true; }
+        if (this.envMap) { this.envMap.texture.needsUpdate = true; }
         if (this.lightMap) { this.lightMap.texture.needsUpdate = true; }
         if (this.map) { this.map.texture.needsUpdate = true; }
         if (this.metalnessMap) { this.metalnessMap.texture.needsUpdate = true; }

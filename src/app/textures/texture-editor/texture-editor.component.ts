@@ -11,7 +11,6 @@ import { TextureUsage } from '../texture-type.enum';
 import { MeshStandardMaterial } from 'three';
 import { MaterialType } from 'src/app/materials/material-type.enum';
 import { Renderer2 } from '@angular/core';
-import { PMREMGenerator } from 'three/src/extras/PMREMGenerator';
 
 @Component({
   selector: 'app-texture-editor',
@@ -37,10 +36,8 @@ export class TextureEditorComponent implements OnInit {
       this.imagePreview.nativeElement.innerHTML = '';
       if (value && value.image) {
         const img = Array.isArray(value.image) ? value.image[0] : value.image;
-        if (img['style']) {
-          this.renderer.setStyle(img, 'max-width', '100%');
-          this.imagePreview.nativeElement.appendChild(img);
-        }
+        this.renderer.setStyle(img, 'max-width', '100%');
+        this.imagePreview.nativeElement.appendChild(img);
       }
     }
   }
@@ -135,7 +132,6 @@ export class TextureEditorComponent implements OnInit {
       } else {
         this.Texture.texture.image.src = fileUrl;
       }
-      // this.Texture.texture.needsUpdate = true;
       this.changedTexture.emit(this.Texture);
     } else {
       if (this.Usage === TextureUsage.ENVIRONMENT_MAP) {
@@ -145,14 +141,12 @@ export class TextureEditorComponent implements OnInit {
           URL.createObjectURL(selectedFile)],
           (texture) => {
             this.Texture = Texture.CreateTexture(texture);
-            this.Texture.texture.needsUpdate = true;
             this.changedTexture.emit(this.Texture);
           });
       } else {
         new THREE.TextureLoader().load(fileUrl,
           (texture) => {
             this.Texture = Texture.CreateTexture(texture);
-            // this.Texture.texture.needsUpdate = true;
             this.changedTexture.emit(this.Texture);
           });
       }
@@ -172,19 +166,16 @@ export class TextureEditorComponent implements OnInit {
 
   public onOffsetChange(position: Point3): void {
     this.Texture.offset = new Vector2(position.X, position.Y);
-    // this.Texture.texture.needsUpdate = true;
     this.changedTexture.emit(this.Texture);
   }
 
   public onRepeatChange(position: Point3): void {
     this.Texture.repeat = new Vector2(position.X, position.Y);
-    // this.Texture.texture.needsUpdate = true;
     this.changedTexture.emit(this.Texture);
   }
 
   public onRotationChanged(event: MatSliderChange): void {
     this.Texture.rotation = Math.round((event.value + Number.EPSILON) * 100) / 100;
-    // this.Texture.texture.needsUpdate = true;
     this.changedTexture.emit(this.Texture);
   }
 
