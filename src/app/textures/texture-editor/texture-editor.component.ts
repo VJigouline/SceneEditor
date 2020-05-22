@@ -144,7 +144,7 @@ export class TextureEditorComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
           if (result) {
-            if (this.hasImage) {
+            if (false && this.hasImage) {
               if (this.data.imgPosX) { this.Texture.image[0] = this.data.imgPosX; }
               if (this.data.imgNegX) { this.Texture.image[1] = this.data.imgNegX; }
               if (this.data.imgPosY) { this.Texture.image[2] = this.data.imgPosY; }
@@ -159,6 +159,8 @@ export class TextureEditorComponent implements OnInit {
                 this.data.imgPosY.src, this.data.imgNegY.src,
                 this.data.imgPosZ.src, this.data.imgNegZ.src],
                 (texture) => {
+                  texture.minFilter = THREE.LinearFilter;
+                  texture.magFilter = THREE.LinearFilter;
                   this.Texture = Texture.CreateTexture(texture);
                   this.changedTexture.emit(this.Texture);
                 }
