@@ -487,6 +487,8 @@ MeshToonMaterial [label="{MeshToonMaterial |
   Texture [label="{Texture |
     constructor(type: TextureType)\n
     static CreateTexture(texture: THREE.Texture): Texture\n
+    static img2base64(img: HTMLImageElement): string\n
+    static resizeImage(img: HTMLImageElement, width?: number, height?: number): HTMLImageElement\n
     static string2Image(img: string \| HTMLImageElement): HTMLImageElement\n
     clone(): Texture\n
     copy(texture: Texture): void

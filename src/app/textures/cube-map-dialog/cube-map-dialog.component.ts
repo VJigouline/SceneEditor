@@ -75,6 +75,7 @@ export class CubeMapDialogComponent implements OnInit, AfterViewInit {
     new THREE.ImageLoader().load(fileUrl,
       image => {
         this.data.imgNegX = image;
+        this.assignImages(image);
         this.negX._setStyle('background', this.bkgNegX);
         this.negX._setStyle('background-size', 'cover');
       }
@@ -87,6 +88,7 @@ export class CubeMapDialogComponent implements OnInit, AfterViewInit {
     new THREE.ImageLoader().load(fileUrl,
       image => {
         this.data.imgPosX = image;
+        this.assignImages(image);
         this.posX._setStyle('background', this.bkgPosX);
         this.posX._setStyle('background-size', 'cover');
       }
@@ -99,6 +101,7 @@ export class CubeMapDialogComponent implements OnInit, AfterViewInit {
     new THREE.ImageLoader().load(fileUrl,
       image => {
         this.data.imgNegY = image;
+        this.assignImages(image);
         this.negY._setStyle('background', this.bkgNegY);
         this.negY._setStyle('background-size', 'cover');
       }
@@ -111,6 +114,7 @@ export class CubeMapDialogComponent implements OnInit, AfterViewInit {
     new THREE.ImageLoader().load(fileUrl,
       image => {
         this.data.imgPosY = image;
+        this.assignImages(image);
         this.posY._setStyle('background', this.bkgPosY);
         this.posY._setStyle('background-size', 'cover');
       }
@@ -123,6 +127,7 @@ export class CubeMapDialogComponent implements OnInit, AfterViewInit {
     new THREE.ImageLoader().load(fileUrl,
       image => {
         this.data.imgNegZ = image;
+        this.assignImages(image);
         this.negZ._setStyle('background', this.bkgNegZ);
         this.negZ._setStyle('background-size', 'cover');
       }
@@ -135,10 +140,44 @@ export class CubeMapDialogComponent implements OnInit, AfterViewInit {
     new THREE.ImageLoader().load(fileUrl,
       image => {
         this.data.imgPosZ = image;
+        this.assignImages(image);
         this.posZ._setStyle('background', this.bkgPosZ);
         this.posZ._setStyle('background-size', 'cover');
       }
     );
+  }
+
+  private assignImages(image: HTMLImageElement) {
+    if (!this.data.imgNegX) {
+      this.data.imgNegX = image;
+      this.negX._setStyle('background', this.bkgNegX);
+      this.negX._setStyle('background-size', 'cover');
+    }
+    if (!this.data.imgNegY) {
+      this.data.imgNegY = image;
+      this.negY._setStyle('background', this.bkgNegY);
+      this.negY._setStyle('background-size', 'cover');
+    }
+    if (!this.data.imgNegZ) {
+      this.data.imgNegZ = image;
+      this.negZ._setStyle('background', this.bkgNegZ);
+      this.negZ._setStyle('background-size', 'cover');
+    }
+    if (!this.data.imgPosX) {
+      this.data.imgPosX = image;
+      this.posX._setStyle('background', this.bkgPosX);
+      this.posX._setStyle('background-size', 'cover');
+    }
+    if (!this.data.imgPosY) {
+      this.data.imgPosY = image;
+      this.posY._setStyle('background', this.bkgPosY);
+      this.posY._setStyle('background-size', 'cover');
+    }
+    if (!this.data.imgPosZ) {
+      this.data.imgPosZ = image;
+      this.posZ._setStyle('background', this.bkgPosZ);
+      this.posZ._setStyle('background-size', 'cover');
+    }
   }
 
 }

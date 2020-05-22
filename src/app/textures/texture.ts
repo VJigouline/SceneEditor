@@ -27,7 +27,7 @@ export class TextureExport {
         this.center = texture.center;
         this.datatype = texture.datatype;
         this.format = texture.format;
-        this.image = TextureExport.img2base64(texture.image as HTMLImageElement);
+        this.image = Texture.img2base64(texture.image as HTMLImageElement);
         this.magFilter = texture.magFilter;
         this.minFilter = texture.minFilter;
         this.mapping = texture.mapping;
@@ -37,17 +37,6 @@ export class TextureExport {
         this.rotation = texture.rotation;
         this.wrapS = texture.wrapS;
         this.wrapT = texture.wrapT;
-    }
-
-    public static img2base64(img: HTMLImageElement): string {
-        if (!img) { return null; }
-
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.height = img.height;
-        canvas.width = img.width;
-        ctx.drawImage(img, 0, 0);
-        return canvas.toDataURL();
     }
 }
 
@@ -116,6 +105,17 @@ export class Texture {
         return ret;
     }
 
+    public static img2base64(img: HTMLImageElement): string {
+        if (!img) { return null; }
+
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.height = img.height;
+        canvas.width = img.width;
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+        return canvas.toDataURL();
+    }
+
     public static cloneTexture(texture: Texture): Texture {
         if (!texture) { return null; }
 
@@ -125,6 +125,18 @@ export class Texture {
         }
 
         return texture.clone();
+    }
+
+    public static resizeImage(img: HTMLImageElement, width?: number, height?: number): HTMLImageElement {
+        if (!img) { return null; }
+        if (!width) { width = img.width; }
+        if (!height) { height = img.height; }
+        if (img.naturalHeight === height && img.naturalWidth === width) { return img; }
+
+        img.width = width;
+        img.height = height;
+
+        return this.string2Image(this.img2base64(img));
     }
 
     public static CreateTexture(texture: THREE.Texture): Texture {
@@ -155,7 +167,7 @@ export class Texture {
         this.datatype = texture.datatype;
         this.format = texture.format;
         if (texture.image instanceof HTMLImageElement) {
-            this.image = Texture.string2Image(TextureExport.img2base64(texture.image as HTMLImageElement));
+            this.image = Texture.string2Image(Texture.img2base64(texture.image as HTMLImageElement));
         } else {
             this.image = texture.image;
         }

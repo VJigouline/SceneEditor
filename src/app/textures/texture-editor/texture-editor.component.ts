@@ -144,6 +144,7 @@ export class TextureEditorComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
           if (result) {
+            this.verifyCubeMapImages(this.data);
             if (false && this.hasImage) {
               if (this.data.imgPosX) { this.Texture.image[0] = this.data.imgPosX; }
               if (this.data.imgNegX) { this.Texture.image[1] = this.data.imgNegX; }
@@ -205,6 +206,24 @@ export class TextureEditorComponent implements OnInit {
       }
     }
     event.target.value = '';
+  }
+
+  private verifyCubeMapImages(data: CubeMapDialogData): void {
+    const size = Math.min(
+      data.imgNegX.width, data.imgNegX.height,
+      data.imgNegY.width, data.imgNegY.height,
+      data.imgNegZ.width, data.imgNegZ.height,
+      data.imgPosX.width, data.imgPosX.height,
+      data.imgPosY.width, data.imgPosY.height,
+      data.imgPosZ.width, data.imgPosZ.height
+    );
+
+    data.imgNegX = Texture.resizeImage(data.imgNegX, size, size);
+    data.imgNegY = Texture.resizeImage(data.imgNegY, size, size);
+    data.imgNegZ = Texture.resizeImage(data.imgNegZ, size, size);
+    data.imgPosX = Texture.resizeImage(data.imgPosX, size, size);
+    data.imgPosY = Texture.resizeImage(data.imgPosY, size, size);
+    data.imgPosZ = Texture.resizeImage(data.imgPosZ, size, size);
   }
 
   public onWrapUChange(change: MatSelectChange): void {
