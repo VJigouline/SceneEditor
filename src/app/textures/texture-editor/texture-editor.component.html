@@ -13,89 +13,91 @@
             </mat-form-field>
         </div>
     </div>
-    <div class="row">
-        <div class="col">
-            <mat-form-field class="full-width">
-            <mat-label>Select U wrapping type</mat-label>
-            <mat-select [(value)]="Texture.wrapS"
-            (selectionChange)="onWrapUChange($event)"
-            >
-                <mat-option *ngFor="let type of wrappingTypes" [value]="type.type">{{type.name}}</mat-option>
-            </mat-select>
-            </mat-form-field>
+    <ng-container *ngIf="!isEnvironmentMap">
+        <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width">
+                <mat-label>Select U wrapping type</mat-label>
+                <mat-select [(value)]="Texture.wrapS"
+                (selectionChange)="onWrapUChange($event)"
+                >
+                    <mat-option *ngFor="let type of wrappingTypes" [value]="type.type">{{type.name}}</mat-option>
+                </mat-select>
+                </mat-form-field>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <mat-form-field class="full-width">
-            <mat-label>Select V wrapping type</mat-label>
-            <mat-select [(value)]="Texture.wrapT"
-            (selectionChange)="onWrapVChange($event)"
-            >
-                <mat-option *ngFor="let type of wrappingTypes" [value]="type.type">{{type.name}}</mat-option>
-            </mat-select>
-            </mat-form-field>
+        <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width">
+                <mat-label>Select V wrapping type</mat-label>
+                <mat-select [(value)]="Texture.wrapT"
+                (selectionChange)="onWrapVChange($event)"
+                >
+                    <mat-option *ngFor="let type of wrappingTypes" [value]="type.type">{{type.name}}</mat-option>
+                </mat-select>
+                </mat-form-field>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <app-point3-d
-        Label='Texture offset'
-        step="0.01"
-        [Point]='Offset'
-        [showZ]="false"
-        (changePoint)="onOffsetChange($event)"
-        class="full-width"
-        ></app-point3-d>
-    </div>
-    <div class="row">
-        <app-point3-d
-        Label='Texture repeat'
-        step="0.01"
-        [Point]='Repeat'
-        [showZ]="false"
-        (changePoint)="onRepeatChange($event)"
-        class="full-width"
-        ></app-point3-d>
-    </div>
-    <div class="row">
-        <div class="col label">
-            Texture rotation {{Texture.rotation}}
-            <mat-slider min="-3.14" max="3.14" step="0.01"
-            (input)="onRotationChanged($event)"
-            [(value)]="Texture.rotation"
-            ></mat-slider>
+        <div class="row">
+            <app-point3-d
+            Label='Texture offset'
+            step="0.01"
+            [Point]='Offset'
+            [showZ]="false"
+            (changePoint)="onOffsetChange($event)"
+            class="full-width"
+            ></app-point3-d>
         </div>
-    </div>
-    <div *ngIf="hasScale2" class="row">
-        <div class="col">
-            <mat-form-field class="full-width">
-            <mat-label>Normal map type</mat-label>
-            <mat-select [(value)]="normalMapMapping"
-            (selectionChange)="onNormalMapMappingChange($event)"
-            >
-                <mat-option *ngFor="let type of normalMapMappings" [value]="type.type">{{type.name}}</mat-option>
-            </mat-select>
-            </mat-form-field>
+        <div class="row">
+            <app-point3-d
+            Label='Texture repeat'
+            step="0.01"
+            [Point]='Repeat'
+            [showZ]="false"
+            (changePoint)="onRepeatChange($event)"
+            class="full-width"
+            ></app-point3-d>
         </div>
-    </div>
-    <div *ngIf="hasScale" class="row">
-        <div class="col label">
-            {{scaleName}} {{scaleValue}}
-            <mat-slider min="-1" max="1" step="0.01"
-            (input)="onScaleChanged($event)"
-            [(value)]="scaleValue"
-            ></mat-slider>
+        <div class="row">
+            <div class="col label">
+                Texture rotation {{Texture.rotation}}
+                <mat-slider min="-3.14" max="3.14" step="0.01"
+                (input)="onRotationChanged($event)"
+                [(value)]="Texture.rotation"
+                ></mat-slider>
+            </div>
         </div>
-    </div>
-    <div *ngIf="hasScale2" class="row">
-        <div class="col label">
-            'Normal map scale V' {{scale2Value}}
-            <mat-slider min="-1" max="1" step="0.01"
-            (input)="onScale2Changed($event)"
-            [(value)]="scale2Value"
-            ></mat-slider>
+        <div *ngIf="hasScale2" class="row">
+            <div class="col">
+                <mat-form-field class="full-width">
+                <mat-label>Normal map type</mat-label>
+                <mat-select [(value)]="normalMapMapping"
+                (selectionChange)="onNormalMapMappingChange($event)"
+                >
+                    <mat-option *ngFor="let type of normalMapMappings" [value]="type.type">{{type.name}}</mat-option>
+                </mat-select>
+                </mat-form-field>
+            </div>
         </div>
-    </div>
+        <div *ngIf="hasScale" class="row">
+            <div class="col label">
+                {{scaleName}} {{scaleValue}}
+                <mat-slider min="-1" max="1" step="0.01"
+                (input)="onScaleChanged($event)"
+                [(value)]="scaleValue"
+                ></mat-slider>
+            </div>
+        </div>
+        <div *ngIf="hasScale2" class="row">
+            <div class="col label">
+                'Normal map scale V' {{scale2Value}}
+                <mat-slider min="-1" max="1" step="0.01"
+                (input)="onScale2Changed($event)"
+                [(value)]="scale2Value"
+                ></mat-slider>
+            </div>
+        </div>
+    </ng-container>
 </ng-container>
 <mat-card-actions>
     <input
@@ -105,7 +107,7 @@
         #imageInput>
     <button mat-raised-button color="primary" 
     type="button"
-    (click)="Usage === environmentMapUsage ? onImageImport(null) : imageInput.click()"
+    (click)="isEnvironmentMap ? onImageImport(null) : imageInput.click()"
     >Get image</button>
      <button mat-raised-button color="primary" 
     type="button"

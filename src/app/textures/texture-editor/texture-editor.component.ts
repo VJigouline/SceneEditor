@@ -109,7 +109,7 @@ export class TextureEditorComponent implements OnInit {
     this.Texture.repeat = new Vector2(value.X, value.Y);
   }
 
-  environmentMapUsage = TextureUsage.ENVIRONMENT_MAP;
+  get isEnvironmentMap(): boolean { return this.Usage == TextureUsage.ENVIRONMENT_MAP; }
 
   private texture: Texture;
   private data: CubeMapDialogData = {
