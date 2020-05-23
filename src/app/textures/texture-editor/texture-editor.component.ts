@@ -246,6 +246,7 @@ export class TextureEditorComponent implements OnInit {
     } else {
       new THREE.TextureLoader().load(fileUrl,
         (texture) => {
+          this.assignTextureDefaults(texture);
           this.Texture = Texture.CreateTexture(texture);
           if (this.Usage === TextureUsage.ENVIRONMENT_MAP) {
             this.Texture.texture.encoding = THREE.sRGBEncoding;
@@ -261,6 +262,34 @@ export class TextureEditorComponent implements OnInit {
         });
     }
     event.target.value = '';
+  }
+
+  private assignTextureDefaults(texture: THREE.Texture) {
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+
+    let t = null;
+    if (this.hasImage) {
+      t = this.Texture;
+    } else if (this.Material) {
+      if (this.Material.type === MaterialType.MESH_STANDARD) {
+        const ms = this.Material as MeshStandardMaterial;
+        t = ms.map;
+        if (!t) { t = ms.metalnessMap; }
+        if (!t) { t = ms.emissiveMap; }
+        if (!t) { t = ms.bumpMap; }
+        if (!t) { t = ms.normalMap; }
+        if (!t) { t = ms.alphaMap; }
+      }
+    }
+
+    if (t) {
+      texture.wrapS = t.wrapS;
+      texture.wrapT = t.wrapT;
+      texture.offset.set(t.texture.offset.x, t.texture.offset.y);
+      texture.repeat.set(t.texture.repeat.x, t.texture.repeat.y);
+      texture.rotation = t.rotation;
+    }
   }
 
   private verifyCubeMapImages(data: CubeMapDialogData): void {
