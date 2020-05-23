@@ -775,6 +775,40 @@ MeshToonMaterial [label="{MeshToonMaterial |
    assignMaterial: boolean\n
    deleteDisabled: boolean
 }"]
+ MeshPhongMaterialEditorComponent [label="{MeshPhongMaterialEditorComponent |
+   constructor()\n
+   ngOnInit()\n
+   onBaseMaterialChanged(material: MeshStandardMaterial): void\n
+   onAlphaMapChanged(event: Texture): void\n
+   onBumpMapChanged(event: Texture): void\n
+   onBumpMapScaleChanged(event: number): void\n
+   onColourChanged(colour: string): void\n
+   onDisplacementMapChanged(event: Texture): void\n
+   onDisplacementMapScaleChanged(event: MatSliderChange): void\n
+   onDisplacementMapBiasChanged(event: MatSliderChange): void\n
+   onEmissiveMapChanged(event: Texture): void\n
+   onNormalMapChanged(event: Texture): void\n
+   onNormalMapScaleUChanged(value: number): void\n
+   onNormalMapScaleVChanged(value: number): void\n
+   onTextureChanged(event: Texture): void\n
+   onWireframeChange(event: MatCheckboxChange): void\n
+   onWireframeLinewidthChanged(event: MatSliderChange): void
+   |
+   @Output() materialChange: MeshStandardMaterial\n
+   @Input() Material: MeshPhongMaterial\n
+   AlphaMap: Texture\n
+   BumpMap: Texture\n
+   BumpMapScale: number\n
+   ColourTexture: Texture
+   DisplacementMap: Texture\n
+   DisplacementMapBias: number\n
+   DisplacementMapScale: number\n
+   EmissiveMap: Texture\n
+   EnvironmentMap: Texture\n
+   NormalMap: Texture\n
+   NormalMapScale: Point3\n
+   NormalMapType: THREE.NormalMapTypes\n
+}"]
  MeshStandardMaterialEditorComponent [label="{MeshStandardMaterialEditorComponent |
    constructor()\n
    ngOnInit()\n
@@ -809,6 +843,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
    DisplacementMapBias: number\n
    DisplacementMapScale: number\n
    EmissiveMap: Texture\n
+   EnvironmentMap: Texture\n
    NormalMap: Texture\n
    NormalMapScale: Point3\n
    NormalMapType: THREE.NormalMapTypes\n
@@ -1131,6 +1166,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MaterialEditorComponent->MeshMatcapMaterial
  MaterialEditorComponent->MeshNormalMaterial
  MaterialEditorComponent->MeshPhongMaterial
+ MaterialEditorComponent->MeshPhongMaterialEditorComponent
  MaterialEditorComponent->MeshPhysicalMaterial
  MaterialEditorComponent->MeshStandardMaterial
  MaterialEditorComponent->MeshStandardMaterialEditorComponent
@@ -1159,6 +1195,13 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MeshMatcapMaterial->Material
  MeshNormalMaterial->Material
  MeshPhongMaterial->Material
+ MeshPhongMaterialEditorComponent->Material
+ MeshPhongMaterialEditorComponent->Texture
+ MeshPhongMaterialEditorComponent->BaseMaterialEditorComponent
+ MeshPhongMaterialEditorComponent->MeshPhongMaterial
+ MeshPhongMaterialEditorComponent->Point3
+ MeshPhongMaterialEditorComponent->TextureEditorComponent
+ MeshPhongMaterialEditorComponent->TextureUsage
  MeshPhysicalMaterial->MeshStandardMaterial
  MeshStandardMaterial->Material
  MeshStandardMaterial->Texture

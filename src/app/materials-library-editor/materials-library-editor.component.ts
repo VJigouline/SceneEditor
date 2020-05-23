@@ -390,7 +390,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
   private selectMesh(mesh: THREE.Mesh, assign: boolean): void {
     this.selectedObject = mesh;
     this.generateMissingUVs(mesh, true);
-    this.selectedObjectMaterial = mesh.material;
+    this.selectedObjectMaterial = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
     if (assign || this.assignMaterial) {
       if (this.Material) {
         mesh.material = this.Material.material;
@@ -401,10 +401,30 @@ export class MaterialsLibraryEditorComponent implements OnInit {
       return;
     }
     if (Array.isArray(mesh.material)) {
-      for (const m of mesh.material as THREE.Material[]) {
-        if (this.selectMaterial(m)) {
-          break;
+      if (!this.selectMaterial(mesh.material[0] as THREE.Material)) {
+        const mat = mesh.material[0] as THREE.Material;
+        if (!this.dialogRaised) {
+          this.dialogRaised = true;
+          const dialogRef = this.confirmationDialog.open(ConfirmationDialogComponent, {
+            width: '350px',
+            data: {
+              title: 'Add material',
+              label: 'Material not found. ',
+              message: 'Do you want to add selected material to the current library?'
+            }
+          });
+
+          dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+              this.addMaterial(mat);
+              this.suspendHighlighting(2000);
+              this.materialPreview.updateObject(mesh);
+            }
+            this.dialogRaised = false;
+          });
         }
+      } else {
+        this.materialPreview.updateObject(mesh);
       }
     } else {
       if (!this.selectMaterial(mesh.material as THREE.Material)) {

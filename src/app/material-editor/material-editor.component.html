@@ -32,6 +32,14 @@
                   ></app-mesh-standard-material-editor>
               </div>
           </div>
+          <div *ngIf="Material.type == materialType.MESH_PHONG" class="row">
+            <div class="col">
+                <app-mesh-phong-material-editor
+                [Material]="Material"
+                (materialChange)="onMaterialChanged($event)"
+                ></app-mesh-phong-material-editor>
+            </div>
+          </div>
       </ng-container>
       <div class="row">
           <div class="col">
