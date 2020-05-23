@@ -72,7 +72,6 @@ export class MeshStandardMaterialExport extends MaterialExport {
     private lightMap: TextureExport;
     private lightMapIntensity: number;
     private map: TextureExport;
-    private mapImg: string;
     private metalness: number;
     private metalnessMap: TextureExport;
     private morphNormals: boolean;
@@ -120,6 +119,78 @@ export class MeshStandardMaterialExport extends MaterialExport {
         this.skinning = material.skinning;
         this.vertexTangents = material.vertexTangents;
         this.wireframe = material.wireframe;
+        this.wireframeLinewidth = material.wireframeLinewidth;
+    }
+}
+
+export class MeshPhongMaterialExport extends MaterialExport {
+    private alphaMap: TextureExport;
+    private aoMap: TextureExport;
+    private aoMapIntensity: number;
+    private bumpMap: TextureExport;
+    private bumpScale: number;
+    private colour: string;
+    private combine: THREE.Combine;
+    private displacementMap: TextureExport;
+    private displacementScale: number;
+    private displacementBias: number;
+    private emissive: string;
+    private emissiveMap: TextureExport;
+    private emissiveIntensity: number;
+    private envMap: TextureExport;
+    private lightMap: TextureExport;
+    private lightMapIntensity: number;
+    private map: TextureExport;
+    private morphNormals: boolean;
+    private morphTargets: boolean;
+    private normalMap: TextureExport;
+    private normalMapType: THREE.NormalMapTypes;
+    private normalScale: THREE.Vector2;
+    private reflectivity: number;
+    private refractionRatio: number;
+    private shininess: number;
+    private skinning: boolean;
+    private specular: string;
+    private specularMap: TextureExport;
+    private vertexTangents: boolean;
+    private wireframe: boolean;
+    private wireframeLinecap: string;
+    private wireframeLinejoin: string;
+    private wireframeLinewidth: number;
+
+    constructor(material: MeshPhongMaterial) {
+        super(material);
+        if (material.alphaMap) { this.alphaMap = material.alphaMap.toJSON(); }
+        if (material.aoMap) { this.aoMap = material.aoMap.toJSON(); }
+        this.aoMapIntensity = material.aoMapIntensity;
+        if (material.bumpMap) { this.bumpMap = material.bumpMap.toJSON(); }
+        this.bumpScale = material.bumpScale;
+        this.colour = material.colour;
+        this.combine = material.combine;
+        if (material.displacementMap) { this.displacementMap = material.displacementMap.toJSON(); }
+        this.displacementScale = material.displacementScale;
+        this.displacementBias = material.displacementBias;
+        this.emissive = material.emissive;
+        if (material.emissiveMap) { this.emissiveMap = material.emissiveMap.toJSON(); }
+        this.emissiveIntensity = material.emissiveIntensity;
+        if (material.envMap) { this.envMap = material.envMap.toJSON(); }
+        if (material.lightMap) { this.lightMap = material.lightMap.toJSON(); }
+        this.lightMapIntensity = material.lightMapIntensity;
+        if (material.map) { this.map = material.map.toJSON(); }
+        this.morphNormals = material.morphNormals;
+        this.morphTargets = material.morphTargets;
+        if (material.normalMap) { this.normalMap = material.normalMap.toJSON(); }
+        this.normalMapType = material.normalMapType;
+        this.normalScale = material.normalScale;
+        this.reflectivity = material.reflectivity;
+        this.refractionRatio = material.refractionRatio;
+        this.shininess = material.shininess;
+        this.skinning = material.skinning;
+        this.specular = material.specular;
+        if (material.specularMap) { this.specularMap = material.normalMap.toJSON(); }
+        this.wireframe = material.wireframe;
+        this.wireframeLinecap = material.wireframeLinecap;
+        this.wireframeLinejoin = material.wireframeLinejoin;
         this.wireframeLinewidth = material.wireframeLinewidth;
     }
 }
@@ -407,6 +478,7 @@ export class Material {
             case MaterialType.MESH_MATCAP:
             case MaterialType.MESH_NORMAL:
             case MaterialType.MESH_PHONG:
+                return new MeshPhongMaterialExport(this as unknown as MeshPhongMaterial);
             case MaterialType.MESH_PHYSICAL:
             case MaterialType.MESH_STANDARD:
                 return new MeshStandardMaterialExport(this as unknown as MeshStandardMaterial);
@@ -1115,30 +1187,15 @@ export class MeshNormalMaterial extends Material {
 }
 
 export class MeshPhongMaterial extends Material {
-    public get alphaMap(): THREE.Texture {
-        return (this.material as THREE.MeshPhongMaterial).alphaMap;
-    }
-    public set alphaMap(value: THREE.Texture) {
-        (this.material as THREE.MeshPhongMaterial).alphaMap = value;
-    }
-    public get aoMap(): THREE.Texture {
-        return (this.material as THREE.MeshPhongMaterial).aoMap;
-    }
-    public set aoMap(value: THREE.Texture) {
-        (this.material as THREE.MeshPhongMaterial).aoMap = value;
-    }
+    public alphaMap: Texture;
+    public aoMap: Texture;
     public get aoMapIntensity(): number {
         return (this.material as THREE.MeshPhongMaterial).aoMapIntensity;
     }
     public set aoMapIntensity(value: number) {
         (this.material as THREE.MeshPhongMaterial).aoMapIntensity = value;
     }
-    public get bumpMap(): THREE.Texture {
-        return (this.material as THREE.MeshPhongMaterial).bumpMap;
-    }
-    public set bumpMap(value: THREE.Texture) {
-        (this.material as THREE.MeshPhongMaterial).bumpMap = value;
-    }
+    public bumpMap: Texture;
     public get bumpScale(): number {
         return (this.material as THREE.MeshPhongMaterial).bumpScale;
     }
@@ -1158,12 +1215,7 @@ export class MeshPhongMaterial extends Material {
     public set combine(value: THREE.Combine) {
         (this.material as THREE.MeshPhongMaterial).combine = value;
     }
-    public get displacementMap(): THREE.Texture {
-        return (this.material as THREE.MeshPhongMaterial).displacementMap;
-    }
-    public set displacementMap(value: THREE.Texture) {
-        (this.material as THREE.MeshPhongMaterial).displacementMap = value;
-    }
+    public displacementMap: Texture;
     public get displacementScale(): number {
         return (this.material as THREE.MeshPhongMaterial).displacementScale;
     }
@@ -1183,42 +1235,22 @@ export class MeshPhongMaterial extends Material {
         (this.material as THREE.MeshPhongMaterial).emissive =
             new THREE.Color(value);
     }
-    public get emissiveMap(): THREE.Texture {
-        return (this.material as THREE.MeshPhongMaterial).emissiveMap;
-    }
-    public set emissiveMap(value: THREE.Texture) {
-        (this.material as THREE.MeshPhongMaterial).emissiveMap = value;
-    }
+    public emissiveMap: Texture;
     public get emissiveIntensity(): number {
         return (this.material as THREE.MeshPhongMaterial).emissiveIntensity;
     }
     public set emissiveIntensity(value: number) {
         (this.material as THREE.MeshPhongMaterial).emissiveIntensity = value;
     }
-    public get envMap(): THREE.Texture {
-        return (this.material as THREE.MeshPhongMaterial).envMap;
-    }
-    public set envMap(value: THREE.Texture) {
-        (this.material as THREE.MeshPhongMaterial).envMap = value;
-    }
-    public get lightMap(): THREE.Texture {
-        return (this.material as THREE.MeshPhongMaterial).lightMap;
-    }
-    public set lightMap(value: THREE.Texture) {
-        (this.material as THREE.MeshPhongMaterial).lightMap = value;
-    }
+    public envMap: Texture;
+    public lightMap: Texture;
     public get lightMapIntensity(): number {
         return (this.material as THREE.MeshPhongMaterial).lightMapIntensity;
     }
     public set lightMapIntensity(value: number) {
         (this.material as THREE.MeshPhongMaterial).lightMapIntensity = value;
     }
-    public get map(): THREE.Texture {
-        return (this.material as THREE.MeshPhongMaterial).map;
-    }
-    public set map(value: THREE.Texture) {
-        (this.material as THREE.MeshPhongMaterial).map = value;
-    }
+    public map: Texture;
     public get morphNormals(): boolean {
         return (this.material as THREE.MeshPhongMaterial).morphNormals;
     }
@@ -1231,12 +1263,7 @@ export class MeshPhongMaterial extends Material {
     public set morphTargets(value: boolean) {
         (this.material as THREE.MeshPhongMaterial).morphNormals = value;
     }
-    public get normalMap(): THREE.Texture {
-        return (this.material as THREE.MeshPhongMaterial).normalMap;
-    }
-    public set normalMap(value: THREE.Texture) {
-        (this.material as THREE.MeshPhongMaterial).normalMap = value;
-    }
+    public normalMap: Texture;
     public get normalMapType(): THREE.NormalMapTypes {
         return (this.material as THREE.MeshPhongMaterial).normalMapType;
     }
@@ -1280,12 +1307,7 @@ export class MeshPhongMaterial extends Material {
         (this.material as THREE.MeshPhongMaterial).specular =
             new THREE.Color(value);
     }
-    public get specularMap(): THREE.Texture {
-        return (this.material as THREE.MeshPhongMaterial).specularMap;
-    }
-    public set specularMap(value: THREE.Texture) {
-        (this.material as THREE.MeshPhongMaterial).specularMap = value;
-    }
+    public specularMap: Texture;
     public get wireframe(): boolean {
         return (this.material as THREE.MeshPhongMaterial).wireframe;
     }
@@ -1315,6 +1337,27 @@ export class MeshPhongMaterial extends Material {
         super(MaterialType.MESH_PHONG);
     }
 
+    public static fromMaterial(material: THREE.MeshPhongMaterial): MeshPhongMaterial {
+        if (!material) { return null; }
+
+        const ret = new MeshPhongMaterial();
+        ret.alphaMap = Texture.CreateTexture(material.alphaMap);
+        ret.aoMap = Texture.CreateTexture(material.aoMap);
+        ret.bumpMap = Texture.CreateTexture(material.bumpMap);
+        ret.displacementMap = Texture.CreateTexture(material.displacementMap);
+        ret.emissiveMap = Texture.CreateTexture(material.emissiveMap);
+        ret.envMap = Texture.CreateTexture(material.envMap);
+        ret.lightMap = Texture.CreateTexture(material.lightMap);
+        ret.map = Texture.CreateTexture(material.map);
+        ret.normalMap = Texture.CreateTexture(material.normalMap);
+        ret.specularMap = Texture.CreateTexture(material.specularMap);
+        ret.material = material;
+
+        ret.name = material.name ? material.name : material.uuid;
+
+        return ret;
+    }
+
     public clone(): MeshPhongMaterial {
         const ret = new MeshPhongMaterial();
         ret.copy(this);
@@ -1324,26 +1367,26 @@ export class MeshPhongMaterial extends Material {
 
     public copy(material: MeshPhongMaterial): void {
         super.copy(material);
-        this.alphaMap = material.alphaMap;
-        this.aoMap = material.aoMap;
+        this.alphaMap = Texture.cloneTexture(material.alphaMap);
+        this.aoMap = Texture.cloneTexture(material.aoMap);
         this.aoMapIntensity = material.aoMapIntensity;
-        this.bumpMap = material.bumpMap;
+        this.bumpMap = Texture.cloneTexture(material.bumpMap);
         this.bumpScale = material.bumpScale;
         this.colour = material.colour;
         this.combine = material.combine;
-        this.displacementMap = material.displacementMap;
+        this.displacementMap = Texture.cloneTexture(material.displacementMap);
         this.displacementScale = material.displacementScale;
         this.displacementBias = material.displacementBias;
         this.emissive = material.emissive;
-        this.emissiveMap = material.emissiveMap;
+        this.emissiveMap = Texture.cloneTexture(material.emissiveMap);
         this.emissiveIntensity = material.emissiveIntensity;
-        this.envMap = material.envMap;
-        this.lightMap = material.lightMap;
+        this.envMap = Texture.cloneTexture(material.envMap);
+        this.lightMap = Texture.cloneTexture(material.lightMap);
         this.lightMapIntensity = material.lightMapIntensity;
-        this.map = material.map;
+        this.map = Texture.cloneTexture(material.map);
         this.morphNormals = material.morphNormals;
         this.morphTargets = material.morphTargets;
-        this.normalMap = material.normalMap;
+        this.normalMap = Texture.cloneTexture(material.normalMap);
         this.normalMapType = material.normalMapType;
         this.normalScale = material.normalScale;
         this.reflectivity = material.reflectivity;
@@ -1351,11 +1394,26 @@ export class MeshPhongMaterial extends Material {
         this.shininess = material.shininess;
         this.skinning = material.skinning;
         this.specular = material.specular;
-        this.specularMap = material.specularMap;
+        this.specularMap = Texture.cloneTexture(material.specularMap);
         this.wireframe = material.wireframe;
         this.wireframeLinecap = material.wireframeLinecap;
         this.wireframeLinejoin = material.wireframeLinejoin;
         this.wireframeLinewidth = material.wireframeLinewidth;
+    }
+
+    public update(): void {
+        super.update();
+
+        if (this.alphaMap) { this.alphaMap.texture.needsUpdate = true; }
+        if (this.aoMap) { this.aoMap.texture.needsUpdate = true; }
+        if (this.bumpMap) { this.bumpMap.texture.needsUpdate = true; }
+        if (this.displacementMap) { this.displacementMap.texture.needsUpdate = true; }
+        if (this.emissiveMap) { this.emissiveMap.texture.needsUpdate = true; }
+        if (this.envMap) { this.envMap.texture.needsUpdate = true; }
+        if (this.lightMap) { this.lightMap.texture.needsUpdate = true; }
+        if (this.map) { this.map.texture.needsUpdate = true; }
+        if (this.normalMap) { this.normalMap.texture.needsUpdate = true; }
+        if (this.specularMap) { this.specularMap.texture.needsUpdate = true; }
     }
 }
 

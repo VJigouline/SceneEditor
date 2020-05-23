@@ -293,29 +293,31 @@ digraph SceneEditor {
  }"]
  MeshPhongMaterial [label="{MeshPhongMaterial |
     constructor()\n
+    static fromMaterial(material: THREE.MeshPhongMaterial): MeshPhongMaterial
     clone(): MeshPhongMaterial\n
-    copy(material: MeshPhongMaterial): void
+    copy(material: MeshPhongMaterial): void\n
+    update(): void
     |
-    alphaMap: THREE.Texture\n
-    aoMap: THREE.Texture\n
+    alphaMap: Texture\n
+    aoMap: Texture\n
     aoMapIntensity: number\n
-    bumpMap: THREE.Texture\n
+    bumpMap: Texture\n
     bumpScale: number\n
     colour: string\n
     combine: THREE.Combine\n
-    displacementMap: THREE.Texture\n
+    displacementMap: Texture\n
     displacementScale: number\n
     displacementBias: number\n
     emissive: string\n
-    emissiveMap: THREE.Texture\n
+    emissiveMap: Texture\n
     emissiveIntensity: number\n
-    envMap: THREE.Texture\n
-    lightMap: THREE.Texture\n
+    envMap: Texture\n
+    lightMap: Texture\n
     lightMapIntensity: number\n
-    map: THREE.Texture\n
+    map: Texture\n
     morphNormals: boolean\n
     morphTargets: boolean\n
-    normalMap: THREE.Texture\n
+    normalMap: Texture\n
     normalMapType: THREE.NormalMapTypes\n
     normalScale: THREE.Vector2\n
     reflectivity: number\n
@@ -323,7 +325,7 @@ digraph SceneEditor {
     shininess: number\n
     skinning: boolean\n
     specular: string\n
-    specularMap: THREE.Texture\n
+    specularMap: Texture\n
     wireframe: boolean\n
     wireframeLinecap: string\n
     wireframeLinejoin: string\n
