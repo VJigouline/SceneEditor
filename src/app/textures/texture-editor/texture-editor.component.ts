@@ -244,24 +244,21 @@ export class TextureEditorComponent implements OnInit {
         this.Texture.texture.image.src = fileUrl;
       }
     } else {
-      if (this.Usage === TextureUsage.ENVIRONMENT_MAP) {
-        console.error('Invalid event.');
-        return;
-      } else {
-        new THREE.TextureLoader().load(fileUrl,
-          (texture) => {
-            this.Texture = Texture.CreateTexture(texture);
-            if (this.Usage === TextureUsage.ENVIRONMENT_MAP) {
-              this.Texture.texture.encoding = THREE.sRGBEncoding;
-              this.Texture.texture.mapping = THREE.SphericalReflectionMapping;
-              this.images.push(this.Texture.image as HTMLImageElement);
-              (this.Texture.image as HTMLImageElement).onload = () => {
-                this.changedTexture.emit(this.Texture);
-              };
-            }
-            this.changedTexture.emit(this.Texture);
-          });
-      }
+      new THREE.TextureLoader().load(fileUrl,
+        (texture) => {
+          this.Texture = Texture.CreateTexture(texture);
+          if (this.Usage === TextureUsage.ENVIRONMENT_MAP) {
+            this.Texture.texture.encoding = THREE.sRGBEncoding;
+            this.Texture.texture.mapping = THREE.EquirectangularReflectionMapping;
+            this.Texture.texture.minFilter = THREE.LinearFilter;
+            this.Texture.texture.magFilter = THREE.LinearFilter;
+            this.images.push(this.Texture.image as HTMLImageElement);
+            (this.Texture.image as HTMLImageElement).onload = () => {
+              this.changedTexture.emit(this.Texture);
+            };
+          }
+          this.changedTexture.emit(this.Texture);
+        });
     }
     event.target.value = '';
   }

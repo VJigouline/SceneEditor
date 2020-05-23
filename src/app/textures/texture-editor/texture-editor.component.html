@@ -118,10 +118,14 @@
         accept="image/*"
         #imageInput>
     <button mat-raised-button color="primary" 
-    type="button"
-    (click)="isEnvironmentMap ? onImageImport(null) : imageInput.click()"
+        type="button"
+        (click)="imageInput.click()"
     >Get image</button>
-     <button mat-raised-button color="primary" 
+    <button mat-raised-button *ngIf="isEnvironmentMap" color="primary" 
+        type="button"
+        (click)="onImageImport(null)"
+    >Get cube</button>
+    <button mat-raised-button color="primary" 
     type="button"
     [disabled]="!hasImage"
     (click)="onDelete()"
