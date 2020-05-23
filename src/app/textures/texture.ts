@@ -9,8 +9,9 @@ export class TextureExport {
     private anisotropy: number;
     private center: Vector2;
     private datatype: THREE.TextureDataType;
+    private encoding: THREE.TextureEncoding;
     private format: THREE.PixelFormat;
-    private image: string;
+    private image: string | string[];
     private magFilter: THREE.TextureFilter;
     private minFilter: THREE.TextureFilter;
     private mapping: THREE.Mapping;
@@ -26,8 +27,19 @@ export class TextureExport {
         this.anisotropy = texture.anisotropy;
         this.center = texture.center;
         this.datatype = texture.datatype;
+        this.encoding = texture.encoding;
         this.format = texture.format;
-        this.image = Texture.img2base64(texture.image as HTMLImageElement);
+        if (Array.isArray(texture.image)) {
+            this.image = new Array<string>();
+            for (const img of texture.image as Array<HTMLImageElement | string>) {
+                if (!(img instanceof HTMLImageElement)) { continue; }
+                // tslint:disable-next-line: no-use-before-declare
+                this.image.push(Texture.img2base64(img as HTMLImageElement));
+            }
+        } else {
+            // tslint:disable-next-line: no-use-before-declare
+            this.image = Texture.img2base64(texture.image as HTMLImageElement);
+        }
         this.magFilter = texture.magFilter;
         this.minFilter = texture.minFilter;
         this.mapping = texture.mapping;
@@ -49,10 +61,21 @@ export class Texture {
     public set center(value: Vector2) { this.texture.center.set(value.X, value.Y); }
     public get datatype(): THREE.TextureDataType { return this.texture.type; }
     public set datatype(value: THREE.TextureDataType) { this.texture.type = value; }
+    public get encoding(): THREE.TextureEncoding { return this.texture.encoding; }
+    public set encoding(value: THREE.TextureEncoding) { this.texture.encoding = value; }
     public get format(): THREE.PixelFormat { return this.texture.format; }
     public set format(value: THREE.PixelFormat) { this.texture.format = value; }
-    public get image(): HTMLImageElement | string { return this.texture.image; }
-    public set image(value: HTMLImageElement | string) { this.texture.image = Texture.string2Image(value); }
+    public get image(): HTMLImageElement | HTMLImageElement[] | string | string[] { return this.texture.image; }
+    public set image(value: HTMLImageElement | HTMLImageElement[] | string | string[]) {
+        if (Array.isArray(value)) {
+            this.texture.image = new Array<HTMLImageElement>();
+            for (const img of this.texture.image as Array<HTMLImageElement | string>) {
+                this.texture.image.push(Texture.string2Image(img));
+            }
+        } else {
+            this.texture.image = Texture.string2Image(value);
+        }
+    }
     public get magFilter(): THREE.TextureFilter { return this.texture.magFilter; }
     public set magFilter(value: THREE.TextureFilter) { this.texture.magFilter = value; }
     public get minFilter(): THREE.TextureFilter { return this.texture.minFilter; }
@@ -84,6 +107,7 @@ export class Texture {
     constructor(type: TextureType) {
         this.type = type;
         switch (this.type) {
+        case TextureType.CUBE_TEXTURE:
         case TextureType.TEXTURE:
             this.texture = new THREE.Texture();
             break;
@@ -92,7 +116,7 @@ export class Texture {
             break;
         }
 
-        this.name = uuid();
+        if (this.texture) { this.name = uuid(); }
     }
 
     public static string2Image(img: string | HTMLImageElement): HTMLImageElement {
@@ -144,7 +168,10 @@ export class Texture {
         if (!texture) { return null; }
         let ret: Texture;
 
-        if (texture instanceof THREE.Texture) {
+        if (texture instanceof THREE.CubeTexture) {
+            // tslint:disable-next-line: no-use-before-declare
+            ret = new CubeTexture();
+        } else if (texture instanceof THREE.Texture) {
             ret = new Texture(TextureType.TEXTURE);
         } else {
             console.error('Unknown texture.');
@@ -162,14 +189,30 @@ export class Texture {
     }
 
     public copy(texture: Texture): void {
+        if (this.type !== texture.type) {
+            console.error('Texture type mismatch during copy.');
+        }
         this.anisotropy = texture.anisotropy;
         this.center = texture.center;
         this.datatype = texture.datatype;
+        if (texture.encoding) { this.encoding = texture.encoding; }
         this.format = texture.format;
-        if (texture.image instanceof HTMLImageElement) {
-            this.image = Texture.string2Image(Texture.img2base64(texture.image as HTMLImageElement));
+        if (Array.isArray(texture.image)) {
+            this.image = new Array<HTMLImageElement>();
+            for (const img of texture.image as Array<HTMLImageElement | string>) {
+                if (img instanceof HTMLImageElement) {
+                    (this.image as HTMLImageElement[]).push(Texture.string2Image(
+                        Texture.img2base64(img as HTMLImageElement)));
+                } else {
+                    (this.image as HTMLImageElement[]).push(Texture.string2Image(img));
+                }
+            }
         } else {
-            this.image = texture.image;
+            if (texture.image instanceof HTMLImageElement) {
+                this.image = Texture.string2Image(Texture.img2base64(texture.image as HTMLImageElement));
+            } else {
+                this.image = texture.image;
+            }
         }
         this.magFilter = texture.magFilter;
         this.minFilter = texture.minFilter;
@@ -180,16 +223,20 @@ export class Texture {
         this.rotation = texture.rotation;
         this.wrapS = texture.wrapS;
         this.wrapT = texture.wrapT;
+        this.texture.needsUpdate = true;
     }
 
     public clone(): Texture {
         switch (this.type) {
         case TextureType.TEXTURE:
-            const ret = new Texture(TextureType.TEXTURE);
-            ret.copy(this);
-            return ret;
-        // case MaterialType.LINE_DASHED:
-          //  return (this as unknown as LineDashedMaterial).clone();
+            const t = new Texture(TextureType.TEXTURE);
+            t.copy(this);
+            return t;
+        case TextureType.CUBE_TEXTURE:
+            // tslint:disable-next-line: no-use-before-declare
+            const ct = new CubeTexture();
+            ct.copy(this as undefined as CubeTexture);
+            return ct;
         default:
             console.error('Unknown texture.');
             break;
@@ -201,6 +248,7 @@ export class Texture {
     public toJSON(): TextureExport {
         switch (this.type) {
             case TextureType.TEXTURE:
+            case TextureType.CUBE_TEXTURE:
                 return new TextureExport(this as unknown as Texture);
             default:
                 console.error('Unknown texture.');
@@ -208,5 +256,29 @@ export class Texture {
             }
 
         return null;
+    }
+}
+
+export class CubeTexture extends Texture {
+    public get images(): HTMLImageElement[] {
+        return (this.texture as THREE.CubeTexture).images;
+    }
+    public set images(value: HTMLImageElement[]) {
+        (this.texture as THREE.CubeTexture).images = value;
+    }
+
+    constructor() {
+        super(TextureType.CUBE_TEXTURE);
+    }
+
+    public clone(): CubeTexture {
+        const ret = new CubeTexture();
+        ret.copy(this);
+
+        return ret;
+    }
+
+    public copy(texture: CubeTexture): void {
+        super.copy(texture);
     }
 }

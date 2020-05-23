@@ -36,6 +36,13 @@ digraph SceneEditor {
 
  // Classes.
  node [fontname="Calibri", fillcolor="white"];
+ CubeTexture [label="{CubeTexture |
+   constructor()\n
+   clone(): CubeTexture\n
+   copy(light: CubeTexture): void
+   |
+   images: HTMLImageElement[]
+ }"]
  DirectionalLight [label="{DirectionalLight |
    constructor()\n
    clone(): DirectionalLight\n
@@ -497,8 +504,9 @@ MeshToonMaterial [label="{MeshToonMaterial |
     anisotropy: number\n
     center: Vector2\n
     datatype: THREE.TextureDataType\n
+    encoding: THREE.TextureEncoding\n
     format: THREE.PixelFormat\n
-    image: HTMLImageElement \| string\n
+    image: HTMLImageElement | HTMLImageElement[] | string | string[]\n
     magFilter: THREE.TextureFilter\n
     minFilter: THREE.TextureFilter\n
     mapping: THREE.Mapping\n
@@ -551,6 +559,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
     SPRITE = 'Sprite'
  }"]
  TextureType [label="{TextureType |
+    CUBE_TEXTURE = 'Cube texture'\n
     TEXTURE = 'Texture'
  }"]
  TextureUsage [label="{TextureUsage |
@@ -1029,6 +1038,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  AmbientLightEditorComponent->Light
  BaseMaterialEditorComponent->Material
  ConfirmationDialogComponent->DialogData
+ CubeTexture->Texture
  CubeMapDialogComponent->CubeMapDialogData
  DirectionalLight->Light
  DirectionalLightEditorComponent->DirectionalLight
@@ -1183,6 +1193,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  Texture->Vector2
  TextureEditorComponent->CubeMapDialogComponent
  TextureEditorComponent->CubeMapDialogData
+ TextureEditorComponent->CubeTexture
  TextureEditorComponent->Material
  TextureEditorComponent->MaterialType
  TextureEditorComponent->MeshStandardMaterial
@@ -1190,6 +1201,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  TextureEditorComponent->Point3DComponent
  TextureEditorComponent->Texture
  TextureEditorComponent->ThreeSceneService
+ TextureEditorComponent->TextureType
  TextureEditorComponent->TextureUsage
  TextureEditorComponent->Vector2
  ThreeSceneService->ColladaLoader

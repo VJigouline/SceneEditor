@@ -1,4 +1,5 @@
 export enum TextureType {
+    CUBE_TEXTURE = 'Cube texture',
     TEXTURE = 'Texture'
 }
 

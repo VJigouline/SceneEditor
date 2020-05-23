@@ -146,6 +146,10 @@ export class MaterialsLibraryEditorComponent implements OnInit {
     this.updateMaterial(material);
   }
 
+  onNewMaterial(material: Material): void {
+    this.Material = material;
+  }
+
   public onSelectionChange(change: MatSelectChange): void {
     this.Materials = change.value as Materials;
     this.Material = this.Materials.materials.length === 0 ? null : this.Materials.materials[0];

@@ -49,7 +49,8 @@
         <div class="row">
             <div class="col">
                 <app-material-editor #MaterialEditor [Material]="Material"
-                (changedMaterial) = onMaterialChanged($event);
+                (changedMaterial) = "onMaterialChanged($event)"
+                (newMaterial) = "onNewMaterial($event)"
                 ></app-material-editor>
             </div>
         </div>

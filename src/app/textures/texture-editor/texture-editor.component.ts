@@ -1,14 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { ThreeSceneService } from '../../three-scene.service';
-import { Material } from '../../materials/material';
-import { Texture } from '../texture';
+import { Material, MeshStandardMaterial } from '../../materials/material';
+import { Texture, CubeTexture } from '../texture';
 import * as THREE from 'three';
 import { MatSelectChange } from '@angular/material/select';
 import { Point3 } from '../../geometries/point3';
 import { MatSliderChange } from '@angular/material/slider';
 import { Vector2 } from '../../geometries/vector2';
-import { TextureUsage } from '../texture-type.enum';
-import { MeshStandardMaterial } from 'three';
+import { TextureUsage, TextureType } from '../texture-type.enum';
 import { MaterialType } from 'src/app/materials/material-type.enum';
 import { Renderer2 } from '@angular/core';
 import { CubeMapDialogComponent, CubeMapDialogData } from '../cube-map-dialog/cube-map-dialog.component';
@@ -39,7 +38,7 @@ export class TextureEditorComponent implements OnInit {
       if (value && value.image) {
         const img = Array.isArray(value.image) ? value.image[0] : value.image;
         this.renderer.setStyle(img, 'max-width', '100%');
-        this.imagePreview.nativeElement.appendChild(img);
+        this.imagePreview.nativeElement.appendChild(img as HTMLImageElement);
       }
     }
   }
@@ -109,7 +108,7 @@ export class TextureEditorComponent implements OnInit {
     this.Texture.repeat = new Vector2(value.X, value.Y);
   }
 
-  get isEnvironmentMap(): boolean { return this.Usage == TextureUsage.ENVIRONMENT_MAP; }
+  get isEnvironmentMap(): boolean { return this.Usage === TextureUsage.ENVIRONMENT_MAP; }
 
   private texture: Texture;
   private data: CubeMapDialogData = {
@@ -133,9 +132,24 @@ export class TextureEditorComponent implements OnInit {
     this.changedTexture.emit(null);
   }
 
+  private assignCubeData(): void {
+    if (!this.Texture || !this.Texture.texture ||
+     this.Texture.type !== TextureType.CUBE_TEXTURE) { return; }
+
+    const ct = this.Texture as CubeTexture;
+    const imgs = ct.image as HTMLImageElement[];
+    if (!this.data.imgPosX) { this.data.imgPosX = imgs[0]; }
+    if (!this.data.imgNegX) { this.data.imgNegX = imgs[1]; }
+    if (!this.data.imgPosY) { this.data.imgPosY = imgs[2]; }
+    if (!this.data.imgNegY) { this.data.imgNegY = imgs[3]; }
+    if (!this.data.imgPosZ) { this.data.imgPosZ = imgs[4]; }
+    if (!this.data.imgNegZ) { this.data.imgNegZ = imgs[5]; }
+  }
+
   public onImageImport(event: any): void {
     if (!event) {
       if (this.Usage === TextureUsage.ENVIRONMENT_MAP) {
+        this.assignCubeData();
         const dialogRef = this.dialog.open(CubeMapDialogComponent, {
           disableClose: true,
           width: '840px',
@@ -145,28 +159,17 @@ export class TextureEditorComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
           if (result) {
             this.verifyCubeMapImages(this.data);
-            if (false && this.hasImage) {
-              if (this.data.imgPosX) { this.Texture.image[0] = this.data.imgPosX; }
-              if (this.data.imgNegX) { this.Texture.image[1] = this.data.imgNegX; }
-              if (this.data.imgPosY) { this.Texture.image[2] = this.data.imgPosY; }
-              if (this.data.imgNegY) { this.Texture.image[3] = this.data.imgNegY; }
-              if (this.data.imgPosZ) { this.Texture.image[4] = this.data.imgPosZ; }
-              if (this.data.imgNegZ) { this.Texture.image[5] = this.data.imgNegZ; }
-              this.Texture.texture.needsUpdate = true;
-              this.changedTexture.emit(this.Texture);
-            } else {
-              const a = new THREE.CubeTextureLoader().load([
-                this.data.imgPosX.src, this.data.imgNegX.src,
-                this.data.imgPosY.src, this.data.imgNegY.src,
-                this.data.imgPosZ.src, this.data.imgNegZ.src],
-                (texture) => {
-                  texture.minFilter = THREE.LinearFilter;
-                  texture.magFilter = THREE.LinearFilter;
-                  this.Texture = Texture.CreateTexture(texture);
-                  this.changedTexture.emit(this.Texture);
-                }
-              );
-            }
+            const a = new THREE.CubeTextureLoader().load([
+              this.data.imgPosX.src, this.data.imgNegX.src,
+              this.data.imgPosY.src, this.data.imgNegY.src,
+              this.data.imgPosZ.src, this.data.imgNegZ.src],
+              (texture) => {
+                texture.minFilter = THREE.LinearFilter;
+                texture.magFilter = THREE.LinearFilter;
+                this.Texture = Texture.CreateTexture(texture);
+                this.changedTexture.emit(this.Texture);
+              }
+            );
           }
         });
       } else {
@@ -184,7 +187,6 @@ export class TextureEditorComponent implements OnInit {
       } else {
         this.Texture.texture.image.src = fileUrl;
       }
-      // this.changedTexture.emit(this.Texture);
     } else {
       if (this.Usage === TextureUsage.ENVIRONMENT_MAP) {
         console.error('Invalid event.');
@@ -199,7 +201,7 @@ export class TextureEditorComponent implements OnInit {
               this.images.push(this.Texture.image as HTMLImageElement);
               (this.Texture.image as HTMLImageElement).onload = () => {
                 this.changedTexture.emit(this.Texture);
-              }
+              };
             }
             this.changedTexture.emit(this.Texture);
           });

@@ -251,48 +251,63 @@ export class Material {
 
         switch (material.type) {
         case 'LineBasicMaterial':
+            // tslint:disable-next-line: no-use-before-declare
             ret = new LineBasicMaterial();
             break;
         case 'LineDashedMaterial':
+            // tslint:disable-next-line: no-use-before-declare
             ret = new LineDashedMaterial();
             break;
         case 'MeshBasicMaterial':
+            // tslint:disable-next-line: no-use-before-declare
             ret = new MeshBasicMaterial();
             break;
         case 'MeshDepthMaterial':
+            // tslint:disable-next-line: no-use-before-declare
             ret = new MeshDepthMaterial();
             break;
         case 'MeshLambertMaterial':
+            // tslint:disable-next-line: no-use-before-declare
             ret = new MeshLambertMaterial();
             break;
         case 'MeshMatcapMaterial':
+            // tslint:disable-next-line: no-use-before-declare
             ret = new MeshMatcapMaterial();
             break;
         case 'MeshNormalMaterial':
+            // tslint:disable-next-line: no-use-before-declare
             ret = new MeshNormalMaterial();
             break;
         case 'MeshPhongMaterial':
+            // tslint:disable-next-line: no-use-before-declare
             ret = new MeshPhongMaterial();
             break;
         case 'MeshPhysicalMaterial':
+            // tslint:disable-next-line: no-use-before-declare
             ret = new MeshPhysicalMaterial();
             break;
         case 'MeshStandardMaterial':
+            // tslint:disable-next-line: no-use-before-declare
             return MeshStandardMaterial.fromMaterial(material as THREE.MeshStandardMaterial);
         case 'MeshToonMaterial':
+            // tslint:disable-next-line: no-use-before-declare
             ret = new MeshToonMaterial();
             break;
         case 'PointsMaterial':
+            // tslint:disable-next-line: no-use-before-declare
             ret = new PointsMaterial();
             break;
         case 'ShadowMaterial':
+            // tslint:disable-next-line: no-use-before-declare
             ret = new ShadowMaterial();
             break;
         case 'SpriteMaterial':
+            // tslint:disable-next-line: no-use-before-declare
             ret = new SpriteMaterial();
             break;
         default:
             console.error('Unknown material.');
+            // tslint:disable-next-line: no-use-before-declare
             ret = new MeshStandardMaterial();
             break;
         }
