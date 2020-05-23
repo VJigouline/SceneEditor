@@ -13,6 +13,11 @@ import { Renderer2 } from '@angular/core';
 import { CubeMapDialogComponent, CubeMapDialogData } from '../cube-map-dialog/cube-map-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
+enum EnvironmentMappingType {
+  REFLECTION = 0,
+  REFRACTRION = 1
+}
+
 @Component({
   selector: 'app-texture-editor',
   templateUrl: './texture-editor.component.html',
@@ -47,14 +52,25 @@ export class TextureEditorComponent implements OnInit {
   public get Name(): string { return this.texture.name; }
   public set Name(value: string) { this.texture.name = value; }
   public get hasScale(): boolean { return this.hasImage &&
-    (this.Usage === TextureUsage.BUMP_MAP || this.Usage === TextureUsage.NORMAL_MAP); }
+    (this.Usage === TextureUsage.BUMP_MAP || this.Usage === TextureUsage.NORMAL_MAP ||
+      this.Usage === TextureUsage.ENVIRONMENT_MAP); }
   public get hasScale2(): boolean { return this.hasImage && this.Usage === TextureUsage.NORMAL_MAP; }
-  public get scaleName(): string { return this.hasScale2 ? 'Normal map scale U' : 'Bump map scale'; }
+  public get scaleName(): string {
+    if (this.Usage === TextureUsage.ENVIRONMENT_MAP) { return 'Environment map intencity'; }
+    return this.hasScale2 ? 'Normal map scale U' : 'Bump map scale';
+  }
+  get scaleMin(): number { return this.Usage === TextureUsage.ENVIRONMENT_MAP ? 0 : -1; }
+  get scaleMax(): number { return this.Usage === TextureUsage.ENVIRONMENT_MAP ? 20 : 1; }
+  get scaleStep(): number { return this.Usage === TextureUsage.ENVIRONMENT_MAP ? 0.1 : 0.01; }
   public get scaleValue(): number {
     if (this.hasScale) {
       if (this.Usage === TextureUsage.BUMP_MAP) {
         if (this.Material.type === MaterialType.MESH_STANDARD) {
           return (this.Material as undefined as MeshStandardMaterial).bumpScale;
+        }
+      } else if (this.Usage === TextureUsage.ENVIRONMENT_MAP) {
+        if (this.Material.type === MaterialType.MESH_STANDARD) {
+          return (this.Material as undefined as MeshStandardMaterial).envMapIntensity;
         }
       } else {
         if (this.Material.type === MaterialType.MESH_STANDARD) {
@@ -87,6 +103,41 @@ export class TextureEditorComponent implements OnInit {
       this.changedTexture.emit(this.Texture);
     }
   }
+  public get environmentMappingType(): EnvironmentMappingType {
+    if (this.Texture && this.Texture.texture) {
+      switch (this.Texture.mapping) {
+        case THREE.CubeRefractionMapping:
+        case THREE.EquirectangularRefractionMapping:
+        case THREE.CubeUVRefractionMapping:
+          return EnvironmentMappingType.REFRACTRION;
+      }
+    }
+    return EnvironmentMappingType.REFLECTION;
+  }
+  public set environmentMappingType(value: EnvironmentMappingType) {
+    if (value === this.environmentMappingType) { return; }
+    if (!this.Texture || !this.Texture.texture) { return; }
+    if (this.Texture.type === TextureType.CUBE_TEXTURE) {
+      switch (value) {
+        case EnvironmentMappingType.REFRACTRION:
+          this.Texture.mapping = THREE.CubeRefractionMapping;
+          break;
+        default:
+          this.Texture.mapping = THREE.CubeReflectionMapping;
+          break;
+      }
+    } else {
+      switch (value) {
+        case EnvironmentMappingType.REFRACTRION:
+          this.Texture.mapping = THREE.EquirectangularRefractionMapping;
+          break;
+        default:
+          this.Texture.mapping = THREE.EquirectangularReflectionMapping;
+          break;
+      }
+    }
+    this.Texture.texture.needsUpdate = true;
+  }
 
   public wrappingTypes = [
     { type: THREE.RepeatWrapping, name: 'Repeat' },
@@ -97,6 +148,11 @@ export class TextureEditorComponent implements OnInit {
   public normalMapMappings = [
     { type: THREE.TangentSpaceNormalMap, name: 'Tangent space' },
     { type: THREE.ObjectSpaceNormalMap, name: 'Object space' },
+  ];
+
+  environmentMappingTypes = [
+    { type: EnvironmentMappingType.REFLECTION, name: 'Reflection' },
+    { type: EnvironmentMappingType.REFRACTRION, name: 'Refraction' },
   ];
 
   public get Offset(): Point3 { return new Point3(this.Texture.offset.X, this.texture.offset.Y, 0); }
@@ -263,6 +319,10 @@ export class TextureEditorComponent implements OnInit {
 
   public onNormalMapMappingChange(change: MatSelectChange): void {
     this.changedNormalMapType.emit(change.value);
+    this.changedTexture.emit(this.Texture);
+  }
+
+  public onEnvironmentMappingChange(change: MatSelectChange): void {
     this.changedTexture.emit(this.Texture);
   }
 }
