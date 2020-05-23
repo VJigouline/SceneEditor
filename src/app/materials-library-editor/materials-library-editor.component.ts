@@ -175,7 +175,11 @@ export class MaterialsLibraryEditorComponent implements OnInit {
   }
 
   public onImport(event: any): void {
-    const selectedFile = event.target.files[0];
+    this.importLibrary(event.target.files[0]);
+    event.target.value = '';
+  }
+
+  public importLibrary(file: File): void {
     const fileReader = new FileReader();
     fileReader.onload = () => {
       try {
@@ -202,7 +206,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
           data: {
             title: 'Success',
             label: 'Material library imported from: ',
-            message: selectedFile.name,
+            message: file.name,
             close: true
           }
         });
@@ -230,8 +234,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
       });
     };
 
-    fileReader.readAsText(selectedFile, 'UTF-8');
-    event.target.value = '';
+    fileReader.readAsText(file, 'UTF-8');
   }
 
   public onDelete(): void {

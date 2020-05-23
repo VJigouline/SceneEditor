@@ -63,7 +63,36 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
   }
 
   public dropped(files: NgxFileDropEntry[]) {
-    this.sceneService.addFiles(files, this.ResetScene.bind(this));
+    this.sceneService.addFiles(this.readLibraries(files), this.ResetScene.bind(this));
+  }
+
+  private readLibraries(files: NgxFileDropEntry[]): NgxFileDropEntry[] {
+    const ret = new Array<NgxFileDropEntry>();
+
+    for (const f of files) {
+      if (f.fileEntry.isFile) {
+        const fileExtension = f.relativePath.split('.').pop().toLocaleLowerCase();
+        switch (fileExtension) {
+          case 'matlib':
+            (f.fileEntry as FileSystemFileEntry).file((file: File) => {
+              this.materialEditor.importLibrary(file);
+            });
+            break;
+          case 'ltslib':
+            (f.fileEntry as FileSystemFileEntry).file((file: File) => {
+              this.lightsLirbaryEditor.importLibrary(file);
+            });
+            break;
+          default:
+            ret.push(f);
+            break;
+        }
+      } else {
+        ret.push(f);
+      }
+    }
+
+    return ret;
   }
 
   public fileOver(event) {

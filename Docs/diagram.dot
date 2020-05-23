@@ -686,6 +686,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
       private sceneService: ThreeSceneService   
    )\n
    ngOnInit()\n
+   importLibrary(file: File): void\n
    onClear(): void\n
    onClone(): void\n
    onDelete(): void\n
@@ -749,6 +750,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
       private sceneService: ThreeSceneService   
    )\n
    ngOnInit()\n
+   importLibrary(file: File): void\n
    onAssignMaterialChange(event: MatCheckboxChange): void\n
    onClear(): void\n
    onClone(): void\n

@@ -118,10 +118,13 @@ export class LightsLibraryEditorComponent implements OnInit {
   }
 
   public onImport(event: any): void {
-    const selectedFile = event.target.files[0];
-    const fileReader = new FileReader();
-    fileReader.readAsText(selectedFile, 'UTF-8');
+    this.importLibrary(event.target.files[0]);
     event.target.value = '';
+  }
+
+  public importLibrary(file: File): void {
+    const fileReader = new FileReader();
+    fileReader.readAsText(file, 'UTF-8');
     fileReader.onload = () => {
       try {
         const lib = JSON.parse(fileReader.result as string) as LightsLibrary;
@@ -144,7 +147,7 @@ export class LightsLibraryEditorComponent implements OnInit {
           data: {
             title: 'Success',
             label: 'Light library imported from: ',
-            message: selectedFile.name,
+            message: file.name,
             close: true
           }
         });
