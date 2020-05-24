@@ -32,7 +32,15 @@
                   ></app-mesh-standard-material-editor>
               </div>
           </div>
-          <div *ngIf="Material.type == materialType.MESH_PHONG" class="row">
+          <div *ngIf="Material.type == materialType.MESH_PHYSICAL" class="row">
+            <div class="col">
+                <app-mesh-standard-material-editor
+                [Material]="Material"
+                (materialChange)="onMaterialChanged($event)"
+                ></app-mesh-standard-material-editor>
+            </div>
+        </div>
+        <div *ngIf="Material.type == materialType.MESH_PHONG" class="row">
             <div class="col">
                 <app-mesh-phong-material-editor
                 [Material]="Material"
