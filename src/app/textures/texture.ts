@@ -143,12 +143,18 @@ export class Texture {
     public static cloneTexture(texture: Texture): Texture {
         if (!texture) { return null; }
 
-        if (!texture.clone) {
-            const t = new Texture(TextureType.TEXTURE);
-            texture.clone = t.clone.bind(texture);
+        switch (texture.type) {
+            case TextureType.CUBE_TEXTURE:
+                // tslint:disable-next-line: no-use-before-declare
+                const ct = new CubeTexture();
+                ct.copy(texture as CubeTexture);
+                return ct;
         }
 
-        return texture.clone();
+        const ret = new Texture(TextureType.TEXTURE);
+        ret.copy(texture);
+
+        return ret;
     }
 
     public static resizeImage(img: HTMLImageElement, width?: number, height?: number): HTMLImageElement {

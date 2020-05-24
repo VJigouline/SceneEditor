@@ -183,7 +183,8 @@ digraph SceneEditor {
     materials: Materials;
  }"]
  Materials [label="{Materials |
-    clone(): Materials
+    clone(): Materials\n
+    copy(materials: Materials): void
    |
     name: string;\n
     materials: Material[];

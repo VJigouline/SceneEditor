@@ -1367,26 +1367,38 @@ export class MeshPhongMaterial extends Material {
 
     public copy(material: MeshPhongMaterial): void {
         super.copy(material);
+
+        const m = this.material as THREE.MeshPhongMaterial;
+
         this.alphaMap = Texture.cloneTexture(material.alphaMap);
+        if (this.alphaMap) { m.alphaMap = this.alphaMap.texture; }
         this.aoMap = Texture.cloneTexture(material.aoMap);
+        if (this.aoMap) { m.aoMap = this.aoMap.texture; }
         this.aoMapIntensity = material.aoMapIntensity;
         this.bumpMap = Texture.cloneTexture(material.bumpMap);
+        if (this.bumpMap) { m.bumpMap = this.bumpMap.texture; }
         this.bumpScale = material.bumpScale;
         this.colour = material.colour;
         this.combine = material.combine;
         this.displacementMap = Texture.cloneTexture(material.displacementMap);
+        if (this.displacementMap) { m.displacementMap = this.displacementMap.texture; }
         this.displacementScale = material.displacementScale;
         this.displacementBias = material.displacementBias;
         this.emissive = material.emissive;
         this.emissiveMap = Texture.cloneTexture(material.emissiveMap);
+        if (this.emissiveMap) { m.emissiveMap = this.emissiveMap.texture; }
         this.emissiveIntensity = material.emissiveIntensity;
         this.envMap = Texture.cloneTexture(material.envMap);
+        if (this.envMap) { m.envMap = this.envMap.texture; }
         this.lightMap = Texture.cloneTexture(material.lightMap);
+        if (this.lightMap) { m.lightMap = this.lightMap.texture; }
         this.lightMapIntensity = material.lightMapIntensity;
         this.map = Texture.cloneTexture(material.map);
+        if (this.map) { m.map = this.map.texture; }
         this.morphNormals = material.morphNormals;
         this.morphTargets = material.morphTargets;
         this.normalMap = Texture.cloneTexture(material.normalMap);
+        if (this.normalMap) { m.normalMap = this.normalMap.texture; }
         this.normalMapType = material.normalMapType;
         this.normalScale = material.normalScale;
         this.reflectivity = material.reflectivity;
@@ -1395,6 +1407,7 @@ export class MeshPhongMaterial extends Material {
         this.skinning = material.skinning;
         this.specular = material.specular;
         this.specularMap = Texture.cloneTexture(material.specularMap);
+        if (this.specularMap) { m.specularMap = this.specularMap.texture; }
         this.wireframe = material.wireframe;
         this.wireframeLinecap = material.wireframeLinecap;
         this.wireframeLinejoin = material.wireframeLinejoin;

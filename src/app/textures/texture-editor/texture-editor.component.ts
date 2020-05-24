@@ -53,7 +53,7 @@ export class TextureEditorComponent implements OnInit {
   public set Name(value: string) { this.texture.name = value; }
   public get hasScale(): boolean { return this.hasImage &&
     (this.Usage === TextureUsage.BUMP_MAP || this.Usage === TextureUsage.NORMAL_MAP ||
-      this.Usage === TextureUsage.ENVIRONMENT_MAP); }
+      (this.Usage === TextureUsage.ENVIRONMENT_MAP && this.Material.type !== MaterialType.MESH_PHONG)); }
   public get hasScale2(): boolean { return this.hasImage && this.Usage === TextureUsage.NORMAL_MAP; }
   public get scaleName(): string {
     if (this.Usage === TextureUsage.ENVIRONMENT_MAP) { return 'Environment map intencity'; }
