@@ -1,7 +1,7 @@
 <mat-accordion>
     <mat-expansion-panel expanded=true>
         <mat-expansion-panel-header>
-            <mat-panel-title>Mesh Standard Material</mat-panel-title>
+            <mat-panel-title>{{Title}}</mat-panel-title>
             <mat-panel-description>Open</mat-panel-description>
         </mat-expansion-panel-header>
         <div *ngIf="Material" class="row">
@@ -56,6 +56,15 @@
                 <mat-slider min="0" max="1" step="0.01"
                 (input)="onRoughnessChanged($event)"
                 [(value)]="Material.roughness"
+                ></mat-slider>
+            </div>
+        </div>
+        <div *ngIf="Material && physical" class="row">
+            <div class="col label">
+                Clear coat thickness {{clearcoat}}
+                <mat-slider min="0" max="1" step="0.01"
+                (input)="onClearcoatChanged($event)"
+                [(value)]="clearcoat"
                 ></mat-slider>
             </div>
         </div>

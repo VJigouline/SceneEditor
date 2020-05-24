@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { MeshStandardMaterial } from '../material';
+import { MeshStandardMaterial, MeshPhysicalMaterial, MeshPhysicalMaterialExport } from '../material';
 import { MatSliderChange } from '@angular/material/slider';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { TextureEditorComponent } from 'src/app/textures/texture-editor/texture-editor.component';
@@ -24,7 +24,11 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
 
   // properties
   @Input() Material: MeshStandardMaterial;
+  @Input() physical = false;
 
+  get Title(): string {
+    return this.physical ? 'Mesh Physical Material' : 'Mesh Standard Material';
+  }
   public get ColourTexture(): Texture {
     return this.Material ? this.Material.map : null;
   }
@@ -87,6 +91,19 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
   }
   public set RoughnessMap(value: Texture) {}
 
+  get clearcoat(): number {
+    if (this.physical && this.Material) {
+      return (this.Material as unknown as MeshPhysicalMaterial).clearcoat;
+    }
+
+    return 0;
+  }
+  set clearcoat(value: number) {
+    if (this.physical && this.Material) {
+      (this.Material as unknown as MeshPhysicalMaterial).clearcoat = value;
+    }
+  }
+
   bumpMapUsage = TextureUsage.BUMP_MAP;
   normalMapUsage = TextureUsage.NORMAL_MAP;
   environmentMapUsage = TextureUsage.ENVIRONMENT_MAP;
@@ -102,6 +119,12 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
 
   public onBaseMaterialChanged(material: MeshStandardMaterial): void {
     this.updateMaterial(material);
+  }
+
+  onClearcoatChanged(event: MatSliderChange): void {
+    (this.Material as unknown as MeshPhysicalMaterial).clearcoat =
+      Math.round((event.value + Number.EPSILON) * 100) / 100;
+    this.updateMaterial(this.Material);
   }
 
   public onColourChanged(colour: string): void {

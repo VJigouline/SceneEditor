@@ -732,6 +732,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
   @Output() newMaterial: Material;\n
   @Output() changedMaterial: Material;\n
   @Input() Material: Material\n
+  @Input() physical: boolean\n
   Materials: Materials\n
   sceneJSON: string;\n
   material = new Material(MaterialType.MESH_STANDARD);\n
@@ -1213,6 +1214,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MeshStandardMaterial->Material
  MeshStandardMaterial->Texture
  MeshStandardMaterialEditorComponent->BaseMaterialEditorComponent
+ MeshStandardMaterialEditorComponent->MeshPhysicalMaterial
  MeshStandardMaterialEditorComponent->MeshStandardMaterial
  MeshStandardMaterialEditorComponent->Point3
  MeshStandardMaterialEditorComponent->Texture
