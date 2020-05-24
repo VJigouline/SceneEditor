@@ -294,4 +294,9 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
     }
     this.updateMaterial(this.Material);
   }
+
+  onRefractionRatioChanged(value: number): void {
+    this.Material.refractionRatio = value;
+    this.updateMaterial(this.Material);
+  }
 }

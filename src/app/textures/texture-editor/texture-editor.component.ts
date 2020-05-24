@@ -33,6 +33,7 @@ export class TextureEditorComponent implements OnInit {
   @Output() changedScale2 = new EventEmitter<number>();
   @Output() changedNormalMapType = new EventEmitter<THREE.NormalMapTypes>();
   @Output() changedReflectivity = new EventEmitter<number>();
+  @Output() changedRefractionRatio = new EventEmitter<number>();
 
   // View area size.
   @Input() Material: Material;
@@ -205,6 +206,48 @@ export class TextureEditorComponent implements OnInit {
       switch (this.Material.type) {
         case MaterialType.MESH_PHONG:
           (this.Material as unknown as MeshPhongMaterial).reflectivity = value;
+          break;
+      }
+    }
+  }
+
+  get hasRefractionRatio(): boolean {
+    if (!this.hasImage) { return false; }
+
+    if (this.Usage === TextureUsage.ENVIRONMENT_MAP) {
+      switch (this.Material.type) {
+        case MaterialType.MESH_PHONG:
+        case MaterialType.MESH_STANDARD:
+          return this.environmentMappingType === EnvironmentMappingType.REFRACTRION;
+      }
+    }
+
+    return false;
+  }
+  get refractionRatio(): number {
+    if (!this.hasImage) { return 1; }
+
+    if (this.Usage === TextureUsage.ENVIRONMENT_MAP) {
+      switch (this.Material.type) {
+        case MaterialType.MESH_PHONG:
+          return (this.Material as unknown as MeshPhongMaterial).refractionRatio;
+        case MaterialType.MESH_STANDARD:
+          return (this.Material as unknown as MeshStandardMaterial).refractionRatio;
+      }
+    }
+
+    return 1;
+  }
+  set refractionRatio(value: number) {
+    if (!this.hasImage) { return; }
+
+    if (this.Usage === TextureUsage.ENVIRONMENT_MAP) {
+      switch (this.Material.type) {
+        case MaterialType.MESH_PHONG:
+          (this.Material as unknown as MeshPhongMaterial).refractionRatio = value;
+          break;
+        case MaterialType.MESH_STANDARD:
+          (this.Material as unknown as MeshStandardMaterial).refractionRatio = value;
           break;
       }
     }
@@ -412,6 +455,10 @@ export class TextureEditorComponent implements OnInit {
 
   onReflectivityChanged(event: MatSliderChange): void {
     this.changedReflectivity.emit(Math.round((event.value + Number.EPSILON) * 100) / 100);
+  }
+
+  onRefractionRatioChanged(event: MatSliderChange): void {
+    this.changedRefractionRatio.emit(Math.round((event.value + Number.EPSILON) * 100) / 100);
   }
 
   public onRepeatChange(position: Point3): void {

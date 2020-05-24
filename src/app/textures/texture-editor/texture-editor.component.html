@@ -131,6 +131,15 @@
             ></mat-slider>
         </div>
     </div>
+    <div *ngIf="hasRefractionRatio" class="row">
+        <div class="col label">
+            'Refraction ratio' {{refractionRatio}}
+            <mat-slider min="0" max="1" step="0.01"
+            (input)="onRefractionRatioChanged($event)"
+            [(value)]="refractionRatio"
+            ></mat-slider>
+        </div>
+    </div>
 </ng-container>
 <mat-card-actions>
     <input

@@ -240,4 +240,9 @@ export class MeshPhongMaterialEditorComponent implements OnInit {
     this.Material.reflectivity = value;
     this.updateMaterial(this.Material);
   }
+
+  onRefractionRatioChanged(value: number): void {
+    this.Material.refractionRatio = value;
+    this.updateMaterial(this.Material);
+  }
 }
