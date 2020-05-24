@@ -6,4 +6,14 @@ export class Vector2 {
         this.X = x;
         this.Y = y;
     }
+
+    public clone(): Vector2 {
+        return new Vector2(this.X, this.Y);
+    }
+
+    public copy(vector: Vector2): void {
+        if (!vector) { return; }
+        this.X = vector.X;
+        this.Y = vector.Y;
+    }
 }

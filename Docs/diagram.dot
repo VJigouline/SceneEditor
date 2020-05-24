@@ -334,13 +334,14 @@ digraph SceneEditor {
  }"]
   MeshPhysicalMaterial [label="{MeshPhysicalMaterial |
     constructor()\n
+    static fromMaterial(material: THREE.MeshPhysicalMaterial): MeshPhysicalMaterial\n
     clone(): MeshPhysicalMaterial\n
     copy(material: MeshPhysicalMaterial): void\n
     update(): void
     |
     clearcoat: number\n
-    clearcoatNormalMap: THREE.Texture\n
-    clearcoatNormalScale: THREE.Vector2\n
+    clearcoatNormalMap: Texture\n
+    clearcoatNormalScale: Vector2\n
     clearcoatRoughness: number\n
     reflectivity: number
  }"]
@@ -522,7 +523,9 @@ MeshToonMaterial [label="{MeshToonMaterial |
     texture: THREE.Texture;
  }"]
   Vector2 [label="{Vector2 |
-    constructor(x: number, y: number)
+    constructor(x: number, y: number)\n
+    clone(): Vector2\n
+    copy(vector: Vector2): void
     |
     X: number\n
     Y: number
@@ -1206,6 +1209,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MeshPhongMaterialEditorComponent->TextureEditorComponent
  MeshPhongMaterialEditorComponent->TextureUsage
  MeshPhysicalMaterial->MeshStandardMaterial
+ MeshPhysicalMaterial->Vector2
  MeshStandardMaterial->Material
  MeshStandardMaterial->Texture
  MeshStandardMaterialEditorComponent->BaseMaterialEditorComponent
