@@ -74,6 +74,10 @@ export class MeshPhongMaterialEditorComponent implements OnInit {
     return this.Material ? this.Material.normalMapType : THREE.TangentSpaceNormalMap;
   }
   public set NormalMapType(value: THREE.NormalMapTypes) {}
+  get SpecularMap(): Texture {
+    return this.Material ? this.Material.specularMap : null;
+  }
+  set SpecularMap(value: Texture) {}
 
   bumpMapUsage = TextureUsage.BUMP_MAP;
   normalMapUsage = TextureUsage.NORMAL_MAP;
@@ -248,6 +252,20 @@ export class MeshPhongMaterialEditorComponent implements OnInit {
 
   onRefractionRatioChanged(value: number): void {
     this.Material.refractionRatio = value;
+    this.updateMaterial(this.Material);
+  }
+
+  onSpecularMapChanged(event: Texture): void {
+    if (event) {
+      if (this.Material.specularMap !== event) {
+        this.Material.specularMap = event;
+        (this.Material.material as THREE.MeshPhongMaterial).specularMap = event.texture;
+        this.Material.update();
+      }
+    } else {
+      this.Material.specularMap = null;
+      (this.Material.material as THREE.MeshPhongMaterial).specularMap = null;
+    }
     this.updateMaterial(this.Material);
   }
 }
