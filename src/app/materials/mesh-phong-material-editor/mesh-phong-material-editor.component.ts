@@ -101,6 +101,11 @@ export class MeshPhongMaterialEditorComponent implements OnInit {
     this.updateMaterial(this.Material);
   }
 
+  onShininessChanged(event: MatSliderChange): void {
+    this.Material.shininess = Math.round((event.value + Number.EPSILON) * 100) / 100;
+    this.updateMaterial(this.Material);
+  }
+
   public onTextureChanged(event: Texture): void {
     if (event) {
       if (this.Material.map !== event) {
