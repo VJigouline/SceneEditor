@@ -1244,6 +1244,9 @@ MeshToonMaterial [label="{MeshToonMaterial |
  TextureEditorComponent->CubeTexture
  TextureEditorComponent->Material
  TextureEditorComponent->MaterialType
+ TextureEditorComponent->MeshBasicMaterial
+ TextureEditorComponent->MeshLambertMaterial
+ TextureEditorComponent->MeshPhongMaterial
  TextureEditorComponent->MeshStandardMaterial
  TextureEditorComponent->Point3
  TextureEditorComponent->Point3DComponent

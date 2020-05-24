@@ -110,6 +110,18 @@
             </mat-form-field>
         </div>
     </div>
+    <div *ngIf="hasCombine" class="row">
+        <div class="col">
+            <mat-form-field class="full-width">
+            <mat-label>Combination with colour</mat-label>
+            <mat-select [(value)]="combineType"
+            (selectionChange)="onCombineTypeChange($event)"
+            >
+                <mat-option *ngFor="let type of combineTypes" [value]="type.type">{{type.name}}</mat-option>
+            </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
 </ng-container>
 <mat-card-actions>
     <input

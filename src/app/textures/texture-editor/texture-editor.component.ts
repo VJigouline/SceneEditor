@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { ThreeSceneService } from '../../three-scene.service';
-import { Material, MeshStandardMaterial } from '../../materials/material';
+import { Material, MeshStandardMaterial, MeshPhongMaterial, MeshLambertMaterial, MeshBasicMaterial } from '../../materials/material';
 import { Texture, CubeTexture } from '../texture';
 import * as THREE from 'three';
 import { MatSelectChange } from '@angular/material/select';
@@ -139,6 +139,39 @@ export class TextureEditorComponent implements OnInit {
     this.Texture.texture.needsUpdate = true;
   }
 
+  get hasCombine(): boolean {
+    return this.hasImage && this.Usage === TextureUsage.ENVIRONMENT_MAP &&
+      this.Material.type === MaterialType.MESH_PHONG;
+  }
+  get combineType(): THREE.Combine {
+    if (this.hasCombine) {
+      switch (this.Material.type) {
+        case MaterialType.MESH_BASIC:
+          return (this.Material as unknown as MeshBasicMaterial).combine;
+        case MaterialType.MESH_LAMBERT:
+          return (this.Material as unknown as MeshLambertMaterial).combine;
+        case MaterialType.MESH_PHONG:
+          return (this.Material as unknown as MeshPhongMaterial).combine;
+      }
+    }
+
+    return THREE.MultiplyOperation;
+  }
+  set combineType(value: THREE.Combine) {
+    if (!this.hasImage) { return; }
+
+    switch (this.Material.type) {
+      case MaterialType.MESH_BASIC:
+        (this.Material as unknown as MeshBasicMaterial).combine = value;
+        break;
+      case MaterialType.MESH_LAMBERT:
+        (this.Material as unknown as MeshLambertMaterial).combine = value;
+        break;
+      case MaterialType.MESH_PHONG:
+        (this.Material as unknown as MeshPhongMaterial).combine = value;
+    }
+  }
+
   public wrappingTypes = [
     { type: THREE.RepeatWrapping, name: 'Repeat' },
     { type: THREE.ClampToEdgeWrapping, name: 'Clamp to edges' },
@@ -153,6 +186,12 @@ export class TextureEditorComponent implements OnInit {
   environmentMappingTypes = [
     { type: EnvironmentMappingType.REFLECTION, name: 'Reflection' },
     { type: EnvironmentMappingType.REFRACTRION, name: 'Refraction' },
+  ];
+
+  public combineTypes = [
+    { type: THREE.MultiplyOperation, name: 'Multiply' },
+    { type: THREE.MixOperation, name: 'Mix' },
+    { type: THREE.AddOperation, name: 'Add' }
   ];
 
   public get Offset(): Point3 { return new Point3(this.Texture.offset.X, this.texture.offset.Y, 0); }
@@ -280,6 +319,14 @@ export class TextureEditorComponent implements OnInit {
         if (!t) { t = ms.bumpMap; }
         if (!t) { t = ms.normalMap; }
         if (!t) { t = ms.alphaMap; }
+      } else if (this.Material.type === MaterialType.MESH_PHONG) {
+        const mph = this.Material as undefined as MeshPhongMaterial;
+        t = mph.map;
+        if (!t) { t = mph.specularMap; }
+        if (!t) { t = mph.emissiveMap; }
+        if (!t) { t = mph.bumpMap; }
+        if (!t) { t = mph.normalMap; }
+        if (!t) { t = mph.alphaMap; }
       }
     }
 
@@ -349,6 +396,10 @@ export class TextureEditorComponent implements OnInit {
   }
 
   public onEnvironmentMappingChange(change: MatSelectChange): void {
+    this.changedTexture.emit(this.Texture);
+  }
+
+  public onCombineTypeChange(change: MatSelectChange): void {
     this.changedTexture.emit(this.Texture);
   }
 }
