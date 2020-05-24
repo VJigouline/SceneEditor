@@ -21,6 +21,20 @@
         <div *ngIf="Material" class="row">
             <div class="col">
             <mat-form-field class="full-width">
+                <input matInput placeholder="Specular colour"
+                cpAlphaChannel="disabled"
+                [value] = "this.Material.specular"
+                [style.background]="this.Material.specular"
+                [cpPosition] = "'bottom'"
+                [(colorPicker)]="this.Material.specular"
+                (colorPickerChange)="onColourChanged($event)"
+                >
+            </mat-form-field>
+            </div>
+        </div>
+        <div *ngIf="Material" class="row">
+            <div class="col">
+            <mat-form-field class="full-width">
                 <input matInput placeholder="Emissive colour"
                 cpAlphaChannel="disabled"
                 [value] = "this.Material.emissive"
