@@ -996,6 +996,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
    @Input() Texture: Texture\n
    @Input() Usage: TextureUsage\n
    @Output() changedNormalMapType: THREE.NormalMapTypes\n
+   @Output() changedReflectivity\n
    @Output() changedScale: number\n
    @Output() changedScale2: number\n
    @Output() changedTexture: Texture\n

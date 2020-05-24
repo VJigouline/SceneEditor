@@ -122,6 +122,15 @@
             </mat-form-field>
         </div>
     </div>
+    <div *ngIf="hasReflectivity" class="row">
+        <div class="col label">
+            'Reflectivity' {{reflectivity}}
+            <mat-slider min="0" max="1" step="0.01"
+            (input)="onReflectivityChanged($event)"
+            [(value)]="reflectivity"
+            ></mat-slider>
+        </div>
+    </div>
 </ng-container>
 <mat-card-actions>
     <input

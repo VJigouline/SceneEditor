@@ -235,4 +235,9 @@ export class MeshPhongMaterialEditorComponent implements OnInit {
     this.Material.normalScale = new THREE.Vector2(this.Material.normalScale.x, value);
     this.updateMaterial(this.Material);
   }
+
+  onReflectivityChanged(value: number): void {
+    this.Material.reflectivity = value;
+    this.updateMaterial(this.Material);
+  }
 }

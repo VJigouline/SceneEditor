@@ -32,6 +32,7 @@ export class TextureEditorComponent implements OnInit {
   @Output() changedScale = new EventEmitter<number>();
   @Output() changedScale2 = new EventEmitter<number>();
   @Output() changedNormalMapType = new EventEmitter<THREE.NormalMapTypes>();
+  @Output() changedReflectivity = new EventEmitter<number>();
 
   // View area size.
   @Input() Material: Material;
@@ -169,6 +170,43 @@ export class TextureEditorComponent implements OnInit {
         break;
       case MaterialType.MESH_PHONG:
         (this.Material as unknown as MeshPhongMaterial).combine = value;
+        break;
+    }
+  }
+
+  get hasReflectivity(): boolean {
+    if (!this.hasImage) { return false; }
+
+    if (this.Usage === TextureUsage.ENVIRONMENT_MAP) {
+      switch (this.Material.type) {
+        case MaterialType.MESH_PHONG:
+          return this.environmentMappingType === EnvironmentMappingType.REFLECTION;
+      }
+    }
+
+    return false;
+  }
+  get reflectivity(): number {
+    if (!this.hasImage) { return 1; }
+
+    if (this.Usage === TextureUsage.ENVIRONMENT_MAP) {
+      switch (this.Material.type) {
+        case MaterialType.MESH_PHONG:
+          return (this.Material as unknown as MeshPhongMaterial).reflectivity;
+      }
+    }
+
+    return 1;
+  }
+  set reflectivity(value: number) {
+    if (!this.hasImage) { return; }
+
+    if (this.Usage === TextureUsage.ENVIRONMENT_MAP) {
+      switch (this.Material.type) {
+        case MaterialType.MESH_PHONG:
+          (this.Material as unknown as MeshPhongMaterial).reflectivity = value;
+          break;
+      }
     }
   }
 
@@ -370,6 +408,10 @@ export class TextureEditorComponent implements OnInit {
   public onOffsetChange(position: Point3): void {
     this.Texture.offset = new Vector2(position.X, position.Y);
     this.changedTexture.emit(this.Texture);
+  }
+
+  onReflectivityChanged(event: MatSliderChange): void {
+    this.changedReflectivity.emit(Math.round((event.value + Number.EPSILON) * 100) / 100);
   }
 
   public onRepeatChange(position: Point3): void {
