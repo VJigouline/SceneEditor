@@ -18,6 +18,7 @@ import { MaterialPreviewComponent } from './material-preview/material-preview.co
 import { UserControlsModule } from '../user-controls/user-controls.module';
 import { MeshPhongMaterialEditorComponent } from './mesh-phong-material-editor/mesh-phong-material-editor.component';
 import { MeshBasicMaterialEditorComponent } from './mesh-basic-material-editor/mesh-basic-material-editor.component';
+import { MeshDepthMaterialEditorComponent } from './mesh-depth-material-editor/mesh-depth-material-editor.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { MeshBasicMaterialEditorComponent } from './mesh-basic-material-editor/m
     BaseMaterialEditorComponent,
     MaterialPreviewComponent,
     MeshPhongMaterialEditorComponent,
-    MeshBasicMaterialEditorComponent
+    MeshBasicMaterialEditorComponent,
+    MeshDepthMaterialEditorComponent
   ],
   imports: [
     CommonModule,
@@ -46,6 +48,7 @@ import { MeshBasicMaterialEditorComponent } from './mesh-basic-material-editor/m
   exports: [
     NewMaterialComponent,
     MeshBasicMaterialEditorComponent,
+    MeshDepthMaterialEditorComponent,
     MeshPhongMaterialEditorComponent,
     MeshStandardMaterialEditorComponent,
     MaterialPreviewComponent
