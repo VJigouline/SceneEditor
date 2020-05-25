@@ -213,13 +213,14 @@ digraph SceneEditor {
  }"]
  MeshDepthMaterial [label="{MeshDepthMaterial |
     constructor()\n
+    static fromMaterial(material: THREE.MeshDepthMaterial): MeshDepthMaterial\n
     clone(): MeshDepthMaterial\n
-    copy(material: MeshDepthMaterial): void
+    copy(material: MeshDepthMaterial): void\n
+    update(): void
     |
-    displacementMap: THREE.Texture\n
+    displacementMap: Texture\n
     displacementScale: number\n
     displacementBias: number\n
-    fog: boolean\n
     wireframe: boolean\n
     wireframeLinewidth: number
  }"]
