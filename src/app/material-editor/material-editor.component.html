@@ -24,6 +24,14 @@
                   </mat-form-field>
               </div>
           </div>
+          <div *ngIf="Material.type == materialType.MESH_BASIC" class="row">
+            <div class="col">
+                <app-mesh-basic-material-editor
+                [Material]="Material"
+                (materialChange)="onMaterialChanged($event)"
+                ></app-mesh-basic-material-editor>
+            </div>
+          </div>
           <div *ngIf="Material.type == materialType.MESH_STANDARD" class="row">
               <div class="col">
                   <app-mesh-standard-material-editor

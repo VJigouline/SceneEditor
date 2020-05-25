@@ -15,7 +15,7 @@ export class NewMaterialComponent implements OnInit {
   public materialTypes = [
     // { type: MaterialType.LINE_BASIC, name: 'Line Basic' },
     // { type: MaterialType.LINE_DASHED, name: 'Line Dashed' },
-    // { type: MaterialType.MESH_BASIC, name: 'Mesh Basic' },
+    { type: MaterialType.MESH_BASIC, name: 'Mesh Basic' },
     // { type: MaterialType.MESH_DEPTH, name: 'Mesh Depth' },
     // { type: MaterialType.MESH_LAMBERT, name: 'Mesh Lambert' },
     // { type: MaterialType.MESH_MATCAP, name: 'Mesh Matcap' },

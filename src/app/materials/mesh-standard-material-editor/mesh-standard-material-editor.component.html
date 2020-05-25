@@ -103,7 +103,7 @@
         </mat-expansion-panel-header>
         <div *ngIf="Material" class="row">
             <div class="col">
-                <app-texture-editor #TextureEditor 
+                <app-texture-editor 
                 [Material]="Material"
                 [Texture]="ColourTexture"
                 (changedTexture)="onTextureChanged($event)"
@@ -117,7 +117,7 @@
         </mat-expansion-panel-header>
         <div *ngIf="Material" class="row">
             <div class="col">
-                <app-texture-editor #TextureEditor 
+                <app-texture-editor 
                 [Material]="Material"
                 [Texture]="AlphaMap"
                 (changedTexture)="onAlphaMapChanged($event)"
@@ -131,7 +131,7 @@
         </mat-expansion-panel-header>
         <div *ngIf="Material" class="row">
             <div class="col">
-                <app-texture-editor #TextureEditor 
+                <app-texture-editor 
                 [Material]="Material"
                 [Texture]="BumpMap"
                 [Usage]="bumpMapUsage"
@@ -148,7 +148,7 @@
         </mat-expansion-panel-header>
         <div *ngIf="Material" class="row">
             <div class="col">
-                <app-texture-editor #TextureEditor 
+                <app-texture-editor 
                 [Material]="Material"
                 [Texture]="ClearcoatNormalMap"
                 (changedTexture)="onClearcoatNormalMapChanged($event)"
@@ -181,7 +181,7 @@
         </div>
         <div *ngIf="Material" class="row">
             <div class="col">
-                <app-texture-editor #TextureEditor 
+                <app-texture-editor 
                 [Material]="Material"
                 [Texture]="DisplacementMap"
                 (changedTexture)="onDisplacementMapChanged($event)"
@@ -196,7 +196,7 @@
         </mat-expansion-panel-header>
         <div *ngIf="Material" class="row">
             <div class="col">
-                <app-texture-editor #TextureEditor 
+                <app-texture-editor 
                 [Material]="Material"
                 [Texture]="EmissiveMap"
                 (changedTexture)="onEmissiveMapChanged($event)"
@@ -210,7 +210,7 @@
         </mat-expansion-panel-header>
         <div *ngIf="Material" class="row">
             <div class="col">
-                <app-texture-editor #TextureEditor 
+                <app-texture-editor 
                 [Material]="Material"
                 [Texture]="EnvironmentMap"
                 [Usage]="environmentMapUsage"
@@ -227,7 +227,7 @@
         </mat-expansion-panel-header>
         <div *ngIf="Material" class="row">
             <div class="col">
-                <app-texture-editor #TextureEditor 
+                <app-texture-editor 
                 [Material]="Material"
                 [Texture]="NormalMap"
                 [Usage]="normalMapUsage"
@@ -244,7 +244,7 @@
         </mat-expansion-panel-header>
         <div *ngIf="Material" class="row">
             <div class="col">
-                <app-texture-editor #TextureEditor 
+                <app-texture-editor 
                 [Material]="Material"
                 [Texture]="MetalnessMap"
                 [Usage]="metalnessUsage"
@@ -262,7 +262,7 @@
         </mat-expansion-panel-header>
         <div *ngIf="Material" class="row">
             <div class="col">
-                <app-texture-editor #TextureEditor 
+                <app-texture-editor 
                 [Material]="Material"
                 [Texture]="RoughnessMap"
                 (changedTexture)="onRoughnessMapChanged($event)"

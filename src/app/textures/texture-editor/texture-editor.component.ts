@@ -157,7 +157,8 @@ export class TextureEditorComponent implements OnInit {
 
   get hasCombine(): boolean {
     return this.hasImage && this.Usage === TextureUsage.ENVIRONMENT_MAP &&
-      this.Material.type === MaterialType.MESH_PHONG;
+      (this.Material.type === MaterialType.MESH_PHONG ||
+      this.Material.type === MaterialType.MESH_BASIC);
   }
   get combineType(): THREE.Combine {
     if (this.hasCombine) {
@@ -194,6 +195,7 @@ export class TextureEditorComponent implements OnInit {
 
     if (this.Usage === TextureUsage.ENVIRONMENT_MAP) {
       switch (this.Material.type) {
+        case MaterialType.MESH_BASIC:
         case MaterialType.MESH_PHONG:
           return this.environmentMappingType === EnvironmentMappingType.REFLECTION;
       }
@@ -206,6 +208,8 @@ export class TextureEditorComponent implements OnInit {
 
     if (this.Usage === TextureUsage.ENVIRONMENT_MAP) {
       switch (this.Material.type) {
+        case MaterialType.MESH_BASIC:
+          return (this.Material as unknown as MeshBasicMaterial).reflectivity;
         case MaterialType.MESH_PHONG:
           return (this.Material as unknown as MeshPhongMaterial).reflectivity;
       }
@@ -218,6 +222,9 @@ export class TextureEditorComponent implements OnInit {
 
     if (this.Usage === TextureUsage.ENVIRONMENT_MAP) {
       switch (this.Material.type) {
+        case MaterialType.MESH_BASIC:
+          (this.Material as unknown as MeshBasicMaterial).reflectivity = value;
+          break;
         case MaterialType.MESH_PHONG:
           (this.Material as unknown as MeshPhongMaterial).reflectivity = value;
           break;
@@ -230,6 +237,7 @@ export class TextureEditorComponent implements OnInit {
 
     if (this.Usage === TextureUsage.ENVIRONMENT_MAP) {
       switch (this.Material.type) {
+        case MaterialType.MESH_BASIC:
         case MaterialType.MESH_PHONG:
         case MaterialType.MESH_STANDARD:
           return this.environmentMappingType === EnvironmentMappingType.REFRACTRION;
@@ -243,6 +251,8 @@ export class TextureEditorComponent implements OnInit {
 
     if (this.Usage === TextureUsage.ENVIRONMENT_MAP) {
       switch (this.Material.type) {
+        case MaterialType.MESH_BASIC:
+          return (this.Material as unknown as MeshBasicMaterial).refractionRatio;
         case MaterialType.MESH_PHONG:
           return (this.Material as unknown as MeshPhongMaterial).refractionRatio;
         case MaterialType.MESH_STANDARD:
@@ -257,6 +267,9 @@ export class TextureEditorComponent implements OnInit {
 
     if (this.Usage === TextureUsage.ENVIRONMENT_MAP) {
       switch (this.Material.type) {
+        case MaterialType.MESH_BASIC:
+          (this.Material as unknown as MeshBasicMaterial).refractionRatio = value;
+          break;
         case MaterialType.MESH_PHONG:
           (this.Material as unknown as MeshPhongMaterial).refractionRatio = value;
           break;
@@ -421,6 +434,11 @@ export class TextureEditorComponent implements OnInit {
         if (!t) { t = mph.emissiveMap; }
         if (!t) { t = mph.bumpMap; }
         if (!t) { t = mph.normalMap; }
+        if (!t) { t = mph.alphaMap; }
+      } else if (this.Material.type === MaterialType.MESH_BASIC) {
+        const mph = this.Material as undefined as MeshBasicMaterial;
+        t = mph.map;
+        if (!t) { t = mph.specularMap; }
         if (!t) { t = mph.alphaMap; }
       }
     }

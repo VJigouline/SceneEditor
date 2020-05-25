@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angu
 import { MeshStandardMaterial, MeshPhysicalMaterial, MeshPhysicalMaterialExport } from '../material';
 import { MatSliderChange } from '@angular/material/slider';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { TextureEditorComponent } from 'src/app/textures/texture-editor/texture-editor.component';
 import { Texture } from '../../textures/texture';
 import { Point3 } from '../../geometries/point3';
 import { Vector2 } from '../../geometries/vector2';
@@ -16,9 +15,6 @@ import * as THREE from 'three';
   styleUrls: ['./mesh-standard-material-editor.component.scss']
 })
 export class MeshStandardMaterialEditorComponent implements OnInit {
-
-  @ViewChild('TextureEditor')
-  private textureEditor: TextureEditorComponent;
 
   // events
   @Output() materialChange = new EventEmitter<MeshStandardMaterial>();

@@ -779,6 +779,22 @@ MeshToonMaterial [label="{MeshToonMaterial |
    assignMaterial: boolean\n
    deleteDisabled: boolean
 }"]
+ MeshBasicMaterialEditorComponent [label="{MeshBasicMaterialEditorComponent |
+   constructor()\n
+   ngOnInit()\n
+   onBaseMaterialChanged(material: MeshStandardMaterial): void\n
+   onAlphaMapChanged(event: Texture): void\n
+   onColourChanged(colour: string): void\n
+   onTextureChanged(event: Texture): void\n
+   onWireframeChange(event: MatCheckboxChange): void\n
+   onWireframeLinewidthChanged(event: MatSliderChange): void
+   |
+   @Output() materialChange: MeshStandardMaterial\n
+   @Input() Material: MeshPhongMaterial\n
+   AlphaMap: Texture\n
+   ColourTexture: Texture
+   EnvironmentMap: Texture\n
+}"]
  MeshPhongMaterialEditorComponent [label="{MeshPhongMaterialEditorComponent |
    constructor()\n
    ngOnInit()\n
@@ -1164,6 +1180,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MaterialEditorComponent->MaterialLibraryService
  MaterialEditorComponent->Materials
  MaterialEditorComponent->MeshBasicMaterial
+ MaterialEditorComponent->MeshBasicMaterialEditorComponent
  MaterialEditorComponent->MeshDepthMaterial
  MaterialEditorComponent->MeshLambertMaterial
  MaterialEditorComponent->MeshMatcapMaterial
@@ -1193,6 +1210,10 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MaterialPreviewComponent->Material
  MaterialPreviewComponent->ThreeSceneService
  MeshBasicMaterial->Material
+ MeshBasicMaterialEditorComponent->MeshBasicMaterial
+ MeshBasicMaterialEditorComponent->Texture
+ MeshBasicMaterialEditorComponent->TextureEditorComponent
+ MeshBasicMaterialEditorComponent->TextureUsage
  MeshDepthMaterial->Material
  MeshLambertMaterial->Material
  MeshMatcapMaterial->Material

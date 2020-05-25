@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angu
 import { MeshPhongMaterial } from '../material';
 import { MatSliderChange } from '@angular/material/slider';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { TextureEditorComponent } from 'src/app/textures/texture-editor/texture-editor.component';
 import { Texture } from '../../textures/texture';
 import { Point3 } from '../../geometries/point3';
 import { TextureUsage } from '../../textures/texture-type.enum';
@@ -15,9 +14,6 @@ import * as THREE from 'three';
   styleUrls: ['./mesh-phong-material-editor.component.scss']
 })
 export class MeshPhongMaterialEditorComponent implements OnInit {
-
-  @ViewChild('TextureEditor')
-  private textureEditor: TextureEditorComponent;
 
   // events
   @Output() materialChange = new EventEmitter<MeshPhongMaterial>();
