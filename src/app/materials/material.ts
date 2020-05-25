@@ -55,6 +55,46 @@ export class MaterialExport {
     }
 }
 
+export class MeshBasicMaterialExport extends MaterialExport {
+    private alphaMap: TextureExport;
+    private aoMap: TextureExport;
+    private aoMapIntensity: number;
+    private colour: string;
+    private combine: THREE.Combine;
+    private envMap: TextureExport;
+    private map: TextureExport;
+    private morphTargets: boolean;
+    private reflectivity: number;
+    private refractionRatio: number;
+    private skinning: boolean;
+    private specularMap: TextureExport;
+    private vertexTangents: boolean;
+    private wireframe: boolean;
+    private wireframeLinecap: string;
+    private wireframeLinejoin: string;
+    private wireframeLinewidth: number;
+
+    constructor(material: MeshBasicMaterial) {
+        super(material);
+        if (material.alphaMap) { this.alphaMap = material.alphaMap.toJSON(); }
+        if (material.aoMap) { this.aoMap = material.aoMap.toJSON(); }
+        this.aoMapIntensity = material.aoMapIntensity;
+        this.colour = material.colour;
+        this.combine = material.combine;
+        if (material.envMap) { this.envMap = material.envMap.toJSON(); }
+        if (material.map) { this.map = material.map.toJSON(); }
+        this.morphTargets = material.morphTargets;
+        this.reflectivity = material.reflectivity;
+        this.refractionRatio = material.refractionRatio;
+        this.skinning = material.skinning;
+        if (material.specularMap) { this.specularMap = material.specularMap.toJSON(); }
+        this.wireframe = material.wireframe;
+        this.wireframeLinecap = material.wireframeLinecap;
+        this.wireframeLinejoin = material.wireframeLinejoin;
+        this.wireframeLinewidth = material.wireframeLinewidth;
+    }
+}
+
 export class MeshStandardMaterialExport extends MaterialExport {
     private alphaMap: TextureExport;
     private aoMap: TextureExport;
@@ -208,7 +248,7 @@ export class MeshPhongMaterialExport extends MaterialExport {
         this.shininess = material.shininess;
         this.skinning = material.skinning;
         this.specular = material.specular;
-        if (material.specularMap) { this.specularMap = material.normalMap.toJSON(); }
+        if (material.specularMap) { this.specularMap = material.specularMap.toJSON(); }
         this.wireframe = material.wireframe;
         this.wireframeLinecap = material.wireframeLinecap;
         this.wireframeLinejoin = material.wireframeLinejoin;
@@ -352,8 +392,7 @@ export class Material {
             break;
         case 'MeshBasicMaterial':
             // tslint:disable-next-line: no-use-before-declare
-            ret = new MeshBasicMaterial();
-            break;
+            return MeshBasicMaterial.fromMaterial(material as THREE.MeshBasicMaterial);
         case 'MeshDepthMaterial':
             // tslint:disable-next-line: no-use-before-declare
             ret = new MeshDepthMaterial();
@@ -493,6 +532,7 @@ export class Material {
             case MaterialType.LINE_BASIC:
             case MaterialType.LINE_DASHED:
             case MaterialType.MESH_BASIC:
+                return new MeshBasicMaterialExport(this as unknown as MeshBasicMaterial);
             case MaterialType.MESH_DEPTH:
             case MaterialType.MESH_LAMBERT:
             case MaterialType.MESH_MATCAP:
@@ -603,18 +643,8 @@ export class LineDashedMaterial extends LineBasicMaterial {
 }
 
 export class MeshBasicMaterial extends Material {
-    public get alphaMap(): THREE.Texture {
-        return (this.material as THREE.MeshBasicMaterial).alphaMap;
-    }
-    public set alphaMap(value: THREE.Texture) {
-        (this.material as THREE.MeshBasicMaterial).alphaMap = value;
-    }
-    public get aoMap(): THREE.Texture {
-        return (this.material as THREE.MeshBasicMaterial).aoMap;
-    }
-    public set aoMap(value: THREE.Texture) {
-        (this.material as THREE.MeshBasicMaterial).aoMap = value;
-    }
+    public alphaMap: Texture;
+    public aoMap: Texture;
     public get aoMapIntensity(): number {
         return (this.material as THREE.MeshBasicMaterial).aoMapIntensity;
     }
@@ -634,18 +664,8 @@ export class MeshBasicMaterial extends Material {
     public set combine(value: THREE.Combine) {
         (this.material as THREE.MeshBasicMaterial).combine = value;
     }
-    public get envMap(): THREE.Texture {
-        return (this.material as THREE.MeshBasicMaterial).envMap;
-    }
-    public set envMap(value: THREE.Texture) {
-        (this.material as THREE.MeshBasicMaterial).envMap = value;
-    }
-    public get map(): THREE.Texture {
-        return (this.material as THREE.MeshBasicMaterial).map;
-    }
-    public set map(value: THREE.Texture) {
-        (this.material as THREE.MeshBasicMaterial).map = value;
-    }
+    public envMap: Texture;
+    public map: Texture;
     public get morphTargets(): boolean {
         return (this.material as THREE.MeshBasicMaterial).morphTargets;
     }
@@ -670,12 +690,7 @@ export class MeshBasicMaterial extends Material {
     public set skinning(value: boolean) {
         (this.material as THREE.MeshBasicMaterial).skinning = value;
     }
-    public get specularMap(): THREE.Texture {
-        return (this.material as THREE.MeshBasicMaterial).specularMap;
-    }
-    public set specularMap(value: THREE.Texture) {
-        (this.material as THREE.MeshBasicMaterial).specularMap = value;
-    }
+    public specularMap: Texture;
     public get wireframe(): boolean {
         return (this.material as THREE.MeshBasicMaterial).wireframe;
     }
@@ -705,6 +720,22 @@ export class MeshBasicMaterial extends Material {
         super(type ? type : MaterialType.MESH_BASIC);
     }
 
+    public static fromMaterial(material: THREE.MeshBasicMaterial): MeshBasicMaterial {
+        if (!material) { return null; }
+
+        const ret = new MeshBasicMaterial();
+        ret.alphaMap = Texture.CreateTexture(material.alphaMap);
+        ret.aoMap = Texture.CreateTexture(material.aoMap);
+        ret.envMap = Texture.CreateTexture(material.envMap);
+        ret.map = Texture.CreateTexture(material.map);
+        ret.specularMap = Texture.CreateTexture(material.specularMap);
+        ret.material = material;
+
+        ret.name = material.name ? material.name : material.uuid;
+
+        return ret;
+    }
+
     public clone(): MeshBasicMaterial {
         const ret = new MeshBasicMaterial();
         ret.copy(this);
@@ -714,22 +745,40 @@ export class MeshBasicMaterial extends Material {
 
     public copy(material: MeshBasicMaterial): void {
         super.copy(material);
-        this.alphaMap = material.alphaMap;
-        this.aoMap = material.aoMap;
+
+        const m = this.material as THREE.MeshBasicMaterial;
+
+        this.alphaMap = Texture.cloneTexture(material.alphaMap);
+        if (this.alphaMap) { m.alphaMap = this.alphaMap.texture; }
+        this.aoMap = Texture.cloneTexture(material.aoMap);
+        if (this.aoMap) { m.aoMap = this.aoMap.texture; }
         this.aoMapIntensity = material.aoMapIntensity;
         this.colour = material.colour;
         this.combine = material.combine;
-        this.envMap = material.envMap;
-        this.map = material.map;
+        this.envMap = Texture.cloneTexture(material.envMap);
+        if (this.envMap) { m.envMap = this.envMap.texture; }
+        this.map = Texture.cloneTexture(material.map);
+        if (this.map) { m.map = this.map.texture; }
         this.morphTargets = material.morphTargets;
         this.reflectivity = material.reflectivity;
         this.refractionRatio = material.refractionRatio;
         this.skinning = material.skinning;
-        this.specularMap = material.specularMap;
+        this.specularMap = Texture.cloneTexture(material.specularMap);
+        if (this.specularMap) { m.specularMap = this.specularMap.texture; }
         this.wireframe = material.wireframe;
         this.wireframeLinecap = material.wireframeLinecap;
         this.wireframeLinejoin = material.wireframeLinejoin;
         this.wireframeLinewidth = material.wireframeLinewidth;
+    }
+
+    public update(): void {
+        super.update();
+
+        if (this.alphaMap) { this.alphaMap.texture.needsUpdate = true; }
+        if (this.aoMap) { this.aoMap.texture.needsUpdate = true; }
+        if (this.envMap) { this.envMap.texture.needsUpdate = true; }
+        if (this.map) { this.map.texture.needsUpdate = true; }
+        if (this.specularMap) { this.specularMap.texture.needsUpdate = true; }
     }
 }
 

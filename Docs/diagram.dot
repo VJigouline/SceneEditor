@@ -194,18 +194,18 @@ digraph SceneEditor {
     clone(): MeshBasicMaterial\n
     copy(material: MeshBasicMaterial): void
     |
-    alphaMap: THREE.Texture\n
-    aoMap: THREE.Texture\n
+    alphaMap: Texture\n
+    aoMap: Texture\n
     aoMapIntensity: number\n
     colour: string\n
     combine: THREE.Combine\n
-    envMap: THREE.Texture\n
-    map: THREE.Texture\n
+    envMap: Texture\n
+    map: Texture\n
     morphTargets: boolean\n
     reflectivity: number\n
     refractionRatio: number\n
     skinning: boolean\n
-    specularMap: THREE.Texture\n
+    specularMap: Texture\n
     wireframe: boolean\n
     wireframeLinecap: string\n
     wireframeLinejoin: string\n
