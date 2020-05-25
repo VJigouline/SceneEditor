@@ -128,6 +128,18 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
       (this.Material as unknown as MeshPhysicalMaterial).clearcoatRoughness = value;
     }
   }
+  get clearcoatReflectivity(): number {
+    if (this.physical && this.Material) {
+      return (this.Material as unknown as MeshPhysicalMaterial).reflectivity;
+    }
+
+    return 0;
+  }
+  set clearcoatReflectivity(value: number) {
+    if (this.physical && this.Material) {
+      (this.Material as unknown as MeshPhysicalMaterial).reflectivity = value;
+    }
+  }
 
   get metalnessUsage(): TextureUsage {
     return this.physical ? TextureUsage.CLEARCOAT_MAP : TextureUsage.METALNESS_MAP;
@@ -158,6 +170,12 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
 
   onClearcoatRoughnessChanged(event: MatSliderChange): void {
     (this.Material as unknown as MeshPhysicalMaterial).clearcoatRoughness =
+      Math.round((event.value + Number.EPSILON) * 100) / 100;
+    this.updateMaterial(this.Material);
+  }
+
+  onClearcoatReflectivityChanged(event: MatSliderChange): void {
+    (this.Material as unknown as MeshPhysicalMaterial).reflectivity =
       Math.round((event.value + Number.EPSILON) * 100) / 100;
     this.updateMaterial(this.Material);
   }
