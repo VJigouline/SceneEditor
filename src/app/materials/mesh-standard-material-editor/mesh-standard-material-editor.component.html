@@ -124,6 +124,21 @@
         </div>
     </mat-expansion-panel>
     <!--
+    <mat-expansion-panel *ngIf="physical">
+        <mat-expansion-panel-header>
+            <mat-panel-title>Clear coat normal map</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngIf="Material" class="row">
+            <div class="col">
+                <app-texture-editor #TextureEditor 
+                [Material]="Material"
+                [Texture]="ClearcoatNormalMap"
+                (changedTexture)="onClearcoatNormalMapChanged($event)"
+                (changedScale)="onBumpMapScaleChanged($event)"
+                ></app-texture-editor>
+            </div>
+        </div>
+    </mat-expansion-panel>
     <mat-expansion-panel>
         <mat-expansion-panel-header>
             <mat-panel-title>Displacement map</mat-panel-title>
@@ -207,7 +222,7 @@
     </mat-expansion-panel>
     <mat-expansion-panel>
         <mat-expansion-panel-header>
-            <mat-panel-title>Metalness/Roughness map</mat-panel-title>
+            <mat-panel-title>Metalness/Roughness{{physical ? '/Clearcoat' : ''}} map</mat-panel-title>
         </mat-expansion-panel-header>
         <div *ngIf="Material" class="row">
             <div class="col">

@@ -1763,7 +1763,7 @@ export class MeshPhysicalMaterial extends MeshStandardMaterial {
     public update(): void {
         super.update();
 
-        if (this.normalMap) { this.normalMap.texture.needsUpdate = true; }
+        if (this.clearcoatNormalMap) { this.clearcoatNormalMap.texture.needsUpdate = true; }
     }
 }
 

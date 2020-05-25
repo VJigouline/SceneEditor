@@ -103,6 +103,14 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
       (this.Material as unknown as MeshPhysicalMaterial).clearcoat = value;
     }
   }
+  get ClearcoatNormalMap(): Texture {
+    if (this.physical && this.Material) {
+      return (this.Material as unknown as MeshPhysicalMaterial).clearcoatNormalMap;
+    }
+
+    return null;
+  }
+  set ClearcoatNormalMap(value: Texture) {}
 
   bumpMapUsage = TextureUsage.BUMP_MAP;
   normalMapUsage = TextureUsage.NORMAL_MAP;
@@ -293,14 +301,29 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
         this.Material.roughnessMap = event;
         (this.Material.material as THREE.MeshStandardMaterial).metalnessMap = event.texture;
         (this.Material.material as THREE.MeshStandardMaterial).roughnessMap = event.texture;
-        this.Material.update();
+        if (this.physical) {
+          const m = this.Material as MeshPhysicalMaterial;
+          m.clearcoatNormalMap = event;
+          (m.material as THREE.MeshPhysicalMaterial).clearcoatNormalMap = event.texture;
+          m.update();
+        } else {
+          this.Material.update();
+        }
       }
     } else {
       this.Material.metalnessMap = null;
       (this.Material.material as THREE.MeshStandardMaterial).metalnessMap = null;
       this.Material.roughnessMap = null;
       (this.Material.material as THREE.MeshStandardMaterial).roughnessMap = null;
-    }
+      if (this.physical) {
+        const m = this.Material as MeshPhysicalMaterial;
+        m.clearcoatNormalMap = null;
+        (m.material as THREE.MeshPhysicalMaterial).clearcoatNormalMap = null;
+        m.update();
+      } else {
+        this.Material.update();
+      }
+  }
     this.updateMaterial(this.Material);
   }
 
@@ -320,6 +343,24 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
 
   onRefractionRatioChanged(value: number): void {
     this.Material.refractionRatio = value;
+    this.updateMaterial(this.Material);
+  }
+
+  onClearcoatNormalMapChanged(event: Texture): void {
+    if (!this.physical || !this.Material) { return; }
+
+    const m = this.Material as MeshPhysicalMaterial;
+
+    if (event) {
+      if (m.clearcoatNormalMap !== event) {
+        m.clearcoatNormalMap = event;
+        (this.Material.material as THREE.MeshPhysicalMaterial).clearcoatNormalMap = event.texture;
+        this.Material.update();
+      }
+    } else {
+      m.clearcoatNormalMap = null;
+      (this.Material.material as THREE.MeshPhysicalMaterial).clearcoatNormalMap = null;
+    }
     this.updateMaterial(this.Material);
   }
 }
