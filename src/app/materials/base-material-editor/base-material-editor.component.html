@@ -27,3 +27,15 @@
         </mat-checkbox>
     </div>
 </div>
+<div class="row">
+    <div class="col">
+        <mat-form-field class="full-width">
+        <mat-label>Select material side</mat-label>
+        <mat-select [(value)]="Material.side"
+        (selectionChange)="onSideChange($event)"
+        >
+            <mat-option *ngFor="let type of sideTypes" [value]="type.type">{{type.name}}</mat-option>
+        </mat-select>
+        </mat-form-field>
+    </div>
+</div>

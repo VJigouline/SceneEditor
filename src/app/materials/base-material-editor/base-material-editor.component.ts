@@ -3,6 +3,9 @@ import { Material } from '../material';
 import { MatSliderChange } from '@angular/material/slider';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
+import * as THREE from 'three';
+import { MatSelectChange } from '@angular/material/select';
+
 @Component({
   selector: 'app-base-material-editor',
   templateUrl: './base-material-editor.component.html',
@@ -14,6 +17,12 @@ export class BaseMaterialEditorComponent implements OnInit {
 
   // properties
   @Input() Material: Material;
+
+  public sideTypes = [
+    { type: THREE.FrontSide, name: 'Front' },
+    { type: THREE.BackSide, name: 'Back' },
+    { type: THREE.DoubleSide, name: 'Both' }
+  ];
 
   constructor() { }
 
@@ -32,6 +41,11 @@ export class BaseMaterialEditorComponent implements OnInit {
 
   public onVisibleChange(event: MatCheckboxChange): void {
     this.Material.visible = event.checked;
+    this.materialChange.emit(this.Material);
+  }
+
+  onSideChange(change: MatSelectChange): void {
+    this.Material.side = change.value;
     this.materialChange.emit(this.Material);
   }
 
