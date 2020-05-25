@@ -68,6 +68,15 @@
                 ></mat-slider>
             </div>
         </div>
+        <div *ngIf="Material && physical" class="row">
+            <div class="col label">
+                Clear coat roughness {{clearcoatRoughness}}
+                <mat-slider min="0" max="1" step="0.01"
+                (input)="onClearcoatRoughnessChanged($event)"
+                [(value)]="clearcoatRoughness"
+                ></mat-slider>
+            </div>
+        </div>
         <div *ngIf="Material" class="row">
             <div class="col">
                 <mat-checkbox

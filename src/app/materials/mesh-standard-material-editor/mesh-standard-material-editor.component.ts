@@ -116,6 +116,18 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
   }
   set ClearcoatNormalMap(value: Texture) {}
   */
+  get clearcoatRoughness(): number {
+    if (this.physical && this.Material) {
+      return (this.Material as unknown as MeshPhysicalMaterial).clearcoatRoughness;
+    }
+
+    return 0;
+  }
+  set clearcoatRoughness(value: number) {
+    if (this.physical && this.Material) {
+      (this.Material as unknown as MeshPhysicalMaterial).clearcoatRoughness = value;
+    }
+  }
 
   get metalnessUsage(): TextureUsage {
     return this.physical ? TextureUsage.CLEARCOAT_MAP : TextureUsage.METALNESS_MAP;
@@ -140,6 +152,12 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
 
   onClearcoatChanged(event: MatSliderChange): void {
     (this.Material as unknown as MeshPhysicalMaterial).clearcoat =
+      Math.round((event.value + Number.EPSILON) * 100) / 100;
+    this.updateMaterial(this.Material);
+  }
+
+  onClearcoatRoughnessChanged(event: MatSliderChange): void {
+    (this.Material as unknown as MeshPhysicalMaterial).clearcoatRoughness =
       Math.round((event.value + Number.EPSILON) * 100) / 100;
     this.updateMaterial(this.Material);
   }
