@@ -82,7 +82,7 @@ export class MeshStandardMaterialExport extends MaterialExport {
     private normalScale: THREE.Vector2;
     private refractionRatio: number;
     private roughness: number;
-    private roughnessMap: TextureExport;
+//    private roughnessMap: TextureExport;
     private skinning: boolean;
     private vertexTangents: boolean;
     private wireframe: boolean;
@@ -115,8 +115,8 @@ export class MeshStandardMaterialExport extends MaterialExport {
         this.normalMapType = material.normalMapType;
         this.normalScale = material.normalScale;
         this.refractionRatio = material.refractionRatio;
-        this.roughness = material.roughness;
-        if (material.roughnessMap) { this.roughnessMap = material.roughnessMap.toJSON(); }
+//        this.roughness = material.roughness;
+//        if (material.roughnessMap) { this.roughnessMap = material.roughnessMap.toJSON(); }
         this.skinning = material.skinning;
         this.vertexTangents = material.vertexTangents;
         this.wireframe = material.wireframe;
@@ -126,7 +126,7 @@ export class MeshStandardMaterialExport extends MaterialExport {
 
 export class MeshPhysicalMaterialExport extends MeshStandardMaterialExport {
     private clearcoat: number;
-    private clearcoatNormalMap: TextureExport;
+//    private clearcoatNormalMap: TextureExport;
     private clearcoatNormalScale: Vector2;
     private clearcoatRoughness: number;
     private reflectivity: number;
@@ -135,9 +135,9 @@ export class MeshPhysicalMaterialExport extends MeshStandardMaterialExport {
         super(material);
 
         this.clearcoat = material.clearcoat;
-        if (material.clearcoatNormalMap) {
-            this.clearcoatNormalMap = material.clearcoatNormalMap.toJSON();
-        }
+//        if (material.clearcoatNormalMap) {
+//            this.clearcoatNormalMap = material.clearcoatNormalMap.toJSON();
+//        }
         this.clearcoatNormalScale = material.clearcoatNormalScale.clone();
         this.clearcoatRoughness = material.clearcoatRoughness;
         this.reflectivity = material.reflectivity;
@@ -1560,7 +1560,7 @@ export class MeshStandardMaterial extends Material {
     public set roughness(value: number) {
         (this.material as THREE.MeshStandardMaterial).roughness = value;
     }
-    public roughnessMap: Texture;
+    // public roughnessMap: Texture;
     public get skinning(): boolean {
         return (this.material as THREE.MeshPhongMaterial).skinning;
     }
@@ -1604,7 +1604,7 @@ export class MeshStandardMaterial extends Material {
         ret.map = Texture.CreateTexture(material.map);
         ret.metalnessMap = Texture.CreateTexture(material.metalnessMap);
         ret.normalMap = Texture.CreateTexture(material.normalMap);
-        ret.roughnessMap = Texture.CreateTexture(material.roughnessMap);
+        // ret.roughnessMap = Texture.CreateTexture(material.roughnessMap);
         ret.material = material;
 
         ret.name = material.name ? material.name : material.uuid;
@@ -1651,7 +1651,10 @@ export class MeshStandardMaterial extends Material {
         if (this.map) { m.map = this.map.texture; }
         this.metalness = material.metalness;
         this.metalnessMap = Texture.cloneTexture(material.metalnessMap);
-        if (this.metalnessMap) { m.metalnessMap = this.metalnessMap.texture; }
+        if (this.metalnessMap) {
+            m.metalnessMap = this.metalnessMap.texture;
+            m.roughnessMap = this.metalnessMap.texture;
+        }
         this.morphNormals = material.morphNormals;
         this.morphTargets = material.morphTargets;
         this.normalMap = Texture.cloneTexture(material.normalMap);
@@ -1660,8 +1663,8 @@ export class MeshStandardMaterial extends Material {
         this.normalScale = material.normalScale;
         this.refractionRatio = material.refractionRatio;
         this.roughness = material.roughness;
-        this.roughnessMap = Texture.cloneTexture(material.roughnessMap);
-        if (this.roughnessMap) { m.roughnessMap = this.roughnessMap.texture; }
+        // this.roughnessMap = Texture.cloneTexture(material.roughnessMap);
+        // if (this.roughnessMap) { m.roughnessMap = this.roughnessMap.texture; }
         this.skinning = material.skinning;
         this.vertexTangents = material.vertexTangents;
         this.wireframe = material.wireframe;
@@ -1681,7 +1684,7 @@ export class MeshStandardMaterial extends Material {
         if (this.map) { this.map.texture.needsUpdate = true; }
         if (this.metalnessMap) { this.metalnessMap.texture.needsUpdate = true; }
         if (this.normalMap) { this.normalMap.texture.needsUpdate = true; }
-        if (this.roughnessMap) { this.roughnessMap.texture.needsUpdate = true; }
+//        if (this.roughnessMap) { this.roughnessMap.texture.needsUpdate = true; }
     }
 }
 
@@ -1692,7 +1695,7 @@ export class MeshPhysicalMaterial extends MeshStandardMaterial {
     public set clearcoat(value: number) {
         (this.material as THREE.MeshPhysicalMaterial).clearcoat = value;
     }
-    public clearcoatNormalMap: Texture;
+//    public clearcoatNormalMap: Texture;
     public get clearcoatNormalScale(): Vector2 {
         const m = this.material as THREE.MeshPhysicalMaterial;
         return new Vector2(m.clearcoatNormalScale.x, m.clearcoatNormalScale.y);
@@ -1724,7 +1727,7 @@ export class MeshPhysicalMaterial extends MeshStandardMaterial {
         ret.alphaMap = Texture.CreateTexture(material.alphaMap);
         ret.aoMap = Texture.CreateTexture(material.aoMap);
         ret.bumpMap = Texture.CreateTexture(material.bumpMap);
-        ret.clearcoatNormalMap = Texture.CreateTexture(material.clearcoatNormalMap);
+//        ret.clearcoatNormalMap = Texture.CreateTexture(material.clearcoatNormalMap);
         ret.displacementMap = Texture.CreateTexture(material.displacementMap);
         ret.emissiveMap = Texture.CreateTexture(material.emissiveMap);
         ret.envMap = Texture.CreateTexture(material.envMap);
@@ -1732,7 +1735,7 @@ export class MeshPhysicalMaterial extends MeshStandardMaterial {
         ret.map = Texture.CreateTexture(material.map);
         ret.metalnessMap = Texture.CreateTexture(material.metalnessMap);
         ret.normalMap = Texture.CreateTexture(material.normalMap);
-        ret.roughnessMap = Texture.CreateTexture(material.roughnessMap);
+//        ret.roughnessMap = Texture.CreateTexture(material.roughnessMap);
         ret.material = material;
 
         ret.name = material.name ? material.name : material.uuid;
@@ -1750,12 +1753,13 @@ export class MeshPhysicalMaterial extends MeshStandardMaterial {
     public copy(material: MeshPhysicalMaterial): void {
         super.copy(material);
 
-        const m = material.material as THREE.MeshPhysicalMaterial;
+        const m = this.material as THREE.MeshPhysicalMaterial;
 
         this.clearcoat = material.clearcoat;
-        this.clearcoatNormalMap = Texture.cloneTexture(material.clearcoatNormalMap);
-        if (this.clearcoatNormalMap) { m.clearcoatNormalMap = this.clearcoatNormalMap.texture; }
-        this.clearcoatNormalScale = material.clearcoatNormalScale.clone();
+//        this.clearcoatNormalMap = Texture.cloneTexture(material.clearcoatNormalMap);
+        if (this.metalnessMap) { m.clearcoatNormalMap = this.metalnessMap.texture; }
+        this.clearcoatNormalScale = new Vector2(
+            material.clearcoatNormalScale.X, material.clearcoatNormalScale.Y);
         this.clearcoatRoughness = material.clearcoatRoughness;
         this.reflectivity = material.reflectivity;
     }
@@ -1763,7 +1767,7 @@ export class MeshPhysicalMaterial extends MeshStandardMaterial {
     public update(): void {
         super.update();
 
-        if (this.clearcoatNormalMap) { this.clearcoatNormalMap.texture.needsUpdate = true; }
+//        if (this.clearcoatNormalMap) { this.clearcoatNormalMap.texture.needsUpdate = true; }
     }
 }
 

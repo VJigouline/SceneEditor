@@ -91,7 +91,7 @@
     </div>
     <div *ngIf="hasScale2" class="row">
         <div class="col label">
-            'Normal map scale V' {{scale2Value}}
+            {{scale2Name}} {{scale2Value}}
             <mat-slider min="-1" max="1" step="0.01"
             (input)="onScale2Changed($event)"
             [(value)]="scale2Value"

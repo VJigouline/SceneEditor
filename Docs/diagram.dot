@@ -340,7 +340,6 @@ digraph SceneEditor {
     update(): void
     |
     clearcoat: number\n
-    clearcoatNormalMap: Texture\n
     clearcoatNormalScale: Vector2\n
     clearcoatRoughness: number\n
     reflectivity: number
@@ -378,7 +377,6 @@ MeshStandardMaterial [label="{MeshStandardMaterial |
     normalScale: THREE.Vector2\n
     refractionRatio: number\n
     roughness: number\n
-    roughnessMap: THREE.Texture\n
     skinning: boolean\n
     vertexTangents: boolean\n
     wireframe: boolean\n
@@ -572,6 +570,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
     ALPHA_MAP = 1\n
     AO_MAP\n
     BUMP_MAP\n
+    CLEARCOAT_MAP\n
     DISPLACEMENT_MAP\n
     EMISSIVE_MAP\n
     ENVIRONMENT_MAP\n
@@ -832,8 +831,6 @@ MeshToonMaterial [label="{MeshToonMaterial |
    onNormalMapChanged(event: Texture): void\n
    onNormalMapScaleUChanged(value: number): void\n
    onNormalMapScaleVChanged(value: number): void\n
-   onRoughnessChanged(event: MatSliderChange): void\n
-   onRoughnessMapChanged(event: Texture): void\n
    onTextureChanged(event: Texture): void\n
    onWireframeChange(event: MatCheckboxChange): void\n
    onWireframeLinewidthChanged(event: MatSliderChange): void
@@ -853,7 +850,6 @@ MeshToonMaterial [label="{MeshToonMaterial |
    NormalMapScale: Point3\n
    NormalMapType: THREE.NormalMapTypes\n
    MetalnessMap: Texture\n
-   RoughnessMap: Texture\n
 }"]
  NewLightComponent [label="{NewLightComponent |
    constructor()\n
@@ -1220,6 +1216,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MeshStandardMaterialEditorComponent->Texture
  MeshStandardMaterialEditorComponent->TextureEditorComponent
  MeshStandardMaterialEditorComponent->TextureUsage
+ MeshStandardMaterialEditorComponent->Vector2
  MeshToonMaterial->Material
  Point3DComponent->Point3
  PointLight->Light
@@ -1255,6 +1252,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  TextureEditorComponent->MeshBasicMaterial
  TextureEditorComponent->MeshLambertMaterial
  TextureEditorComponent->MeshPhongMaterial
+ TextureEditorComponent->MeshPhysicalMaterial
  TextureEditorComponent->MeshStandardMaterial
  TextureEditorComponent->Point3
  TextureEditorComponent->Point3DComponent

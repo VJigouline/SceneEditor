@@ -229,6 +229,9 @@
                 <app-texture-editor #TextureEditor 
                 [Material]="Material"
                 [Texture]="MetalnessMap"
+                [Usage]="metalnessUsage"
+                (changedScale)="onClearcoatMapScaleUChanged($event)"
+                (changedScale2)="onClearcoatMapScaleVChanged($event)"
                 (changedTexture)="onMetalnessMapChanged($event)"
                 ></app-texture-editor>
             </div>

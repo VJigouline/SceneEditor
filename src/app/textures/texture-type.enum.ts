@@ -7,6 +7,7 @@ export enum TextureUsage {
     ALPHA_MAP = 1,
     AO_MAP,
     BUMP_MAP,
+    CLEARCOAT_MAP,
     DISPLACEMENT_MAP,
     EMISSIVE_MAP,
     ENVIRONMENT_MAP,

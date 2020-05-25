@@ -5,6 +5,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { TextureEditorComponent } from 'src/app/textures/texture-editor/texture-editor.component';
 import { Texture } from '../../textures/texture';
 import { Point3 } from '../../geometries/point3';
+import { Vector2 } from '../../geometries/vector2';
 import { TextureUsage } from '../../textures/texture-type.enum';
 
 import * as THREE from 'three';
@@ -86,10 +87,12 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
     return this.Material ? this.Material.metalnessMap : null;
   }
   public set MetalnessMap(value: Texture) {}
+  /*
   public get RoughnessMap(): Texture {
     return this.Material ? this.Material.roughnessMap : null;
   }
   public set RoughnessMap(value: Texture) {}
+  */
 
   get clearcoat(): number {
     if (this.physical && this.Material) {
@@ -103,6 +106,7 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
       (this.Material as unknown as MeshPhysicalMaterial).clearcoat = value;
     }
   }
+  /*
   get ClearcoatNormalMap(): Texture {
     if (this.physical && this.Material) {
       return (this.Material as unknown as MeshPhysicalMaterial).clearcoatNormalMap;
@@ -111,6 +115,11 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
     return null;
   }
   set ClearcoatNormalMap(value: Texture) {}
+  */
+
+  get metalnessUsage(): TextureUsage {
+    return this.physical ? TextureUsage.CLEARCOAT_MAP : TextureUsage.METALNESS_MAP;
+  }
 
   bumpMapUsage = TextureUsage.BUMP_MAP;
   normalMapUsage = TextureUsage.NORMAL_MAP;
@@ -294,16 +303,30 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
     this.updateMaterial(this.Material);
   }
 
+  onClearcoatMapScaleUChanged(value: number): void {
+    if (!this.physical) { return; }
+    const m = this.Material as MeshPhysicalMaterial;
+    m.clearcoatNormalScale = new Vector2(value, m.clearcoatNormalScale.Y);
+    this.updateMaterial(this.Material);
+  }
+
+  onClearcoatMapScaleVChanged(value: number): void {
+    if (!this.physical) { return; }
+    const m = this.Material as MeshPhysicalMaterial;
+    m.clearcoatNormalScale = new Vector2(m.clearcoatNormalScale.X, value);
+    this.updateMaterial(this.Material);
+  }
+
   public onMetalnessMapChanged(event: Texture): void {
     if (event) {
       if (this.Material.metalnessMap !== event) {
         this.Material.metalnessMap = event;
-        this.Material.roughnessMap = event;
+//        this.Material.roughnessMap = event;
         (this.Material.material as THREE.MeshStandardMaterial).metalnessMap = event.texture;
         (this.Material.material as THREE.MeshStandardMaterial).roughnessMap = event.texture;
         if (this.physical) {
           const m = this.Material as MeshPhysicalMaterial;
-          m.clearcoatNormalMap = event;
+//          m.clearcoatNormalMap = event;
           (m.material as THREE.MeshPhysicalMaterial).clearcoatNormalMap = event.texture;
           m.update();
         } else {
@@ -313,11 +336,11 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
     } else {
       this.Material.metalnessMap = null;
       (this.Material.material as THREE.MeshStandardMaterial).metalnessMap = null;
-      this.Material.roughnessMap = null;
+//      this.Material.roughnessMap = null;
       (this.Material.material as THREE.MeshStandardMaterial).roughnessMap = null;
       if (this.physical) {
         const m = this.Material as MeshPhysicalMaterial;
-        m.clearcoatNormalMap = null;
+//        m.clearcoatNormalMap = null;
         (m.material as THREE.MeshPhysicalMaterial).clearcoatNormalMap = null;
         m.update();
       } else {
@@ -326,7 +349,7 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
   }
     this.updateMaterial(this.Material);
   }
-
+/*
   public onRoughnessMapChanged(event: Texture): void {
     if (event) {
       if (this.Material.roughnessMap !== event) {
@@ -340,12 +363,12 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
     }
     this.updateMaterial(this.Material);
   }
-
+*/
   onRefractionRatioChanged(value: number): void {
     this.Material.refractionRatio = value;
     this.updateMaterial(this.Material);
   }
-
+/*
   onClearcoatNormalMapChanged(event: Texture): void {
     if (!this.physical || !this.Material) { return; }
 
@@ -363,4 +386,5 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
     }
     this.updateMaterial(this.Material);
   }
+*/
 }

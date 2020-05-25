@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { ThreeSceneService } from '../../three-scene.service';
-import { Material, MeshStandardMaterial, MeshPhongMaterial, MeshLambertMaterial, MeshBasicMaterial } from '../../materials/material';
+import { Material, MeshStandardMaterial, MeshPhongMaterial, MeshLambertMaterial,
+  MeshBasicMaterial, MeshPhysicalMaterial } from '../../materials/material';
 import { Texture, CubeTexture } from '../texture';
 import * as THREE from 'three';
 import { MatSelectChange } from '@angular/material/select';
@@ -55,11 +56,18 @@ export class TextureEditorComponent implements OnInit {
   public set Name(value: string) { this.texture.name = value; }
   public get hasScale(): boolean { return this.hasImage &&
     (this.Usage === TextureUsage.BUMP_MAP || this.Usage === TextureUsage.NORMAL_MAP ||
+      this.Usage === TextureUsage.CLEARCOAT_MAP ||
       (this.Usage === TextureUsage.ENVIRONMENT_MAP && this.Material.type !== MaterialType.MESH_PHONG)); }
-  public get hasScale2(): boolean { return this.hasImage && this.Usage === TextureUsage.NORMAL_MAP; }
+  public get hasScale2(): boolean { return this.hasImage && (this.Usage === TextureUsage.NORMAL_MAP ||
+    this.Usage === TextureUsage.CLEARCOAT_MAP); }
   public get scaleName(): string {
     if (this.Usage === TextureUsage.ENVIRONMENT_MAP) { return 'Environment map intencity'; }
-    return this.hasScale2 ? 'Normal map scale U' : 'Bump map scale';
+    return this.hasScale2 ? (this.Usage === TextureUsage.CLEARCOAT_MAP ?
+      'Clearcoat map scale U' : 'Normal map scale U') : 'Bump map scale';
+  }
+  get scale2Name(): string {
+    return this.Usage === TextureUsage.CLEARCOAT_MAP ?
+      'Clearcoat map scale V' : 'Normal map scale V';
   }
   get scaleMin(): number { return this.Usage === TextureUsage.ENVIRONMENT_MAP ? 0 : -1; }
   get scaleMax(): number { return this.Usage === TextureUsage.ENVIRONMENT_MAP ? 20 : 1; }
@@ -74,6 +82,10 @@ export class TextureEditorComponent implements OnInit {
         if (this.Material.type === MaterialType.MESH_STANDARD) {
           return (this.Material as undefined as MeshStandardMaterial).envMapIntensity;
         }
+      } else if (this.Usage === TextureUsage.CLEARCOAT_MAP) {
+        if (this.Material.type === MaterialType.MESH_PHYSICAL) {
+          return (this.Material as undefined as MeshPhysicalMaterial).clearcoatNormalScale.X;
+        }
       } else {
         if (this.Material.type === MaterialType.MESH_STANDARD) {
           return (this.Material as undefined as MeshStandardMaterial).normalScale.x;
@@ -87,6 +99,8 @@ export class TextureEditorComponent implements OnInit {
     if (this.hasScale2) {
       if (this.Material.type === MaterialType.MESH_STANDARD) {
         return (this.Material as undefined as MeshStandardMaterial).normalScale.y;
+      } else if (this.Material.type === MaterialType.MESH_PHYSICAL) {
+        return (this.Material as undefined as MeshPhysicalMaterial).clearcoatNormalScale.Y;
       }
     }
     return 1;
