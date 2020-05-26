@@ -231,24 +231,24 @@ digraph SceneEditor {
     copy(material: MeshLambertMaterial): void
     update(): void
     |
-    alphaMap: THREE.Texture\n
-    aoMap: THREE.Texture\n
+    alphaMap: Texture\n
+    aoMap: Texture\n
     aoMapIntensity: number\n
     colour: string\n
     combine: THREE.Combine\n
     emissive: string\n
-    emissiveMap: THREE.Texture\n
+    emissiveMap: Texture\n
     emissiveIntensity: number\n
-    envMap: THREE.Texture\n
-    lightMap: THREE.Texture\n
+    envMap: Texture\n
+    lightMap: Texture\n
     lightMapIntensity: number\n
-    map: THREE.Texture\n
+    map: Texture\n
     morphNormals: boolean\n
     morphTargets: boolean\n
     reflectivity: number\n
     refractionRatio: number\n
     skinning: boolean\n
-    specularMap: THREE.Texture\n
+    specularMap: Texture\n
     wireframe: boolean\n
     wireframeLinecap: string\n
     wireframeLinejoin: string\n
@@ -256,21 +256,23 @@ digraph SceneEditor {
  }"]
  MeshMatcapMaterial [label="{MeshMatcapMaterial |
     constructor()\n
+    static fromMaterial(material: THREE.MeshMatcapMaterial): MeshMatcapMaterial\n
     clone(): MeshMatcapMaterial\n
-    copy(material: MeshMatcapMaterial): void
+    copy(material: MeshMatcapMaterial): void\n
+    update(): void
     |
-    alphaMap: THREE.Texture\n
-    bumpMap: THREE.Texture\n
+    alphaMap: Texture\n
+    bumpMap: Texture\n
     bumpScale: number\n
     colour: string\n
-    displacementMap: THREE.Texture\n
+    displacementMap: Texture\n
     displacementScale: number\n
     displacementBias: number\n
-    map: THREE.Texture\n
-    matcap: THREE.Texture\n
+    map: Texture\n
+    matcap: Texture\n
     morphNormals: boolean\n
     morphTargets: boolean\n
-    normalMap: THREE.Texture\n
+    normalMap: Texture\n
     normalMapType: THREE.NormalMapTypes\n
     normalScale: THREE.Vector2\n
     skinning: boolean\n
@@ -282,15 +284,15 @@ digraph SceneEditor {
     clone(): MeshNormalMaterial\n
     copy(material: MeshNormalMaterial): void
     |
-    bumpMap: THREE.Texture\n
+    bumpMap: Texture\n
     bumpScale: number\n
-    displacementMap: THREE.Texture\n
+    displacementMap: Texture\n
     displacementScale: number\n
     displacementBias: number\n
     fog: boolean\n
     morphNormals: boolean\n
     morphTargets: boolean\n
-    normalMap: THREE.Texture\n
+    normalMap: Texture\n
     normalMapType: THREE.NormalMapTypes\n
     normalScale: THREE.Vector2\n
     skinning: boolean
@@ -354,28 +356,28 @@ MeshStandardMaterial [label="{MeshStandardMaterial |
     static fromMaterial(material: THREE.MeshStandardMaterial): MeshStandardMaterial\n
     update(): void
     |
-    alphaMap: THREE.Texture\n
-    aoMap: THREE.Texture\n
+    alphaMap: Texture\n
+    aoMap: Texture\n
     aoMapIntensity: number\n
-    bumpMap: THREE.Texture\n
+    bumpMap: Texture\n
     bumpScale: number\n
     colour: string\n
-    displacementMap: THREE.Texture\n
+    displacementMap: Texture\n
     displacementScale: number\n
     displacementBias: number\n
     emissive: string\n
-    emissiveMap: THREE.Texture\n
+    emissiveMap: Texture\n
     emissiveIntensity: number\n
-    envMap: THREE.Texture\n
+    envMap: Texture\n
     envMapIntensity: number\n
-    lightMap: THREE.Texture\n
+    lightMap: Texture\n
     lightMapIntensity: number\n
-    map: THREE.Texture\n
+    map: Texture\n
     metalness: number\n
-    metalnessMap: THREE.Texture\n
+    metalnessMap: Texture\n
     morphNormals: boolean\n
     morphTargets: boolean\n
-    normalMap: THREE.Texture\n
+    normalMap: Texture\n
     normalMapType: THREE.NormalMapTypes\n
     normalScale: THREE.Vector2\n
     refractionRatio: number\n
@@ -390,33 +392,33 @@ MeshToonMaterial [label="{MeshToonMaterial |
     clone(): MeshToonMaterial\n
     copy(material: MeshToonMaterial): void
     |
-    alphaMap: THREE.Texture\n
-    aoMap: THREE.Texture\n
+    alphaMap: Texture\n
+    aoMap: Texture\n
     aoMapIntensity: number\n
-    bumpMap: THREE.Texture\n
+    bumpMap: Texture\n
     bumpScale: number\n
     colour: string\n
-    displacementMap: THREE.Texture\n
+    displacementMap: Texture\n
     displacementScale: number\n
     displacementBias: number\n
     emissive: string\n
-    emissiveMap: THREE.Texture\n
+    emissiveMap: Texture\n
     emissiveIntensity: number\n
-    envMap: THREE.Texture\n
-    gradientMap: THREE.Texture\n
-    lightMap: THREE.Texture\n
+    envMap: Texture\n
+    gradientMap: Texture\n
+    lightMap: Texture\n
     lightMapIntensity: number\n
-    map: THREE.Texture\n
+    map: Texture\n
     morphNormals: boolean\n
     morphTargets: boolean\n
-    normalMap: THREE.Texture\n
+    normalMap: Texture\n
     normalMapType: THREE.NormalMapTypes\n
     normalScale: THREE.Vector2\n
     refractionRatio: number\n
     shininess: number\n
     skinning: boolean\n
     specular: string\n
-    specularMap: THREE.Texture\n
+    specularMap: Texture\n
     wireframe: boolean\n
     wireframeLinecap: string\n
     wireframeLinejoin: string\n
@@ -453,7 +455,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
     copy(material: PointsMaterial): void
     |
     colour: string\n
-    map: THREE.Texture\n
+    map: Texture\n
     size: number\n
     sizeAttenuation: boolean
  }"]
@@ -492,7 +494,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
     |
     colour: string\n
     fog: boolean\n
-    map: THREE.Texture\n
+    map: Texture\n
     rotation: number\n
     sizeAttenuation: boolean
  }"]

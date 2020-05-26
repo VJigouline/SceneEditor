@@ -164,6 +164,43 @@ export class MeshLambertMaterialExport extends MaterialExport {
     }
 }
 
+export class MeshMatcapMaterialExport extends MaterialExport {
+    private alphaMap: TextureExport;
+    private bumpMap: TextureExport;
+    private bumpScale: number;
+    private colour: string;
+    private displacementMap: TextureExport;
+    private displacementScale: number;
+    private displacementBias: number;
+    private map: TextureExport;
+    private matcapMap: TextureExport;
+    private morphNormals: boolean;
+    private morphTargets: boolean;
+    private normalMap: TextureExport;
+    private normalMapType: THREE.NormalMapTypes;
+    private normalScale: THREE.Vector2;
+    private skinning: boolean;
+
+    constructor(material: MeshMatcapMaterial) {
+        super(material);
+        if (material.alphaMap) { this.alphaMap = material.alphaMap.toJSON(); }
+        if (material.bumpMap) { this.bumpMap = material.bumpMap.toJSON(); }
+        this.bumpScale = material.bumpScale;
+        this.colour = material.colour;
+        if (material.displacementMap) { this.displacementMap = material.displacementMap.toJSON(); }
+        this.displacementScale = material.displacementScale;
+        this.displacementBias = material.displacementBias;
+        if (material.map) { this.map = material.map.toJSON(); }
+        if (material.matcapMap) { this.matcapMap = material.matcapMap.toJSON(); }
+        this.morphNormals = material.morphNormals;
+        this.morphTargets = material.morphTargets;
+        if (material.normalMap) { this.normalMap = material.normalMap.toJSON(); }
+        this.normalMapType = material.normalMapType;
+        this.normalScale = material.normalScale;
+        this.skinning = material.skinning;
+    }
+}
+
 export class MeshStandardMaterialExport extends MaterialExport {
     private alphaMap: TextureExport;
     private aoMap: TextureExport;
@@ -471,16 +508,14 @@ export class Material {
             return MeshLambertMaterial.fromMaterial(material as THREE.MeshLambertMaterial);
         case 'MeshMatcapMaterial':
             // tslint:disable-next-line: no-use-before-declare
-            ret = new MeshMatcapMaterial();
-            break;
+            return MeshMatcapMaterial.fromMaterial(material as THREE.MeshMatcapMaterial);
         case 'MeshNormalMaterial':
             // tslint:disable-next-line: no-use-before-declare
             ret = new MeshNormalMaterial();
             break;
         case 'MeshPhongMaterial':
             // tslint:disable-next-line: no-use-before-declare
-            ret = new MeshPhongMaterial();
-            break;
+            return MeshPhongMaterial.fromMaterial(material as THREE.MeshPhongMaterial);
         case 'MeshPhysicalMaterial':
             // tslint:disable-next-line: no-use-before-declare
             return MeshPhysicalMaterial.fromMaterial(material as THREE.MeshPhysicalMaterial);
@@ -605,7 +640,8 @@ export class Material {
                 return new MeshDepthMaterialExport(this as unknown as MeshDepthMaterial);
             case MaterialType.MESH_LAMBERT:
                 return new MeshLambertMaterialExport(this as unknown as MeshLambertMaterial);
-            // case MaterialType.MESH_MATCAP:
+            case MaterialType.MESH_MATCAP:
+                return new MeshMatcapMaterialExport(this as unknown as MeshMatcapMaterial);
             // case MaterialType.MESH_NORMAL:
             case MaterialType.MESH_PHONG:
                 return new MeshPhongMaterialExport(this as unknown as MeshPhongMaterial);
@@ -1102,18 +1138,8 @@ export class MeshLambertMaterial extends Material {
 }
 
 export class MeshMatcapMaterial extends Material {
-    public get alphaMap(): THREE.Texture {
-        return (this.material as THREE.MeshMatcapMaterial).alphaMap;
-    }
-    public set alphaMap(value: THREE.Texture) {
-        (this.material as THREE.MeshMatcapMaterial).alphaMap = value;
-    }
-    public get bumpMap(): THREE.Texture {
-        return (this.material as THREE.MeshMatcapMaterial).bumpMap;
-    }
-    public set bumpMap(value: THREE.Texture) {
-        (this.material as THREE.MeshMatcapMaterial).bumpMap = value;
-    }
+    public alphaMap: Texture;
+    public bumpMap: Texture;
     public get bumpScale(): number {
         return (this.material as THREE.MeshMatcapMaterial).bumpScale;
     }
@@ -1127,12 +1153,7 @@ export class MeshMatcapMaterial extends Material {
         (this.material as THREE.MeshMatcapMaterial).color =
             new THREE.Color(value);
     }
-    public get displacementMap(): THREE.Texture {
-        return (this.material as THREE.MeshMatcapMaterial).displacementMap;
-    }
-    public set displacementMap(value: THREE.Texture) {
-        (this.material as THREE.MeshMatcapMaterial).displacementMap = value;
-    }
+    public displacementMap: Texture;
     public get displacementScale(): number {
         return (this.material as THREE.MeshMatcapMaterial).displacementScale;
     }
@@ -1145,18 +1166,8 @@ export class MeshMatcapMaterial extends Material {
     public set displacementBias(value: number) {
         (this.material as THREE.MeshMatcapMaterial).displacementBias = value;
     }
-    public get map(): THREE.Texture {
-        return (this.material as THREE.MeshMatcapMaterial).map;
-    }
-    public set map(value: THREE.Texture) {
-        (this.material as THREE.MeshMatcapMaterial).map = value;
-    }
-    public get matcap(): THREE.Texture {
-        return (this.material as THREE.MeshMatcapMaterial).matcap;
-    }
-    public set matcap(value: THREE.Texture) {
-        (this.material as THREE.MeshMatcapMaterial).matcap = value;
-    }
+    public map: Texture;
+    public matcapMap: Texture;
     public get morphNormals(): boolean {
         return (this.material as THREE.MeshMatcapMaterial).morphNormals;
     }
@@ -1169,12 +1180,7 @@ export class MeshMatcapMaterial extends Material {
     public set morphTargets(value: boolean) {
         (this.material as THREE.MeshMatcapMaterial).morphNormals = value;
     }
-    public get normalMap(): THREE.Texture {
-        return (this.material as THREE.MeshMatcapMaterial).normalMap;
-    }
-    public set normalMap(value: THREE.Texture) {
-        (this.material as THREE.MeshMatcapMaterial).normalMap = value;
-    }
+    public normalMap: Texture;
     public get normalMapType(): THREE.NormalMapTypes {
         return (this.material as THREE.MeshMatcapMaterial).normalMapType;
     }
@@ -1198,6 +1204,23 @@ export class MeshMatcapMaterial extends Material {
         super(MaterialType.MESH_MATCAP);
     }
 
+    public static fromMaterial(material: THREE.MeshMatcapMaterial): MeshMatcapMaterial {
+        if (!material) { return null; }
+
+        const ret = new MeshMatcapMaterial();
+        ret.alphaMap = Texture.CreateTexture(material.alphaMap);
+        ret.bumpMap = Texture.CreateTexture(material.bumpMap);
+        ret.displacementMap = Texture.CreateTexture(material.displacementMap);
+        ret.map = Texture.CreateTexture(material.map);
+        ret.matcapMap = Texture.CreateTexture(material.matcap);
+        ret.normalMap = Texture.CreateTexture(material.normalMap);
+        ret.material = material;
+
+        ret.name = material.name ? material.name : material.uuid;
+
+        return ret;
+    }
+
     public clone(): MeshMatcapMaterial {
         const ret = new MeshMatcapMaterial();
         ret.copy(this);
@@ -1207,21 +1230,41 @@ export class MeshMatcapMaterial extends Material {
 
     public copy(material: MeshMatcapMaterial): void {
         super.copy(material);
-        this.alphaMap = material.alphaMap;
-        this.bumpMap = material.bumpMap;
+
+        const m = this.material as THREE.MeshMatcapMaterial;
+
+        this.alphaMap = Texture.cloneTexture(material.alphaMap);
+        if (this.alphaMap) { m.alphaMap = this.alphaMap.texture; }
+        this.bumpMap = Texture.cloneTexture(material.bumpMap);
+        if (this.bumpMap) { m.bumpMap = this.bumpMap.texture; }
         this.bumpScale = material.bumpScale;
         this.colour = material.colour;
-        this.displacementMap = material.displacementMap;
+        this.displacementMap = Texture.cloneTexture(material.displacementMap);
+        if (this.displacementMap) { m.displacementMap = this.displacementMap.texture; }
         this.displacementScale = material.displacementScale;
         this.displacementBias = material.displacementBias;
-        this.map = material.map;
-        this.matcap = material.matcap;
+        this.map = Texture.cloneTexture(material.map);
+        if (this.map) { m.map = this.map.texture; }
+        this.matcapMap = Texture.cloneTexture(material.matcapMap);
+        if (this.matcapMap) { m.matcap = this.matcapMap.texture; }
         this.morphNormals = material.morphNormals;
         this.morphTargets = material.morphTargets;
-        this.normalMap = material.normalMap;
+        this.normalMap = Texture.cloneTexture(material.normalMap);
+        if (this.normalMap) { m.normalMap = this.normalMap.texture; }
         this.normalMapType = material.normalMapType;
         this.normalScale = material.normalScale;
         this.skinning = material.skinning;
+    }
+
+    public update(): void {
+        super.update();
+
+        if (this.alphaMap) { this.alphaMap.texture.needsUpdate = true; }
+        if (this.bumpMap) { this.bumpMap.texture.needsUpdate = true; }
+        if (this.displacementMap) { this.displacementMap.texture.needsUpdate = true; }
+        if (this.map) { this.map.texture.needsUpdate = true; }
+        if (this.matcapMap) { this.matcapMap.texture.needsUpdate = true; }
+        if (this.normalMap) { this.normalMap.texture.needsUpdate = true; }
     }
 }
 
