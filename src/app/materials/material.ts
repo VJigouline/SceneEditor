@@ -112,6 +112,59 @@ export class MeshDepthMaterialExport extends MaterialExport {
     }
 }
 
+export class MeshLambertMaterialExport extends MaterialExport {
+    private alphaMap: TextureExport;
+    private aoMap: TextureExport;
+    private aoMapIntensity: number;
+    private colour: string;
+    private combine: THREE.Combine;
+    private emissive: string;
+    private emissiveMap: TextureExport;
+    private emissiveIntensity: number;
+    private envMap: TextureExport;
+    private lightMap: TextureExport;
+    private lightMapIntensity: number;
+    private map: TextureExport;
+    private morphNormals: boolean;
+    private morphTargets: boolean;
+    private reflectivity: number;
+    private refractionRatio: number;
+    private skinning: boolean;
+
+    private specularMap: TextureExport;
+    private vertexTangents: boolean;
+    private wireframe: boolean;
+    private wireframeLinecap: string;
+    private wireframeLinejoin: string;
+    private wireframeLinewidth: number;
+
+    constructor(material: MeshLambertMaterial) {
+        super(material);
+        if (material.alphaMap) { this.alphaMap = material.alphaMap.toJSON(); }
+        if (material.aoMap) { this.aoMap = material.aoMap.toJSON(); }
+        this.aoMapIntensity = material.aoMapIntensity;
+        this.colour = material.colour;
+        this.combine = material.combine;
+        this.emissive = material.emissive;
+        if (material.emissiveMap) { this.emissiveMap = material.emissiveMap.toJSON(); }
+        this.emissiveIntensity = material.emissiveIntensity;
+        if (material.envMap) { this.envMap = material.envMap.toJSON(); }
+        if (material.lightMap) { this.lightMap = material.lightMap.toJSON(); }
+        this.lightMapIntensity = material.lightMapIntensity;
+        if (material.map) { this.map = material.map.toJSON(); }
+        this.morphNormals = material.morphNormals;
+        this.morphTargets = material.morphTargets;
+        this.reflectivity = material.reflectivity;
+        this.refractionRatio = material.refractionRatio;
+        this.skinning = material.skinning;
+        if (material.specularMap) { this.specularMap = material.specularMap.toJSON(); }
+        this.wireframe = material.wireframe;
+        this.wireframeLinecap = material.wireframeLinecap;
+        this.wireframeLinejoin = material.wireframeLinejoin;
+        this.wireframeLinewidth = material.wireframeLinewidth;
+    }
+}
+
 export class MeshStandardMaterialExport extends MaterialExport {
     private alphaMap: TextureExport;
     private aoMap: TextureExport;
@@ -416,8 +469,7 @@ export class Material {
             break;
         case 'MeshLambertMaterial':
             // tslint:disable-next-line: no-use-before-declare
-            ret = new MeshLambertMaterial();
-            break;
+            return MeshLambertMaterial.fromMaterial(material as THREE.MeshLambertMaterial);
         case 'MeshMatcapMaterial':
             // tslint:disable-next-line: no-use-before-declare
             ret = new MeshMatcapMaterial();
@@ -546,24 +598,26 @@ export class Material {
 
     public toJSON(): MaterialExport {
         switch (this.type) {
-            case MaterialType.LINE_BASIC:
-            case MaterialType.LINE_DASHED:
+            // case MaterialType.LINE_BASIC:
+            // case MaterialType.LINE_DASHED:
             case MaterialType.MESH_BASIC:
                 return new MeshBasicMaterialExport(this as unknown as MeshBasicMaterial);
             case MaterialType.MESH_DEPTH:
+                return new MeshDepthMaterialExport(this as unknown as MeshDepthMaterial);
             case MaterialType.MESH_LAMBERT:
-            case MaterialType.MESH_MATCAP:
-            case MaterialType.MESH_NORMAL:
+                return new MeshLambertMaterialExport(this as unknown as MeshLambertMaterial);
+            // case MaterialType.MESH_MATCAP:
+            // case MaterialType.MESH_NORMAL:
             case MaterialType.MESH_PHONG:
                 return new MeshPhongMaterialExport(this as unknown as MeshPhongMaterial);
             case MaterialType.MESH_PHYSICAL:
                 return new MeshPhysicalMaterialExport(this as unknown as MeshPhysicalMaterial);
             case MaterialType.MESH_STANDARD:
                 return new MeshStandardMaterialExport(this as unknown as MeshStandardMaterial);
-            case MaterialType.MESH_TOON:
-            case MaterialType.POINTS:
-            case MaterialType.SHADOW:
-            case MaterialType.SPRITE:
+            // case MaterialType.MESH_TOON:
+            // case MaterialType.POINTS:
+            // case MaterialType.SHADOW:
+            // case MaterialType.SPRITE:
             default:
                 console.error('Unknown material.');
                 break;
@@ -870,18 +924,8 @@ export class MeshDepthMaterial extends Material {
 }
 
 export class MeshLambertMaterial extends Material {
-    public get alphaMap(): THREE.Texture {
-        return (this.material as THREE.MeshLambertMaterial).alphaMap;
-    }
-    public set alphaMap(value: THREE.Texture) {
-        (this.material as THREE.MeshLambertMaterial).alphaMap = value;
-    }
-    public get aoMap(): THREE.Texture {
-        return (this.material as THREE.MeshLambertMaterial).aoMap;
-    }
-    public set aoMap(value: THREE.Texture) {
-        (this.material as THREE.MeshLambertMaterial).aoMap = value;
-    }
+    public alphaMap: Texture;
+    public aoMap: Texture;
     public get aoMapIntensity(): number {
         return (this.material as THREE.MeshLambertMaterial).aoMapIntensity;
     }
@@ -908,42 +952,22 @@ export class MeshLambertMaterial extends Material {
         (this.material as THREE.MeshLambertMaterial).emissive =
             new THREE.Color(value);
     }
-    public get emissiveMap(): THREE.Texture {
-        return (this.material as THREE.MeshLambertMaterial).emissiveMap;
-    }
-    public set emissiveMap(value: THREE.Texture) {
-        (this.material as THREE.MeshLambertMaterial).emissiveMap = value;
-    }
+    public emissiveMap: Texture;
     public get emissiveIntensity(): number {
         return (this.material as THREE.MeshLambertMaterial).emissiveIntensity;
     }
     public set emissiveIntensity(value: number) {
         (this.material as THREE.MeshLambertMaterial).emissiveIntensity = value;
     }
-    public get envMap(): THREE.Texture {
-        return (this.material as THREE.MeshLambertMaterial).envMap;
-    }
-    public set envMap(value: THREE.Texture) {
-        (this.material as THREE.MeshLambertMaterial).envMap = value;
-    }
-    public get lightMap(): THREE.Texture {
-        return (this.material as THREE.MeshLambertMaterial).lightMap;
-    }
-    public set lightMap(value: THREE.Texture) {
-        (this.material as THREE.MeshLambertMaterial).lightMap = value;
-    }
+    public envMap: Texture;
+    public lightMap: Texture;
     public get lightMapIntensity(): number {
         return (this.material as THREE.MeshLambertMaterial).lightMapIntensity;
     }
     public set lightMapIntensity(value: number) {
         (this.material as THREE.MeshLambertMaterial).lightMapIntensity = value;
     }
-    public get map(): THREE.Texture {
-        return (this.material as THREE.MeshLambertMaterial).map;
-    }
-    public set map(value: THREE.Texture) {
-        (this.material as THREE.MeshLambertMaterial).map = value;
-    }
+    public map: Texture;
     public get morphNormals(): boolean {
         return (this.material as THREE.MeshLambertMaterial).morphNormals;
     }
@@ -974,12 +998,7 @@ export class MeshLambertMaterial extends Material {
     public set skinning(value: boolean) {
         (this.material as THREE.MeshLambertMaterial).skinning = value;
     }
-    public get specularMap(): THREE.Texture {
-        return (this.material as THREE.MeshLambertMaterial).specularMap;
-    }
-    public set specularMap(value: THREE.Texture) {
-        (this.material as THREE.MeshLambertMaterial).specularMap = value;
-    }
+    public specularMap: Texture;
     public get wireframe(): boolean {
         return (this.material as THREE.MeshLambertMaterial).wireframe;
     }
@@ -1009,6 +1028,24 @@ export class MeshLambertMaterial extends Material {
         super(MaterialType.MESH_LAMBERT);
     }
 
+    public static fromMaterial(material: THREE.MeshLambertMaterial): MeshLambertMaterial {
+        if (!material) { return null; }
+
+        const ret = new MeshLambertMaterial();
+        ret.alphaMap = Texture.CreateTexture(material.alphaMap);
+        ret.aoMap = Texture.CreateTexture(material.aoMap);
+        ret.emissiveMap = Texture.CreateTexture(material.emissiveMap);
+        ret.envMap = Texture.CreateTexture(material.envMap);
+        ret.lightMap = Texture.CreateTexture(material.lightMap);
+        ret.map = Texture.CreateTexture(material.map);
+        ret.specularMap = Texture.CreateTexture(material.specularMap);
+        ret.material = material;
+
+        ret.name = material.name ? material.name : material.uuid;
+
+        return ret;
+    }
+
     public clone(): MeshLambertMaterial {
         const ret = new MeshLambertMaterial();
         ret.copy(this);
@@ -1018,28 +1055,50 @@ export class MeshLambertMaterial extends Material {
 
     public copy(material: MeshLambertMaterial): void {
         super.copy(material);
-        this.alphaMap = material.alphaMap;
-        this.aoMap = material.aoMap;
+
+        const m = this.material as THREE.MeshLambertMaterial;
+
+        this.alphaMap = Texture.cloneTexture(material.alphaMap);
+        if (this.alphaMap) { m.alphaMap = this.alphaMap.texture; }
+        this.aoMap = Texture.cloneTexture(material.aoMap);
+        if (this.aoMap) { m.aoMap = this.aoMap.texture; }
         this.aoMapIntensity = material.aoMapIntensity;
         this.colour = material.colour;
         this.combine = material.combine;
         this.emissive = material.emissive;
-        this.emissiveMap = material.emissiveMap;
+        this.emissiveMap = Texture.cloneTexture(material.emissiveMap);
+        if (this.emissiveMap) { m.emissiveMap = this.emissiveMap.texture; }
         this.emissiveIntensity = material.emissiveIntensity;
-        this.envMap = material.envMap;
-        this.lightMap = material.lightMap;
+        this.envMap = Texture.cloneTexture(material.envMap);
+        if (this.envMap) { m.envMap = this.envMap.texture; }
+        this.lightMap = Texture.cloneTexture(material.lightMap);
+        if (this.lightMap) { m.lightMap = this.lightMap.texture; }
         this.lightMapIntensity = material.lightMapIntensity;
-        this.map = material.map;
+        this.map = Texture.cloneTexture(material.map);
+        if (this.map) { m.map = this.map.texture; }
         this.morphNormals = material.morphNormals;
         this.morphTargets = material.morphTargets;
         this.reflectivity = material.reflectivity;
         this.refractionRatio = material.refractionRatio;
         this.skinning = material.skinning;
-        this.specularMap = material.specularMap;
+        this.specularMap = Texture.cloneTexture(material.specularMap);
+        if (this.specularMap) { m.specularMap = this.specularMap.texture; }
         this.wireframe = material.wireframe;
         this.wireframeLinecap = material.wireframeLinecap;
         this.wireframeLinejoin = material.wireframeLinejoin;
         this.wireframeLinewidth = material.wireframeLinewidth;
+    }
+
+    public update(): void {
+        super.update();
+
+        if (this.alphaMap) { this.alphaMap.texture.needsUpdate = true; }
+        if (this.aoMap) { this.aoMap.texture.needsUpdate = true; }
+        if (this.emissiveMap) { this.emissiveMap.texture.needsUpdate = true; }
+        if (this.envMap) { this.envMap.texture.needsUpdate = true; }
+        if (this.lightMap) { this.lightMap.texture.needsUpdate = true; }
+        if (this.map) { this.map.texture.needsUpdate = true; }
+        if (this.specularMap) { this.specularMap.texture.needsUpdate = true; }
     }
 }
 
