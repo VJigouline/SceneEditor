@@ -226,8 +226,10 @@ digraph SceneEditor {
  }"]
  MeshLambertMaterial [label="{MeshLambertMaterial |
     constructor()\n
+    static fromMaterial(material: THREE.MeshLambertMaterial): MeshLambertMaterial\n
     clone(): MeshLambertMaterial\n
     copy(material: MeshLambertMaterial): void
+    update(): void
     |
     alphaMap: THREE.Texture\n
     aoMap: THREE.Texture\n
@@ -805,6 +807,24 @@ MeshToonMaterial [label="{MeshToonMaterial |
    @Output() materialChange: MeshDepthMaterial\n
    @Input() Material: MeshDepthMaterial\n
 }"]
+ MeshLambertMaterialEditorComponent [label="{MeshLambertMaterialEditorComponent |
+   constructor()\n
+   ngOnInit()\n
+   onBaseMaterialChanged(material: MeshStandardMaterial): void\n
+   onAlphaMapChanged(event: Texture): void\n
+   onColourChanged(colour: string): void\n
+   onEmissiveMapChanged(event: Texture): void\n
+   onTextureChanged(event: Texture): void\n
+   onWireframeChange(event: MatCheckboxChange): void\n
+   onWireframeLinewidthChanged(event: MatSliderChange): void
+   |
+   @Output() materialChange: MeshStandardMaterial\n
+   @Input() Material: MeshPhongMaterial\n
+   AlphaMap: Texture\n
+   ColourTexture: Texture
+   EmissiveMap: Texture\n
+   EnvironmentMap: Texture\n
+}"]
  MeshPhongMaterialEditorComponent [label="{MeshPhongMaterialEditorComponent |
    constructor()\n
    ngOnInit()\n
@@ -1194,6 +1214,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MaterialEditorComponent->MeshDepthMaterial
  MaterialEditorComponent->MeshDepthMaterialEditorComponent
  MaterialEditorComponent->MeshLambertMaterial
+ MaterialEditorComponent->MeshLambertMaterialEditorComponent
  MaterialEditorComponent->MeshMatcapMaterial
  MaterialEditorComponent->MeshNormalMaterial
  MaterialEditorComponent->MeshPhongMaterial
@@ -1229,6 +1250,12 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MeshDepthMaterial->Material
  MeshDepthMaterialEditorComponent->BaseMaterialEditorComponent
  MeshLambertMaterial->Material
+ MeshLambertMaterial->Material
+ MeshLambertMaterialEditorComponent->Texture
+ MeshLambertMaterialEditorComponent->BaseMaterialEditorComponent
+ MeshLambertMaterialEditorComponent->MeshLambertMaterial
+ MeshLambertMaterialEditorComponent->TextureEditorComponent
+ MeshLambertMaterialEditorComponent->TextureUsage
  MeshMatcapMaterial->Material
  MeshNormalMaterial->Material
  MeshPhongMaterial->Material

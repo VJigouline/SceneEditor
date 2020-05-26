@@ -130,7 +130,6 @@ export class MeshLambertMaterialExport extends MaterialExport {
     private reflectivity: number;
     private refractionRatio: number;
     private skinning: boolean;
-
     private specularMap: TextureExport;
     private vertexTangents: boolean;
     private wireframe: boolean;

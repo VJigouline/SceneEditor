@@ -40,6 +40,14 @@
                 ></app-mesh-depth-material-editor>
             </div>
           </div>
+          <div *ngIf="Material.type == materialType.MESH_LAMBERT" class="row">
+            <div class="col">
+                <app-mesh-lambert-material-editor
+                [Material]="Material"
+                (materialChange)="onMaterialChanged($event)"
+                ></app-mesh-lambert-material-editor>
+            </div>
+          </div>
           <div *ngIf="Material.type == materialType.MESH_STANDARD" class="row">
               <div class="col">
                   <app-mesh-standard-material-editor
