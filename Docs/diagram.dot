@@ -103,15 +103,14 @@ digraph SceneEditor {
     name: string\n
     lights: Lights[]
  }"]
- LineBasicMaterial [label="{LineBasicMaterial |
-    constructor()\n
-    clone(): LineBasicMaterial\n
-    copy(material: LineBasicMaterial): void
+ Line3 [label="{Line3 |
+    constructor(point1: Point3, point2: Point3)\n
     |
-    colour: string\n
-    linewidth: number\n
-    linecap: string\n
-    linejoin: string
+    Start: Point3\n
+    End: Point3\n
+    Direction: Vector3\n
+    Length: number\n
+    UnitVector: Vector3
  }"]
  LineBasicMaterial [label="{LineBasicMaterial |
     constructor()\n
@@ -427,8 +426,24 @@ MeshToonMaterial [label="{MeshToonMaterial |
     wireframeLinejoin: string\n
     wireframeLinewidth: number
  }"]
+  Point2 [label="{Point2 |
+    constructor(x?: number, y?: number)\n
+    static unProject(pts: Point2[], tra: Transform3): Point3[]\n
+    unProject(tra: Transform3): Point3\n
+    |
+    X: number\n
+    Y: number\n
+    Z: number\n
+  }"]
   Point3 [label="{Point3 |
-    constructor(x: number, y: number, z: number)
+    constructor(x?: number, y?: number, z?: number)\n
+    static vector(point1: Point3, point2: Point3): Vector3\n
+    add(vector: Vector3): Point3\n
+    clone(): Point3\n
+    copy(vector: Point3): void\n
+    divide(value: number): Point3\n
+    multiply(value: number): Point3\n
+    subtract(vector: Vector3): Point3
     |
     X: number\n
     Y: number\n
@@ -461,6 +476,24 @@ MeshToonMaterial [label="{MeshToonMaterial |
     map: Texture\n
     size: number\n
     sizeAttenuation: boolean
+ }"]
+  Polygon2 [label="{Polygon2 |
+    unProject(tra: Transform3): Polygon3
+    |
+    Lines: Line3[]\n
+    MiddlePoint: Point3\n
+    Holes: Polygon3[]\n
+    Transform: Transform3\n
+    Vertices: Point3[]
+ }"]
+  Polygon3 [label="{Polygon3 |
+    Project(tra: Transform3): Polygon2
+    |
+    Lines: Line3[]\n
+    MiddlePoint: Point3\n
+    Holes: Polygon3[]\n
+    Transform: Transform3\n
+    Vertices: Point3[]
  }"]
   ShadowMaterial [label="{ShadowMaterial |
     constructor()\n
@@ -527,6 +560,18 @@ MeshToonMaterial [label="{MeshToonMaterial |
     wrapS: THREE.Wrapping\n
     wrapT: THREE.Wrapping\n
     texture: THREE.Texture;
+ }"]
+  Transform2 [label="{Transform2 |
+ }"]
+  Transform3 [label="{Transform3 |
+  static XY(origin: Point3, x: Vector3, y: Vector3): Transform3\n
+  static ZX(origin: Point3, z: Vector3, x: Vector3): Transform3
+  |
+  static Identity: Transform3\n
+  Origin: Point3\n
+  XVec: Vector3\n
+  YVec: Vector3\n
+  ZVec: Vector3
  }"]
   Vector2 [label="{Vector2 |
     constructor(x?: number, y?: number)\n
@@ -1311,6 +1356,8 @@ MeshToonMaterial [label="{MeshToonMaterial |
  LightsLibraryService->Lights
  LightsLibraryService->LightsLibrary
  LineBasicMaterial->Material
+ Line3->Point3
+ Line3->Vector3
  LineDashedMaterial->LineBasicMaterial
  AppComponent->SceneEditorComponent
  AppModule->AppComponent
@@ -1438,10 +1485,22 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MeshToonMaterialEditorComponent->TextureEditorComponent
  MeshToonMaterialEditorComponent->TextureUsage
  MeshToonMaterialEditorComponent->Vector2
+ Point2->Point3
+ Point2->Transform3
+ Point3->Vector3
  Point3DComponent->Point3
  PointLight->Light
  PointLightEditorComponent->PointLight
  PointsMaterial->Material
+ Polygon2->Point2
+ Polygon2->Polygon3
+ Polygon2->Transform3
+ Polygon3->Line3
+ Polygon3->Point2
+ Polygon3->Point3
+ Polygon3->Polygon2
+ Polygon3->Transform3
+ Polygon3->Vector3
  SceneComponent->SceneModifierComponent
  SceneComponent->SceneSaverComponent
  SceneEditorComponent->Light
@@ -1498,6 +1557,8 @@ MeshToonMaterial [label="{MeshToonMaterial |
  ThreeSceneService->ThreeScene
  ThreeSceneService->TransformControls
  ThreeSceneService->ViewerFile
+ Transform3->Point3
+ Transform3->Vector3
  ViewerFile->File
  ViewerFile->ThreeSceneService
 }

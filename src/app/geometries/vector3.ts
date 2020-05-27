@@ -72,6 +72,7 @@ export class Vector3 {
         if (!vector) { return false; }
         return Math.abs(Math.abs(this.UnitVector.dot(vector.UnitVector)) - 1) < Vector3.EPSILON;
     }
+
     public clone(): Vector3 {
         return new Vector3(this.X, this.Y, this.Z);
     }
