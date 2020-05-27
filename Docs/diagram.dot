@@ -582,6 +582,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
     DISPLACEMENT_MAP\n
     EMISSIVE_MAP\n
     ENVIRONMENT_MAP\n
+    GRADIENT_MAP\n
     LIGHT_MAP\n
     TEXTURE\n
     METALNESS_MAP\n
@@ -959,6 +960,40 @@ MeshToonMaterial [label="{MeshToonMaterial |
    NormalMapType: THREE.NormalMapTypes\n
    MetalnessMap: Texture\n
 }"]
+ MeshToonMaterialEditorComponent [label="{MeshToonMaterialEditorComponent |
+   constructor()\n
+   ngOnInit()\n
+   onBaseMaterialChanged(material: MeshStandardMaterial): void\n
+   onAlphaMapChanged(event: Texture): void\n
+   onBumpMapChanged(event: Texture): void\n
+   onBumpMapScaleChanged(event: number): void\n
+   onColourChanged(colour: string): void\n
+   onDisplacementMapChanged(event: Texture): void\n
+   onDisplacementMapScaleChanged(event: MatSliderChange): void\n
+   onDisplacementMapBiasChanged(event: MatSliderChange): void\n
+   onEmissiveMapChanged(event: Texture): void\n
+   onNormalMapChanged(event: Texture): void\n
+   onNormalMapScaleUChanged(value: number): void\n
+   onNormalMapScaleVChanged(value: number): void\n
+   onTextureChanged(event: Texture): void\n
+   onWireframeChange(event: MatCheckboxChange): void\n
+   onWireframeLinewidthChanged(event: MatSliderChange): void
+   |
+   @Output() materialChange: MeshStandardMaterial\n
+   @Input() Material: MeshPhongMaterial\n
+   AlphaMap: Texture\n
+   BumpMap: Texture\n
+   BumpMapScale: number\n
+   ColourTexture: Texture
+   DisplacementMap: Texture\n
+   DisplacementMapBias: number\n
+   DisplacementMapScale: number\n
+   EmissiveMap: Texture\n
+   GradientMap: Texture\n
+   NormalMap: Texture\n
+   NormalMapScale: Point3\n
+   NormalMapType: THREE.NormalMapTypes\n
+}"]
  NewLightComponent [label="{NewLightComponent |
    constructor()\n
    ngOnInit()\n
@@ -1287,6 +1322,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MaterialEditorComponent->MeshStandardMaterial
  MaterialEditorComponent->MeshStandardMaterialEditorComponent
  MaterialEditorComponent->MeshToonMaterial
+ MaterialEditorComponent->MeshToonMaterialEditorComponent
  MaterialEditorComponent->NewMaterialComponent
  MaterialEditorComponent->PointsMaterial
  MaterialEditorComponent->ShadowMaterial
@@ -1359,6 +1395,14 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MeshStandardMaterialEditorComponent->TextureUsage
  MeshStandardMaterialEditorComponent->Vector2
  MeshToonMaterial->Material
+ MeshToonMaterialEditorComponent->Material
+ MeshToonMaterialEditorComponent->Texture
+ MeshToonMaterialEditorComponent->BaseMaterialEditorComponent
+ MeshToonMaterialEditorComponent->MeshToonMaterial
+ MeshToonMaterialEditorComponent->Point3
+ MeshToonMaterialEditorComponent->TextureEditorComponent
+ MeshToonMaterialEditorComponent->TextureUsage
+ MeshToonMaterialEditorComponent->Vector2
  Point3DComponent->Point3
  PointLight->Light
  PointLightEditorComponent->PointLight

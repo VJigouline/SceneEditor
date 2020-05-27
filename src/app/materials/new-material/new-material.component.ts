@@ -23,7 +23,7 @@ export class NewMaterialComponent implements OnInit {
     { type: MaterialType.MESH_PHONG, name: 'Mesh Phong' },
     { type: MaterialType.MESH_PHYSICAL, name: 'Mesh Physical' },
     { type: MaterialType.MESH_STANDARD, name: 'Mesh Standard' },
-    // { type: MaterialType.MESH_TOON, name: 'Mesh Toon' },
+    { type: MaterialType.MESH_TOON, name: 'Mesh Toon' },
     // { type: MaterialType.POINTS, name: 'Mesh Points' },
     // { type: MaterialType.SHADOW, name: 'Shadow' },
     // { type: MaterialType.SPRITE, name: 'Sprite' }

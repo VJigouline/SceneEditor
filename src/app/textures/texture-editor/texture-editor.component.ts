@@ -417,6 +417,9 @@ export class TextureEditorComponent implements OnInit {
             (this.Texture.image as HTMLImageElement).onload = () => {
               this.changedTexture.emit(this.Texture);
             };
+          } else if (this.Usage === TextureUsage.GRADIENT_MAP) {
+            this.Texture.texture.minFilter = THREE.NearestFilter;
+            this.Texture.texture.magFilter = THREE.NearestFilter;
           }
           this.changedTexture.emit(this.Texture);
         });

@@ -11,6 +11,7 @@ export enum TextureUsage {
     DISPLACEMENT_MAP,
     EMISSIVE_MAP,
     ENVIRONMENT_MAP,
+    GRADIENT_MAP,
     LIGHT_MAP,
     TEXTURE,
     METALNESS_MAP,

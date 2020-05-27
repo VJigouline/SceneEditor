@@ -71,8 +71,8 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
   }
   public set NormalMap(value: Texture) {}
   public get NormalMapScale(): Point3 {
-    return this.Material ? new Point3 (this.Material.normalScale.x,
-      this.Material.normalScale.y, 0) : new Point3(1, 1, 0);
+    return this.Material ? new Point3 (this.Material.normalScale.X,
+      this.Material.normalScale.Y, 0) : new Point3(1, 1, 0);
   }
   public set NormalMapScale(value: Point3) {}
   public get NormalMapType(): THREE.NormalMapTypes {
@@ -326,12 +326,12 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
   }
 
   public onNormalMapScaleUChanged(value: number): void {
-    this.Material.normalScale = new THREE.Vector2(value, this.Material.normalScale.y);
+    this.Material.normalScale = new Vector2(value, this.Material.normalScale.Y);
     this.updateMaterial(this.Material);
   }
 
   public onNormalMapScaleVChanged(value: number): void {
-    this.Material.normalScale = new THREE.Vector2(this.Material.normalScale.x, value);
+    this.Material.normalScale = new Vector2(this.Material.normalScale.X, value);
     this.updateMaterial(this.Material);
   }
 
