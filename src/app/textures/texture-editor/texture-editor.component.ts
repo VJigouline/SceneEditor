@@ -88,7 +88,7 @@ export class TextureEditorComponent implements OnInit {
         }
       } else {
         if (this.Material.type === MaterialType.MESH_STANDARD) {
-          return (this.Material as undefined as MeshStandardMaterial).normalScale.x;
+          return (this.Material as undefined as MeshStandardMaterial).normalScale.X;
         }
       }
     }
@@ -98,7 +98,7 @@ export class TextureEditorComponent implements OnInit {
   public get scale2Value(): number {
     if (this.hasScale2) {
       if (this.Material.type === MaterialType.MESH_STANDARD) {
-        return (this.Material as undefined as MeshStandardMaterial).normalScale.y;
+        return (this.Material as undefined as MeshStandardMaterial).normalScale.Y;
       } else if (this.Material.type === MaterialType.MESH_PHYSICAL) {
         return (this.Material as undefined as MeshPhysicalMaterial).clearcoatNormalScale.Y;
       }

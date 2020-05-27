@@ -274,7 +274,7 @@ digraph SceneEditor {
     morphTargets: boolean\n
     normalMap: Texture\n
     normalMapType: THREE.NormalMapTypes\n
-    normalScale: THREE.Vector2\n
+    normalScale: Vector2\n
     skinning: boolean\n
     wireframe: boolean\n
     wireframeLinewidth: number
@@ -296,7 +296,7 @@ digraph SceneEditor {
     morphTargets: boolean\n
     normalMap: Texture\n
     normalMapType: THREE.NormalMapTypes\n
-    normalScale: THREE.Vector2\n
+    normalScale: Vector2\n
     skinning: boolean
  }"]
  MeshPhongMaterial [label="{MeshPhongMaterial |
@@ -327,7 +327,7 @@ digraph SceneEditor {
     morphTargets: boolean\n
     normalMap: Texture\n
     normalMapType: THREE.NormalMapTypes\n
-    normalScale: THREE.Vector2\n
+    normalScale: Vector2\n
     reflectivity: number\n
     refractionRatio: number\n
     shininess: number\n
@@ -381,7 +381,7 @@ MeshStandardMaterial [label="{MeshStandardMaterial |
     morphTargets: boolean\n
     normalMap: Texture\n
     normalMapType: THREE.NormalMapTypes\n
-    normalScale: THREE.Vector2\n
+    normalScale: Vector2\n
     refractionRatio: number\n
     roughness: number\n
     skinning: boolean\n
@@ -391,8 +391,10 @@ MeshStandardMaterial [label="{MeshStandardMaterial |
  }"]
 MeshToonMaterial [label="{MeshToonMaterial |
     constructor()\n
+    static fromMaterial(material: THREE.MeshToonMaterial): MeshToonMaterial\n
     clone(): MeshToonMaterial\n
-    copy(material: MeshToonMaterial): void
+    copy(material: MeshToonMaterial): void\n
+    update(): void
     |
     alphaMap: Texture\n
     aoMap: Texture\n
@@ -406,7 +408,6 @@ MeshToonMaterial [label="{MeshToonMaterial |
     emissive: string\n
     emissiveMap: Texture\n
     emissiveIntensity: number\n
-    envMap: Texture\n
     gradientMap: Texture\n
     lightMap: Texture\n
     lightMapIntensity: number\n
@@ -415,7 +416,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
     morphTargets: boolean\n
     normalMap: Texture\n
     normalMapType: THREE.NormalMapTypes\n
-    normalScale: THREE.Vector2\n
+    normalScale: Vector2\n
     refractionRatio: number\n
     shininess: number\n
     skinning: boolean\n
@@ -1335,6 +1336,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MeshNormalMaterialEditorComponent->Point3
  MeshNormalMaterialEditorComponent->TextureEditorComponent
  MeshNormalMaterialEditorComponent->TextureUsage
+ MeshNormalMaterialEditorComponent->Vector2
  MeshPhongMaterial->Material
  MeshPhongMaterialEditorComponent->Material
  MeshPhongMaterialEditorComponent->Texture
@@ -1343,6 +1345,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MeshPhongMaterialEditorComponent->Point3
  MeshPhongMaterialEditorComponent->TextureEditorComponent
  MeshPhongMaterialEditorComponent->TextureUsage
+ MeshPhongMaterialEditorComponent->Vector2
  MeshPhysicalMaterial->MeshStandardMaterial
  MeshPhysicalMaterial->Vector2
  MeshStandardMaterial->Material
