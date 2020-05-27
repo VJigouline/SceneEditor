@@ -201,6 +201,40 @@ export class MeshMatcapMaterialExport extends MaterialExport {
     }
 }
 
+export class MeshNormalMaterialExport extends MaterialExport {
+    private bumpMap: TextureExport;
+    private bumpScale: number;
+    private displacementMap: TextureExport;
+    private displacementScale: number;
+    private displacementBias: number;
+    private morphNormals: boolean;
+    private morphTargets: boolean;
+    private normalMap: TextureExport;
+    private normalMapType: THREE.NormalMapTypes;
+    private normalScale: THREE.Vector2;
+    private skinning: boolean;
+    private vertexTangents: boolean;
+    private wireframe: boolean;
+    private wireframeLinewidth: number;
+
+    constructor(material: MeshNormalMaterial) {
+        super(material);
+        if (material.bumpMap) { this.bumpMap = material.bumpMap.toJSON(); }
+        this.bumpScale = material.bumpScale;
+        if (material.displacementMap) { this.displacementMap = material.displacementMap.toJSON(); }
+        this.displacementScale = material.displacementScale;
+        this.displacementBias = material.displacementBias;
+        this.morphNormals = material.morphNormals;
+        this.morphTargets = material.morphTargets;
+        if (material.normalMap) { this.normalMap = material.normalMap.toJSON(); }
+        this.normalMapType = material.normalMapType;
+        this.normalScale = material.normalScale;
+        this.skinning = material.skinning;
+        this.wireframe = material.wireframe;
+        this.wireframeLinewidth = material.wireframeLinewidth;
+    }
+}
+
 export class MeshStandardMaterialExport extends MaterialExport {
     private alphaMap: TextureExport;
     private aoMap: TextureExport;
@@ -501,8 +535,7 @@ export class Material {
             return MeshBasicMaterial.fromMaterial(material as THREE.MeshBasicMaterial);
         case 'MeshDepthMaterial':
             // tslint:disable-next-line: no-use-before-declare
-            ret = new MeshDepthMaterial();
-            break;
+            return MeshDepthMaterial.fromMaterial(material as THREE.MeshDepthMaterial);
         case 'MeshLambertMaterial':
             // tslint:disable-next-line: no-use-before-declare
             return MeshLambertMaterial.fromMaterial(material as THREE.MeshLambertMaterial);
@@ -511,8 +544,7 @@ export class Material {
             return MeshMatcapMaterial.fromMaterial(material as THREE.MeshMatcapMaterial);
         case 'MeshNormalMaterial':
             // tslint:disable-next-line: no-use-before-declare
-            ret = new MeshNormalMaterial();
-            break;
+            return MeshNormalMaterial.fromMaterial(material as THREE.MeshNormalMaterial);
         case 'MeshPhongMaterial':
             // tslint:disable-next-line: no-use-before-declare
             return MeshPhongMaterial.fromMaterial(material as THREE.MeshPhongMaterial);
@@ -642,7 +674,8 @@ export class Material {
                 return new MeshLambertMaterialExport(this as unknown as MeshLambertMaterial);
             case MaterialType.MESH_MATCAP:
                 return new MeshMatcapMaterialExport(this as unknown as MeshMatcapMaterial);
-            // case MaterialType.MESH_NORMAL:
+            case MaterialType.MESH_NORMAL:
+                return new MeshNormalMaterialExport(this as unknown as MeshNormalMaterial);
             case MaterialType.MESH_PHONG:
                 return new MeshPhongMaterialExport(this as unknown as MeshPhongMaterial);
             case MaterialType.MESH_PHYSICAL:
@@ -1269,24 +1302,14 @@ export class MeshMatcapMaterial extends Material {
 }
 
 export class MeshNormalMaterial extends Material {
-    public get bumpMap(): THREE.Texture {
-        return (this.material as THREE.MeshNormalMaterial).bumpMap;
-    }
-    public set bumpMap(value: THREE.Texture) {
-        (this.material as THREE.MeshNormalMaterial).bumpMap = value;
-    }
+    public bumpMap: Texture;
     public get bumpScale(): number {
         return (this.material as THREE.MeshNormalMaterial).bumpScale;
     }
     public set bumpScale(value: number) {
         (this.material as THREE.MeshNormalMaterial).bumpScale = value;
     }
-    public get displacementMap(): THREE.Texture {
-        return (this.material as THREE.MeshNormalMaterial).displacementMap;
-    }
-    public set displacementMap(value: THREE.Texture) {
-        (this.material as THREE.MeshNormalMaterial).displacementMap = value;
-    }
+    public displacementMap: Texture;
     public get displacementScale(): number {
         return (this.material as THREE.MeshNormalMaterial).displacementScale;
     }
@@ -1298,12 +1321,6 @@ export class MeshNormalMaterial extends Material {
     }
     public set displacementBias(value: number) {
         (this.material as THREE.MeshNormalMaterial).displacementBias = value;
-    }
-    public get fog(): boolean {
-        return (this.material as THREE.MeshNormalMaterial).fog;
-    }
-    public set fog(value: boolean) {
-        (this.material as THREE.MeshNormalMaterial).fog = value;
     }
     public get morphNormals(): boolean {
         return (this.material as THREE.MeshNormalMaterial).morphNormals;
@@ -1317,12 +1334,7 @@ export class MeshNormalMaterial extends Material {
     public set morphTargets(value: boolean) {
         (this.material as THREE.MeshNormalMaterial).morphNormals = value;
     }
-    public get normalMap(): THREE.Texture {
-        return (this.material as THREE.MeshNormalMaterial).normalMap;
-    }
-    public set normalMap(value: THREE.Texture) {
-        (this.material as THREE.MeshNormalMaterial).normalMap = value;
-    }
+    public normalMap: Texture;
     public get normalMapType(): THREE.NormalMapTypes {
         return (this.material as THREE.MeshNormalMaterial).normalMapType;
     }
@@ -1358,6 +1370,20 @@ export class MeshNormalMaterial extends Material {
         super(MaterialType.MESH_NORMAL);
     }
 
+    public static fromMaterial(material: THREE.MeshNormalMaterial): MeshNormalMaterial {
+        if (!material) { return null; }
+
+        const ret = new MeshNormalMaterial();
+        ret.bumpMap = Texture.CreateTexture(material.bumpMap);
+        ret.displacementMap = Texture.CreateTexture(material.displacementMap);
+        ret.normalMap = Texture.CreateTexture(material.normalMap);
+        ret.material = material;
+
+        ret.name = material.name ? material.name : material.uuid;
+
+        return ret;
+    }
+
     public clone(): MeshNormalMaterial {
         const ret = new MeshNormalMaterial();
         ret.copy(this);
@@ -1367,20 +1393,33 @@ export class MeshNormalMaterial extends Material {
 
     public copy(material: MeshNormalMaterial): void {
         super.copy(material);
-        this.bumpMap = material.bumpMap;
+
+        const m = this.material as THREE.MeshNormalMaterial;
+
+        this.bumpMap = Texture.cloneTexture(material.bumpMap);
+        if (this.bumpMap) { m.bumpMap = this.bumpMap.texture; }
         this.bumpScale = material.bumpScale;
-        this.displacementMap = material.displacementMap;
+        this.displacementMap = Texture.cloneTexture(material.displacementMap);
+        if (this.displacementMap) { m.displacementMap = this.displacementMap.texture; }
         this.displacementScale = material.displacementScale;
         this.displacementBias = material.displacementBias;
-        this.fog = material.fog;
         this.morphNormals = material.morphNormals;
         this.morphTargets = material.morphTargets;
-        this.normalMap = material.normalMap;
+        this.normalMap = Texture.cloneTexture(material.normalMap);
+        if (this.normalMap) { m.normalMap = this.normalMap.texture; }
         this.normalMapType = material.normalMapType;
         this.normalScale = material.normalScale;
         this.skinning = material.skinning;
         this.wireframe = material.wireframe;
         this.wireframeLinewidth = material.wireframeLinewidth;
+    }
+
+    public update(): void {
+        super.update();
+
+        if (this.bumpMap) { this.bumpMap.texture.needsUpdate = true; }
+        if (this.displacementMap) { this.displacementMap.texture.needsUpdate = true; }
+        if (this.normalMap) { this.normalMap.texture.needsUpdate = true; }
     }
 }
 

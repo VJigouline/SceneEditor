@@ -281,8 +281,10 @@ digraph SceneEditor {
  }"]
  MeshNormalMaterial [label="{MeshNormalMaterial |
     constructor()\n
+    static fromMaterial(material: THREE.MeshNormalMaterial): MeshNormalMaterial\n
     clone(): MeshNormalMaterial\n
-    copy(material: MeshNormalMaterial): void
+    copy(material: MeshNormalMaterial): void\n
+    update(): void
     |
     bumpMap: Texture\n
     bumpScale: number\n
