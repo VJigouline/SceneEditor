@@ -529,12 +529,47 @@ MeshToonMaterial [label="{MeshToonMaterial |
     texture: THREE.Texture;
  }"]
   Vector2 [label="{Vector2 |
-    constructor(x: number, y: number)\n
+    constructor(x?: number, y?: number)\n
+    add(vector: Vector2): Vector2\n
+    aligned(vector: Vector2): boolean\n
     clone(): Vector2\n
-    copy(vector: Vector2): void
+    copy(vector: Vector2): void\n
+    cross(vector: Vector2): Vector3\n
+    divide(value: number): Vector2\n
+    dot(vector: Vector2): number\n
+    equal(vector: Vector2): boolean\n
+    multiply(value: number): Vector2\n
+    subtract(vector: Vector2): Vector2
     |
+    static EPSILON: number\n
     X: number\n
-    Y: number
+    Y: number\n
+    static DirX: Vector3\n
+    static DirY: Vector3\n
+    Length: number\n
+    UnitVector: Vector2
+  }"]
+  Vector3 [label="{Vector3 |
+    constructor(x?: number, y?: number, z?: number)\n
+    add(vector: Vector2): Vector2\n
+    aligned(vector: Vector2): boolean\n
+    clone(): Vector2\n
+    copy(vector: Vector2): void\n
+    cross(vector: Vector2): number\n
+    divide(value: number): Vector2\n
+    dot(vector: Vector2): number\n
+    equal(vector: Vector2): boolean\n
+    multiply(value: number): Vector2\n
+    subtract(vector: Vector2): Vector2
+    |
+    static EPSILON: number\n
+    static DirX: Vector3\n
+    static DirY: Vector3\n
+    static DirZ: Vector3\n
+    X: number\n
+    Y: number\n
+    Length: number\n
+    UnitVector: Vector2
   }"]
 
  // Template classes.
