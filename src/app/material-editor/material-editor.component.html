@@ -56,6 +56,14 @@
                 ></app-mesh-matcap-material-editor>
             </div>
           </div>
+          <div *ngIf="Material.type == materialType.MESH_NORMAL" class="row">
+            <div class="col">
+                <app-mesh-normal-material-editor
+                [Material]="Material"
+                (materialChange)="onMaterialChanged($event)"
+                ></app-mesh-normal-material-editor>
+            </div>
+          </div>
           <div *ngIf="Material.type == materialType.MESH_STANDARD" class="row">
               <div class="col">
                   <app-mesh-standard-material-editor

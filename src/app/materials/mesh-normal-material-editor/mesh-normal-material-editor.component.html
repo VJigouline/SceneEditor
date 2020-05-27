@@ -1,0 +1,83 @@
+<div *ngIf="Material" class="row">
+    <div class="col">
+        <mat-checkbox
+        [(checked)]="Material.wireframe"
+        (change) = "onWireframeChange($event)"
+        >
+        Show as wireframe
+        </mat-checkbox>
+    </div>
+</div>
+<mat-accordion>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>Bump map</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngIf="Material" class="row">
+            <div class="col">
+                <app-texture-editor 
+                [Material]="Material"
+                [Texture]="BumpMap"
+                [Usage]="bumpMapUsage"
+                (changedTexture)="onBumpMapChanged($event)"
+                (changedScale)="onBumpMapScaleChanged($event)"
+                ></app-texture-editor>
+            </div>
+        </div>
+    </mat-expansion-panel>
+    <!--
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>Displacement map</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngIf="Material" class="row">
+            <div class="col label">
+                Displacement map scale {{DisplacementMapScale}}
+                <mat-slider min="-10" max="10" step="0.01"
+                (input)="onDisplacementMapScaleChanged($event)"
+                [(value)]="DisplacementMapScale"
+                ></mat-slider>
+            </div>
+        </div>
+        <div *ngIf="Material" class="row">
+            <div class="col label">
+                Displacement map bias {{DisplacementMapBias}}
+                <mat-slider min="-10" max="10" step="0.01"
+                (input)="onDisplacementMapBiasChanged($event)"
+                [(value)]="DisplacementMapBias"
+                ></mat-slider>
+            </div>
+        </div>
+        <div *ngIf="Material" class="row">
+            <div class="col">
+                <app-texture-editor 
+                [Material]="Material"
+                [Texture]="DisplacementMap"
+                (changedTexture)="onDisplacementMapChanged($event)"
+                ></app-texture-editor>
+            </div>
+        </div>
+    </mat-expansion-panel>
+    -->
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>Normal map</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngIf="Material" class="row">
+            <div class="col">
+                <app-texture-editor 
+                [Material]="Material"
+                [Texture]="NormalMap"
+                [Usage]="normalMapUsage"
+                (changedTexture)="onNormalMapChanged($event)"
+                (changedScale)="onNormalMapScaleUChanged($event)"
+                (changedScale2)="onNormalMapScaleVChanged($event)"
+                ></app-texture-editor>
+            </div>
+        </div>
+    </mat-expansion-panel>
+</mat-accordion>
+<app-base-material-editor
+    (materialChange)="onBaseMaterialChanged($event)"
+    [(Material)]="Material"
+></app-base-material-editor>

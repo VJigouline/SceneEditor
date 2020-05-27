@@ -860,6 +860,32 @@ MeshToonMaterial [label="{MeshToonMaterial |
    NormalMapScale: Point3\n
    NormalMapType: THREE.NormalMapTypes\n
 }"]
+ MeshNormalMaterialEditorComponent [label="{MeshNormalMaterialEditorComponent |
+   constructor()\n
+   ngOnInit()\n
+   onBaseMaterialChanged(material: MeshStandardMaterial): void\n
+   onBumpMapChanged(event: Texture): void\n
+   onBumpMapScaleChanged(event: number): void\n
+   onDisplacementMapChanged(event: Texture): void\n
+   onDisplacementMapScaleChanged(event: MatSliderChange): void\n
+   onDisplacementMapBiasChanged(event: MatSliderChange): void\n
+   onNormalMapChanged(event: Texture): void\n
+   onNormalMapScaleUChanged(value: number): void\n
+   onNormalMapScaleVChanged(value: number): void\n
+   onWireframeChange(event: MatCheckboxChange): void\n
+   onWireframeLinewidthChanged(event: MatSliderChange): void
+   |
+   @Output() materialChange: MeshStandardMaterial\n
+   @Input() Material: MeshPhongMaterial\n
+   BumpMap: Texture\n
+   BumpMapScale: number\n
+   DisplacementMap: Texture\n
+   DisplacementMapBias: number\n
+   DisplacementMapScale: number\n
+   NormalMap: Texture\n
+   NormalMapScale: Point3\n
+   NormalMapType: THREE.NormalMapTypes\n
+}"]
  MeshPhongMaterialEditorComponent [label="{MeshPhongMaterialEditorComponent |
    constructor()\n
    ngOnInit()\n
@@ -1253,6 +1279,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MaterialEditorComponent->MeshMatcapMaterial
  MaterialEditorComponent->MeshMatcapMaterialEditorComponent
  MaterialEditorComponent->MeshNormalMaterial
+ MaterialEditorComponent->MeshNormalMaterialEditorComponent
  MaterialEditorComponent->MeshPhongMaterial
  MaterialEditorComponent->MeshPhongMaterialEditorComponent
  MaterialEditorComponent->MeshPhysicalMaterial
@@ -1301,6 +1328,13 @@ MeshToonMaterial [label="{MeshToonMaterial |
  MeshMatcapMaterialEditorComponent->TextureEditorComponent
  MeshMatcapMaterialEditorComponent->TextureUsage
  MeshNormalMaterial->Material
+ MeshNormalMaterialEditorComponent->Material
+ MeshNormalMaterialEditorComponent->Texture
+ MeshNormalMaterialEditorComponent->BaseMaterialEditorComponent
+ MeshNormalMaterialEditorComponent->MeshNormalMaterial
+ MeshNormalMaterialEditorComponent->Point3
+ MeshNormalMaterialEditorComponent->TextureEditorComponent
+ MeshNormalMaterialEditorComponent->TextureUsage
  MeshPhongMaterial->Material
  MeshPhongMaterialEditorComponent->Material
  MeshPhongMaterialEditorComponent->Texture

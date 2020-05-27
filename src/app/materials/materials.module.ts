@@ -21,6 +21,7 @@ import { MeshBasicMaterialEditorComponent } from './mesh-basic-material-editor/m
 import { MeshDepthMaterialEditorComponent } from './mesh-depth-material-editor/mesh-depth-material-editor.component';
 import { MeshLambertMaterialEditorComponent } from './mesh-lambert-material-editor/mesh-lambert-material-editor.component';
 import { MeshMatcapMaterialEditorComponent } from './mesh-matcap-material-editor/mesh-matcap-material-editor.component';
+import { MeshNormalMaterialEditorComponent } from './mesh-normal-material-editor/mesh-normal-material-editor.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { MeshMatcapMaterialEditorComponent } from './mesh-matcap-material-editor
     MeshBasicMaterialEditorComponent,
     MeshDepthMaterialEditorComponent,
     MeshLambertMaterialEditorComponent,
-    MeshMatcapMaterialEditorComponent
+    MeshMatcapMaterialEditorComponent,
+    MeshNormalMaterialEditorComponent
   ],
   imports: [
     CommonModule,
@@ -55,6 +57,7 @@ import { MeshMatcapMaterialEditorComponent } from './mesh-matcap-material-editor
     MeshDepthMaterialEditorComponent,
     MeshLambertMaterialEditorComponent,
     MeshMatcapMaterialEditorComponent,
+    MeshNormalMaterialEditorComponent,
     MeshPhongMaterialEditorComponent,
     MeshStandardMaterialEditorComponent,
     MaterialPreviewComponent
