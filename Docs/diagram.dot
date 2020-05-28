@@ -478,7 +478,6 @@ MeshToonMaterial [label="{MeshToonMaterial |
     sizeAttenuation: boolean
  }"]
   Polygon2 [label="{Polygon2 |
-    unProject(tra: Transform3): Polygon3
     |
     Lines: Line3[]\n
     MiddlePoint: Point3\n
@@ -487,6 +486,9 @@ MeshToonMaterial [label="{MeshToonMaterial |
     Vertices: Point3[]
  }"]
   Polygon3 [label="{Polygon3 |
+    static unProject(polygon: Polygon2, tra: Transform3): Polygon3\n
+    clone(): Polygon3\n
+    copy(polygon: Polygon3): Polygon3\n
     Project(tra: Transform3): Polygon2
     |
     Lines: Line3[]\n
@@ -564,10 +566,13 @@ MeshToonMaterial [label="{MeshToonMaterial |
   Transform2 [label="{Transform2 |
  }"]
   Transform3 [label="{Transform3 |
+  constructor(origin?: Point3, xvec?: Vector3, yvec?: Vector3, zvec?: Vector3)\n
   static XY(origin: Point3, x: Vector3, y: Vector3): Transform3\n
-  static ZX(origin: Point3, z: Vector3, x: Vector3): Transform3
+  static ZX(origin: Point3, z: Vector3, x: Vector3): Transform3\n
+  point3(point: Point3): Point3
   |
   static Identity: Transform3\n
+  Inverted: Transform3\n
   Origin: Point3\n
   XVec: Vector3\n
   YVec: Vector3\n
@@ -1270,6 +1275,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
    addColladaFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene, finished: CallbackFinished): void \n
    addGLTFFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene, finished: CallbackFinished): void \n
    addJSONFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene, finished: CallbackFinished): void\n
+   addPolygonsFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene, finished: CallbackFinished): void\n
    addSTLFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene, finished: CallbackFinished): void\n
    cancelHideTransform(): void\n
    delayHideTransform(): void\n
@@ -1553,6 +1559,7 @@ MeshToonMaterial [label="{MeshToonMaterial |
  ThreeSceneService->Material
  ThreeSceneService->Materials
  ThreeSceneService->OrbitControls
+ ThreeSceneService->Polygon3
  ThreeSceneService->STLLoader
  ThreeSceneService->ThreeScene
  ThreeSceneService->TransformControls

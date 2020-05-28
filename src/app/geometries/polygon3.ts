@@ -71,11 +71,31 @@ export class Polygon3 {
         return ret;
     }
 
+    public static unProject(polygon: Polygon2, tra: Transform3): Polygon3 {
+        const ret = new Polygon3();
+
+        for (const p of polygon.Vertices) {
+            ret.Vertices.push(tra.Origin.clone().add(tra.XVec.clone().multiply(p.X))
+            .add(tra.YVec.clone().multiply(p.Y)));
+        }
+
+        if (polygon.Holes) {
+            for (const h of polygon.Holes) {
+                ret.Holes.push(Polygon3.unProject(h, tra));
+            }
+        }
+
+        return ret;
+    }
+
     public Project(tra: Transform3): Polygon2 {
         const ret = new Polygon2();
 
         for (const pt of this.Vertices) {
             const v = Point3.vector(tra.Origin, pt);
+            const x = v.dot(tra.XVec);
+            const y = v.dot(tra.YVec);
+            const z = v.dot(tra.ZVec);
             ret.Vertices.push(new Point2(v.dot(tra.XVec), v.dot(tra.YVec)));
         }
 
@@ -86,10 +106,34 @@ export class Polygon3 {
         return ret;
     }
 
+    public clone(): Polygon3 {
+        const ret = new Polygon3();
+        ret.copy(this);
+
+        return ret;
+    }
+
+    public copy(polygon: Polygon3): Polygon3 {
+        this.Vertices = new Array<Point3>();
+        for (const p of polygon.Vertices) {
+            this.Vertices.push(new Point3(p.X, p.Y, p.Z));
+        }
+
+        this.Holes = new Array<Polygon3>();
+        if (polygon.Holes) {
+            for (const h of polygon.Holes) {
+                this.Holes.push(new Polygon3().copy(h));
+            }
+        }
+
+        return this;
+    }
+
     private getXDirection(): Vector3 {
         const sides = new Array<Vector3>();
         const lengths = new Array<number>();
-        for (const l of this.Lines) {
+        const lines = this.Lines;
+        for (const l of lines) {
             const tol = 1e-6;
             if (l.Length < tol) { continue; }
             let found = false;

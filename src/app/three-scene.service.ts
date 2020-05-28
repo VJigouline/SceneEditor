@@ -16,6 +16,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { LightType } from './lights/light-type.enum';
 import { Material } from './materials/material';
 import { Materials } from './materials/materials';
+import { Polygon3 } from './geometries/polygon3';
 
 interface ViewerFile extends File {
   relativePath: string;
@@ -45,7 +46,7 @@ export class ThreeSceneService {
   public camera: THREE.OrthographicCamera;
   public renderer: THREE.WebGLRenderer;
   private material: THREE.Material = new THREE.MeshStandardMaterial( {
-    color: '#fd421d', metalness: 1, roughness: 0.5, name: 'Default' } );
+    color: '#fd421d', metalness: 1, roughness: 0.5, name: 'Default', side: THREE.DoubleSide } );
   public transformControl: TransformControls;
   private hidingTransform: number;
   public orbitControls: OrbitControls;
@@ -144,6 +145,9 @@ export class ThreeSceneService {
       case 'json':
         readerDelegate = this.addJSONFile;
         break;
+      case 'polygons':
+        readerDelegate = this.addPolygonsFile;
+        break;
       case 'stl':
         readerDelegate = this.addSTLFile;
         break;
@@ -157,16 +161,18 @@ export class ThreeSceneService {
     }
 
     const fileEntry = file.fileEntry as FileSystemFileEntry;
-    readerDelegate.bind(this);
     fileEntry.file.bind(this);
-    fileEntry.file((blob: File) => {
+    const filereader = (blob: File) => {
       const vf = blob as ViewerFile;
       vf.relativePath = file.relativePath;
       vf.reader = reader;
       vf.contentSetter = contentSetter;
       vf.service = this;
+      readerDelegate.bind(this);
       readerDelegate(vf, file, files, this.scene, finished);
-     });
+    };
+    filereader.bind(this);
+    fileEntry.file(filereader);
   }
 
   public addColladaFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
@@ -349,6 +355,72 @@ export class ThreeSceneService {
       scene.add(mesh);
       finished();
     });
+  }
+
+  public addPolygonsFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
+                         scene: THREE.Scene, finished: CallbackFinished): void {
+    const fileReader = new FileReader();
+
+    const onload = () => {
+      try {
+        const polygons = JSON.parse(fileReader.result as string) as Polygon3[];
+        const addToScene = (p: Polygon3) => {
+          const tra = p.Transform;
+          const p2 = p.Project(tra);
+
+          const contour = new Array<THREE.Vector2>();
+
+          for (const pt of p2.Vertices) {
+            contour.push(new THREE.Vector2(pt.X, pt.Y));
+          }
+          contour.push(contour[0]);
+
+          const shape = new THREE.Shape(contour);
+
+          if (p2.Holes) {
+            for (const h of p2.Holes) {
+              const hole = new Array<THREE.Vector2>();
+              for (const pt of h.Vertices) {
+                hole.push(new THREE.Vector2(pt.X, pt.Y));
+              }
+              hole.push(hole[0]);
+              shape.holes.push(new THREE.Path(hole));
+            }
+          }
+
+          const geometry = new THREE.ShapeGeometry(shape);
+
+          const o = tra.Origin;
+          const x = tra.XVec;
+          const y = tra.YVec;
+          const z = tra.ZVec;
+
+          const transform = new THREE.Matrix4();
+          transform.makeBasis(new THREE.Vector3(x.X, x.Y, x.Z),
+          new THREE.Vector3(y.X, y.Y, y.Z), new THREE.Vector3(z.X, z.Y, z.Z))
+            .premultiply(new THREE.Matrix4().makeTranslation(o.X, o.Y, o.Z));
+          geometry.applyMatrix(transform);
+
+          const mesh = new THREE.Mesh(geometry, blob.service.material);
+          scene.add(mesh);
+          finished();
+        };
+        for (const p of polygons) {
+          addToScene(new Polygon3().copy(p as Polygon3));
+        }
+      } catch (e) {
+        console.error('Failure to read materials library: ' + e);
+      }
+    };
+    onload.bind(this);
+
+    fileReader.onload = onload;
+
+    fileReader.onerror = (error) => {
+      console.error('Failure to read file: ' + error);
+    };
+
+    fileReader.readAsText(blob, 'UTF-8');
   }
 
   public setMaterial(material: THREE.Material): void {

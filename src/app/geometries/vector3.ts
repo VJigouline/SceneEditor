@@ -51,16 +51,15 @@ export class Vector3 {
     }
 
     public dot(vector: Vector3): number {
-        return this.X * vector.X + this.Y * vector.Y * this.Z * vector.Z;
+        return this.X * vector.X + this.Y * vector.Y + this.Z * vector.Z;
     }
 
     public cross(vector: Vector3): Vector3 {
-
-        this.X = this.Y * vector.Z - this.Z * vector.Y;
-        this.Y = this.Z * vector.X - this.X * vector.Z;
-        this.Z = this.X * vector.Y - this.Y * vector.X;
-
-        return this;
+        return new Vector3(
+            this.Y * vector.Z - this.Z * vector.Y,
+            this.Z * vector.X - this.X * vector.Z,
+            this.X * vector.Y - this.Y * vector.X
+        );
     }
 
     public equal(vector: Vector3): boolean {
