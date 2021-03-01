@@ -32,7 +32,7 @@
     "react-color": "^2.18.1",
     "rxjs": "~6.5.5",
     "saucelabs": "^4.2.0",
-    "three": "^0.109.0",
+    "three": "^0.125.0",
     "three-stl-loader": "^1.0.6",
     "tslib": "^1.13.0",
     "uuid": "^3.4.0",
