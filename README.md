@@ -11,7 +11,8 @@ Project options: routing and [SCSS](https://sass-lang.com/documentation) as a st
 
 ## Usage
 Working version at [scene.meercad.com](http://scene.meercad.com)
-Partial help is available at [help.meercad.com](https://help.meercad.com). This is work in progress.
+
+Partial help is available at [help.meercad.com](https://help.meercad.com). This is a work in progress.
 
 This project is not finished. Detailed documentation will be added later.
 It is possible right now to drop GLTF/GLB (file or folder), STL or saved three.js scene file into graphics area on the left and try using controls. Not everything is working, but more functionality will be added.
