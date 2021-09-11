@@ -61,12 +61,9 @@ export class MeshBasicMaterialExport extends MaterialExport {
     private combine: THREE.Combine;
     private envMap: TextureExport;
     private map: TextureExport;
-    private morphTargets: boolean;
     private reflectivity: number;
     private refractionRatio: number;
-    private skinning: boolean;
     private specularMap: TextureExport;
-    private vertexTangents: boolean;
     private wireframe: boolean;
     private wireframeLinecap: string;
     private wireframeLinejoin: string;
@@ -81,10 +78,8 @@ export class MeshBasicMaterialExport extends MaterialExport {
         this.combine = material.combine;
         if (material.envMap) { this.envMap = material.envMap.toJSON(); }
         if (material.map) { this.map = material.map.toJSON(); }
-        this.morphTargets = material.morphTargets;
         this.reflectivity = material.reflectivity;
         this.refractionRatio = material.refractionRatio;
-        this.skinning = material.skinning;
         if (material.specularMap) { this.specularMap = material.specularMap.toJSON(); }
         this.wireframe = material.wireframe;
         this.wireframeLinecap = material.wireframeLinecap;
@@ -123,13 +118,9 @@ export class MeshLambertMaterialExport extends MaterialExport {
     private lightMap: TextureExport;
     private lightMapIntensity: number;
     private map: TextureExport;
-    private morphNormals: boolean;
-    private morphTargets: boolean;
     private reflectivity: number;
     private refractionRatio: number;
-    private skinning: boolean;
     private specularMap: TextureExport;
-    private vertexTangents: boolean;
     private wireframe: boolean;
     private wireframeLinecap: string;
     private wireframeLinejoin: string;
@@ -149,11 +140,8 @@ export class MeshLambertMaterialExport extends MaterialExport {
         if (material.lightMap) { this.lightMap = material.lightMap.toJSON(); }
         this.lightMapIntensity = material.lightMapIntensity;
         if (material.map) { this.map = material.map.toJSON(); }
-        this.morphNormals = material.morphNormals;
-        this.morphTargets = material.morphTargets;
         this.reflectivity = material.reflectivity;
         this.refractionRatio = material.refractionRatio;
-        this.skinning = material.skinning;
         if (material.specularMap) { this.specularMap = material.specularMap.toJSON(); }
         this.wireframe = material.wireframe;
         this.wireframeLinecap = material.wireframeLinecap;
@@ -173,12 +161,9 @@ export class MeshMatcapMaterialExport extends MaterialExport {
     private flatShading: boolean;
     private map: TextureExport;
     private matcapMap: TextureExport;
-    private morphNormals: boolean;
-    private morphTargets: boolean;
     private normalMap: TextureExport;
     private normalMapType: THREE.NormalMapTypes;
     private normalScale: Vector2;
-    private skinning: boolean;
 
     constructor(material: MeshMatcapMaterial) {
         super(material);
@@ -192,12 +177,9 @@ export class MeshMatcapMaterialExport extends MaterialExport {
         this.flatShading = material.flatShading;
         if (material.map) { this.map = material.map.toJSON(); }
         if (material.matcapMap) { this.matcapMap = material.matcapMap.toJSON(); }
-        this.morphNormals = material.morphNormals;
-        this.morphTargets = material.morphTargets;
         if (material.normalMap) { this.normalMap = material.normalMap.toJSON(); }
         this.normalMapType = material.normalMapType;
         this.normalScale = material.normalScale;
-        this.skinning = material.skinning;
     }
 }
 
@@ -208,13 +190,9 @@ export class MeshNormalMaterialExport extends MaterialExport {
     private displacementScale: number;
     private displacementBias: number;
     private flatShading: boolean;
-    private morphNormals: boolean;
-    private morphTargets: boolean;
     private normalMap: TextureExport;
     private normalMapType: THREE.NormalMapTypes;
     private normalScale: Vector2;
-    private skinning: boolean;
-    private vertexTangents: boolean;
     private wireframe: boolean;
     private wireframeLinewidth: number;
 
@@ -226,12 +204,9 @@ export class MeshNormalMaterialExport extends MaterialExport {
         this.displacementScale = material.displacementScale;
         this.displacementBias = material.displacementBias;
         this.flatShading = material.flatShading;
-        this.morphNormals = material.morphNormals;
-        this.morphTargets = material.morphTargets;
         if (material.normalMap) { this.normalMap = material.normalMap.toJSON(); }
         this.normalMapType = material.normalMapType;
         this.normalScale = material.normalScale;
-        this.skinning = material.skinning;
         this.wireframe = material.wireframe;
         this.wireframeLinewidth = material.wireframeLinewidth;
     }
@@ -258,16 +233,10 @@ export class MeshStandardMaterialExport extends MaterialExport {
     private map: TextureExport;
     private metalness: number;
     private metalnessMap: TextureExport;
-    private morphNormals: boolean;
-    private morphTargets: boolean;
     private normalMap: TextureExport;
     private normalMapType: THREE.NormalMapTypes;
     private normalScale: Vector2;
     private refractionRatio: number;
-    private roughness: number;
-//    private roughnessMap: TextureExport;
-    private skinning: boolean;
-    private vertexTangents: boolean;
     private wireframe: boolean;
     private wireframeLinewidth: number;
 
@@ -293,16 +262,10 @@ export class MeshStandardMaterialExport extends MaterialExport {
         if (material.map) { this.map = material.map.toJSON(); }
         this.metalness = material.metalness;
         if (material.metalnessMap) { this.metalnessMap = material.metalnessMap.toJSON(); }
-        this.morphNormals = material.morphNormals;
-        this.morphTargets = material.morphTargets;
         if (material.normalMap) { this.normalMap = material.normalMap.toJSON(); }
         this.normalMapType = material.normalMapType;
         this.normalScale = material.normalScale;
         this.refractionRatio = material.refractionRatio;
-//        this.roughness = material.roughness;
-//        if (material.roughnessMap) { this.roughnessMap = material.roughnessMap.toJSON(); }
-        this.skinning = material.skinning;
-        this.vertexTangents = material.vertexTangents;
         this.wireframe = material.wireframe;
         this.wireframeLinewidth = material.wireframeLinewidth;
     }
@@ -347,18 +310,14 @@ export class MeshPhongMaterialExport extends MaterialExport {
     private lightMap: TextureExport;
     private lightMapIntensity: number;
     private map: TextureExport;
-    private morphNormals: boolean;
-    private morphTargets: boolean;
     private normalMap: TextureExport;
     private normalMapType: THREE.NormalMapTypes;
     private normalScale: Vector2;
     private reflectivity: number;
     private refractionRatio: number;
     private shininess: number;
-    private skinning: boolean;
     private specular: string;
     private specularMap: TextureExport;
-    private vertexTangents: boolean;
     private wireframe: boolean;
     private wireframeLinecap: string;
     private wireframeLinejoin: string;
@@ -384,15 +343,12 @@ export class MeshPhongMaterialExport extends MaterialExport {
         if (material.lightMap) { this.lightMap = material.lightMap.toJSON(); }
         this.lightMapIntensity = material.lightMapIntensity;
         if (material.map) { this.map = material.map.toJSON(); }
-        this.morphNormals = material.morphNormals;
-        this.morphTargets = material.morphTargets;
         if (material.normalMap) { this.normalMap = material.normalMap.toJSON(); }
         this.normalMapType = material.normalMapType;
         this.normalScale = material.normalScale;
         this.reflectivity = material.reflectivity;
         this.refractionRatio = material.refractionRatio;
         this.shininess = material.shininess;
-        this.skinning = material.skinning;
         this.specular = material.specular;
         if (material.specularMap) { this.specularMap = material.specularMap.toJSON(); }
         this.wireframe = material.wireframe;
@@ -415,18 +371,12 @@ export class MeshToonMaterialExport extends MaterialExport {
     private emissive: string;
     private emissiveMap: TextureExport;
     private emissiveIntensity: number;
-    private gradientMap: TextureExport;
     private lightMap: TextureExport;
     private lightMapIntensity: number;
     private map: TextureExport;
-    private morphNormals: boolean;
-    private morphTargets: boolean;
     private normalMap: TextureExport;
     private normalMapType: THREE.NormalMapTypes;
     private normalScale: Vector2;
-    private shininess: number;
-    private skinning: boolean;
-    private vertexTangents: boolean;
     private wireframe: boolean;
     private wireframeLinecap: string;
     private wireframeLinejoin: string;
@@ -449,12 +399,9 @@ export class MeshToonMaterialExport extends MaterialExport {
         if (material.lightMap) { this.lightMap = material.lightMap.toJSON(); }
         this.lightMapIntensity = material.lightMapIntensity;
         if (material.map) { this.map = material.map.toJSON(); }
-        this.morphNormals = material.morphNormals;
-        this.morphTargets = material.morphTargets;
         if (material.normalMap) { this.normalMap = material.normalMap.toJSON(); }
         this.normalMapType = material.normalMapType;
         this.normalScale = material.normalScale;
-        this.skinning = material.skinning;
         this.wireframe = material.wireframe;
         this.wireframeLinecap = material.wireframeLinecap;
         this.wireframeLinejoin = material.wireframeLinejoin;
@@ -868,12 +815,6 @@ export class MeshBasicMaterial extends Material {
     }
     public envMap: Texture;
     public map: Texture;
-    public get morphTargets(): boolean {
-        return (this.material as THREE.MeshBasicMaterial).morphTargets;
-    }
-    public set morphTargets(value: boolean) {
-        (this.material as THREE.MeshBasicMaterial).morphTargets = value;
-    }
     public get reflectivity(): number {
         return (this.material as THREE.MeshBasicMaterial).reflectivity;
     }
@@ -885,12 +826,6 @@ export class MeshBasicMaterial extends Material {
     }
     public set refractionRatio(value: number) {
         (this.material as THREE.MeshBasicMaterial).refractionRatio = value;
-    }
-    public get skinning(): boolean {
-        return (this.material as THREE.MeshBasicMaterial).skinning;
-    }
-    public set skinning(value: boolean) {
-        (this.material as THREE.MeshBasicMaterial).skinning = value;
     }
     public specularMap: Texture;
     public get wireframe(): boolean {
@@ -961,10 +896,8 @@ export class MeshBasicMaterial extends Material {
         if (this.envMap) { m.envMap = this.envMap.texture; }
         this.map = Texture.cloneTexture(material.map);
         if (this.map) { m.map = this.map.texture; }
-        this.morphTargets = material.morphTargets;
         this.reflectivity = material.reflectivity;
         this.refractionRatio = material.refractionRatio;
-        this.skinning = material.skinning;
         this.specularMap = Texture.cloneTexture(material.specularMap);
         if (this.specularMap) { m.specularMap = this.specularMap.texture; }
         this.wireframe = material.wireframe;
@@ -1099,18 +1032,6 @@ export class MeshLambertMaterial extends Material {
         (this.material as THREE.MeshLambertMaterial).lightMapIntensity = value;
     }
     public map: Texture;
-    public get morphNormals(): boolean {
-        return (this.material as THREE.MeshLambertMaterial).morphNormals;
-    }
-    public set morphNormals(value: boolean) {
-        (this.material as THREE.MeshLambertMaterial).morphNormals = value;
-    }
-    public get morphTargets(): boolean {
-        return (this.material as THREE.MeshLambertMaterial).morphTargets;
-    }
-    public set morphTargets(value: boolean) {
-        (this.material as THREE.MeshLambertMaterial).morphNormals = value;
-    }
     public get reflectivity(): number {
         return (this.material as THREE.MeshLambertMaterial).reflectivity;
     }
@@ -1122,12 +1043,6 @@ export class MeshLambertMaterial extends Material {
     }
     public set refractionRatio(value: number) {
         (this.material as THREE.MeshLambertMaterial).refractionRatio = value;
-    }
-    public get skinning(): boolean {
-        return (this.material as THREE.MeshLambertMaterial).skinning;
-    }
-    public set skinning(value: boolean) {
-        (this.material as THREE.MeshLambertMaterial).skinning = value;
     }
     public specularMap: Texture;
     public get wireframe(): boolean {
@@ -1207,11 +1122,8 @@ export class MeshLambertMaterial extends Material {
         this.lightMapIntensity = material.lightMapIntensity;
         this.map = Texture.cloneTexture(material.map);
         if (this.map) { m.map = this.map.texture; }
-        this.morphNormals = material.morphNormals;
-        this.morphTargets = material.morphTargets;
         this.reflectivity = material.reflectivity;
         this.refractionRatio = material.refractionRatio;
-        this.skinning = material.skinning;
         this.specularMap = Texture.cloneTexture(material.specularMap);
         if (this.specularMap) { m.specularMap = this.specularMap.texture; }
         this.wireframe = material.wireframe;
@@ -1266,18 +1178,6 @@ export class MeshMatcapMaterial extends Material {
     public set flatShading(value: boolean) { (this.material as THREE.MeshMatcapMaterial).flatShading = value; }
     public map: Texture;
     public matcapMap: Texture;
-    public get morphNormals(): boolean {
-        return (this.material as THREE.MeshMatcapMaterial).morphNormals;
-    }
-    public set morphNormals(value: boolean) {
-        (this.material as THREE.MeshMatcapMaterial).morphNormals = value;
-    }
-    public get morphTargets(): boolean {
-        return (this.material as THREE.MeshMatcapMaterial).morphTargets;
-    }
-    public set morphTargets(value: boolean) {
-        (this.material as THREE.MeshMatcapMaterial).morphNormals = value;
-    }
     public normalMap: Texture;
     public get normalMapType(): THREE.NormalMapTypes {
         return (this.material as THREE.MeshMatcapMaterial).normalMapType;
@@ -1291,12 +1191,6 @@ export class MeshMatcapMaterial extends Material {
     }
     public set normalScale(value: Vector2) {
         (this.material as THREE.MeshNormalMaterial).normalScale.set(value.X, value.Y);
-    }
-    public get skinning(): boolean {
-        return (this.material as THREE.MeshMatcapMaterial).skinning;
-    }
-    public set skinning(value: boolean) {
-        (this.material as THREE.MeshMatcapMaterial).skinning = value;
     }
 
     constructor() {
@@ -1347,13 +1241,10 @@ export class MeshMatcapMaterial extends Material {
         if (this.map) { m.map = this.map.texture; }
         this.matcapMap = Texture.cloneTexture(material.matcapMap);
         if (this.matcapMap) { m.matcap = this.matcapMap.texture; }
-        this.morphNormals = material.morphNormals;
-        this.morphTargets = material.morphTargets;
         this.normalMap = Texture.cloneTexture(material.normalMap);
         if (this.normalMap) { m.normalMap = this.normalMap.texture; }
         this.normalMapType = material.normalMapType;
         this.normalScale = material.normalScale;
-        this.skinning = material.skinning;
     }
 
     public update(): void {
@@ -1391,18 +1282,6 @@ export class MeshNormalMaterial extends Material {
     }
     public get flatShading(): boolean { return (this.material as THREE.MeshNormalMaterial).flatShading; }
     public set flatShading(value: boolean) { (this.material as THREE.MeshNormalMaterial).flatShading = value; }
-    public get morphNormals(): boolean {
-        return (this.material as THREE.MeshNormalMaterial).morphNormals;
-    }
-    public set morphNormals(value: boolean) {
-        (this.material as THREE.MeshNormalMaterial).morphNormals = value;
-    }
-    public get morphTargets(): boolean {
-        return (this.material as THREE.MeshNormalMaterial).morphTargets;
-    }
-    public set morphTargets(value: boolean) {
-        (this.material as THREE.MeshNormalMaterial).morphNormals = value;
-    }
     public normalMap: Texture;
     public get normalMapType(): THREE.NormalMapTypes {
         return (this.material as THREE.MeshNormalMaterial).normalMapType;
@@ -1416,12 +1295,6 @@ export class MeshNormalMaterial extends Material {
     }
     public set normalScale(value: Vector2) {
         (this.material as THREE.MeshNormalMaterial).normalScale.set(value.X, value.Y);
-    }
-    public get skinning(): boolean {
-        return (this.material as THREE.MeshNormalMaterial).skinning;
-    }
-    public set skinning(value: boolean) {
-        (this.material as THREE.MeshNormalMaterial).skinning = value;
     }
     public get wireframe(): boolean {
         return (this.material as THREE.MeshNormalMaterial).wireframe;
@@ -1474,13 +1347,10 @@ export class MeshNormalMaterial extends Material {
         this.displacementScale = material.displacementScale;
         this.displacementBias = material.displacementBias;
         this.flatShading = material.flatShading;
-        this.morphNormals = material.morphNormals;
-        this.morphTargets = material.morphTargets;
         this.normalMap = Texture.cloneTexture(material.normalMap);
         if (this.normalMap) { m.normalMap = this.normalMap.texture; }
         this.normalMapType = material.normalMapType;
         this.normalScale = material.normalScale;
-        this.skinning = material.skinning;
         this.wireframe = material.wireframe;
         this.wireframeLinewidth = material.wireframeLinewidth;
     }
@@ -1561,18 +1431,6 @@ export class MeshPhongMaterial extends Material {
         (this.material as THREE.MeshPhongMaterial).lightMapIntensity = value;
     }
     public map: Texture;
-    public get morphNormals(): boolean {
-        return (this.material as THREE.MeshPhongMaterial).morphNormals;
-    }
-    public set morphNormals(value: boolean) {
-        (this.material as THREE.MeshPhongMaterial).morphNormals = value;
-    }
-    public get morphTargets(): boolean {
-        return (this.material as THREE.MeshPhongMaterial).morphTargets;
-    }
-    public set morphTargets(value: boolean) {
-        (this.material as THREE.MeshPhongMaterial).morphNormals = value;
-    }
     public normalMap: Texture;
     public get normalMapType(): THREE.NormalMapTypes {
         return (this.material as THREE.MeshPhongMaterial).normalMapType;
@@ -1604,12 +1462,6 @@ export class MeshPhongMaterial extends Material {
     }
     public set shininess(value: number) {
         (this.material as THREE.MeshPhongMaterial).shininess = value;
-    }
-    public get skinning(): boolean {
-        return (this.material as THREE.MeshPhongMaterial).skinning;
-    }
-    public set skinning(value: boolean) {
-        (this.material as THREE.MeshPhongMaterial).skinning = value;
     }
     public get specular(): string {
         return '#' + (this.material as THREE.MeshPhongMaterial).specular.getHexString();
@@ -1707,8 +1559,6 @@ export class MeshPhongMaterial extends Material {
         this.lightMapIntensity = material.lightMapIntensity;
         this.map = Texture.cloneTexture(material.map);
         if (this.map) { m.map = this.map.texture; }
-        this.morphNormals = material.morphNormals;
-        this.morphTargets = material.morphTargets;
         this.normalMap = Texture.cloneTexture(material.normalMap);
         if (this.normalMap) { m.normalMap = this.normalMap.texture; }
         this.normalMapType = material.normalMapType;
@@ -1716,7 +1566,6 @@ export class MeshPhongMaterial extends Material {
         this.reflectivity = material.reflectivity;
         this.refractionRatio = material.refractionRatio;
         this.shininess = material.shininess;
-        this.skinning = material.skinning;
         this.specular = material.specular;
         this.specularMap = Texture.cloneTexture(material.specularMap);
         if (this.specularMap) { m.specularMap = this.specularMap.texture; }
@@ -1816,18 +1665,6 @@ export class MeshStandardMaterial extends Material {
         (this.material as THREE.MeshStandardMaterial).metalness = value;
     }
     public metalnessMap: Texture;
-    public get morphNormals(): boolean {
-        return (this.material as THREE.MeshStandardMaterial).morphNormals;
-    }
-    public set morphNormals(value: boolean) {
-        (this.material as THREE.MeshStandardMaterial).morphNormals = value;
-    }
-    public get morphTargets(): boolean {
-        return (this.material as THREE.MeshStandardMaterial).morphTargets;
-    }
-    public set morphTargets(value: boolean) {
-        (this.material as THREE.MeshStandardMaterial).morphNormals = value;
-    }
     public normalMap: Texture;
     public get normalMapType(): THREE.NormalMapTypes {
         return (this.material as THREE.MeshStandardMaterial).normalMapType;
@@ -1855,18 +1692,6 @@ export class MeshStandardMaterial extends Material {
         (this.material as THREE.MeshStandardMaterial).roughness = value;
     }
     // public roughnessMap: Texture;
-    public get skinning(): boolean {
-        return (this.material as THREE.MeshPhongMaterial).skinning;
-    }
-    public set skinning(value: boolean) {
-        (this.material as THREE.MeshStandardMaterial).skinning = value;
-    }
-    public get vertexTangents(): boolean {
-        return (this.material as THREE.MeshStandardMaterial).vertexTangents;
-    }
-    public set vertexTangents(value: boolean) {
-        (this.material as THREE.MeshStandardMaterial).vertexTangents = value;
-    }
     public get wireframe(): boolean {
         return (this.material as THREE.MeshStandardMaterial).wireframe;
     }
@@ -1950,8 +1775,6 @@ export class MeshStandardMaterial extends Material {
             m.metalnessMap = this.metalnessMap.texture;
             m.roughnessMap = this.metalnessMap.texture;
         }
-        this.morphNormals = material.morphNormals;
-        this.morphTargets = material.morphTargets;
         this.normalMap = Texture.cloneTexture(material.normalMap);
         if (this.normalMap) { m.normalMap = this.normalMap.texture; }
         this.normalMapType = material.normalMapType;
@@ -1960,8 +1783,6 @@ export class MeshStandardMaterial extends Material {
         this.roughness = material.roughness;
         // this.roughnessMap = Texture.cloneTexture(material.roughnessMap);
         // if (this.roughnessMap) { m.roughnessMap = this.roughnessMap.texture; }
-        this.skinning = material.skinning;
-        this.vertexTangents = material.vertexTangents;
         this.wireframe = material.wireframe;
         this.wireframeLinewidth = material.wireframeLinewidth;
     }
@@ -2125,18 +1946,6 @@ export class MeshToonMaterial extends Material {
         (this.material as THREE.MeshToonMaterial).lightMapIntensity = value;
     }
     public map: Texture;
-    public get morphNormals(): boolean {
-        return (this.material as THREE.MeshToonMaterial).morphNormals;
-    }
-    public set morphNormals(value: boolean) {
-        (this.material as THREE.MeshToonMaterial).morphNormals = value;
-    }
-    public get morphTargets(): boolean {
-        return (this.material as THREE.MeshToonMaterial).morphTargets;
-    }
-    public set morphTargets(value: boolean) {
-        (this.material as THREE.MeshToonMaterial).morphNormals = value;
-    }
     public normalMap: Texture;
     public get normalMapType(): THREE.NormalMapTypes {
         return (this.material as THREE.MeshToonMaterial).normalMapType;
@@ -2150,12 +1959,6 @@ export class MeshToonMaterial extends Material {
     }
     public set normalScale(value: Vector2) {
         (this.material as THREE.MeshNormalMaterial).normalScale.set(value.X, value.Y);
-    }
-    public get skinning(): boolean {
-        return (this.material as THREE.MeshPhongMaterial).skinning;
-    }
-    public set skinning(value: boolean) {
-        (this.material as THREE.MeshToonMaterial).skinning = value;
     }
     public get wireframe(): boolean {
         return (this.material as THREE.MeshToonMaterial).wireframe;
@@ -2243,13 +2046,10 @@ export class MeshToonMaterial extends Material {
         this.lightMapIntensity = material.lightMapIntensity;
         this.map = Texture.cloneTexture(material.map);
         if (this.map) { m.map = this.map.texture; }
-        this.morphNormals = material.morphNormals;
-        this.morphTargets = material.morphTargets;
         this.normalMap = Texture.cloneTexture(material.normalMap);
         if (this.normalMap) { m.normalMap = this.normalMap.texture; }
         this.normalMapType = material.normalMapType;
         this.normalScale = material.normalScale;
-        this.skinning = material.skinning;
         this.wireframe = material.wireframe;
         this.wireframeLinecap = material.wireframeLinecap;
         this.wireframeLinejoin = material.wireframeLinejoin;
