@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MeshLambertMaterialEditorComponent } from './mesh-lambert-material-editor.component';
 
@@ -6,7 +6,7 @@ describe('MeshLambertMaterialEditorComponent', () => {
   let component: MeshLambertMaterialEditorComponent;
   let fixture: ComponentFixture<MeshLambertMaterialEditorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ MeshLambertMaterialEditorComponent ]
     })

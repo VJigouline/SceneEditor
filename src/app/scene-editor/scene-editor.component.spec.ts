@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SceneEditorComponent } from './scene-editor.component';
 
@@ -6,7 +6,7 @@ describe('SceneEditorComponent', () => {
   let component: SceneEditorComponent;
   let fixture: ComponentFixture<SceneEditorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SceneEditorComponent ]
     })

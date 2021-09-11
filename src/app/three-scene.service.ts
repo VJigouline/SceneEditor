@@ -240,7 +240,7 @@ export class ThreeSceneService {
 
     loader.load(fileUrl, (file) => {
       const sceneCollada = file.scene;
-      const clips = file.animations || [];
+      const clips = /*file.animations ||*/ [];
       this.contentSetter(scene, sceneCollada, clips);
 
       // blobURLs.forEach(URL.revokeObjectURL);
@@ -316,7 +316,7 @@ export class ThreeSceneService {
     loader.setDRACOLoader( dracoLoader );
 
     loader.load(fileUrl, (gltf) => {
-      const sceneGLTF = gltf.scene || gltf.scenes[0];
+      const sceneGLTF = gltf.scene;
       const clips = gltf.animations || [];
       this.contentSetter(scene, sceneGLTF, clips);
 
@@ -326,7 +326,7 @@ export class ThreeSceneService {
   }
 
   // This is to avoid lint error.
-  contentSetter(scene: THREE.Scene, sceneGLTF: THREE.Scene, clips: THREE.AnimationClip[]) {
+  contentSetter(scene: THREE.Scene, sceneGLTF: THREE.Group | THREE.Scene, clips: THREE.AnimationClip[]) {
     throw new Error('Method not implemented.');
   }
 

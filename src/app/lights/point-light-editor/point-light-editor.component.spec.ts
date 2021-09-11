@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { PointLightEditorComponent } from './point-light-editor.component';
 
@@ -6,7 +6,7 @@ describe('PointLightEditorComponent', () => {
   let component: PointLightEditorComponent;
   let fixture: ComponentFixture<PointLightEditorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ PointLightEditorComponent ]
     })

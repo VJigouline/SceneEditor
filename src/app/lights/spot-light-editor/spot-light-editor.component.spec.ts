@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SpotLightEditorComponent } from './spot-light-editor.component';
 
@@ -6,7 +6,7 @@ describe('SpotLightEditorComponent', () => {
   let component: SpotLightEditorComponent;
   let fixture: ComponentFixture<SpotLightEditorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SpotLightEditorComponent ]
     })

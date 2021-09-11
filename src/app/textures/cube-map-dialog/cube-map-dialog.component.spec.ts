@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { CubeMapDialogComponent } from './cube-map-dialog.component';
 
@@ -6,7 +6,7 @@ describe('CubeMapDialogComponent', () => {
   let component: CubeMapDialogComponent;
   let fixture: ComponentFixture<CubeMapDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ CubeMapDialogComponent ]
     })

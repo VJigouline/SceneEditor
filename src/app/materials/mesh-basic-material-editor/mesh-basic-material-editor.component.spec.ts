@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MeshBasicMaterialEditorComponent } from './mesh-basic-material-editor.component';
 
@@ -6,7 +6,7 @@ describe('MeshBasicMaterialEditorComponent', () => {
   let component: MeshBasicMaterialEditorComponent;
   let fixture: ComponentFixture<MeshBasicMaterialEditorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ MeshBasicMaterialEditorComponent ]
     })

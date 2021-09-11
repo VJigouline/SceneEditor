@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TextureEditorComponent } from './texture-editor.component';
 
@@ -6,7 +6,7 @@ describe('TextureEditorComponent', () => {
   let component: TextureEditorComponent;
   let fixture: ComponentFixture<TextureEditorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ TextureEditorComponent ]
     })
