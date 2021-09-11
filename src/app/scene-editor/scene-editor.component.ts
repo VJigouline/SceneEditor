@@ -118,7 +118,7 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
   public ResetScene(): void {
     this.sceneService.rescaleScene();
     this.threeView.Render();
-    this.materialEditor.setDragControl(true);
+    this.materialEditor.setHoverControl(true);
   }
 
   public onLightChanged(light: Light): void {

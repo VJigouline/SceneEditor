@@ -17,6 +17,7 @@ import { LightType } from './lights/light-type.enum';
 import { Material } from './materials/material';
 import { Materials } from './materials/materials';
 import { Polygon3 } from './geometries/polygon3';
+import { HoverControl } from './threejs-extensions/hover-control';
 
 interface ViewerFile extends File {
   relativePath: string;
@@ -453,6 +454,10 @@ export class ThreeSceneService {
 
   public getDragControl(objects: THREE.Object3D[]): DragControls {
     return new DragControls(objects, this.camera, this.renderer.domElement);
+  }
+
+  public getHoverControl(objects: THREE.Object3D[]): HoverControl {
+    return new HoverControl(objects, this.camera, this.renderer.domElement);
   }
 
   public cancelHideTransform(): void {

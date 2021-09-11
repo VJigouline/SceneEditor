@@ -11,7 +11,7 @@ import { MaterialEditorComponent } from '../material-editor/material-editor.comp
 import { ConfirmationDialogComponent } from '../user-controls/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../user-controls/error-dialog/error-dialog.component';
-import { DragControls } from 'three/examples/jsm/controls/DragControls';
+import { HoverControl } from '../threejs-extensions/hover-control';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
 import * as THREE from 'three';
@@ -46,7 +46,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
       this.libraryService.Library.current >= this.libraryService.Library.materials.length;
   }
   public assignMaterial = false;
-  private dragControl: DragControls;
+  private hoverControl: HoverControl;
   private selectedObject: THREE.Object3D;
   private highlightedObject: THREE.Object3D;
   private selectedObjectMaterial: THREE.Material | THREE.Material[];
@@ -54,7 +54,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
   private selectedMaterial: THREE.Material;
   private highlightedMaterial: THREE.Material;
   private doHighlighting = true;
-  private updateDragControl = true;
+  private updateHoverControl = true;
   private activeTab = false;
   private dialogRaised = false;
 
@@ -165,10 +165,10 @@ export class MaterialsLibraryEditorComponent implements OnInit {
   public onSelectedTabChange(index: number) {
     if (index === 1) {
       this.activeTab = true;
-      this.setDragControl();
+      this.setHoverControl();
     } else {
-      this.updateDragControl = true;
-      this.removeDragControl();
+      this.updateHoverControl = true;
+      this.removeHoverControl();
       this.removeHighlighting();
       this.removeSelection();
       this.activeTab = false;
@@ -296,40 +296,40 @@ export class MaterialsLibraryEditorComponent implements OnInit {
     });
   }
 
-  private removeDragControl(): void {
-    if (this.dragControl) {
-      this.dragControl.enabled = false;
-      this.dragControl.deactivate();
-      delete this.dragControl;
-      this.dragControl = null;
+  private removeHoverControl(): void {
+    if (this.hoverControl) {
+      this.hoverControl.enabled = false;
+      this.hoverControl.deactivate();
+      delete this.hoverControl;
+      this.hoverControl = null;
     }
   }
 
-  public setDragControl(force = false): void {
+  public setHoverControl(force = false): void {
     if (!this.activeTab) {
-      this.updateDragControl = true;
+      this.updateHoverControl = true;
       return;
     }
-    if (force) { this.updateDragControl = true; }
-    if (!this.updateDragControl) { return; }
-    this.dragControl = this.sceneService.getDragControl(
+    if (force) { this.updateHoverControl = true; }
+    if (!this.updateHoverControl) { return; }
+    this.hoverControl = this.sceneService.getHoverControl(
       this.sceneService.getSelectableObjects()
     );
-    this.dragControl.enabled = false;
-    this.dragControl.addEventListener('hoveron',
-      this.onDragHoveron.bind(this));
-    this.dragControl.addEventListener('hoveroff',
-      this.onDragHoveroff.bind(this));
-    this.dragControl.addEventListener('dragstart',
-      this.onDragStart.bind(this));
-    this.dragControl.addEventListener('drag',
-      this.onDragStart.bind(this));
-    this.updateDragControl = false;
-    this.dragControl.enabled = true;
+    this.hoverControl.enabled = false;
+    this.hoverControl.addEventListener('hoveron',
+      this.onHoveron.bind(this));
+    this.hoverControl.addEventListener('hoveroff',
+      this.onHoveroff.bind(this));
+    this.hoverControl.addEventListener('mousedown',
+      this.onMouseButton.bind(this));
+    this.hoverControl.addEventListener('mousecancel',
+      this.onMouseButton.bind(this));
+    this.updateHoverControl = false;
+    this.hoverControl.enabled = true;
   }
 
-  private onDragHoveron(event: DragEvent): void {
-    if (this.sceneService.lastMouseEvent.altKey) { return; }
+  private onHoveron(event: DragEvent): void {
+    if (this.hoverControl.lastMouseEvent.altKey) { return; }
     this.removeHighlighting();
     if (event.object instanceof THREE.Mesh && this.doHighlighting) {
       const mesh = event.object as THREE.Mesh;
@@ -342,7 +342,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
     this.updateMaterial(null);
   }
 
-  private onDragHoveroff(event: DragEvent): void {
+  private onHoveroff(event: DragEvent): void {
     this.removeHighlighting();
     this.updateMaterial(null);
   }
@@ -378,8 +378,8 @@ export class MaterialsLibraryEditorComponent implements OnInit {
     }, timeout);
   }
 
-  private onDragStart(event: DragEvent): void {
-    var mouseEvent = this.sceneService.lastMouseEvent;
+  private onMouseButton(event: DragEvent): void {
+    var mouseEvent = this.hoverControl.lastMouseEvent;
     if (mouseEvent.button !== 0 || mouseEvent.altKey) { return; }
     this.removeSelection();
     this.removeHighlighting();
