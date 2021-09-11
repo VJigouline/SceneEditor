@@ -71,10 +71,6 @@ export class MeshToonMaterialEditorComponent implements OnInit {
     return this.Material ? this.Material.normalMapType : THREE.TangentSpaceNormalMap;
   }
   public set NormalMapType(value: THREE.NormalMapTypes) {}
-  get SpecularMap(): Texture {
-    return this.Material ? this.Material.specularMap : null;
-  }
-  set SpecularMap(value: Texture) {}
 
   bumpMapUsage = TextureUsage.BUMP_MAP;
   normalMapUsage = TextureUsage.NORMAL_MAP;
@@ -100,11 +96,6 @@ export class MeshToonMaterialEditorComponent implements OnInit {
 
   public onEmissiveIntensityChanged(event: MatSliderChange): void {
     this.Material.emissiveIntensity = Math.round((event.value + Number.EPSILON) * 100) / 100;
-    this.updateMaterial(this.Material);
-  }
-
-  onShininessChanged(event: MatSliderChange): void {
-    this.Material.shininess = Math.round((event.value + Number.EPSILON) * 100) / 100;
     this.updateMaterial(this.Material);
   }
 
@@ -240,20 +231,6 @@ export class MeshToonMaterialEditorComponent implements OnInit {
 
   public onNormalMapScaleVChanged(value: number): void {
     this.Material.normalScale = new Vector2(this.Material.normalScale.X, value);
-    this.updateMaterial(this.Material);
-  }
-
-  onSpecularMapChanged(event: Texture): void {
-    if (event) {
-      if (this.Material.specularMap !== event) {
-        this.Material.specularMap = event;
-        (this.Material.material as THREE.MeshToonMaterial).specularMap = event.texture;
-        this.Material.update();
-      }
-    } else {
-      this.Material.specularMap = null;
-      (this.Material.material as THREE.MeshToonMaterial).specularMap = null;
-    }
     this.updateMaterial(this.Material);
   }
 }

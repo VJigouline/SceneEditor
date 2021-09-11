@@ -15,20 +15,6 @@
 <div *ngIf="Material" class="row">
     <div class="col">
     <mat-form-field class="full-width">
-        <input matInput placeholder="Specular colour"
-        cpAlphaChannel="disabled"
-        [value] = "this.Material.specular"
-        [style.background]="this.Material.specular"
-        [cpPosition] = "'bottom'"
-        [(colorPicker)]="this.Material.specular"
-        (colorPickerChange)="onColourChanged($event)"
-        >
-    </mat-form-field>
-    </div>
-</div>
-<div *ngIf="Material" class="row">
-    <div class="col">
-    <mat-form-field class="full-width">
         <input matInput placeholder="Emissive colour"
         cpAlphaChannel="disabled"
         [value] = "this.Material.emissive"
@@ -46,15 +32,6 @@
         <mat-slider min="0" max="10" step="0.01"
         (input)="onEmissiveIntensityChanged($event)"
         [(value)]="Material.emissiveIntensity"
-        ></mat-slider>
-    </div>
-</div>
-<div *ngIf="Material" class="row">
-    <div class="col label">
-        Shininess {{Material.shininess}}
-        <mat-slider min="0" max="200" step="0.1"
-        (input)="onShininessChanged($event)"
-        [(value)]="Material.shininess"
         ></mat-slider>
     </div>
 </div>
@@ -189,20 +166,6 @@
                 (changedTexture)="onNormalMapChanged($event)"
                 (changedScale)="onNormalMapScaleUChanged($event)"
                 (changedScale2)="onNormalMapScaleVChanged($event)"
-                ></app-texture-editor>
-            </div>
-        </div>
-    </mat-expansion-panel>
-    <mat-expansion-panel>
-        <mat-expansion-panel-header>
-            <mat-panel-title>Specular map</mat-panel-title>
-        </mat-expansion-panel-header>
-        <div *ngIf="Material" class="row">
-            <div class="col">
-                <app-texture-editor 
-                [Material]="Material"
-                [Texture]="SpecularMap"
-                (changedTexture)="onSpecularMapChanged($event)"
                 ></app-texture-editor>
             </div>
         </div>

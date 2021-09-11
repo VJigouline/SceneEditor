@@ -399,7 +399,7 @@ export class ThreeSceneService {
           transform.makeBasis(new THREE.Vector3(x.X, x.Y, x.Z),
           new THREE.Vector3(y.X, y.Y, y.Z), new THREE.Vector3(z.X, z.Y, z.Z))
             .premultiply(new THREE.Matrix4().makeTranslation(o.X, o.Y, o.Z));
-          geometry.applyMatrix(transform);
+          geometry.applyMatrix4(transform);
 
           const mesh = new THREE.Mesh(geometry, blob.service.material);
           scene.add(mesh);

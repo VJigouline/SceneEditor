@@ -54,8 +54,6 @@ export class MaterialPreviewComponent implements OnInit, AfterViewInit {
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.physicallyCorrectLights = true;
-    this.renderer.gammaInput = true;
-    this.renderer.gammaOutput = true;
     this.renderer.shadowMap.enabled = true;
     this.renderer.toneMapping = THREE.ReinhardToneMapping;
     this.renderer.setPixelRatio( window.devicePixelRatio );

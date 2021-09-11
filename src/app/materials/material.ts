@@ -21,7 +21,6 @@ export class MaterialExport {
     private depthTest: boolean;
     private depthWrite: boolean;
     private stencilWrite: boolean;
-    private flatShading: boolean;
     private fog: boolean;
     private name: string;
     private opacity: number;
@@ -45,7 +44,6 @@ export class MaterialExport {
         this.depthTest = material.depthTest;
         this.depthWrite = material.depthWrite;
         this.stencilWrite = material.stencilWrite;
-        this.flatShading = material.flatShading;
         this.fog = material.fog;
         this.name = material.name;
         this.opacity = material.opacity;
@@ -172,6 +170,7 @@ export class MeshMatcapMaterialExport extends MaterialExport {
     private displacementMap: TextureExport;
     private displacementScale: number;
     private displacementBias: number;
+    private flatShading: boolean;
     private map: TextureExport;
     private matcapMap: TextureExport;
     private morphNormals: boolean;
@@ -190,6 +189,7 @@ export class MeshMatcapMaterialExport extends MaterialExport {
         if (material.displacementMap) { this.displacementMap = material.displacementMap.toJSON(); }
         this.displacementScale = material.displacementScale;
         this.displacementBias = material.displacementBias;
+        this.flatShading = material.flatShading;
         if (material.map) { this.map = material.map.toJSON(); }
         if (material.matcapMap) { this.matcapMap = material.matcapMap.toJSON(); }
         this.morphNormals = material.morphNormals;
@@ -207,6 +207,7 @@ export class MeshNormalMaterialExport extends MaterialExport {
     private displacementMap: TextureExport;
     private displacementScale: number;
     private displacementBias: number;
+    private flatShading: boolean;
     private morphNormals: boolean;
     private morphTargets: boolean;
     private normalMap: TextureExport;
@@ -224,6 +225,7 @@ export class MeshNormalMaterialExport extends MaterialExport {
         if (material.displacementMap) { this.displacementMap = material.displacementMap.toJSON(); }
         this.displacementScale = material.displacementScale;
         this.displacementBias = material.displacementBias;
+        this.flatShading = material.flatShading;
         this.morphNormals = material.morphNormals;
         this.morphTargets = material.morphTargets;
         if (material.normalMap) { this.normalMap = material.normalMap.toJSON(); }
@@ -250,6 +252,7 @@ export class MeshStandardMaterialExport extends MaterialExport {
     private emissiveIntensity: number;
     private envMap: TextureExport;
     private envMapIntensity: number;
+    private flatShading: boolean;
     private lightMap: TextureExport;
     private lightMapIntensity: number;
     private map: TextureExport;
@@ -284,6 +287,7 @@ export class MeshStandardMaterialExport extends MaterialExport {
         this.emissiveIntensity = material.emissiveIntensity;
         if (material.envMap) { this.envMap = material.envMap.toJSON(); }
         this.envMapIntensity = material.envMapIntensity;
+        this.flatShading = material.flatShading;
         if (material.lightMap) { this.lightMap = material.lightMap.toJSON(); }
         this.lightMapIntensity = material.lightMapIntensity;
         if (material.map) { this.map = material.map.toJSON(); }
@@ -339,6 +343,7 @@ export class MeshPhongMaterialExport extends MaterialExport {
     private emissiveMap: TextureExport;
     private emissiveIntensity: number;
     private envMap: TextureExport;
+    private flatShading: boolean;
     private lightMap: TextureExport;
     private lightMapIntensity: number;
     private map: TextureExport;
@@ -375,6 +380,7 @@ export class MeshPhongMaterialExport extends MaterialExport {
         if (material.emissiveMap) { this.emissiveMap = material.emissiveMap.toJSON(); }
         this.emissiveIntensity = material.emissiveIntensity;
         if (material.envMap) { this.envMap = material.envMap.toJSON(); }
+        this.flatShading = material.flatShading;
         if (material.lightMap) { this.lightMap = material.lightMap.toJSON(); }
         this.lightMapIntensity = material.lightMapIntensity;
         if (material.map) { this.map = material.map.toJSON(); }
@@ -420,8 +426,6 @@ export class MeshToonMaterialExport extends MaterialExport {
     private normalScale: Vector2;
     private shininess: number;
     private skinning: boolean;
-    private specular: string;
-    private specularMap: TextureExport;
     private vertexTangents: boolean;
     private wireframe: boolean;
     private wireframeLinecap: string;
@@ -450,10 +454,7 @@ export class MeshToonMaterialExport extends MaterialExport {
         if (material.normalMap) { this.normalMap = material.normalMap.toJSON(); }
         this.normalMapType = material.normalMapType;
         this.normalScale = material.normalScale;
-        this.shininess = material.shininess;
         this.skinning = material.skinning;
-        this.specular = material.specular;
-        if (material.specularMap) { this.specularMap = material.specularMap.toJSON(); }
         this.wireframe = material.wireframe;
         this.wireframeLinecap = material.wireframeLinecap;
         this.wireframeLinejoin = material.wireframeLinejoin;
@@ -497,8 +498,6 @@ export class Material {
     public set depthWrite(value: boolean) { this.material.depthWrite = value; }
     public get stencilWrite(): boolean { return this.material.stencilWrite; }
     public set stencilWrite(value: boolean) { this.material.stencilWrite = value; }
-    public get flatShading(): boolean { return this.material.flatShading; }
-    public set flatShading(value: boolean) { this.material.flatShading = value; }
     public get fog(): boolean { return this.material.fog; }
     public set fog(value: boolean) { this.material.fog = value; }
     public get name(): string { return this.material.name; }
@@ -521,8 +520,8 @@ export class Material {
     public set toneMapped(value: boolean) { this.material.toneMapped = value; }
     public get transparent(): boolean { return this.material.transparent; }
     public set transparent(value: boolean) { this.material.transparent = value; }
-    public get vertexColors(): THREE.Colors { return this.material.vertexColors; }
-    public set vertexColors(value: THREE.Colors) { this.material.vertexColors = value; }
+    public get vertexColors(): boolean { return this.material.vertexColors; }
+    public set vertexColors(value: boolean) { this.material.vertexColors = value; }
     public get visible(): boolean { return this.material.visible; }
     public set visible(value: boolean) { this.material.visible = value; }
 
@@ -668,7 +667,6 @@ export class Material {
         this.depthTest = material.depthTest;
         this.depthWrite = material.depthWrite;
         this.stencilWrite = material.stencilWrite;
-        this.flatShading = material.flatShading;
         this.fog = material.fog;
         this.name = material.name;
         this.opacity = material.opacity;
@@ -1264,6 +1262,8 @@ export class MeshMatcapMaterial extends Material {
     public set displacementBias(value: number) {
         (this.material as THREE.MeshMatcapMaterial).displacementBias = value;
     }
+    public get flatShading(): boolean { return (this.material as THREE.MeshMatcapMaterial).flatShading; }
+    public set flatShading(value: boolean) { (this.material as THREE.MeshMatcapMaterial).flatShading = value; }
     public map: Texture;
     public matcapMap: Texture;
     public get morphNormals(): boolean {
@@ -1342,6 +1342,7 @@ export class MeshMatcapMaterial extends Material {
         if (this.displacementMap) { m.displacementMap = this.displacementMap.texture; }
         this.displacementScale = material.displacementScale;
         this.displacementBias = material.displacementBias;
+        this.flatShading = material.flatShading;
         this.map = Texture.cloneTexture(material.map);
         if (this.map) { m.map = this.map.texture; }
         this.matcapMap = Texture.cloneTexture(material.matcapMap);
@@ -1388,6 +1389,8 @@ export class MeshNormalMaterial extends Material {
     public set displacementBias(value: number) {
         (this.material as THREE.MeshNormalMaterial).displacementBias = value;
     }
+    public get flatShading(): boolean { return (this.material as THREE.MeshNormalMaterial).flatShading; }
+    public set flatShading(value: boolean) { (this.material as THREE.MeshNormalMaterial).flatShading = value; }
     public get morphNormals(): boolean {
         return (this.material as THREE.MeshNormalMaterial).morphNormals;
     }
@@ -1470,6 +1473,7 @@ export class MeshNormalMaterial extends Material {
         if (this.displacementMap) { m.displacementMap = this.displacementMap.texture; }
         this.displacementScale = material.displacementScale;
         this.displacementBias = material.displacementBias;
+        this.flatShading = material.flatShading;
         this.morphNormals = material.morphNormals;
         this.morphTargets = material.morphTargets;
         this.normalMap = Texture.cloneTexture(material.normalMap);
@@ -1547,6 +1551,8 @@ export class MeshPhongMaterial extends Material {
         (this.material as THREE.MeshPhongMaterial).emissiveIntensity = value;
     }
     public envMap: Texture;
+    public get flatShading(): boolean { return (this.material as THREE.MeshPhongMaterial).flatShading; }
+    public set flatShading(value: boolean) { (this.material as THREE.MeshPhongMaterial).flatShading = value; }
     public lightMap: Texture;
     public get lightMapIntensity(): number {
         return (this.material as THREE.MeshPhongMaterial).lightMapIntensity;
@@ -1695,6 +1701,7 @@ export class MeshPhongMaterial extends Material {
         this.emissiveIntensity = material.emissiveIntensity;
         this.envMap = Texture.cloneTexture(material.envMap);
         if (this.envMap) { m.envMap = this.envMap.texture; }
+        this.flatShading = material.flatShading;
         this.lightMap = Texture.cloneTexture(material.lightMap);
         if (this.lightMap) { m.lightMap = this.lightMap.texture; }
         this.lightMapIntensity = material.lightMapIntensity;
@@ -1792,6 +1799,8 @@ export class MeshStandardMaterial extends Material {
     public set envMapIntensity(value: number) {
         (this.material as THREE.MeshStandardMaterial).envMapIntensity = value;
     }
+    public get flatShading(): boolean { return (this.material as THREE.MeshStandardMaterial).flatShading; }
+    public set flatShading(value: boolean) { (this.material as THREE.MeshStandardMaterial).flatShading = value; }
     public lightMap: Texture;
     public get lightMapIntensity(): number {
         return (this.material as THREE.MeshStandardMaterial).lightMapIntensity;
@@ -1929,6 +1938,7 @@ export class MeshStandardMaterial extends Material {
         this.envMap = Texture.cloneTexture(material.envMap);
         if (this.envMap) { m.envMap = this.envMap.texture; }
         this.envMapIntensity = material.envMapIntensity;
+        this.flatShading = material.flatShading;
         this.lightMap = Texture.cloneTexture(material.lightMap);
         if (this.lightMap) { m.lightMap = this.lightMap.texture; }
         this.lightMapIntensity = material.lightMapIntensity;
@@ -2141,26 +2151,12 @@ export class MeshToonMaterial extends Material {
     public set normalScale(value: Vector2) {
         (this.material as THREE.MeshNormalMaterial).normalScale.set(value.X, value.Y);
     }
-    public get shininess(): number {
-        return (this.material as THREE.MeshToonMaterial).shininess;
-    }
-    public set shininess(value: number) {
-        (this.material as THREE.MeshToonMaterial).shininess = value;
-    }
     public get skinning(): boolean {
         return (this.material as THREE.MeshPhongMaterial).skinning;
     }
     public set skinning(value: boolean) {
         (this.material as THREE.MeshToonMaterial).skinning = value;
     }
-    public get specular(): string {
-        return '#' + (this.material as THREE.MeshToonMaterial).specular.getHexString();
-    }
-    public set specular(value: string) {
-        (this.material as THREE.MeshToonMaterial).specular =
-            new THREE.Color(value);
-    }
-    public specularMap: Texture;
     public get wireframe(): boolean {
         return (this.material as THREE.MeshToonMaterial).wireframe;
     }
@@ -2203,7 +2199,6 @@ export class MeshToonMaterial extends Material {
         ret.lightMap = Texture.CreateTexture(material.lightMap);
         ret.map = Texture.CreateTexture(material.map);
         ret.normalMap = Texture.CreateTexture(material.normalMap);
-        ret.specularMap = Texture.CreateTexture(material.specularMap);
         ret.material = material;
 
         ret.name = material.name ? material.name : material.uuid;
@@ -2254,11 +2249,7 @@ export class MeshToonMaterial extends Material {
         if (this.normalMap) { m.normalMap = this.normalMap.texture; }
         this.normalMapType = material.normalMapType;
         this.normalScale = material.normalScale;
-        this.shininess = material.shininess;
         this.skinning = material.skinning;
-        this.specular = material.specular;
-        this.specularMap = Texture.cloneTexture(material.specularMap);
-        if (this.specularMap) { m.specularMap = this.specularMap.texture; }
         this.wireframe = material.wireframe;
         this.wireframeLinecap = material.wireframeLinecap;
         this.wireframeLinejoin = material.wireframeLinejoin;
@@ -2277,7 +2268,6 @@ export class MeshToonMaterial extends Material {
         if (this.lightMap) { this.lightMap.texture.needsUpdate = true; }
         if (this.map) { this.map.texture.needsUpdate = true; }
         if (this.normalMap) { this.normalMap.texture.needsUpdate = true; }
-        if (this.specularMap) { this.specularMap.texture.needsUpdate = true; }
     }
 }
 

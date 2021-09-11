@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { DragEvent } from '../interfaces';
 import { Material } from '../materials/material';
 import { Materials } from '../materials/materials';
 import { MaterialLibraryService } from '../materials/material-library.service';
@@ -10,7 +11,7 @@ import { MaterialEditorComponent } from '../material-editor/material-editor.comp
 import { ConfirmationDialogComponent } from '../user-controls/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../user-controls/error-dialog/error-dialog.component';
-import { DragControls, DragEvent } from 'three/examples/jsm/controls/DragControls';
+import { DragControls } from 'three/examples/jsm/controls/DragControls';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
 import * as THREE from 'three';
@@ -539,11 +540,6 @@ export class MaterialsLibraryEditorComponent implements OnInit {
     const coords = [];
     coords.length = 2 * geom.attributes.position.array.length / 3;
 
-    // geom.removeAttribute('uv');
-    if (geom.attributes.uv === undefined) {
-        geom.addAttribute('uv', new THREE.Float32BufferAttribute(coords, 2));
-    }
-
     // maps 3 verts of 1 face on the better side of the cube
     // side of the cube can be XY, XZ or YZ
     const makeUVs = (v0: THREE.Vector3, v1: THREE.Vector3, v2: THREE.Vector3): UVs => {
@@ -667,7 +663,7 @@ export class MaterialsLibraryEditorComponent implements OnInit {
         }
     }
 
-    geom.attributes.uv.array = new Float32Array(coords);
+    geom.setAttribute('uv', new THREE.BufferAttribute(new Float32Array(coords), 2))
 }
 
 private applyBoxUV(bufferGeometry: THREE.BufferGeometry, transformMatrix: THREE.Matrix4, boxSize: number) {

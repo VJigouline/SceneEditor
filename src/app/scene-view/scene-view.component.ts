@@ -103,8 +103,6 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     this.sceneService.renderer = new THREE.WebGLRenderer();
     const renderer = this.sceneService.renderer;
     renderer.physicallyCorrectLights = true;
-    renderer.gammaInput = true;
-    renderer.gammaOutput = true;
     renderer.shadowMap.enabled = true;
     renderer.toneMapping = THREE.ReinhardToneMapping;
     renderer.setPixelRatio( window.devicePixelRatio );
