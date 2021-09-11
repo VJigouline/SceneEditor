@@ -50,6 +50,7 @@ export class ThreeSceneService {
   public transformControl: TransformControls;
   private hidingTransform: number;
   public orbitControls: OrbitControls;
+  public lastMouseEvent: MouseEvent;
 
   constructor(
     private lightsLibraryService: LightsLibraryService

@@ -5,5 +5,4 @@ export interface DragEvent {
   object: THREE.Object3D;
   target: DragControls;
   type: string;
-  event: MouseEvent;
 }

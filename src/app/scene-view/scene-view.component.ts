@@ -87,6 +87,7 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   }
 
   public onMouseOver(event: MouseEvent): void {
+    this.sceneService.lastMouseEvent = event;
     // console.log(`Mouse event`);
     // this.Render();
   }

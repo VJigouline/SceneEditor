@@ -325,10 +325,11 @@ export class MaterialsLibraryEditorComponent implements OnInit {
     this.dragControl.addEventListener('drag',
       this.onDragStart.bind(this));
     this.updateDragControl = false;
+    this.dragControl.enabled = true;
   }
 
   private onDragHoveron(event: DragEvent): void {
-    if (event.event.altKey) { return; }
+    if (this.sceneService.lastMouseEvent.altKey) { return; }
     this.removeHighlighting();
     if (event.object instanceof THREE.Mesh && this.doHighlighting) {
       const mesh = event.object as THREE.Mesh;
@@ -378,11 +379,12 @@ export class MaterialsLibraryEditorComponent implements OnInit {
   }
 
   private onDragStart(event: DragEvent): void {
-    if (event.event.button !== 0 || event.event.altKey) { return; }
+    var mouseEvent = this.sceneService.lastMouseEvent;
+    if (mouseEvent.button !== 0 || mouseEvent.altKey) { return; }
     this.removeSelection();
     this.removeHighlighting();
     if (event.object instanceof THREE.Mesh) {
-      this.selectMesh(event.object as THREE.Mesh, event.event.ctrlKey);
+      this.selectMesh(event.object as THREE.Mesh, mouseEvent.ctrlKey);
       this.suspendHighlighting(1000);
     }
     this.updateMaterial(null);
