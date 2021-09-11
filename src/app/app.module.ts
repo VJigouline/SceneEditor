@@ -48,7 +48,7 @@ import { TexturesModule } from './textures/textures.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AngularSplitModule.forRoot(),
+    AngularSplitModule,
     AngularResizedEventModule,
     BrowserAnimationsModule,
     MatInputModule,
