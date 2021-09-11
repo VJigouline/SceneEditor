@@ -22,7 +22,7 @@
     "@angular/platform-browser-dynamic": "^13.0.0-next.5",
     "@angular/router": "^13.0.0-next.5",
     "@types/three": "^0.131.0",
-    "angular-in-memory-web-api": "^0.9.0",
+    "angular-in-memory-web-api": "^0.11.0",
     "angular-resize-event": "^2.1.0",
     "angular-split": "^5.0.0",
     "core-js": "^3.17.3",
