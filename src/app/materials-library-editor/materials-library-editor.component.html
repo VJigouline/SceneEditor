@@ -2,6 +2,29 @@
     <mat-card-header>
         <mat-card-title>Materials library</mat-card-title>
     </mat-card-header>
+    <mat-toolbar>
+        <button mat-icon-button class="example-icon" aria-hidden="false" matTooltip="New material set" (click)="onNew()">
+          <mat-icon>fiber_new</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" matTooltip="Clone material set" (click)="onClone()" [disabled]="!Materials">
+          <mat-icon>copy_all</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" matTooltip="Delete material set" (click)="onDelete()" [disabled]="deleteDisabled">
+            <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" matTooltip="Save material set" (click)="onSave()">
+            <mat-icon>file_download</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" matTooltip="Load material set" (click)="fileInput.click()">
+            <mat-icon>file_upload</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" matTooltip="Remove all material sets in the library" (click)="onClear()" [disabled]="deleteDisabled">
+            <mat-icon>clear</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" matTooltip="Import materials from scene" (click)="onGetFromScene()">
+            <mat-icon>collections</mat-icon>
+        </button>
+    </mat-toolbar>
     <mat-card-content>
         <div class="row">
             <div class="col">
@@ -56,44 +79,10 @@
         </div>
         </ng-container>
     </mat-card-content>
-    <mat-card-actions>
-        <input
-            style="display: none"
-            type="file" (input)="onImport($event)"
-            accept=".matlib"
-            #fileInput>
-        <button mat-raised-button color="primary" 
-        type="button"
-        (click)="onNew()"
-        >New</button>
-        <button mat-raised-button color="primary" 
-        type="button"
-        (click)="onClone()"
-        [disabled]="!Materials"
-        >Clone</button>
-        <button mat-raised-button color="primary" 
-        type="button"
-        (click)="onDelete()"
-        [disabled]="deleteDisabled"
-        >Delete set</button>
-        <button mat-raised-button color="primary" 
-        type="button"
-        (click)="fileInput.click()"
-        >Import</button>
-        <button mat-raised-button color="primary" 
-        type="button"
-        (click)="onSave()"
-        [disabled]="deleteDisabled"
-        >Save</button>
-        <button mat-raised-button color="primary" 
-        type="button"
-        (click)="onClear()"
-        [disabled]="deleteDisabled"
-        >Clear</button>
-        <button mat-raised-button color="primary" 
-        type="button"
-        (click)="onGetFromScene()"
-        >From scene</button>
-    </mat-card-actions>
+    <input
+    style="display: none"
+    type="file" (input)="onImport($event)"
+    accept=".matlib"
+    #fileInput>
 </mat-card>
     
