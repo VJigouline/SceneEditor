@@ -31,6 +31,7 @@ import { UserControlsModule } from './user-controls/user-controls.module';
 import { MaterialsLibraryEditorComponent } from './materials-library-editor/materials-library-editor.component';
 import { MaterialsModule } from './materials/materials.module';
 import { TexturesModule } from './textures/textures.module';
+import { NgxSpinner, NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { TexturesModule } from './textures/textures.module';
     ReactiveFormsModule,
     ColorPickerModule,
     NgxFileDropModule,
+    NgxSpinnerModule,
     LightsModule,
     FormsModule,
     UserControlsModule,

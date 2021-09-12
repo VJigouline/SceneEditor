@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +12,12 @@ export class AppComponent implements OnInit {
   Width: number;
   Height: number;
 
+  constructor(private spinner : NgxSpinnerService) {}
+
   ngOnInit() {
     // console.log('OnInit.');
     this.onResize();
+    this.spinner.show();
   }
 
   @HostListener('window:resize', [])

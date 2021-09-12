@@ -8,6 +8,7 @@ import { LightsLibraryEditorComponent } from '../lights-library-editor/lights-li
 import { Light } from '../lights/light';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MaterialsLibraryEditorComponent } from '../materials-library-editor/materials-library-editor.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-scene-editor',
@@ -31,7 +32,8 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
 
   constructor(
     private sceneService: ThreeSceneService,
-    private elRef: ElementRef
+    private elRef: ElementRef,
+    private spinner : NgxSpinnerService
     ) { }
 
   ngOnInit() {
@@ -119,6 +121,7 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
     this.sceneService.rescaleScene();
     this.threeView.Render();
     this.materialEditor.setHoverControl(true);
+    this.spinner.hide();
   }
 
   public onLightChanged(light: Light): void {

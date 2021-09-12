@@ -35,6 +35,7 @@ These modules should be added on top of the standard angular installation (`npm 
 `npm install uuid` [Documentation](https://www.npmjs.com/package/uuid)  
 `npm install ngx-file-drop` [Documentation](https://www.npmjs.com/package/ngx-file-drop)
 `npm install --save-dev @types/three` [Documentation](https://github.com/DefinitelyTyped/DefinitelyTyped)
+`npm install ngx-spinner --save` [Documentation](https://www.npmjs.com/package/ngx-spinner) - loading spinner.
 
 ## Development server
 

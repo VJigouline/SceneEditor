@@ -18,6 +18,7 @@ import { Material } from './materials/material';
 import { Materials } from './materials/materials';
 import { Polygon3 } from './geometries/polygon3';
 import { HoverControl } from './threejs-extensions/hover-control';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 interface ViewerFile extends File {
   relativePath: string;
@@ -54,7 +55,8 @@ export class ThreeSceneService {
   public lastMouseEvent: MouseEvent;
 
   constructor(
-    private lightsLibraryService: LightsLibraryService
+    private lightsLibraryService: LightsLibraryService,
+    private spinner : NgxSpinnerService
   ) { }
 
   public getScene(): THREE.Scene {
@@ -112,6 +114,7 @@ export class ThreeSceneService {
   }
 
   public addFiles(files: NgxFileDropEntry[], finished: CallbackFinished): void {
+    this.spinner.show();
     for (const file of files) {
 
       // Is it a file?

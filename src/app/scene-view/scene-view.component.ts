@@ -6,6 +6,7 @@ import { ThreeSceneService } from '../three-scene.service';
 import { Material } from '../materials/material';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-scene-view',
@@ -27,7 +28,8 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
   private currentMaterial: THREE.Material;
 
   constructor(
-    private sceneService: ThreeSceneService
+    private sceneService: ThreeSceneService,
+    private spinner : NgxSpinnerService
   ) { }
 
   ngOnInit() {
@@ -119,6 +121,8 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     this.sceneService.orbitControls.addEventListener('start', this.sceneService.cancelHideTransform.bind(this.sceneService));
     this.sceneService.orbitControls.addEventListener('end', this.sceneService.delayHideTransform.bind(this.sceneService));
     this.sceneService.orbitControls.screenSpacePanning = true;
+
+    this.spinner.hide();
   }
 
   private InitialiseCamera(): void {
