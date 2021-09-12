@@ -2,6 +2,26 @@
     <mat-card-header>
         <mat-card-title>Lights library</mat-card-title>
     </mat-card-header>
+    <mat-toolbar>
+        <button mat-icon-button class="example-icon" aria-hidden="false" matTooltip="New light set" (click)="onNew()">
+          <mat-icon>fiber_new</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" matTooltip="Clone light set" (click)="onClone()" [disabled]="!Lights">
+          <mat-icon>copy_all</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" matTooltip="Delete light set" (click)="onDelete()" [disabled]="deleteDisabled">
+            <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" matTooltip="Save light set" (click)="onSave()" [disabled]="deleteDisabled">
+            <mat-icon>file_download</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" matTooltip="Load light set" (click)="fileInput.click()">
+            <mat-icon>file_upload</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" matTooltip="Remove all light sets in the library" (click)="onClear()" [disabled]="deleteDisabled">
+            <mat-icon>clear</mat-icon>
+        </button>
+    </mat-toolbar>
     <mat-card-content>
         <div class="row">
             <div class="col">
@@ -41,40 +61,10 @@
         </div>
         </ng-container>
     </mat-card-content>
-    <mat-card-actions>
-        <input
-            style="display: none"
-            type="file" (input)="onImport($event)"
-            accept=".ltslib"
-            #fileInput>
-        <button mat-raised-button color="primary" 
-        type="button"
-        (click)="onNew()"
-        >New</button>
-        <button mat-raised-button color="primary" 
-        type="button"
-        (click)="onClone()"
-        [disabled]="!Lights"
-        >Clone</button>
-        <button mat-raised-button color="primary" 
-        type="button"
-        (click)="onDelete()"
-        [disabled]="deleteDisabled"
-        >Delete set</button>
-        <button mat-raised-button color="primary" 
-        type="button"
-        (click)="fileInput.click()"
-        >Import</button>
-        <button mat-raised-button color="primary" 
-        type="button"
-        (click)="onSave()"
-        [disabled]="deleteDisabled"
-        >Save</button>
-        <button mat-raised-button color="primary" 
-        type="button"
-        (click)="onClear()"
-        [disabled]="deleteDisabled"
-        >Clear</button>
-    </mat-card-actions>
+    <input
+    style="display: none"
+    type="file" (input)="onImport($event)"
+    accept=".ltslib"
+    #fileInput> 
 </mat-card>
     

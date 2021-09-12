@@ -15,6 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import {MatIconModule} from '@angular/material/icon';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -30,6 +31,8 @@ import { FormsModule } from '@angular/forms';
 import { UserControlsModule } from './user-controls/user-controls.module';
 import { MaterialsLibraryEditorComponent } from './materials-library-editor/materials-library-editor.component';
 import { MaterialsModule } from './materials/materials.module';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip'
 import { TexturesModule } from './textures/textures.module';
 import { NgxSpinner, NgxSpinnerModule } from 'ngx-spinner';
 
@@ -59,7 +62,10 @@ import { NgxSpinner, NgxSpinnerModule } from 'ngx-spinner';
     MatRadioModule,
     MatCardModule,
     MatCheckboxModule,
+    MatIconModule,
     MatSliderModule,
+    MatToolbarModule,
+    MatTooltipModule,
     ReactiveFormsModule,
     ColorPickerModule,
     NgxFileDropModule,
