@@ -2,6 +2,17 @@
     <mat-card-header>
         <mat-card-title>Light editor</mat-card-title>
     </mat-card-header>
+    <mat-toolbar>
+        <button mat-icon-button class="example-icon" matTooltip="Delete light" (click)="onDelete()" [disabled] = "!Lights.lights.length">
+            <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" matTooltip="Copy light" (click)="onCopy()" [disabled] = "!Lights.lights.length">
+            <mat-icon>content_copy</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" matTooltip="Paste light" (click)="onPaste()" [disabled] = "!lightCopy">
+            <mat-icon>content_paste</mat-icon>
+        </button>
+    </mat-toolbar>
     <mat-card-content>
         <ng-container *ngIf="Lights.lights.length > 0">
             <div class="row">
@@ -95,25 +106,6 @@
                  (newLight) = "onNewLight($event)"
               ></app-new-light>
            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <button mat-raised-button color="primary" 
-                type="button"
-                (click)="onDelete()"
-                [disabled] = "!Lights.lights.length"
-                >Delete light</button>                   
-                <button mat-raised-button color="primary" 
-                type="button"
-                (click)="onCopy()"
-                [disabled] = "!Lights.lights.length"
-                >Copy</button>                   
-                <button mat-raised-button color="primary" 
-                type="button"
-                (click)="onPaste()"
-                [disabled] = "!lightCopy"
-                >Paste</button>                   
-            </div>
         </div>
     </mat-card-content>
 </mat-card>

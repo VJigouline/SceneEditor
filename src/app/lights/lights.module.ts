@@ -9,6 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AmbientLightEditorComponent } from './ambient-light-editor/ambient-light-editor.component';
 import { DirectionalLightEditorComponent } from './directional-light-editor/directional-light-editor.component';
@@ -38,6 +39,7 @@ import { UserControlsModule } from '../user-controls/user-controls.module';
     MatSelectModule,
     MatRadioModule,
     MatCardModule,
+    MatIconModule,
     MatSliderModule,
     ReactiveFormsModule,
     ColorPickerModule,
