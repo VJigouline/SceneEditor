@@ -1,9 +1,13 @@
 <mat-card class="shipping-card">
     <mat-card-content>
     </mat-card-content>
-    <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="onNewScene()">New Scene</button>
-        <button mat-raised-button color="primary" (click)="onAddToScene()" *ngIf="false">Add to Scene</button>
-        <button mat-raised-button color="primary" (click)="onUpdateScene()">Fit view</button>
-    </mat-card-actions>
+    <mat-toolbar>
+        <button mat-icon-button class="example-icon" (click)="onNewScene()" matToolTip="New empty scene.">
+            <mat-icon>fiber_new</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" (click)="onAddToScene()" *ngIf="false">Add to Scene</button>
+        <button mat-icon-button class="example-icon" (click)="onUpdateScene()" matToolTip="Fit to view">
+            <mat-icon>fit_screen</mat-icon>
+        </button>
+    </mat-toolbar>
 </mat-card>
