@@ -8,6 +8,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSliderModule } from '@angular/material/slider';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MeshStandardMaterialEditorComponent } from './mesh-standard-material-editor/mesh-standard-material-editor.component';
@@ -47,6 +48,7 @@ import { MeshToonMaterialEditorComponent } from './mesh-toon-material-editor/mes
     MatSelectModule,
     MatRadioModule,
     MatCardModule,
+    MatIconModule,
     MatSliderModule,
     ReactiveFormsModule,
     ColorPickerModule,
