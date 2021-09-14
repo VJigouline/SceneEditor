@@ -105,7 +105,7 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
 
     this.sceneService.renderer = new THREE.WebGLRenderer({alpha : true});
     const renderer = this.sceneService.renderer;
-    renderer.domElement.style.background = "linear-gradient(200deg, rgb(99 168 210), transparent)";
+    renderer.domElement.style.background = "linear-gradient(200deg, rgb(100 149 237), transparent)";
     renderer.physicallyCorrectLights = true;
     renderer.shadowMap.enabled = true;
     renderer.toneMapping = THREE.ReinhardToneMapping;

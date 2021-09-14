@@ -16,6 +16,11 @@
             <mat-tab-group class="tabheader editorpage"
             (selectedTabChange)="onSelectedTabChange($event)"
             >
+                <mat-tab label="Model" class="tabheader">
+                    <app-model-editor #ModelEditor
+                    (changedLight)="onLightChanged($event)"
+                    ></app-model-editor>
+                </mat-tab>
                 <mat-tab label="Lights" class="tabheader">
                     <app-lights-library-editor #LightsLibraryEditor
                     (changedLight)="onLightChanged($event)"

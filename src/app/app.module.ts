@@ -35,6 +35,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { TexturesModule } from './textures/textures.module';
 import { NgxSpinner, NgxSpinnerModule } from 'ngx-spinner';
+import { ModelEditorComponent } from './model-editor/model-editor.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { NgxSpinner, NgxSpinnerModule } from 'ngx-spinner';
     LightsLibraryEditorComponent,
     SceneComponent,
     SceneModifierComponent,
-    MaterialsLibraryEditorComponent
+    MaterialsLibraryEditorComponent,
+    ModelEditorComponent
   ],
   imports: [
     BrowserModule,
