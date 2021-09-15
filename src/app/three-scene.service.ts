@@ -19,6 +19,8 @@ import { Materials } from './materials/materials';
 import { Polygon3 } from './geometries/polygon3';
 import { HoverControl } from './threejs-extensions/hover-control';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorDialogComponent } from './user-controls/error-dialog/error-dialog.component';
 
 interface ViewerFile extends File {
   relativePath: string;
@@ -56,7 +58,8 @@ export class ThreeSceneService {
 
   constructor(
     private lightsLibraryService: LightsLibraryService,
-    private spinner : NgxSpinnerService
+    private spinner : NgxSpinnerService,
+    private errorDialog: MatDialog,
   ) { }
 
   public getScene(): THREE.Scene {
@@ -250,7 +253,10 @@ export class ThreeSceneService {
 
       // blobURLs.forEach(URL.revokeObjectURL);
       finished();
-    }, undefined, reject);
+    }, undefined, (event) => {
+      blob.service.onFileLoadError(event, blob.service);
+    }
+    );
   }
 
   public addGLTFFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
@@ -327,7 +333,10 @@ export class ThreeSceneService {
 
       blobURLs.forEach(URL.revokeObjectURL);
       finished();
-    }, undefined, reject);
+    }, undefined, (event) => {
+      blob.service.onFileLoadError(event, blob.service);
+    }
+    );
   }
 
   // This is to avoid lint error.
@@ -359,7 +368,24 @@ export class ThreeSceneService {
       const mesh = new THREE.Mesh( geometry, material );
       scene.add(mesh);
       finished();
-    });
+    }, undefined, (event) => {
+      blob.service.onFileLoadError(event, blob.service);
+    }
+    );
+  }
+
+  private onFileLoadError(event : ErrorEvent, service : ThreeSceneService) : void {
+      service.spinner.hide();
+      service.errorDialog.open(ErrorDialogComponent, {
+        width: '350px',
+        data: {
+          title: 'Failure',
+          label: 'File cannot be loaded: ',
+          message: event.message,
+          close: true
+        }
+      });
+      reject();
   }
 
   public addPolygonsFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
