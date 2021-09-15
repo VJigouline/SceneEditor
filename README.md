@@ -9,6 +9,13 @@ ThreeJS has a [Scene Editor](https://threejs.org/editor/), but this editor is Ja
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.8.  
 Project options: routing and [SCSS](https://sass-lang.com/documentation) as a style sheet.
 
+## Version 1.0 released
+
+Stable version 1.0 released. It covers significant part of editing for ThreeJS lights and materials. Viewing GLTF, Collada and STL files. Editing lights and materials for imported files. Retrieving materials from the loaded GLTF and Collada files. Saving and loading lights and materials to reuse in other projects. Exporting scene in GLTF format.
+
+## Further development
+Implementation of constructive geometry creation and editing.
+
 ## Usage
 Working version at [scene.meercad.com](http://scene.meercad.com)
 
