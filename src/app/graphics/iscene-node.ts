@@ -1,5 +1,8 @@
 import { Material, Matrix4, Object3D } from "three"
 
+/**
+ * Interface to describe single graphic object in _SceneEditor_
+ */
 export interface ISceneNode {
     /** 
      * Flag. If **true** - the object can be selected, **false** - cannot be selected.
