@@ -30,6 +30,7 @@ This project is not finished. Detailed documentation will be added later.
 It is possible right now to drop GLTF/GLB (file or folder), STL or saved three.js scene file into graphics area on the left and try using controls. 
 
 ![Scene](Images/Scene2.png)
+_The image is made from the GLTF model loaded into **SceneEditor**. The model can be found on [NASA Ingenuity page](https://mars.nasa.gov/resources/25043/mars-ingenuity-helicopter-3d-model/?site=insight). After loading model will look dark due to darker materials. Lights intensity should be increased in the **Light Editor**_
 
 ## Additional modules
 
