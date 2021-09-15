@@ -13,6 +13,11 @@ Project options: routing and [SCSS](https://sass-lang.com/documentation) as a st
 
 Stable version 1.0 released. It covers significant part of editing for ThreeJS lights and materials. Viewing GLTF, Collada and STL files. Editing lights and materials for imported files. Retrieving materials from the loaded GLTF and Collada files. Saving and loading lights and materials to reuse in other projects. Exporting scene in GLTF format.
 
+## Release builds
+Release build can be found on main branch in the builds\Releases folder.
+### Installation
+Unzip release build archive into folder on the web server and call index.html file. Due to security limitations of the web browsers the build can be run only from the web server. Running build from the local computer will cause script loading failures.
+
 ## Further development
 Implementation of constructive geometry creation and editing.
 
