@@ -27,13 +27,7 @@ export interface ISceneNode {
     /**
      * Reference to the parent object. If no parent object, then **null**
      */
-    ParentNode : ISceneNode;
-    /**
-     * Flag. If **true**, then object will be updated during next redraw.
-     * This flag is set automatically, during object property update. It can be set manually
-     * for the low level control of the update.
-     */
-    IsDirty : boolean;
+    Parent : ISceneNode;
     /**
      * Automatically generated object ID.
      */
@@ -42,4 +36,27 @@ export interface ISceneNode {
      * ThreeJS graphic object.
      */
     readonly GraphicObject : Object3D
+}
+
+/**
+ * Interface to specify hierarhical object.
+ */
+export interface IGroupNode extends ISceneNode {
+    /**
+     * Collection of all {@link ISceneNode} child objects.
+     */
+    readonly Children : ISceneNode[];
+
+    /**
+     * Add {@link ISceneNode} object as child object.
+     * @param node {@link ISceneNode} object to add
+     */
+    Add(node : ISceneNode) : void;
+    /**
+     * Remove child {@link ISceneNode} object.
+     * @param node {@link ISceneNode} object to remove
+     */
+    Remove(node : ISceneNode) : void;
+    /** Remove all child objects. */
+    Clear() : void;
 }
