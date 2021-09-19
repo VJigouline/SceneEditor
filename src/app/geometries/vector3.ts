@@ -153,7 +153,7 @@ export class Vector3 {
     }
     /**
      * Copy Vector3 object into current one.
-     * @param matrix Vector3 object to copy.
+     * @param vector Vector3 object to copy.
      * @returns this Vector3 object (for chaining.)
      */
      public copy(vector: Vector3): Vector3 {
