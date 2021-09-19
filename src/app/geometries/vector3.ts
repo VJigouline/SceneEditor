@@ -15,6 +15,8 @@ export class Vector3 {
     public static get DirY(): Vector3 { return new Vector3(0, 1, 0); }
     /** Unit vector along Z axis */
     public static get DirZ(): Vector3 { return new Vector3(0, 0, 1); }
+    /** Zero vector */
+    public static get Zero(): Vector3 { return new Vector3(); }
 
     /** Vector X component. */
     public X = 0;
