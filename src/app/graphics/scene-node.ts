@@ -1,4 +1,5 @@
-import { Matrix4, Material, Object3D } from "three";
+import { Matrix4, Object3D } from "three";
+import { Material } from "../materials/material";
 import { ISceneNode } from "./iscene-node";
 
 /** Basic implementation of the {@link ISceneNode} interface. */

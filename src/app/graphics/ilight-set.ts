@@ -1,4 +1,5 @@
-import { AddEquation, Color, Light } from "three";
+import { AddEquation, Color } from "three";
+import { Light } from "../lights/light";
 
 /** Collection of lights in the scene, which can be set as a single unit. */
 export interface ILightSet {

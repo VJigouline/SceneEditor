@@ -1,4 +1,5 @@
-import { Camera, Vector3 } from "three";
+import { Camera } from "three";
+import { Vector3 } from "../geometries/vector3";
 
 /** Interface to manage camera. */
 export interface ICameraManager {

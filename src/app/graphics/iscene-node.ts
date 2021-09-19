@@ -1,4 +1,5 @@
-import { Material, Matrix4, Object3D } from "three"
+import { Matrix4, Object3D } from "three"
+import { Material } from "../materials/material";
 
 /**
  * Interface to describe single graphic object in _SceneEditor_

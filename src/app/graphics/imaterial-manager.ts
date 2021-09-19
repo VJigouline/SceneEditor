@@ -1,4 +1,5 @@
-import { Material } from "three";
+import { Material } from "../materials/material";
+
 
 /** Interface to manage materials */
 export interface IMaterialManager {

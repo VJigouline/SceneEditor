@@ -1,4 +1,4 @@
-import { Material } from "three";
+import { Material } from "../materials/material";
 import { IEvent } from "./ievent";
 import { ISceneNode } from "./iscene-node";
 
