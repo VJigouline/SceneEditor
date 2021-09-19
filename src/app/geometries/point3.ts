@@ -7,6 +7,8 @@ import { Vector3 } from './vector3';
     public X = 0;
     public Y = 0;
     public Z = 0;
+    /** Zero point */
+    public static Zero(): Point3 { return new Point3(); }
 
     /**
      * Constructor
