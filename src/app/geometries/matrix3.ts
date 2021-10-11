@@ -59,17 +59,17 @@ import { Vector3 } from "./vector3";
 
 		const detInv = 1 / det;
 
-		te[ 0 ] = t11 * detInv;
-		te[ 1 ] = ( n31 * n23 - n33 * n21 ) * detInv;
-		te[ 2 ] = ( n32 * n21 - n31 * n22 ) * detInv;
+		ret[ 0 ] = t11 * detInv;
+		ret[ 1 ] = ( n31 * n23 - n33 * n21 ) * detInv;
+		ret[ 2 ] = ( n32 * n21 - n31 * n22 ) * detInv;
 
-		te[ 3 ] = t12 * detInv;
-		te[ 4 ] = ( n33 * n11 - n31 * n13 ) * detInv;
-		te[ 5 ] = ( n31 * n12 - n32 * n11 ) * detInv;
+		ret[ 3 ] = t12 * detInv;
+		ret[ 4 ] = ( n33 * n11 - n31 * n13 ) * detInv;
+		ret[ 5 ] = ( n31 * n12 - n32 * n11 ) * detInv;
 
-		te[ 6 ] = t13 * detInv;
-		te[ 7 ] = ( n21 * n13 - n23 * n11 ) * detInv;
-		te[ 8 ] = ( n22 * n11 - n21 * n12 ) * detInv;
+		ret[ 6 ] = t13 * detInv;
+		ret[ 7 ] = ( n21 * n13 - n23 * n11 ) * detInv;
+		ret[ 8 ] = ( n22 * n11 - n21 * n12 ) * detInv;
 
 		return ret;
 	}
@@ -193,7 +193,7 @@ import { Vector3 } from "./vector3";
 		return this;
 	}
     /**
-     * Multiply all element of the current Matrix4 on scalar value.
+     * Multiply all element of the current Matrix3 on scalar value.
      * @param s multiplier.
      * @returns modified this Matrix3 object (for chaining.)
      */

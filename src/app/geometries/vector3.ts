@@ -23,12 +23,14 @@ export class Vector3 {
     /** Vector Y component. */
     public Y = 0;
     /** Vector Z component. */
-    public Z = 0;  
+    public Z = 0; 
+    /** Squared vector length */ 
+    public get LengthSquared(): number { return this.X * this.X + this.Y * this.Y + this.Z * this.Z;}
     /**
      * Vector length.
      */
     public get Length(): number {
-        return Math.sqrt(this.X * this.X + this.Y * this.Y + this.Z * this.Z);
+        return Math.sqrt(this.LengthSquared);
     }
     /**
      * Vector unit vector.
