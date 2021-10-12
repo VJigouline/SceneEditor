@@ -53,7 +53,7 @@ export class Transform3 {
     }
 
     public point3(point: Point3): Point3 {
-        return this.Origin.clone().add(this.XVec.multiply(point.X))
-        .add(this.YVec.multiply(point.Y)).add(this.ZVec.multiply(point.Z));
+        return this.Origin.clone().addVector(this.XVec.multiplyScalar(point.X))
+        .addVector(this.YVec.multiplyScalar(point.Y)).addVector(this.ZVec.multiplyScalar(point.Z));
     }
 }
