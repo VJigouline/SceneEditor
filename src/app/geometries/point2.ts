@@ -19,7 +19,7 @@ export class Point2 {
     }
 
     public unProject(tra: Transform3): Point3 {
-        return tra.Origin.clone().add(tra.XVec.clone().multiply(this.X))
-        .add(tra.YVec.multiply(this.Y));
+        return tra.Origin.clone().addVector(tra.XVec.clone().multiplyScalar(this.X))
+        .addVector(tra.YVec.multiplyScalar(this.Y));
     }
 }
