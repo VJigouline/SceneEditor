@@ -58,7 +58,7 @@ export class Polygon3 {
                 const v2 =  Point3.vector(origin, pt2);
                 const n = v1.cross(v2);
                 if (n.Length < 1e-6) { continue; }
-                normal.add(n.UnitVector.multiply(Point3.vector(pt1, pt2).Length));
+                normal.add(n.UnitVector.multiplyScalar(Point3.vector(pt1, pt2).Length));
             }
             if (normal.Length < 1e-6) {
                 normal = Vector3.DirZ;
@@ -75,8 +75,8 @@ export class Polygon3 {
         const ret = new Polygon3();
 
         for (const p of polygon.Vertices) {
-            ret.Vertices.push(tra.Origin.clone().add(tra.XVec.clone().multiply(p.X))
-            .add(tra.YVec.clone().multiply(p.Y)));
+            ret.Vertices.push(tra.Origin.clone().addVector(tra.XVec.clone().multiplyScalar(p.X))
+            .addVector(tra.YVec.clone().multiplyScalar(p.Y)));
         }
 
         if (polygon.Holes) {
