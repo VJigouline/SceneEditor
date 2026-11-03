@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core';
 import { LightType } from '../lights/light-type.enum';
-import { MatSliderChange } from '@angular/material/slider';
 import { ThreeSceneService } from '../three-scene.service';
 import { Light, DirectionalLight, PointLight, SpotLight, HemisphereLight } from '../lights/light';
 import { Lights } from '../lights/lights';
@@ -14,9 +13,10 @@ import { LightsLibraryService } from '../lights/lights-library.service';
 
 import * as THREE from 'three';
 import { MatSelectChange } from '@angular/material/select';
-import { DragControls } from 'three/examples/jsm/controls/DragControls';
+import { DragControls } from 'three/examples/jsm/controls/DragControls.js';
 
 @Component({
+  standalone: false,
   selector: 'app-light-editor',
   templateUrl: './light-editor.component.html',
   styleUrls: ['./light-editor.component.scss']
@@ -117,8 +117,8 @@ export class LightEditorComponent implements OnInit {
     this.changeSelection(this.light);
    }
 
-  public onIntensityChanged(event: MatSliderChange): void {
-    this.light.intensity = event.value;
+  public onIntensityChanged(value: number): void {
+    this.light.intensity = value;
     this.changedLight.emit(this.light);
   }
 
@@ -161,7 +161,7 @@ export class LightEditorComponent implements OnInit {
 
   public unsetLightHelper(): void {
     if (this.sceneService.transformControl) {
-      this.sceneService.transformControl.visible = false;
+      this.sceneService.transformControl.getHelper().visible = false;
     }
 
     this.sceneService.removeObjectFromScene(this.directionalLightHelper);
@@ -178,7 +178,7 @@ export class LightEditorComponent implements OnInit {
     this.pointLightHelper = null;
     if (this.dragControl) {
       this.dragControl.enabled = false;
-      this.dragControl.deactivate();
+      this.dragControl.disconnect();
       delete this.dragControl;
       this.dragControl = null;
     }

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ThreeSceneService } from '../three-scene.service';
 import { saveAs } from 'file-saver';
-import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
+import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js';
 import { ExportFileType } from './export-file-type.enum';
 
 @Component({
+  standalone: false,
   selector: 'app-scene-saver',
   templateUrl: './scene-saver.component.html',
   styleUrls: ['./scene-saver.component.scss']
@@ -44,7 +45,7 @@ export class SceneSaverComponent implements OnInit {
       default:
         gltfExporter.parse( this.sceneService.getScene(), gltf => {
           this.saveScene( gltf );
-        }, options );
+        }, null, options );
         break;
     }
   }

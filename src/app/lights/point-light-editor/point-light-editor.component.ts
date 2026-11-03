@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatSliderChange } from '@angular/material/slider';
 
 import { Light, PointLight } from '../light';
 import { Point3 } from '../../geometries/point3';
 
 @Component({
+  standalone: false,
   selector: 'app-point-light-editor',
   templateUrl: './point-light-editor.component.html',
   styleUrls: ['./point-light-editor.component.scss']
@@ -34,8 +34,8 @@ export class PointLightEditorComponent implements OnInit {
     this.lightChange.emit(this.Light);
   }
 
-  public onDecayChanged(event: MatSliderChange): void {
-    this.Light.decay = Math.round((event.value + Number.EPSILON) * 100) / 100;
+  public onDecayChanged(value: number): void {
+    this.Light.decay = Math.round((value + Number.EPSILON) * 100) / 100;
     this.lightChange.emit(this.Light);
   }
 }

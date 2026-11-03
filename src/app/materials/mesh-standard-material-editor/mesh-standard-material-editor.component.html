@@ -7,6 +7,7 @@
         <div *ngIf="Material" class="row">
             <div class="col">
             <mat-form-field class="full-width">
+<mat-label>Material colour</mat-label>
                 <input matInput placeholder="Material colour"
                 cpAlphaChannel="disabled"
                 [value] = "this.Material.colour"
@@ -21,6 +22,7 @@
         <div *ngIf="Material" class="row">
             <div class="col">
             <mat-form-field class="full-width">
+<mat-label>Emissive colour</mat-label>
                 <input matInput placeholder="Emissive colour"
                 cpAlphaChannel="disabled"
                 [value] = "this.Material.emissive"
@@ -35,55 +37,49 @@
         <div *ngIf="Material" class="row">
             <div class="col label">
                 Emissive intensity {{Material.emissiveIntensity}}
-                <mat-slider min="0" max="10" step="0.01"
-                (input)="onEmissiveIntensityChanged($event)"
-                [(value)]="Material.emissiveIntensity"
-                ></mat-slider>
+                <mat-slider min="0" max="10" step="0.01">
+                    <input matSliderThumb [(value)]="Material.emissiveIntensity" (valueChange)="onEmissiveIntensityChanged($event)">
+                </mat-slider>
             </div>
         </div>
         <div *ngIf="Material" class="row">
             <div class="col label">
                 Metalness {{Material.metalness}}
-                <mat-slider min="0" max="1" step="0.01"
-                (input)="onMetalnessChanged($event)"
-                [(value)]="Material.metalness"
-                ></mat-slider>
+                <mat-slider min="0" max="1" step="0.01">
+                    <input matSliderThumb [(value)]="Material.metalness" (valueChange)="onMetalnessChanged($event)">
+                </mat-slider>
             </div>
         </div>
         <div *ngIf="Material" class="row">
             <div class="col label">
                 Roughness {{Material.roughness}}
-                <mat-slider min="0" max="1" step="0.01"
-                (input)="onRoughnessChanged($event)"
-                [(value)]="Material.roughness"
-                ></mat-slider>
+                <mat-slider min="0" max="1" step="0.01">
+                    <input matSliderThumb [(value)]="Material.roughness" (valueChange)="onRoughnessChanged($event)">
+                </mat-slider>
             </div>
         </div>
         <div *ngIf="Material && physical" class="row">
             <div class="col label">
                 Clear coat thickness {{clearcoat}}
-                <mat-slider min="0" max="1" step="0.01"
-                (input)="onClearcoatChanged($event)"
-                [(value)]="clearcoat"
-                ></mat-slider>
+                <mat-slider min="0" max="1" step="0.01">
+                    <input matSliderThumb [(value)]="clearcoat" (valueChange)="onClearcoatChanged($event)">
+                </mat-slider>
             </div>
         </div>
         <div *ngIf="Material && physical" class="row">
             <div class="col label">
                 Clear coat roughness {{clearcoatRoughness}}
-                <mat-slider min="0" max="1" step="0.01"
-                (input)="onClearcoatRoughnessChanged($event)"
-                [(value)]="clearcoatRoughness"
-                ></mat-slider>
+                <mat-slider min="0" max="1" step="0.01">
+                    <input matSliderThumb [(value)]="clearcoatRoughness" (valueChange)="onClearcoatRoughnessChanged($event)">
+                </mat-slider>
             </div>
         </div>
         <div *ngIf="Material && physical" class="row">
             <div class="col label">
                 Clear coat reflectivity {{clearcoatReflectivity}}
-                <mat-slider min="0" max="1" step="0.01"
-                (input)="onClearcoatReflectivityChanged($event)"
-                [(value)]="clearcoatReflectivity"
-                ></mat-slider>
+                <mat-slider min="0" max="1" step="0.01">
+                    <input matSliderThumb [(value)]="clearcoatReflectivity" (valueChange)="onClearcoatReflectivityChanged($event)">
+                </mat-slider>
             </div>
         </div>
         <div *ngIf="Material" class="row">
@@ -164,19 +160,17 @@
         <div *ngIf="Material" class="row">
             <div class="col label">
                 Displacement map scale {{DisplacementMapScale}}
-                <mat-slider min="-10" max="10" step="0.01"
-                (input)="onDisplacementMapScaleChanged($event)"
-                [(value)]="DisplacementMapScale"
-                ></mat-slider>
+                <mat-slider min="-10" max="10" step="0.01">
+                    <input matSliderThumb [(value)]="DisplacementMapScale" (valueChange)="onDisplacementMapScaleChanged($event)">
+                </mat-slider>
             </div>
         </div>
         <div *ngIf="Material" class="row">
             <div class="col label">
                 Displacement map bias {{DisplacementMapBias}}
-                <mat-slider min="-10" max="10" step="0.01"
-                (input)="onDisplacementMapBiasChanged($event)"
-                [(value)]="DisplacementMapBias"
-                ></mat-slider>
+                <mat-slider min="-10" max="10" step="0.01">
+                    <input matSliderThumb [(value)]="DisplacementMapBias" (valueChange)="onDisplacementMapBiasChanged($event)">
+                </mat-slider>
             </div>
         </div>
         <div *ngIf="Material" class="row">

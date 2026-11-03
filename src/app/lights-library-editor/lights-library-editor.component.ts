@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../user-controls/error-dialog/error-dialog.component';
 
 @Component({
+  standalone: false,
   selector: 'app-lights-library-editor',
   templateUrl: './lights-library-editor.component.html',
   styleUrls: ['./lights-library-editor.component.scss']

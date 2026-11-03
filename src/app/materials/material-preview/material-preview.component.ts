@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, AfterViewInit } from '@angular/core';
-import { ResizedEvent } from 'angular-resize-event';
+import { ResizedEvent } from '../../user-controls/resized/resized.directive';
 import { ThreeSceneService } from '../../three-scene.service';
 import { Material } from '../../materials/material';
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 @Component({
+  standalone: false,
   selector: 'app-material-preview',
   templateUrl: './material-preview.component.html',
   styleUrls: ['./material-preview.component.scss']
@@ -53,7 +54,7 @@ export class MaterialPreviewComponent implements OnInit, AfterViewInit {
     this.sceneService.addCurrentLights(this.scene);
 
     this.renderer = new THREE.WebGLRenderer();
-    this.renderer.physicallyCorrectLights = true;
+    this.renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
     this.renderer.shadowMap.enabled = true;
     this.renderer.toneMapping = THREE.ReinhardToneMapping;
     this.renderer.setPixelRatio( window.devicePixelRatio );
@@ -67,7 +68,7 @@ export class MaterialPreviewComponent implements OnInit, AfterViewInit {
     this.orbitControls.addEventListener('change', this.onOrbitControlChange.bind(this));
     this.orbitControls.screenSpacePanning = true;
 
-    const geometry = new THREE.BoxBufferGeometry( 200, 200, 200 );
+    const geometry = new THREE.BoxGeometry( 200, 200, 200 );
 
     this.objectDefault = new THREE.Mesh( geometry, this.Material.material );
     this.scene.add( this.objectDefault );

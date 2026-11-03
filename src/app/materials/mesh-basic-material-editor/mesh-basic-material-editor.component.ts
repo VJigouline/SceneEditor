@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { MeshBasicMaterial } from '../material';
-import { MatSliderChange } from '@angular/material/slider';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Texture } from '../../textures/texture';
 import { TextureUsage } from '../../textures/texture-type.enum';
@@ -8,6 +7,7 @@ import { TextureUsage } from '../../textures/texture-type.enum';
 import * as THREE from 'three';
 
 @Component({
+  standalone: false,
   selector: 'app-mesh-basic-material-editor',
   templateUrl: './mesh-basic-material-editor.component.html',
   styleUrls: ['./mesh-basic-material-editor.component.scss']
@@ -77,8 +77,8 @@ export class MeshBasicMaterialEditorComponent implements OnInit {
     this.updateMaterial(this.Material);
   }
 
-  public onWireframeLinewidthChanged(event: MatSliderChange): void {
-    this.Material.wireframeLinewidth = Math.round(event.value + Number.EPSILON);
+  public onWireframeLinewidthChanged(value: number): void {
+    this.Material.wireframeLinewidth = Math.round(value + Number.EPSILON);
     this.updateMaterial(this.Material);
   }
 

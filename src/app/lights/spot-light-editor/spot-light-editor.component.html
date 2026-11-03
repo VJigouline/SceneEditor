@@ -1,6 +1,7 @@
 <div *ngIf="Light" class="row">
     <div class="col">
       <mat-form-field class="full-width">
+<mat-label>Light colour</mat-label>
         <input matInput placeholder="Light colour"
         cpAlphaChannel="disabled"
         [value] = "this.Light.colour"
@@ -29,33 +30,31 @@
 <div *ngIf="Light" class="row">
     <div class="col label">
         Angle {{Light.angle}}
-        <mat-slider min="0" [max]="1.57" [step]="0.016"
-        (input)="onAngleChanged($event)"
-        [(value)]="Light.angle"
-        ></mat-slider>
+        <mat-slider min="0" [max]="1.57" [step]="0.016">
+                    <input matSliderThumb [(value)]="Light.angle" (valueChange)="onAngleChanged($event)">
+                </mat-slider>
       </div>
 </div>
 <div *ngIf="Light" class="row">
     <div class="col label">
         Decay {{Light.decay}}
-        <mat-slider min="0" [max]="4" [step]="0.04"
-        (input)="onDecayChanged($event)"
-        [(value)]="Light.decay"
-        ></mat-slider>
+        <mat-slider min="0" [max]="4" [step]="0.04">
+                    <input matSliderThumb [(value)]="Light.decay" (valueChange)="onDecayChanged($event)">
+                </mat-slider>
       </div>
 </div>
 <div *ngIf="Light" class="row">
     <div class="col label">
         Penumbra {{Light.penumbra}}
-        <mat-slider min="0" [max]="1" [step]="0.01"
-        (input)="onPenumbraChanged($event)"
-        [(value)]="Light.penumbra"
-        ></mat-slider>
+        <mat-slider min="0" [max]="1" [step]="0.01">
+                    <input matSliderThumb [(value)]="Light.penumbra" (valueChange)="onPenumbraChanged($event)">
+                </mat-slider>
       </div>
 </div>
 <div *ngIf="Light" class="row">
     <div class="col">
       <mat-form-field class="full-width">
+<mat-label>Distance</mat-label>
         <input matInput placeholder="Distance"
         [value] = "this.Light.distance"
         (input) = "lightChange.emit(this.Light)"

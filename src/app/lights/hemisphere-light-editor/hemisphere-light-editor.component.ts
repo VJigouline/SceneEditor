@@ -5,6 +5,7 @@ import { Light, HemisphereLight } from '../light';
 import { Point3 } from '../../geometries/point3';
 
 @Component({
+  standalone: false,
   selector: 'app-hemisphere-light-editor',
   templateUrl: './hemisphere-light-editor.component.html',
   styleUrls: ['./hemisphere-light-editor.component.scss']

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-rectarea-light-editor',
   templateUrl: './rectarea-light-editor.component.html',
   styleUrls: ['./rectarea-light-editor.component.scss']

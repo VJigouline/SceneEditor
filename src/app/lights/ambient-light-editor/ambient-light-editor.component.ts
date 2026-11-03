@@ -3,6 +3,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Light } from '../light';
 
 @Component({
+  standalone: false,
   selector: 'app-ambient-light-editor',
   templateUrl: './ambient-light-editor.component.html',
   styleUrls: ['./ambient-light-editor.component.scss']

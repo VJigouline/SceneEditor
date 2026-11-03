@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { LightType } from '../light-type.enum';
 
 @Component({
+  standalone: false,
   selector: 'app-new-light',
   templateUrl: './new-light.component.html',
   styleUrls: ['./new-light.component.scss']

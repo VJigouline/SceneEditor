@@ -2,16 +2,15 @@ import { Injectable } from '@angular/core';
 import { DragEvent } from './interfaces';
 import * as THREE from 'three';
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry, FileSystemEntry } from 'ngx-file-drop';
-import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
-import { ColladaLoader } from 'three/examples/jsm/loaders/ColladaLoader';
-import { reject } from 'q';
+import { STLLoader } from 'three/examples/jsm/loaders/STLLoader.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
+import { ColladaLoader } from 'three/examples/jsm/loaders/ColladaLoader.js';
 import { Light } from './lights/light';
 import { Lights } from './lights/lights';
 import { LightsLibraryService } from './lights/lights-library.service';
-import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
-import { DragControls } from 'three/examples/jsm/controls/DragControls';
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
+import { DragControls } from 'three/examples/jsm/controls/DragControls.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { LightType } from './lights/light-type.enum';
 import { Material } from './materials/material';
@@ -75,7 +74,7 @@ export class ThreeSceneService {
 
     this.scene = new THREE.Scene();
     this.addCurrentLights(this.scene);
-    if (this.transformControl) { this.scene.add(this.transformControl); }
+    if (this.transformControl) { this.scene.add(this.transformControl.getHelper()); }
 
     return this.scene;
   }
@@ -254,7 +253,7 @@ export class ThreeSceneService {
       // blobURLs.forEach(URL.revokeObjectURL);
       finished();
     }, undefined, (event) => {
-      blob.service.onFileLoadError(event, blob.service);
+      blob.service.onFileLoadError(event as ErrorEvent, blob.service);
     }
     );
   }
@@ -334,7 +333,7 @@ export class ThreeSceneService {
       blobURLs.forEach(URL.revokeObjectURL);
       finished();
     }, undefined, (event) => {
-      blob.service.onFileLoadError(event, blob.service);
+      blob.service.onFileLoadError(event as ErrorEvent, blob.service);
     }
     );
   }
@@ -369,7 +368,7 @@ export class ThreeSceneService {
       scene.add(mesh);
       finished();
     }, undefined, (event) => {
-      blob.service.onFileLoadError(event, blob.service);
+      blob.service.onFileLoadError(event as ErrorEvent, blob.service);
     }
     );
   }
@@ -385,7 +384,6 @@ export class ThreeSceneService {
           close: true
         }
       });
-      reject();
   }
 
   public addPolygonsFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],

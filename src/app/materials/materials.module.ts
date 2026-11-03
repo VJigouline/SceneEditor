@@ -12,7 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSliderModule } from '@angular/material/slider';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MeshStandardMaterialEditorComponent } from './mesh-standard-material-editor/mesh-standard-material-editor.component';
-import { ColorPickerModule } from 'ngx-color-picker';
+import { ColorPickerDirective } from 'ngx-color-picker';
 import { BaseMaterialEditorComponent } from './base-material-editor/base-material-editor.component';
 import { TexturesModule } from '../textures/textures.module';
 import { MaterialPreviewComponent } from './material-preview/material-preview.component';
@@ -51,7 +51,7 @@ import { MeshToonMaterialEditorComponent } from './mesh-toon-material-editor/mes
     MatIconModule,
     MatSliderModule,
     ReactiveFormsModule,
-    ColorPickerModule,
+    ColorPickerDirective,
     TexturesModule,
     UserControlsModule
   ],

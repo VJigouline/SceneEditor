@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AngularSplitModule } from 'angular-split';
-import { AngularResizedEventModule } from 'angular-resize-event';
+import { ResizedModule } from './user-controls/resized/resized.directive';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,7 +20,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SceneSaverComponent } from './scene-saver/scene-saver.component';
-import { ColorPickerModule } from 'ngx-color-picker';
+import { ColorPickerDirective } from 'ngx-color-picker';
 import { LightEditorComponent } from './light-editor/light-editor.component';
 import { LightsLibraryEditorComponent } from './lights-library-editor/lights-library-editor.component';
 import { NgxFileDropModule } from 'ngx-file-drop';
@@ -55,7 +55,7 @@ import { ModelEditorComponent } from './model-editor/model-editor.component';
     BrowserModule,
     AppRoutingModule,
     AngularSplitModule,
-    AngularResizedEventModule,
+    ResizedModule,
     BrowserAnimationsModule,
     MatInputModule,
     MatButtonModule,
@@ -69,7 +69,7 @@ import { ModelEditorComponent } from './model-editor/model-editor.component';
     MatToolbarModule,
     MatTooltipModule,
     ReactiveFormsModule,
-    ColorPickerModule,
+    ColorPickerDirective,
     NgxFileDropModule,
     NgxSpinnerModule,
     LightsModule,

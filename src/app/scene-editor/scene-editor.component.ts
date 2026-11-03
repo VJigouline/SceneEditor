@@ -3,7 +3,7 @@ import { Material } from '../materials/material';
 import { SceneViewComponent } from '../scene-view/scene-view.component';
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 import { ThreeSceneService } from '../three-scene.service';
-import { ResizedEvent } from 'angular-resize-event';
+import { ResizedEvent } from '../user-controls/resized/resized.directive';
 import { LightsLibraryEditorComponent } from '../lights-library-editor/lights-library-editor.component';
 import { Light } from '../lights/light';
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -11,6 +11,7 @@ import { MaterialsLibraryEditorComponent } from '../materials-library-editor/mat
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
+  standalone: false,
   selector: 'app-scene-editor',
   templateUrl: './scene-editor.component.html',
   styleUrls: ['./scene-editor.component.scss']

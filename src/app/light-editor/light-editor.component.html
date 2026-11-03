@@ -38,6 +38,7 @@
             <div class="row">
                 <div class="col">
                 <mat-form-field class="full-width">
+<mat-label>Maximum intensity</mat-label>
                     <input matInput placeholder="Maximum intensity"
                     [(ngModel)] = "maxIntensity"
                     >
@@ -47,10 +48,9 @@
             <div class="row">
                 <div class="col label">
                 Intensity {{Light.intensity}}
-                <mat-slider min="0" [max]="maxIntensity" [step]="maxIntensity / 100.0"
-                (input)="onIntensityChanged($event)"
-                [(value)]="Light.intensity"
-                ></mat-slider>
+                <mat-slider min="0" [max]="maxIntensity" [step]="maxIntensity / 100.0">
+                    <input matSliderThumb [(value)]="Light.intensity" (valueChange)="onIntensityChanged($event)">
+                </mat-slider>
                 </div>
             </div>
             <div *ngIf="Light.type == lightType.AMBIENT" class="row">

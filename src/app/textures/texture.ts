@@ -9,12 +9,12 @@ export class TextureExport {
     private anisotropy: number;
     private center: Vector2;
     private datatype: THREE.TextureDataType;
-    private encoding: THREE.TextureEncoding;
-    private format: THREE.PixelFormat;
+    private colorSpace: string;
+    private format: THREE.AnyPixelFormat;
     private image: string | string[];
-    private magFilter: THREE.TextureFilter;
-    private minFilter: THREE.TextureFilter;
-    private mapping: THREE.Mapping;
+    private magFilter: THREE.MagnificationTextureFilter;
+    private minFilter: THREE.MinificationTextureFilter;
+    private mapping: THREE.AnyMapping;
     private name: string;
     private offset: Vector2;
     private repeat: Vector2;
@@ -27,7 +27,7 @@ export class TextureExport {
         this.anisotropy = texture.anisotropy;
         this.center = texture.center;
         this.datatype = texture.datatype;
-        this.encoding = texture.encoding;
+        this.colorSpace = texture.colorSpace;
         this.format = texture.format;
         if (Array.isArray(texture.image)) {
             this.image = new Array<string>();
@@ -61,27 +61,27 @@ export class Texture {
     public set center(value: Vector2) { this.texture.center.set(value.X, value.Y); }
     public get datatype(): THREE.TextureDataType { return this.texture.type; }
     public set datatype(value: THREE.TextureDataType) { this.texture.type = value; }
-    public get encoding(): THREE.TextureEncoding { return this.texture.encoding; }
-    public set encoding(value: THREE.TextureEncoding) { this.texture.encoding = value; }
-    public get format(): THREE.PixelFormat { return this.texture.format; }
-    public set format(value: THREE.PixelFormat) { this.texture.format = value; }
-    public get image(): HTMLImageElement | HTMLImageElement[] | string | string[] { return this.texture.image; }
+    public get colorSpace(): string { return this.texture.colorSpace; }
+    public set colorSpace(value: string) { this.texture.colorSpace = value; }
+    public get format(): THREE.AnyPixelFormat { return this.texture.format; }
+    public set format(value: THREE.AnyPixelFormat) { this.texture.format = value; }
+    public get image(): HTMLImageElement | HTMLImageElement[] | string | string[] { return this.texture.image as HTMLImageElement | HTMLImageElement[]; }
     public set image(value: HTMLImageElement | HTMLImageElement[] | string | string[]) {
         if (Array.isArray(value)) {
             this.texture.image = new Array<HTMLImageElement>();
             for (const img of this.texture.image as Array<HTMLImageElement | string>) {
-                this.texture.image.push(Texture.string2Image(img));
+                (this.texture.image as HTMLImageElement[]).push(Texture.string2Image(img));
             }
         } else {
             this.texture.image = Texture.string2Image(value);
         }
     }
-    public get magFilter(): THREE.TextureFilter { return this.texture.magFilter; }
-    public set magFilter(value: THREE.TextureFilter) { this.texture.magFilter = value; }
-    public get minFilter(): THREE.TextureFilter { return this.texture.minFilter; }
-    public set minFilter(value: THREE.TextureFilter) { this.texture.minFilter = value; }
-    public get mapping(): THREE.Mapping { return this.texture.mapping; }
-    public set mapping(value: THREE.Mapping) { this.texture.mapping = value; }
+    public get magFilter(): THREE.MagnificationTextureFilter { return this.texture.magFilter; }
+    public set magFilter(value: THREE.MagnificationTextureFilter) { this.texture.magFilter = value; }
+    public get minFilter(): THREE.MinificationTextureFilter { return this.texture.minFilter; }
+    public set minFilter(value: THREE.MinificationTextureFilter) { this.texture.minFilter = value; }
+    public get mapping(): THREE.AnyMapping { return this.texture.mapping; }
+    public set mapping(value: THREE.AnyMapping) { this.texture.mapping = value; }
     public get name(): string { return this.texture.name; }
     public set name(value: string) { this.texture.name = value; }
     public get offset(): Vector2 { return new Vector2(this.texture.offset.x, this.texture.offset.y); }
@@ -201,7 +201,12 @@ export class Texture {
         this.anisotropy = texture.anisotropy;
         this.center = texture.center;
         this.datatype = texture.datatype;
-        if (texture.encoding) { this.encoding = texture.encoding; }
+        if (texture.colorSpace) {
+            this.colorSpace = texture.colorSpace;
+        } else if ((texture as any).encoding === 3001) {
+            // Libraries saved by version 1.0 store THREE.sRGBEncoding, since removed from three.js.
+            this.colorSpace = THREE.SRGBColorSpace;
+        }
         this.format = texture.format;
         if (Array.isArray(texture.image)) {
             this.image = new Array<HTMLImageElement>();
@@ -267,7 +272,7 @@ export class Texture {
 
 export class CubeTexture extends Texture {
     public get images(): HTMLImageElement[] {
-        return (this.texture as THREE.CubeTexture).images;
+        return (this.texture as THREE.CubeTexture).images as HTMLImageElement[];
     }
     public set images(value: HTMLImageElement[]) {
         (this.texture as THREE.CubeTexture).images = value;

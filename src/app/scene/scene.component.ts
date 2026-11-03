@@ -2,6 +2,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { SceneModifierComponent } from '../scene-modifier/scene-modifier.component';
 
 @Component({
+  standalone: false,
   selector: 'app-scene',
   templateUrl: './scene.component.html',
   styleUrls: ['./scene.component.scss']

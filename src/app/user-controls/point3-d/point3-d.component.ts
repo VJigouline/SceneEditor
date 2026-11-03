@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Point3 } from '../../geometries/point3';
 
 @Component({
+  standalone: false,
   selector: 'app-point3-d',
   templateUrl: './point3-d.component.html',
   styleUrls: ['./point3-d.component.scss']

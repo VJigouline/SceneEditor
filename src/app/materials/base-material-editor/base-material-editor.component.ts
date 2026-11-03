@@ -1,12 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Material } from '../material';
-import { MatSliderChange } from '@angular/material/slider';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
 import * as THREE from 'three';
 import { MatSelectChange } from '@angular/material/select';
 
 @Component({
+  standalone: false,
   selector: 'app-base-material-editor',
   templateUrl: './base-material-editor.component.html',
   styleUrls: ['./base-material-editor.component.scss']
@@ -34,8 +34,8 @@ export class BaseMaterialEditorComponent implements OnInit {
     this.materialChange.emit(this.Material);
   }
 
-  public onOpacityChanged(event: MatSliderChange): void {
-    this.Material.opacity = Math.round((event.value + Number.EPSILON) * 100) / 100;
+  public onOpacityChanged(value: number): void {
+    this.Material.opacity = Math.round((value + Number.EPSILON) * 100) / 100;
     this.materialChange.emit(this.Material);
   }
 

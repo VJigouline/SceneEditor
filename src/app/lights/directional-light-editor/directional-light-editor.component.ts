@@ -5,6 +5,7 @@ import { Light, DirectionalLight } from '../light';
 import { Point3 } from '../../geometries/point3';
 
 @Component({
+  standalone: false,
   selector: 'app-directional-light-editor',
   templateUrl: './directional-light-editor.component.html',
   styleUrls: ['./directional-light-editor.component.scss']

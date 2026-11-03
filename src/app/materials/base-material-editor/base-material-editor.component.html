@@ -11,10 +11,9 @@
 <div *ngIf="Material && Material.transparent" class="row">
     <div class="col label">
         Opacity {{Material.opacity}}
-        <mat-slider min="0" max="1" step="0.01"
-        (input)="onOpacityChanged($event)"
-        [(value)]="Material.opacity"
-        ></mat-slider>
+        <mat-slider min="0" max="1" step="0.01">
+                    <input matSliderThumb [(value)]="Material.opacity" (valueChange)="onOpacityChanged($event)">
+                </mat-slider>
     </div>
 </div>
 <div *ngIf="Material" class="row">

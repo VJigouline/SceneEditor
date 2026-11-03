@@ -1,6 +1,7 @@
 <div *ngIf="Light" class="row">
     <div class="col">
       <mat-form-field class="full-width">
+<mat-label>Light colour</mat-label>
         <input matInput placeholder="Light colour"
         cpAlphaChannel="disabled"
         [value] = "this.Light.colour"
@@ -15,6 +16,7 @@
 <div *ngIf="Light" class="row">
     <div class="col">
       <mat-form-field class="full-width">
+<mat-label>Ground colour</mat-label>
         <input matInput placeholder="Ground colour"
         cpAlphaChannel="disabled"
         [value] = "this.Light.groundColour"

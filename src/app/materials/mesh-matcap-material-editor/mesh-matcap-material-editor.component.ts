@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MeshMatcapMaterial } from '../material';
-import { MatSliderChange } from '@angular/material/slider';
 import { Texture } from '../../textures/texture';
 import { Point3 } from '../../geometries/point3';
 import { Vector2 } from '../../geometries/vector2';
@@ -9,6 +8,7 @@ import { TextureUsage } from '../../textures/texture-type.enum';
 import * as THREE from 'three';
 
 @Component({
+  standalone: false,
   selector: 'app-mesh-matcap-material-editor',
   templateUrl: './mesh-matcap-material-editor.component.html',
   styleUrls: ['./mesh-matcap-material-editor.component.scss']
@@ -149,14 +149,14 @@ export class MeshMatcapMaterialEditorComponent implements OnInit {
     this.updateMaterial(this.Material);
   }
 
-  public onDisplacementMapScaleChanged(event: MatSliderChange): void {
-    this.Material.displacementScale = Math.round((event.value + Number.EPSILON) * 100) / 100;
+  public onDisplacementMapScaleChanged(value: number): void {
+    this.Material.displacementScale = Math.round((value + Number.EPSILON) * 100) / 100;
     this.Material.update();
     this.updateMaterial(this.Material);
   }
 
-  public onDisplacementMapBiasChanged(event: MatSliderChange): void {
-    this.Material.displacementBias = Math.round((event.value + Number.EPSILON) * 100) / 100;
+  public onDisplacementMapBiasChanged(value: number): void {
+    this.Material.displacementBias = Math.round((value + Number.EPSILON) * 100) / 100;
     this.Material.update();
     this.updateMaterial(this.Material);
   }

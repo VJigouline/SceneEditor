@@ -2,3 +2,25 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/*
+ * Angular Material 15+ (MDC) adjustments, to keep the look of the version 1.0 editor panels.
+ */
+.mat-mdc-card {
+  color: rgba(0, 0, 0, .87);
+  min-width: 0;
+}
+
+.mat-toolbar {
+  --mat-toolbar-container-background-color: whitesmoke;
+}
+
+/* The MDC form field infix has a fixed width of 180px, which overflows the narrow editor pane. */
+.mat-mdc-form-field-infix {
+  width: auto !important;
+  min-width: 0;
+}
+
+.col {
+  min-width: 0;
+}

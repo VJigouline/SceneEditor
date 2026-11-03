@@ -5,7 +5,6 @@ import { Material, LineDashedMaterial, LineBasicMaterial,
   MeshMatcapMaterial, MeshNormalMaterial, MeshPhongMaterial,
   MeshPhysicalMaterial, MeshStandardMaterial, MeshToonMaterial,
   PointsMaterial, ShadowMaterial, SpriteMaterial } from '../materials/material';
-import { MatSliderChange } from '@angular/material/slider';
 import { MaterialType } from '../materials/material-type.enum';
 import { Materials } from '../materials/materials';
 import { ConfirmationDialogComponent } from '../user-controls/confirmation-dialog/confirmation-dialog.component';
@@ -15,6 +14,7 @@ import * as THREE from 'three';
 import { MatSelectChange } from '@angular/material/select';
 
 @Component({
+  standalone: false,
   selector: 'app-material-editor',
   templateUrl: './material-editor.component.html',
   styleUrls: ['./material-editor.component.scss']
@@ -205,33 +205,33 @@ export class MaterialEditorComponent implements OnInit {
     this.changedMaterial.emit(this.material);
   }
 
-  onShininessChange(event: MatSliderChange): void {
+  onShininessChange(value: number): void {
     const material = this.sceneService.getMaterial();
     if (material instanceof THREE.MeshPhongMaterial) {
       const mat = material as THREE.MeshPhongMaterial;
-      mat.shininess = event.value;
+      mat.shininess = value;
     } else {
       console.warn(`Shininess not supported in  ${material.type}`);
     }
     this.changedMaterial.emit(this.material);
   }
 
-  onRoughnessChange(event: MatSliderChange): void {
+  onRoughnessChange(value: number): void {
     const material = this.sceneService.getMaterial();
     if (material instanceof THREE.MeshStandardMaterial) {
       const mat = material as THREE.MeshStandardMaterial;
-      mat.roughness = event.value;
+      mat.roughness = value;
     } else {
       console.warn(`Shininess not supported in  ${material.type}`);
     }
     this.changedMaterial.emit(this.material);
   }
 
-  onMetalnessChange(event: MatSliderChange): void {
+  onMetalnessChange(value: number): void {
     const material = this.sceneService.getMaterial();
     if (material instanceof THREE.MeshStandardMaterial) {
       const mat = material as THREE.MeshStandardMaterial;
-      mat.metalness = event.value;
+      mat.metalness = value;
     } else {
       console.warn(`Shininess not supported in  ${material.type}`);
     }

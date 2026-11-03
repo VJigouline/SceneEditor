@@ -61,10 +61,9 @@
         <div class="row">
             <div class="col label">
                 Texture rotation {{Texture.rotation}}
-                <mat-slider min="-3.14" max="3.14" step="0.01"
-                (input)="onRotationChanged($event)"
-                [(value)]="Texture.rotation"
-                ></mat-slider>
+                <mat-slider min="-3.14" max="3.14" step="0.01">
+                    <input matSliderThumb [(value)]="Texture.rotation" (valueChange)="onRotationChanged($event)">
+                </mat-slider>
             </div>
         </div>
         <div *ngIf="hasScale2" class="row">
@@ -83,19 +82,17 @@
     <div *ngIf="hasScale" class="row">
         <div class="col label">
             {{scaleName}} {{scaleValue}}
-            <mat-slider [min]="scaleMin" [max]="scaleMax" [step]="scaleStep"
-            (input)="onScaleChanged($event)"
-            [(value)]="scaleValue"
-            ></mat-slider>
+            <mat-slider [min]="scaleMin" [max]="scaleMax" [step]="scaleStep">
+                    <input matSliderThumb [(value)]="scaleValue" (valueChange)="onScaleChanged($event)">
+                </mat-slider>
         </div>
     </div>
     <div *ngIf="hasScale2" class="row">
         <div class="col label">
             {{scale2Name}} {{scale2Value}}
-            <mat-slider min="-1" max="1" step="0.01"
-            (input)="onScale2Changed($event)"
-            [(value)]="scale2Value"
-            ></mat-slider>
+            <mat-slider min="-1" max="1" step="0.01">
+                    <input matSliderThumb [(value)]="scale2Value" (valueChange)="onScale2Changed($event)">
+                </mat-slider>
         </div>
     </div>
     <div *ngIf="isEnvironmentMap" class="row">
@@ -125,19 +122,17 @@
     <div *ngIf="hasReflectivity" class="row">
         <div class="col label">
             'Reflectivity' {{reflectivity}}
-            <mat-slider min="0" max="1" step="0.01"
-            (input)="onReflectivityChanged($event)"
-            [(value)]="reflectivity"
-            ></mat-slider>
+            <mat-slider min="0" max="1" step="0.01">
+                    <input matSliderThumb [(value)]="reflectivity" (valueChange)="onReflectivityChanged($event)">
+                </mat-slider>
         </div>
     </div>
     <div *ngIf="hasRefractionRatio" class="row">
         <div class="col label">
             'Refraction ratio' {{refractionRatio}}
-            <mat-slider min="0" max="1" step="0.01"
-            (input)="onRefractionRatioChanged($event)"
-            [(value)]="refractionRatio"
-            ></mat-slider>
+            <mat-slider min="0" max="1" step="0.01">
+                    <input matSliderThumb [(value)]="refractionRatio" (valueChange)="onRefractionRatioChanged($event)">
+                </mat-slider>
         </div>
     </div>
 </ng-container>

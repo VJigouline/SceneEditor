@@ -13,6 +13,7 @@ export interface CubeMapDialogData {
 }
 
 @Component({
+  standalone: false,
   selector: 'app-cube-map-dialog',
   templateUrl: './cube-map-dialog.component.html',
   styleUrls: ['./cube-map-dialog.component.scss']

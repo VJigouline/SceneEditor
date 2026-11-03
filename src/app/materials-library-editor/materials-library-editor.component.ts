@@ -16,7 +16,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 
 import * as THREE from 'three';
 import { MaterialPreviewComponent } from '../materials/material-preview/material-preview.component';
-import { ResizedEvent } from 'angular-resize-event';
+import { ResizedEvent } from '../user-controls/resized/resized.directive';
 
 interface UVs {
   uv0: THREE.Vector2;
@@ -25,6 +25,7 @@ interface UVs {
 }
 
 @Component({
+  standalone: false,
   selector: 'app-materials-library-editor',
   templateUrl: './materials-library-editor.component.html',
   styleUrls: ['./materials-library-editor.component.scss']

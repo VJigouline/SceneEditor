@@ -416,19 +416,19 @@ export class Material {
     public get alphaTest(): number { return this.material.alphaTest; }
     public set alphaTest(value: number) { this.material.alphaTest = value; }
     public get blendDst(): number { return this.material.blendDst; }
-    public set blendDst(value: number) { this.material.blendDst = value; }
+    public set blendDst(value: number) { this.material.blendDst = value as THREE.BlendingDstFactor; }
     public get blendDstAlpha(): number { return this.material.blendDstAlpha; }
-    public set blendDstAlpha(value: number) { this.material.blendDstAlpha = value; }
+    public set blendDstAlpha(value: number) { this.material.blendDstAlpha = value as THREE.BlendingDstFactor; }
     public get blendEquation(): THREE.BlendingEquation { return this.material.blendEquation; }
     public set blendEquation(value: THREE.BlendingEquation) { this.material.blendEquation = value; }
     public get blendEquationAlpha(): number { return this.material.blendEquationAlpha; }
-    public set blendEquationAlpha(value: number) { this.material.blendEquationAlpha = value; }
+    public set blendEquationAlpha(value: number) { this.material.blendEquationAlpha = value as THREE.BlendingEquation; }
     public get blending(): THREE.Blending { return this.material.blending; }
     public set blending(value: THREE.Blending) { this.material.blending = value; }
     public get blendSrc(): THREE.BlendingDstFactor | THREE.BlendingSrcFactor { return this.material.blendSrc; }
-    public set blendSrc(value: THREE.BlendingDstFactor | THREE.BlendingSrcFactor) { this.material.blendSrc = value; }
+    public set blendSrc(value: THREE.BlendingDstFactor | THREE.BlendingSrcFactor) { this.material.blendSrc = value as THREE.BlendingSrcFactor; }
     public get blendSrcAlpha(): number { return this.material.blendSrcAlpha; }
-    public set blendSrcAlpha(value: number) { this.material.blendSrcAlpha = value; }
+    public set blendSrcAlpha(value: number) { this.material.blendSrcAlpha = value as THREE.BlendingSrcFactor; }
     public get clipIntersection(): boolean { return this.material.clipIntersection; }
     public set clipIntersection(value: boolean) { this.material.clipIntersection = value; }
     public get clippingPlanes(): THREE.Plane[] { return this.material.clippingPlanes; }
@@ -445,8 +445,8 @@ export class Material {
     public set depthWrite(value: boolean) { this.material.depthWrite = value; }
     public get stencilWrite(): boolean { return this.material.stencilWrite; }
     public set stencilWrite(value: boolean) { this.material.stencilWrite = value; }
-    public get fog(): boolean { return this.material.fog; }
-    public set fog(value: boolean) { this.material.fog = value; }
+    public get fog(): boolean { return (this.material as THREE.MeshBasicMaterial).fog; }
+    public set fog(value: boolean) { (this.material as THREE.MeshBasicMaterial).fog = value; }
     public get name(): string { return this.material.name; }
     public set name(value: string) { this.material.name = value; }
     public get opacity(): number { return this.material.opacity; }
@@ -723,13 +723,13 @@ export class LineBasicMaterial extends Material {
         return (this.material as THREE.LineBasicMaterial).linecap;
     }
     public set linecap(value: string) {
-        (this.material as THREE.LineBasicMaterial).linecap = value;
+        (this.material as THREE.LineBasicMaterial).linecap = value as THREE.LineBasicMaterial['linecap'];
     }
     public get linejoin(): string {
         return (this.material as THREE.LineBasicMaterial).linejoin;
     }
     public set linejoin(value: string) {
-        (this.material as THREE.LineBasicMaterial).linejoin = value;
+        (this.material as THREE.LineBasicMaterial).linejoin = value as THREE.LineBasicMaterial['linejoin'];
     }
 
     constructor(type?: MaterialType) {
@@ -838,13 +838,13 @@ export class MeshBasicMaterial extends Material {
         return (this.material as THREE.MeshBasicMaterial).wireframeLinecap;
     }
     public set wireframeLinecap(value: string) {
-        (this.material as THREE.MeshBasicMaterial).wireframeLinecap = value;
+        (this.material as THREE.MeshBasicMaterial).wireframeLinecap = value as THREE.MeshBasicMaterial['wireframeLinecap'];
     }
     public get wireframeLinejoin(): string {
         return (this.material as THREE.MeshBasicMaterial).wireframeLinejoin;
     }
     public set wireframeLinejoin(value: string) {
-        (this.material as THREE.MeshBasicMaterial).wireframeLinejoin = value;
+        (this.material as THREE.MeshBasicMaterial).wireframeLinejoin = value as THREE.MeshBasicMaterial['wireframeLinejoin'];
     }
     public get wireframeLinewidth(): number {
         return (this.material as THREE.MeshBasicMaterial).wireframeLinewidth;
@@ -1055,13 +1055,13 @@ export class MeshLambertMaterial extends Material {
         return (this.material as THREE.MeshLambertMaterial).wireframeLinecap;
     }
     public set wireframeLinecap(value: string) {
-        (this.material as THREE.MeshLambertMaterial).wireframeLinecap = value;
+        (this.material as THREE.MeshLambertMaterial).wireframeLinecap = value as THREE.MeshBasicMaterial['wireframeLinecap'];
     }
     public get wireframeLinejoin(): string {
         return (this.material as THREE.MeshLambertMaterial).wireframeLinejoin;
     }
     public set wireframeLinejoin(value: string) {
-        (this.material as THREE.MeshLambertMaterial).wireframeLinejoin = value;
+        (this.material as THREE.MeshLambertMaterial).wireframeLinejoin = value as THREE.MeshBasicMaterial['wireframeLinejoin'];
     }
     public get wireframeLinewidth(): number {
         return (this.material as THREE.MeshLambertMaterial).wireframeLinewidth;
@@ -1481,13 +1481,13 @@ export class MeshPhongMaterial extends Material {
         return (this.material as THREE.MeshPhongMaterial).wireframeLinecap;
     }
     public set wireframeLinecap(value: string) {
-        (this.material as THREE.MeshPhongMaterial).wireframeLinecap = value;
+        (this.material as THREE.MeshPhongMaterial).wireframeLinecap = value as THREE.MeshBasicMaterial['wireframeLinecap'];
     }
     public get wireframeLinejoin(): string {
         return (this.material as THREE.MeshPhongMaterial).wireframeLinejoin;
     }
     public set wireframeLinejoin(value: string) {
-        (this.material as THREE.MeshPhongMaterial).wireframeLinejoin = value;
+        (this.material as THREE.MeshPhongMaterial).wireframeLinejoin = value as THREE.MeshBasicMaterial['wireframeLinejoin'];
     }
     public get wireframeLinewidth(): number {
         return (this.material as THREE.MeshPhongMaterial).wireframeLinewidth;
@@ -1680,10 +1680,10 @@ export class MeshStandardMaterial extends Material {
         (this.material as THREE.MeshNormalMaterial).normalScale.set(value.X, value.Y);
     }
     public get refractionRatio(): number {
-        return (this.material as THREE.MeshStandardMaterial).refractionRatio;
+        return (this.material as any).refractionRatio;
     }
     public set refractionRatio(value: number) {
-        (this.material as THREE.MeshStandardMaterial).refractionRatio = value;
+        (this.material as any).refractionRatio = value;
     }
     public get roughness(): number {
         return (this.material as THREE.MeshStandardMaterial).roughness;
@@ -1970,13 +1970,13 @@ export class MeshToonMaterial extends Material {
         return (this.material as THREE.MeshToonMaterial).wireframeLinecap;
     }
     public set wireframeLinecap(value: string) {
-        (this.material as THREE.MeshToonMaterial).wireframeLinecap = value;
+        (this.material as THREE.MeshToonMaterial).wireframeLinecap = value as THREE.MeshBasicMaterial['wireframeLinecap'];
     }
     public get wireframeLinejoin(): string {
         return (this.material as THREE.MeshToonMaterial).wireframeLinejoin;
     }
     public set wireframeLinejoin(value: string) {
-        (this.material as THREE.MeshToonMaterial).wireframeLinejoin = value;
+        (this.material as THREE.MeshToonMaterial).wireframeLinejoin = value as THREE.MeshBasicMaterial['wireframeLinejoin'];
     }
     public get wireframeLinewidth(): number {
         return (this.material as THREE.MeshToonMaterial).wireframeLinewidth;

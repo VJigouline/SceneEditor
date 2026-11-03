@@ -1,6 +1,7 @@
 <div *ngIf="Material" class="row">
     <div class="col">
     <mat-form-field class="full-width">
+<mat-label>Material colour</mat-label>
         <input matInput placeholder="Material colour"
         cpAlphaChannel="disabled"
         [value] = "this.Material.colour"
@@ -65,19 +66,17 @@
         <div *ngIf="Material" class="row">
             <div class="col label">
                 Displacement map scale {{DisplacementMapScale}}
-                <mat-slider min="-10" max="10" step="0.01"
-                (input)="onDisplacementMapScaleChanged($event)"
-                [(value)]="DisplacementMapScale"
-                ></mat-slider>
+                <mat-slider min="-10" max="10" step="0.01">
+                    <input matSliderThumb [(value)]="DisplacementMapScale" (valueChange)="onDisplacementMapScaleChanged($event)">
+                </mat-slider>
             </div>
         </div>
         <div *ngIf="Material" class="row">
             <div class="col label">
                 Displacement map bias {{DisplacementMapBias}}
-                <mat-slider min="-10" max="10" step="0.01"
-                (input)="onDisplacementMapBiasChanged($event)"
-                [(value)]="DisplacementMapBias"
-                ></mat-slider>
+                <mat-slider min="-10" max="10" step="0.01">
+                    <input matSliderThumb [(value)]="DisplacementMapBias" (valueChange)="onDisplacementMapBiasChanged($event)">
+                </mat-slider>
             </div>
         </div>
         <div *ngIf="Material" class="row">

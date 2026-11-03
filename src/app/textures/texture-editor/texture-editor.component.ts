@@ -6,10 +6,9 @@ import { Texture, CubeTexture } from '../texture';
 import * as THREE from 'three';
 import { MatSelectChange } from '@angular/material/select';
 import { Point3 } from '../../geometries/point3';
-import { MatSliderChange } from '@angular/material/slider';
 import { Vector2 } from '../../geometries/vector2';
 import { TextureUsage, TextureType } from '../texture-type.enum';
-import { MaterialType } from 'src/app/materials/material-type.enum';
+import { MaterialType } from '../../materials/material-type.enum';
 import { Renderer2 } from '@angular/core';
 import { CubeMapDialogComponent, CubeMapDialogData } from '../cube-map-dialog/cube-map-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -20,6 +19,7 @@ enum EnvironmentMappingType {
 }
 
 @Component({
+  standalone: false,
   selector: 'app-texture-editor',
   templateUrl: './texture-editor.component.html',
   styleUrls: ['./texture-editor.component.scss']
@@ -124,7 +124,6 @@ export class TextureEditorComponent implements OnInit {
       switch (this.Texture.mapping) {
         case THREE.CubeRefractionMapping:
         case THREE.EquirectangularRefractionMapping:
-        case THREE.CubeUVRefractionMapping:
           return EnvironmentMappingType.REFRACTRION;
       }
     }
@@ -401,7 +400,7 @@ export class TextureEditorComponent implements OnInit {
           img.src = fileUrl;
         }
       } else {
-        this.Texture.texture.image.src = fileUrl;
+        (this.Texture.texture.image as HTMLImageElement).src = fileUrl;
       }
     } else {
       new THREE.TextureLoader().load(fileUrl,
@@ -409,7 +408,7 @@ export class TextureEditorComponent implements OnInit {
           this.assignTextureDefaults(texture);
           this.Texture = Texture.CreateTexture(texture);
           if (this.Usage === TextureUsage.ENVIRONMENT_MAP) {
-            this.Texture.texture.encoding = THREE.sRGBEncoding;
+            this.Texture.texture.colorSpace = THREE.SRGBColorSpace;
             this.Texture.texture.mapping = THREE.EquirectangularReflectionMapping;
             this.Texture.texture.minFilter = THREE.LinearFilter;
             this.Texture.texture.magFilter = THREE.LinearFilter;
@@ -501,12 +500,12 @@ export class TextureEditorComponent implements OnInit {
     this.changedTexture.emit(this.Texture);
   }
 
-  onReflectivityChanged(event: MatSliderChange): void {
-    this.changedReflectivity.emit(Math.round((event.value + Number.EPSILON) * 100) / 100);
+  onReflectivityChanged(value: number): void {
+    this.changedReflectivity.emit(Math.round((value + Number.EPSILON) * 100) / 100);
   }
 
-  onRefractionRatioChanged(event: MatSliderChange): void {
-    this.changedRefractionRatio.emit(Math.round((event.value + Number.EPSILON) * 100) / 100);
+  onRefractionRatioChanged(value: number): void {
+    this.changedRefractionRatio.emit(Math.round((value + Number.EPSILON) * 100) / 100);
   }
 
   public onRepeatChange(position: Point3): void {
@@ -514,17 +513,17 @@ export class TextureEditorComponent implements OnInit {
     this.changedTexture.emit(this.Texture);
   }
 
-  public onRotationChanged(event: MatSliderChange): void {
-    this.Texture.rotation = Math.round((event.value + Number.EPSILON) * 100) / 100;
+  public onRotationChanged(value: number): void {
+    this.Texture.rotation = Math.round((value + Number.EPSILON) * 100) / 100;
     this.changedTexture.emit(this.Texture);
   }
 
-  public onScaleChanged(event: MatSliderChange): void {
-    this.changedScale.emit(Math.round((event.value + Number.EPSILON) * 100) / 100);
+  public onScaleChanged(value: number): void {
+    this.changedScale.emit(Math.round((value + Number.EPSILON) * 100) / 100);
   }
 
-  public onScale2Changed(event: MatSliderChange): void {
-    this.changedScale2.emit(Math.round((event.value + Number.EPSILON) * 100) / 100);
+  public onScale2Changed(value: number): void {
+    this.changedScale2.emit(Math.round((value + Number.EPSILON) * 100) / 100);
   }
 
   public onNormalMapMappingChange(change: MatSelectChange): void {

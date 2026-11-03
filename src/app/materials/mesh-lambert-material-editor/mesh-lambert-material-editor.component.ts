@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MeshLambertMaterial } from '../material';
-import { MatSliderChange } from '@angular/material/slider';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Texture } from '../../textures/texture';
 import { TextureUsage } from '../../textures/texture-type.enum';
@@ -8,6 +7,7 @@ import { TextureUsage } from '../../textures/texture-type.enum';
 import * as THREE from 'three';
 
 @Component({
+  standalone: false,
   selector: 'app-mesh-lambert-material-editor',
   templateUrl: './mesh-lambert-material-editor.component.html',
   styleUrls: ['./mesh-lambert-material-editor.component.scss']
@@ -60,8 +60,8 @@ export class MeshLambertMaterialEditorComponent implements OnInit {
     this.updateMaterial(this.Material);
   }
 
-  public onEmissiveIntensityChanged(event: MatSliderChange): void {
-    this.Material.emissiveIntensity = Math.round((event.value + Number.EPSILON) * 100) / 100;
+  public onEmissiveIntensityChanged(value: number): void {
+    this.Material.emissiveIntensity = Math.round((value + Number.EPSILON) * 100) / 100;
     this.updateMaterial(this.Material);
   }
 
@@ -84,8 +84,8 @@ export class MeshLambertMaterialEditorComponent implements OnInit {
     this.updateMaterial(this.Material);
   }
 
-  public onWireframeLinewidthChanged(event: MatSliderChange): void {
-    this.Material.wireframeLinewidth = Math.round(event.value + Number.EPSILON);
+  public onWireframeLinewidthChanged(value: number): void {
+    this.Material.wireframeLinewidth = Math.round(value + Number.EPSILON);
     this.updateMaterial(this.Material);
   }
 

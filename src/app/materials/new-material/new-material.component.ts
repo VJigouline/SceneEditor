@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MaterialType } from '../material-type.enum';
 
 @Component({
+  standalone: false,
   selector: 'app-new-material',
   templateUrl: './new-material.component.html',
   styleUrls: ['./new-material.component.scss']

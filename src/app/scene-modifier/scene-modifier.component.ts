@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ThreeSceneService } from '../three-scene.service';
 
 @Component({
+  standalone: false,
   selector: 'app-scene-modifier',
   templateUrl: './scene-modifier.component.html',
   styleUrls: ['./scene-modifier.component.scss']

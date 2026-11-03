@@ -1,9 +1,15 @@
 // Reworked frome the threejs DragControl.
 
-import { ThrowStmt } from '@angular/compiler';
 import * as THREE from 'three';
 
-export class HoverControl extends THREE.EventDispatcher {
+export interface HoverControlEventMap {
+    hoveron: { object: any };
+    hoveroff: { object: any };
+    mousedown: { object: any };
+    mousecancel: { object: any };
+}
+
+export class HoverControl extends THREE.EventDispatcher<HoverControlEventMap> {
     private plane = new THREE.Plane();
     private raycaster = new THREE.Raycaster();
     

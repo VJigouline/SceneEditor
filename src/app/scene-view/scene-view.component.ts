@@ -1,14 +1,15 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, Input} from '@angular/core';
-import { ResizedEvent } from 'angular-resize-event';
+import { ResizedEvent } from '../user-controls/resized/resized.directive';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { ThreeSceneService } from '../three-scene.service';
 import { Material } from '../materials/material';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
+  standalone: false,
   selector: 'app-scene-view',
   templateUrl: './scene-view.component.html',
   styleUrls: ['./scene-view.component.scss']
@@ -56,7 +57,7 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     transformControl.addEventListener('change', this.sceneService.cancelHideTransform.bind(this.sceneService));
     transformControl.addEventListener('mouseDown', this.sceneService.cancelHideTransform.bind(this.sceneService));
     transformControl.addEventListener('mouseUp', this.sceneService.delayHideTransform.bind(this.sceneService));
-    scene.add(transformControl);
+    scene.add(transformControl.getHelper());
   }
 
   SetMaterial(material: Material) {
@@ -106,7 +107,7 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     this.sceneService.renderer = new THREE.WebGLRenderer({alpha : true});
     const renderer = this.sceneService.renderer;
     renderer.domElement.style.background = "linear-gradient(200deg, rgb(100 149 237), transparent)";
-    renderer.physicallyCorrectLights = true;
+    renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
     renderer.shadowMap.enabled = true;
     renderer.toneMapping = THREE.ReinhardToneMapping;
     renderer.setPixelRatio( window.devicePixelRatio );

@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { MeshStandardMaterial, MeshPhysicalMaterial, MeshPhysicalMaterialExport } from '../material';
-import { MatSliderChange } from '@angular/material/slider';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Texture } from '../../textures/texture';
 import { Point3 } from '../../geometries/point3';
@@ -10,6 +9,7 @@ import { TextureUsage } from '../../textures/texture-type.enum';
 import * as THREE from 'three';
 
 @Component({
+  standalone: false,
   selector: 'app-mesh-standard-material-editor',
   templateUrl: './mesh-standard-material-editor.component.html',
   styleUrls: ['./mesh-standard-material-editor.component.scss']
@@ -158,21 +158,21 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
     this.updateMaterial(material);
   }
 
-  onClearcoatChanged(event: MatSliderChange): void {
+  onClearcoatChanged(value: number): void {
     (this.Material as unknown as MeshPhysicalMaterial).clearcoat =
-      Math.round((event.value + Number.EPSILON) * 100) / 100;
+      Math.round((value + Number.EPSILON) * 100) / 100;
     this.updateMaterial(this.Material);
   }
 
-  onClearcoatRoughnessChanged(event: MatSliderChange): void {
+  onClearcoatRoughnessChanged(value: number): void {
     (this.Material as unknown as MeshPhysicalMaterial).clearcoatRoughness =
-      Math.round((event.value + Number.EPSILON) * 100) / 100;
+      Math.round((value + Number.EPSILON) * 100) / 100;
     this.updateMaterial(this.Material);
   }
 
-  onClearcoatReflectivityChanged(event: MatSliderChange): void {
+  onClearcoatReflectivityChanged(value: number): void {
     (this.Material as unknown as MeshPhysicalMaterial).reflectivity =
-      Math.round((event.value + Number.EPSILON) * 100) / 100;
+      Math.round((value + Number.EPSILON) * 100) / 100;
     this.updateMaterial(this.Material);
   }
 
@@ -180,18 +180,18 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
     this.updateMaterial(this.Material);
   }
 
-  public onEmissiveIntensityChanged(event: MatSliderChange): void {
-    this.Material.emissiveIntensity = Math.round((event.value + Number.EPSILON) * 100) / 100;
+  public onEmissiveIntensityChanged(value: number): void {
+    this.Material.emissiveIntensity = Math.round((value + Number.EPSILON) * 100) / 100;
     this.updateMaterial(this.Material);
   }
 
-  public onMetalnessChanged(event: MatSliderChange): void {
-    this.Material.metalness = Math.round((event.value + Number.EPSILON) * 100) / 100;
+  public onMetalnessChanged(value: number): void {
+    this.Material.metalness = Math.round((value + Number.EPSILON) * 100) / 100;
     this.updateMaterial(this.Material);
   }
 
-  public onRoughnessChanged(event: MatSliderChange): void {
-    this.Material.roughness = Math.round((event.value + Number.EPSILON) * 100) / 100;
+  public onRoughnessChanged(value: number): void {
+    this.Material.roughness = Math.round((value + Number.EPSILON) * 100) / 100;
     this.updateMaterial(this.Material);
   }
 
@@ -214,8 +214,8 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
     this.updateMaterial(this.Material);
   }
 
-  public onWireframeLinewidthChanged(event: MatSliderChange): void {
-    this.Material.wireframeLinewidth = Math.round(event.value + Number.EPSILON);
+  public onWireframeLinewidthChanged(value: number): void {
+    this.Material.wireframeLinewidth = Math.round(value + Number.EPSILON);
     this.updateMaterial(this.Material);
   }
 
@@ -266,14 +266,14 @@ export class MeshStandardMaterialEditorComponent implements OnInit {
     this.updateMaterial(this.Material);
   }
 
-  public onDisplacementMapScaleChanged(event: MatSliderChange): void {
-    this.Material.displacementScale = Math.round((event.value + Number.EPSILON) * 100) / 100;
+  public onDisplacementMapScaleChanged(value: number): void {
+    this.Material.displacementScale = Math.round((value + Number.EPSILON) * 100) / 100;
     this.Material.update();
     this.updateMaterial(this.Material);
   }
 
-  public onDisplacementMapBiasChanged(event: MatSliderChange): void {
-    this.Material.displacementBias = Math.round((event.value + Number.EPSILON) * 100) / 100;
+  public onDisplacementMapBiasChanged(value: number): void {
+    this.Material.displacementBias = Math.round((value + Number.EPSILON) * 100) / 100;
     this.Material.update();
     this.updateMaterial(this.Material);
   }

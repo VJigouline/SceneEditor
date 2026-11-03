@@ -2,6 +2,7 @@
 <mat-grid-list [cols]="nCols" rowHeight="55px">
     <mat-grid-tile colspan=1>
         <mat-form-field class="full-width">
+<mat-label>X</mat-label>
             <input matInput placeholder="X" width=4 type="number"
             [(ngModel)] = "X"
             [disabled] = "!enableX"
@@ -15,6 +16,7 @@
     </mat-grid-tile>
     <mat-grid-tile colspan=1>
         <mat-form-field class="full-width">
+<mat-label>Y</mat-label>
             <input matInput placeholder="Y" width=4 type="number"
             [(ngModel)] = "Y"
             [disabled] = "!enableY"
@@ -28,6 +30,7 @@
     </mat-grid-tile>
     <mat-grid-tile *ngIf="showZ" colspan=1>
         <mat-form-field class="full-width">
+<mat-label>Z</mat-label>
             <input matInput placeholder="Z" width=4 type="number"
             [(ngModel)] = "Z"
             [disabled] = "!enableZ"

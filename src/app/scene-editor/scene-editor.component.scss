@@ -3,7 +3,7 @@ as-split {
     height: 100%;
 }
 
-::ng-deep.mat-tab-link,  ::ng-deep.mat-tab-label, ::ng-deep.mat-tab-label-active {
+::ng-deep.mat-mdc-tab-link,  ::ng-deep.mat-mdc-tab, ::ng-deep.mdc-tab--active {
     min-width: 60px !important;
     padding: 0 10px !important;
 }
@@ -13,6 +13,6 @@ as-split {
     color: white;
 }
 
-.mat-tab-link {
+.mat-mdc-tab-link {
     color: rgba(1, 1, 1, .87);
 }

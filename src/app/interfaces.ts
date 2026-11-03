@@ -1,4 +1,4 @@
-import { DragControls } from 'three/examples/jsm/controls/DragControls';
+import { DragControls } from 'three/examples/jsm/controls/DragControls.js';
 import * as THREE from 'three';
 
 export interface DragEvent {

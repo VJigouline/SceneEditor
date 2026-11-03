@@ -3,6 +3,7 @@ import { MeshDepthMaterial } from '../material';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
+  standalone: false,
   selector: 'app-mesh-depth-material-editor',
   templateUrl: './mesh-depth-material-editor.component.html',
   styleUrls: ['./mesh-depth-material-editor.component.scss']

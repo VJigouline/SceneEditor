@@ -10,6 +10,7 @@ export interface DialogData {
 }
 
 @Component({
+  standalone: false,
   selector: 'app-confirmation-dialog',
   templateUrl: './confirmation-dialog.component.html',
   styleUrls: ['./confirmation-dialog.component.scss']

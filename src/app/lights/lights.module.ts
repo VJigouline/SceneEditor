@@ -17,7 +17,7 @@ import { HemisphereLightEditorComponent } from './hemisphere-light-editor/hemisp
 import { PointLightEditorComponent } from './point-light-editor/point-light-editor.component';
 import { RectareaLightEditorComponent } from './rectarea-light-editor/rectarea-light-editor.component';
 import { SpotLightEditorComponent } from './spot-light-editor/spot-light-editor.component';
-import { ColorPickerModule } from 'ngx-color-picker';
+import { ColorPickerDirective } from 'ngx-color-picker';
 import { UserControlsModule } from '../user-controls/user-controls.module';
 
 @NgModule({
@@ -42,7 +42,7 @@ import { UserControlsModule } from '../user-controls/user-controls.module';
     MatIconModule,
     MatSliderModule,
     ReactiveFormsModule,
-    ColorPickerModule,
+    ColorPickerDirective,
     UserControlsModule
   ],
   exports: [

@@ -13,6 +13,15 @@ Project options: routing and [SCSS](https://sass-lang.com/documentation) as a st
 
 Stable version 1.0 released. It covers significant part of editing for ThreeJS lights and materials. Viewing GLTF, Collada and STL files. Editing lights and materials for imported files. Retrieving materials from the loaded GLTF and Collada files. Saving and loading lights and materials to reuse in other projects. Exporting scene in GLTF format.
 
+
+## Version 2.0
+
+Version 2.0 moves the project from Angular 12 to Angular 22, TypeScript 6.0 and three.js r187.
+
+Requirements: Node.js `^22.22.3 || ^24.15.0 || >=26.0.0` and npm 12. Install with `npm ci`, build with `npm run build`, run with `npm start`.
+
+TypeScript stays on 6.0 because the Angular 22 compiler requires `>=6.0 <6.1`.
+
 ## Release builds
 Release build can be found on main branch in the builds\Releases folder.
 ### Installation
