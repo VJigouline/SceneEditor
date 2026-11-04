@@ -1,3 +1,3 @@
-<app-scene-modifier (sceneChanged)="onSceneChange($event)"></app-scene-modifier>
+<app-scene-modifier (sceneChanged)="onSceneChange($event)" (filesOpened)="filesOpened.emit($event)"></app-scene-modifier>
 <app-scene-saver></app-scene-saver>
 

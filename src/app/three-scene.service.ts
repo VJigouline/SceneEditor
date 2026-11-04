@@ -117,6 +117,19 @@ export class ThreeSceneService {
     return JSON.stringify(this.scene);
   }
 
+  // Wraps files from an open file dialog so they load the same way as dropped files.
+  public toFileEntries(files: File[]): NgxFileDropEntry[] {
+    return files.map(file => {
+      const entry: FileSystemFileEntry = {
+        name: file.name,
+        isFile: true,
+        isDirectory: false,
+        file: <T>(callback: (f: File) => T) => callback(file)
+      };
+      return new NgxFileDropEntry(file.name, entry);
+    });
+  }
+
   public addFiles(files: NgxFileDropEntry[], finished: CallbackFinished): void {
     // Library files are taken out of a drop before it gets here, so nothing may be left.
     if (files.length === 0) { return; }

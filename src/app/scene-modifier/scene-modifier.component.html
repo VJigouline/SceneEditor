@@ -2,12 +2,21 @@
     <mat-card-content>
     </mat-card-content>
     <mat-toolbar>
-        <button mat-icon-button class="example-icon" (click)="onNewScene()" matToolTip="New empty scene.">
+        <button mat-icon-button class="example-icon" (click)="fileInput.click()"
+        matTooltip="Open files" aria-label="Open files">
+            <mat-icon>folder_open</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" (click)="onNewScene()" matTooltip="New empty scene.">
             <mat-icon>fiber_new</mat-icon>
         </button>
         <button mat-icon-button class="example-icon" (click)="onAddToScene()" *ngIf="false">Add to Scene</button>
-        <button mat-icon-button class="example-icon" (click)="onUpdateScene()" matToolTip="Fit to view">
+        <button mat-icon-button class="example-icon" (click)="onUpdateScene()" matTooltip="Fit to view">
             <mat-icon>fit_screen</mat-icon>
         </button>
     </mat-toolbar>
+    <input
+    style="display: none"
+    type="file" multiple (input)="onOpenFiles($event)"
+    accept=".glb,.gltf,.bin,.dae,.stl,.polygons,.ltslib,.matlib,image/*"
+    #fileInput>
 </mat-card>

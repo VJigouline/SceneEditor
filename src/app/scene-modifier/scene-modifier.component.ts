@@ -10,12 +10,22 @@ import { ThreeSceneService } from '../three-scene.service';
 export class SceneModifierComponent implements OnInit {
 
   @Output() sceneChanged = new EventEmitter<string>();
+  @Output() filesOpened = new EventEmitter<File[]>();
 
   constructor(
     private sceneService: ThreeSceneService,
   ) { }
 
   ngOnInit() {
+  }
+
+  public onOpenFiles(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    // Clearing the input empties its live file list, so copy the list first.
+    // Clearing also lets the same file be opened twice in a row.
+    const files = Array.from(input.files);
+    input.value = '';
+    if (files.length > 0) { this.filesOpened.emit(files); }
   }
 
   public onNewScene(): void {

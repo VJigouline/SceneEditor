@@ -69,6 +69,10 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
     this.sceneService.addFiles(this.readLibraries(files), this.ResetScene.bind(this));
   }
 
+  public onFilesOpened(files: File[]): void {
+    this.dropped(this.sceneService.toFileEntries(files));
+  }
+
   private readLibraries(files: NgxFileDropEntry[]): NgxFileDropEntry[] {
     const ret = new Array<NgxFileDropEntry>();
 

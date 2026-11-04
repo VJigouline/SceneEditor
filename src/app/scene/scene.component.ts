@@ -10,6 +10,7 @@ import { SceneModifierComponent } from '../scene-modifier/scene-modifier.compone
 export class SceneComponent implements OnInit {
 
   @Output() sceneChanged = new EventEmitter<string>();
+  @Output() filesOpened = new EventEmitter<File[]>();
 
   constructor() { }
 

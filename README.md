@@ -34,7 +34,7 @@ See the [user guide](https://github.com/VJigouline/SceneEditor/wiki) in the wiki
 
 Working version at [scene.meercad.com](http://scene.meercad.com). This site runs an older build than Version 2.0.
 
-This project is not finished. Drop GLTF/GLB (file or folder), Collada (file or folder), STL or `.polygons` files into graphics area on the left and try using controls. Scenes saved as GLTF can be loaded the same way, but scenes saved in the three.js `scene.json` format can't be loaded back into **SceneEditor**.
+This project is not finished. Drop GLTF/GLB (file or folder), Collada (file or folder), STL or `.polygons` files into graphics area on the left, or choose files with **Open files** on the **Scene** tab, and try using controls. Scenes saved as GLTF can be loaded the same way, but scenes saved in the three.js `scene.json` format can't be loaded back into **SceneEditor**.
 
 ![Scene](Images/Scene2.png)
 _The image is made from the GLTF model loaded into **SceneEditor**. The model can be found on [NASA Ingenuity page](https://mars.nasa.gov/resources/25043/mars-ingenuity-helicopter-3d-model/?site=insight). After loading model will look dark due to darker materials. Lights intensity should be increased in the **Light Editor**_

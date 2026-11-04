@@ -32,7 +32,7 @@
                     ></app-materials-library-editor>
                 </mat-tab>
                 <mat-tab label="Scene" class="tabheader">
-                    <app-scene (sceneChanged)="onSceneChange($event)"></app-scene>
+                    <app-scene (sceneChanged)="onSceneChange($event)" (filesOpened)="onFilesOpened($event)"></app-scene>
                 </mat-tab>
             </mat-tab-group>
                 

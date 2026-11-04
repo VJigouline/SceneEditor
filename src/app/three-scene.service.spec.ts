@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { MatDialog } from '@angular/material/dialog';
-import { NgxFileDropEntry } from 'ngx-file-drop';
+import { FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 import { ThreeSceneService } from './three-scene.service';
@@ -34,6 +34,35 @@ describe('ThreeSceneService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  describe('toFileEntries', () => {
+    it('wraps a file so it reads back as the same file', (done) => {
+      const file = new File(['[]'], 'empty.polygons');
+
+      const [opened] = service.toFileEntries([file]);
+
+      expect(opened.relativePath).toBe('empty.polygons');
+      expect(opened.fileEntry.isFile).toBeTrue();
+      (opened.fileEntry as FileSystemFileEntry).file(read => {
+        expect(read).toBe(file);
+        done();
+      });
+    });
+
+    it('loads an opened model', (done) => {
+      service.addFiles(service.toFileEntries([new File(['[]'], 'empty.polygons')]), () => {
+        expect(spinner.show).toHaveBeenCalledTimes(1);
+        done();
+      });
+    });
+
+    it('reports an opened file that is not a model', () => {
+      service.addFiles(service.toFileEntries([new File([''], 'photo.png')]), () => fail('nothing was loaded'));
+
+      expect(spinner.show).not.toHaveBeenCalled();
+      expect((dialog.open.calls.mostRecent().args[1].data as any).message).toBe('photo.png');
+    });
   });
 
   describe('addFiles', () => {
