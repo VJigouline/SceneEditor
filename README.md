@@ -13,7 +13,6 @@ Project options: routing and [SCSS](https://sass-lang.com/documentation) as a st
 
 Stable version 1.0 released. It covers significant part of editing for ThreeJS lights and materials. Viewing GLTF, Collada and STL files. Editing lights and materials for imported files. Retrieving materials from the loaded GLTF and Collada files. Saving and loading lights and materials to reuse in other projects. Exporting scene in GLTF format.
 
-
 ## Version 2.0
 
 Version 2.0 moves the project from Angular 12 to Angular 22, TypeScript 6.0 and three.js r187.
@@ -23,7 +22,7 @@ Requirements: Node.js `^22.22.3 || ^24.15.0 || >=26.0.0` and npm 12. Install wit
 TypeScript stays on 6.0 because the Angular 22 compiler requires `>=6.0 <6.1`.
 
 ## Release builds
-Release build can be found on main branch in the builds\Releases folder.
+Release build can be found on master branch in the builds\Releases folder.
 ### Installation
 Unzip release build archive into folder on the web server and call index.html file. Due to security limitations of the web browsers the build can be run only from the web server. Running build from the local computer will cause script loading failures.
 
@@ -31,12 +30,11 @@ Unzip release build archive into folder on the web server and call index.html fi
 Implementation of constructive geometry creation and editing.
 
 ## Usage
-Working version at [scene.meercad.com](http://scene.meercad.com)
+See the [user guide](https://github.com/VJigouline/SceneEditor/wiki) in the wiki.
 
-Partial help is available at [help.meercad.com](https://help.meercad.com). This is a work in progress.
+Working version at [scene.meercad.com](http://scene.meercad.com). This site runs an older build than Version 2.0.
 
-This project is not finished. Detailed documentation will be added later.
-It is possible right now to drop GLTF/GLB (file or folder), STL or saved three.js scene file into graphics area on the left and try using controls. 
+This project is not finished. Drop GLTF/GLB (file or folder), Collada (file or folder), STL or `.polygons` files into graphics area on the left and try using controls. Scenes saved as GLTF can be loaded the same way, but scenes saved in the three.js `scene.json` format can't be loaded back into **SceneEditor**.
 
 ![Scene](Images/Scene2.png)
 _The image is made from the GLTF model loaded into **SceneEditor**. The model can be found on [NASA Ingenuity page](https://mars.nasa.gov/resources/25043/mars-ingenuity-helicopter-3d-model/?site=insight). After loading model will look dark due to darker materials. Lights intensity should be increased in the **Light Editor**_
@@ -49,8 +47,7 @@ These modules should be added on top of the standard angular installation (`npm 
 
 `npm install angular-split` [Documentation](https://bertrandg.github.io/angular-split/#/documentation)  
 `npm install three` [Documentation](https://threejs.org/docs/#manual/en/introduction/Import-via-modules)  
-`npm install angular-resize-event` [Documentation](https://www.npmjs.com/package/angular-resize-event)  
-`ng add @angular/material` [Documentation](https://material.angular.io/guide/getting-started), accept _HammerJS_ option for the jesture recognition, accept browser animations.  
+`ng add @angular/material` [Documentation](https://material.angular.io/guide/getting-started).  
 `npm install file-saver` [Documentation](https://www.npmjs.com/package/file-saver)  
 `npm install ngx-color-picker` [Documentation](https://www.npmjs.com/package/ngx-color-picker)  
 `npm install angular-in-memory-web-api` [Documentation](https://angular.io/tutorial/toh-pt6) - web server simulation for the testing  
@@ -69,15 +66,11 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. The build is a production build by default.
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io). This currently stops with compile errors, because several older spec files call constructors with the wrong arguments.
 
 ## Further help
 

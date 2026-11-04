@@ -45,6 +45,8 @@ type ContentSetter = (scene: THREE.Scene, sceneGLTF: THREE.Scene, clips: THREE.A
 })
 
 export class ThreeSceneService {
+  private static readonly modelExtensions = ['glb', 'gltf', 'dae', 'stl', 'polygons'];
+
   private scene: THREE.Scene;
   public camera: THREE.OrthographicCamera;
   public renderer: THREE.WebGLRenderer;
@@ -116,22 +118,50 @@ export class ThreeSceneService {
   }
 
   public addFiles(files: NgxFileDropEntry[], finished: CallbackFinished): void {
-    this.spinner.show();
-    for (const file of files) {
+    // Library files are taken out of a drop before it gets here, so nothing may be left.
+    if (files.length === 0) { return; }
 
-      // Is it a file?
-      if (file.fileEntry.isFile) {
-        this.addFile(file, files, finished);
-      } else {
-        // It was a directory (empty directories are added, otherwise only files)
-        console.log(`Unprocessed folder ${file.relativePath}`);
-      }
+    // The spinner is only hidden by a finished load or a load error, so it must only be shown
+    // when a load will start. Other files in a dropped folder may be a model's textures and buffers.
+    const models = files.filter(file => this.isModelFile(file));
+    if (models.length === 0) {
+      this.reportNoModels(files);
+      return;
     }
+
+    this.spinner.show();
+    for (const file of models) {
+      this.addFile(file, files, finished);
+    }
+  }
+
+  private isModelFile(file: NgxFileDropEntry): boolean {
+    return file.fileEntry.isFile && ThreeSceneService.modelExtensions.includes(this.fileExtension(file));
+  }
+
+  private fileExtension(file: NgxFileDropEntry): string {
+    return file.relativePath.split('.').pop().toLocaleLowerCase();
+  }
+
+  private reportNoModels(files: NgxFileDropEntry[]): void {
+    const shown = 5;
+    const names = files.slice(0, shown).map(file => file.relativePath).join(', ');
+    const more = files.length > shown ? ` and ${files.length - shown} more` : '';
+    const types = ThreeSceneService.modelExtensions.map(extension => '.' + extension).join(', ');
+    this.errorDialog.open(ErrorDialogComponent, {
+      width: '350px',
+      data: {
+        title: 'Nothing to load',
+        label: `SceneEditor can load ${types}. It can't load: `,
+        message: names + more,
+        close: true
+      }
+    });
   }
 
   public addFile(file: NgxFileDropEntry, files: NgxFileDropEntry[], finished: CallbackFinished): void {
 
-    const fileExtension = file.relativePath.split('.').pop().toLocaleLowerCase();
+    const fileExtension = this.fileExtension(file);
 
     let readerDelegate: ReaderDelegate;
     let reader: CompoundReader;
@@ -148,9 +178,6 @@ export class ThreeSceneService {
         readerDelegate = this.addGLTFFile;
         reader = this.readGLTFFile;
         contentSetter = this.setContent;
-        break;
-      case 'json':
-        readerDelegate = this.addJSONFile;
         break;
       case 'polygons':
         readerDelegate = this.addPolygonsFile;
@@ -353,11 +380,6 @@ export class ThreeSceneService {
       scene.add(sceneGLTF);
   }
 
-  public addJSONFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[], scene: THREE.Scene): void {
-    console.log('JSON file read.');
-    console.warn('JSON not implemented.');
-  }
-
   public addSTLFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
                     scene: THREE.Scene, finished: CallbackFinished): void {
     const url = URL.createObjectURL(blob);
@@ -373,7 +395,7 @@ export class ThreeSceneService {
     );
   }
 
-  private onFileLoadError(event : ErrorEvent, service : ThreeSceneService) : void {
+  private onFileLoadError(event : { message: string }, service : ThreeSceneService) : void {
       service.spinner.hide();
       service.errorDialog.open(ErrorDialogComponent, {
         width: '350px',
@@ -432,21 +454,21 @@ export class ThreeSceneService {
 
           const mesh = new THREE.Mesh(geometry, blob.service.material);
           scene.add(mesh);
-          finished();
         };
         for (const p of polygons) {
           addToScene(new Polygon3().copy(p as Polygon3));
         }
+        finished();
       } catch (e) {
-        console.error('Failure to read materials library: ' + e);
+        blob.service.onFileLoadError({ message: String(e) }, blob.service);
       }
     };
     onload.bind(this);
 
     fileReader.onload = onload;
 
-    fileReader.onerror = (error) => {
-      console.error('Failure to read file: ' + error);
+    fileReader.onerror = () => {
+      blob.service.onFileLoadError({ message: String(fileReader.error) }, blob.service);
     };
 
     fileReader.readAsText(blob, 'UTF-8');
