@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, DestroyRef } from '@angular/core';
 import * as THREE from 'three';
 import {
   describeProgress,
@@ -62,7 +62,11 @@ export class PhotorealisticEditorComponent {
     { value: 'colour', name: 'Colour' },
   ];
 
-  constructor(public raytrace: RaytraceService) { }
+  constructor(public raytrace: RaytraceService, changeDetector: ChangeDetectorRef, destroyRef: DestroyRef) {
+    // The mode can change outside this tab, such as by the Z shortcut or by closing the window.
+    const subscription = raytrace.changed.subscribe(() => changeDetector.markForCheck());
+    destroyRef.onDestroy(() => subscription.unsubscribe());
+  }
 
   get settings(): RaytraceSettings {
     return this.raytrace.settings;

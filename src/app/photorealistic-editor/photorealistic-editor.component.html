@@ -3,7 +3,7 @@
         <mat-card-title>Ray tracing</mat-card-title>
     </mat-card-header>
     <mat-toolbar>
-        <button mat-icon-button class="example-icon" matTooltip="Ray trace in the main view" aria-label="Ray trace in the main view"
+        <button mat-icon-button class="example-icon" matTooltip="Ray trace in the main view (Z switches)" aria-label="Ray trace in the main view"
             (click)="onModeChange('view')" [color]="raytrace.mode === 'view' ? 'primary' : undefined">
             <mat-icon>photo_camera</mat-icon>
         </button>
@@ -11,7 +11,7 @@
             (click)="onModeChange('window')" [color]="raytrace.mode === 'window' ? 'primary' : undefined">
             <mat-icon>open_in_new</mat-icon>
         </button>
-        <button mat-icon-button class="example-icon" matTooltip="Turn ray tracing off" aria-label="Turn ray tracing off"
+        <button mat-icon-button class="example-icon" matTooltip="Turn ray tracing off (Z switches)" aria-label="Turn ray tracing off"
             (click)="onModeChange('off')" [disabled]="!active">
             <mat-icon>videocam_off</mat-icon>
         </button>
@@ -38,6 +38,9 @@
                     </mat-select>
                 </mat-form-field>
             </div>
+        </div>
+        <div class="row hint">
+            <div class="col">Press Z to switch between the three.js view and the ray traced view.</div>
         </div>
         <div class="row progress" *ngIf="active && (raytrace.progress | async) as progress">
             <div class="col">

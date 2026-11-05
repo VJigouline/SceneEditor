@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit, ElementRef, HostListener } from '@angular/core';
 import { Material } from '../materials/material';
 import { SceneViewComponent } from '../scene-view/scene-view.component';
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
@@ -38,6 +38,12 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
     private spinner : NgxSpinnerService,
     private raytrace: RaytraceService,
     ) { }
+
+  /** Z switches between the three.js view and the ray traced view, as in Blender. */
+  @HostListener('document:keydown', ['$event'])
+  public onKeyDown(event: KeyboardEvent): void {
+    this.raytrace.handleShortcut(event);
+  }
 
   ngOnInit() {
     this.Width = this.elRef.nativeElement.width;

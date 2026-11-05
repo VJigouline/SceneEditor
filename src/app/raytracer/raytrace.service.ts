@@ -116,6 +116,32 @@ export class RaytraceService {
   }
 
   /**
+   * Switches between the two views, as Z does: the three.js view, and the ray traced image in
+   * the main view. From the separate window, it goes back to the three.js view.
+   */
+  toggleView(): void {
+    this.setMode(this.mode === 'off' ? 'view' : 'off');
+  }
+
+  /**
+   * Handles the Z shortcut for a keydown event, returning true when it switched the view.
+   * Z with Ctrl, Cmd or Alt, such as Ctrl+Z for undo, and Z typed into a text field or a list
+   * are left alone.
+   */
+  handleShortcut(event: KeyboardEvent): boolean {
+    if (event.key !== 'z' && event.key !== 'Z') { return false; }
+    if (event.ctrlKey || event.metaKey || event.altKey || event.repeat || event.defaultPrevented) { return false; }
+    const target = event.target as Element | null;
+    if (target && typeof target.closest === 'function' &&
+        target.closest('input, textarea, select, [contenteditable=""], [contenteditable="true"], mat-select, [role="combobox"], [role="listbox"], [role="option"]')) {
+      return false;
+    }
+    event.preventDefault();
+    this.toggleView();
+    return true;
+  }
+
+  /**
    * Shows ray tracing in the main view, in a separate window, or turns it off. Opening the
    * window must happen in response to a click, or the browser may block it.
    */
@@ -275,6 +301,8 @@ export class RaytraceService {
       background: '#f5f5f5', borderTop: '1px solid #ddd', boxSizing: 'border-box'
     });
     doc.body.append(canvas, status);
+    // Z in the separate window switches back to the three.js view, as it does in the editor.
+    popup.addEventListener('keydown', event => this.zone.run(() => this.handleShortcut(event)));
     this.popup = popup;
     this.popupCanvas = canvas;
     this.popupStatus = status;

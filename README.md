@@ -38,7 +38,7 @@ This project is not finished. Drop GLTF/GLB (file or folder), Collada (file or f
 
 ### Photorealistic tab
 
-The **Photorealistic** tab ray traces the scene, with shadows and reflections, progressively and in Web Workers, using [MeerCADRaytracer](https://github.com/VJigouline/MeerCADRaytracer). The ray traced image can replace the main 3D view or appear in a separate browser window that follows the main view's camera. The tab sets samples, bounces, resolution, preview, worker threads, shadows, global illumination, tone mapping, exposure, colour space and background, and saves the image as a PNG. See [Ray tracing](https://github.com/VJigouline/SceneEditor/wiki/Ray-Tracing) in the wiki.
+The **Photorealistic** tab ray traces the scene, with shadows and reflections, progressively and in Web Workers, using [MeerCADRaytracer](https://github.com/VJigouline/MeerCADRaytracer). The ray traced image can replace the main 3D view or appear in a separate browser window that follows the main view's camera. Press **Z** to switch between the three.js view and the ray traced view, as in Blender. The tab sets samples, bounces, resolution, preview, worker threads, shadows, global illumination, tone mapping, exposure, colour space and background, and saves the image as a PNG. See [Ray tracing](https://github.com/VJigouline/SceneEditor/wiki/Ray-Tracing) in the wiki.
 
 ![Scene](Images/Scene2.png)
 _The image is made from the GLTF model loaded into **SceneEditor**. The model can be found on [NASA Ingenuity page](https://mars.nasa.gov/resources/25043/mars-ingenuity-helicopter-3d-model/?site=insight). After loading model will look dark due to darker materials. Lights intensity should be increased in the **Light Editor**_
