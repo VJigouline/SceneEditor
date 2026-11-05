@@ -1,0 +1,211 @@
+<mat-card class="shipping-card">
+    <mat-card-header>
+        <mat-card-title>Ray tracing</mat-card-title>
+    </mat-card-header>
+    <mat-toolbar>
+        <button mat-icon-button class="example-icon" matTooltip="Ray trace in the main view" aria-label="Ray trace in the main view"
+            (click)="onModeChange('view')" [color]="raytrace.mode === 'view' ? 'primary' : undefined">
+            <mat-icon>photo_camera</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" matTooltip="Ray trace in a separate window" aria-label="Ray trace in a separate window"
+            (click)="onModeChange('window')" [color]="raytrace.mode === 'window' ? 'primary' : undefined">
+            <mat-icon>open_in_new</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" matTooltip="Turn ray tracing off" aria-label="Turn ray tracing off"
+            (click)="onModeChange('off')" [disabled]="!active">
+            <mat-icon>videocam_off</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" matTooltip="Start the image again" aria-label="Start the image again"
+            (click)="onRestart()" [disabled]="!active">
+            <mat-icon>refresh</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" matTooltip="Stop tracing" aria-label="Stop tracing"
+            (click)="onStop()" [disabled]="!active || (raytrace.progress | async)?.done || (raytrace.progress | async)?.stopped">
+            <mat-icon>stop</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" matTooltip="Save image" aria-label="Save image"
+            (click)="onSave()" [disabled]="!active">
+            <mat-icon>file_download</mat-icon>
+        </button>
+    </mat-toolbar>
+    <mat-card-content>
+        <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width">
+                    <mat-label>Show ray traced image</mat-label>
+                    <mat-select [value]="raytrace.mode" (selectionChange)="onModeChange($event.value)">
+                        <mat-option *ngFor="let option of modeOptions" [value]="option.value">{{option.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row progress" *ngIf="active && (raytrace.progress | async) as progress">
+            <div class="col">
+                <span>{{ describe(progress) }}</span>
+                <mat-progress-bar mode="determinate"
+                    [value]="progress.maxSamples ? 100 * progress.samples / progress.maxSamples : 0"></mat-progress-bar>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title>Quality</mat-card-title>
+                    </mat-card-header>
+                    <mat-toolbar>
+                        <button mat-icon-button class="example-icon" matTooltip="Reset all ray tracing settings" aria-label="Reset all ray tracing settings"
+                            (click)="onReset()">
+                            <mat-icon>settings_backup_restore</mat-icon>
+                        </button>
+                    </mat-toolbar>
+                    <mat-card-content>
+                        <div class="row">
+                            <div class="col">
+                                <mat-form-field class="full-width">
+                                    <mat-label>Samples per pixel</mat-label>
+                                    <mat-select [(value)]="settings.samples" (selectionChange)="onChange()">
+                                        <mat-option *ngFor="let option of sampleOptions" [value]="option">{{option}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col label">
+                                Bounces {{settings.maxBounces}}
+                                <mat-slider min="0" max="16" step="1" discrete>
+                                    <input matSliderThumb [(value)]="settings.maxBounces" (valueChange)="onChange()">
+                                </mat-slider>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <mat-form-field class="full-width">
+                                    <mat-label>Resolution</mat-label>
+                                    <mat-select [(value)]="settings.resolution" (selectionChange)="onChange()">
+                                        <mat-option *ngFor="let option of resolutionOptions" [value]="option.value">{{option.name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <mat-form-field class="full-width">
+                                    <mat-label>Preview</mat-label>
+                                    <mat-select [(value)]="settings.previewBlock" (selectionChange)="onChange()">
+                                        <mat-option *ngFor="let option of previewOptions" [value]="option.value">{{option.name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col label">
+                                Worker threads {{settings.workers}}
+                                <mat-slider min="1" [max]="raytrace.maxWorkers" step="1" discrete>
+                                    <input matSliderThumb [(value)]="settings.workers" (valueChange)="onChange()">
+                                </mat-slider>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title>Lighting</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <div class="row">
+                            <div class="col">
+                                <mat-form-field class="full-width">
+                                    <mat-label>Shadows</mat-label>
+                                    <mat-select [(value)]="settings.shadows" (selectionChange)="onChange()">
+                                        <mat-option *ngFor="let option of shadowOptions" [value]="option.value">{{option.name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <mat-checkbox [(ngModel)]="settings.globalIllumination" (change)="onChange()"
+                                matTooltip="Light also bounces off ordinary surfaces. Needs 256 samples or more.">
+                                Global illumination
+                            </mat-checkbox>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title>Image</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <div class="row">
+                            <div class="col">
+                                <mat-form-field class="full-width">
+                                    <mat-label>Tone mapping</mat-label>
+                                    <mat-select [(value)]="settings.toneMapping" (selectionChange)="onChange()">
+                                        <mat-option *ngFor="let option of toneMappingOptions" [value]="option.value">{{option.name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col label">
+                                Exposure {{settings.exposure}}
+                                <mat-slider min="0" max="4" step="0.05" [disabled]="!exposureApplies">
+                                    <input matSliderThumb [(value)]="settings.exposure" (valueChange)="onChange()">
+                                </mat-slider>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <mat-form-field class="full-width">
+                                    <mat-label>Colour space</mat-label>
+                                    <mat-select [(value)]="settings.colorSpace" (selectionChange)="onChange()">
+                                        <mat-option *ngFor="let option of colorSpaceOptions" [value]="option.value">{{option.name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <mat-form-field class="full-width">
+                                    <mat-label>Background</mat-label>
+                                    <mat-select [(value)]="settings.background" (selectionChange)="onChange()">
+                                        <mat-option *ngFor="let option of backgroundOptions" [value]="option.value">{{option.name}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="settings.background === 'colour'">
+                            <div class="col">
+                                <mat-form-field class="full-width">
+                                    <mat-label>Background colour</mat-label>
+                                    <input matInput placeholder="Background colour"
+                                    cpAlphaChannel="disabled"
+                                    [value]="settings.backgroundColour"
+                                    [style.background]="settings.backgroundColour"
+                                    cpPosition="auto"
+                                    [cpUseRootViewContainer]="true"
+                                    [colorPicker]="settings.backgroundColour"
+                                    (colorPickerChange)="onBackgroundColourChange($event)"
+                                    >
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <mat-checkbox [(ngModel)]="settings.keepProportions" (change)="onChange()"
+                                matTooltip="In the separate window, show the main view's proportions instead of stretching to the window.">
+                                Keep proportions in the separate window
+                            </mat-checkbox>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

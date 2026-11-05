@@ -51,7 +51,7 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
     this.threeView.AreaHeight = event.newHeight;
     this.threeView.setCameraSize(this.threeView.AreaWidth, this.threeView.AreaHeight);
     this.sceneService.renderer.setSize(this.threeView.AreaWidth, this.threeView.AreaHeight - 4);
-    this.raytrace.setSize(this.threeView.AreaWidth, this.threeView.AreaHeight - 4);
+    this.raytrace.setViewSize(this.threeView.AreaWidth, this.threeView.AreaHeight - 4);
   }
 
   public onEditorResized(event: ResizedEvent): void {

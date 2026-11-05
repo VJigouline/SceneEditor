@@ -1,0 +1,34 @@
+.full-width {
+  width: 100%;
+}
+
+.shipping-card {
+  min-width: 120px;
+  margin: 20px auto;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 8px;
+}
+
+.col {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.col:last-child {
+  margin-right: 0;
+}
+
+.label mat-slider {
+  display: block;
+  width: 100%;
+}
+
+.progress span {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 4px;
+}

@@ -87,7 +87,7 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     // console.log(`OnResize. New width: ${event.newWidth}, new height: ${event.newHeight}`);
     this.AreaWidth = event.newWidth;
     this.sceneService.renderer.setSize(this.AreaWidth, this.AreaHeight - 4);
-    this.raytrace.setSize(this.AreaWidth, this.AreaHeight - 4);
+    this.raytrace.setViewSize(this.AreaWidth, this.AreaHeight - 4);
     this.setCameraSize(this.AreaWidth, this.AreaHeight);
     this.Render();
   }
@@ -118,7 +118,7 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     renderer.setSize(this.AreaWidth, this.AreaHeight);
     this.container.nativeElement.appendChild( renderer.domElement );
     this.raytrace.attach(this.container.nativeElement, renderer);
-    this.raytrace.setSize(this.AreaWidth, this.AreaHeight);
+    this.raytrace.setViewSize(this.AreaWidth, this.AreaHeight);
     this.raytrace.changed.subscribe(() => this.Render());
 
     this.sceneService.orbitControls = new OrbitControls( this.sceneService.camera, renderer.domElement );

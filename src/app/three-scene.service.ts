@@ -560,18 +560,18 @@ export class ThreeSceneService {
     this.renderView();
   }
 
-  /** Draws the view: with WebGL, or by ray tracing it when the ray traced view is on. */
+  /** Draws the view with WebGL, and ray traces it in the main view or a separate window when that is on. */
   public renderView(): void {
     if (!this.renderer) { return; }
-    if (this.raytrace.enabled) {
+    if (this.raytrace.mode === 'view') {
       // The WebGL canvas stays, cleared, under the ray traced canvas: its CSS background shows
       // through, and it still takes the mouse for the orbit and selection controls.
       this.renderer.clear();
-      this.raytrace.render(this.getScene(), this.camera);
     } else {
-      this.raytrace.hide();
       this.renderer.render(this.getScene(), this.camera);
     }
+    // Ray traces in the main view or the separate window; does nothing when ray tracing is off.
+    this.raytrace.render(this.getScene(), this.camera);
   }
 
   public removeObjectFromScene(object: THREE.Object3D, scene: THREE.Scene = null): void {

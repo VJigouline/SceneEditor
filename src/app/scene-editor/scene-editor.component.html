@@ -31,6 +31,9 @@
                     (changedMaterial)="onMaterialChange($event)"
                     ></app-materials-library-editor>
                 </mat-tab>
+                <mat-tab label="Photorealistic" class="tabheader">
+                    <app-photorealistic-editor></app-photorealistic-editor>
+                </mat-tab>
                 <mat-tab label="Scene" class="tabheader">
                     <app-scene (sceneChanged)="onSceneChange($event)" (filesOpened)="onFilesOpened($event)"></app-scene>
                 </mat-tab>
