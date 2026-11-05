@@ -312,8 +312,9 @@ export class RaytraceService {
   }
 }
 
-/** One line of progress, such as "Tracing: 12 of 64 samples, 3.4 s". */
+/** One line of progress, such as "Tracing: 12 of 64 samples, 3.4 s", or why tracing failed. */
 export function describeProgress(progress: RaytracingProgress): string {
+  if (progress.error) { return `Ray tracing failed: ${progress.error}`; }
   const state = progress.done ? 'Done' : progress.stopped ? 'Stopped' : 'Tracing';
   const seconds = (progress.elapsed / 1000).toFixed(1);
   return `${state}: ${progress.samples} of ${progress.maxSamples} samples, ${seconds} s`;
