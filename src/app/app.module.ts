@@ -36,6 +36,9 @@ import { MatTooltipModule } from '@angular/material/tooltip'
 import { TexturesModule } from './textures/textures.module';
 import { NgxSpinner, NgxSpinnerModule } from 'ngx-spinner';
 import { ModelEditorComponent } from './model-editor/model-editor.component';
+import { RaytraceSettingsComponent } from './raytrace-settings/raytrace-settings.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,8 @@ import { ModelEditorComponent } from './model-editor/model-editor.component';
     SceneComponent,
     SceneModifierComponent,
     MaterialsLibraryEditorComponent,
-    ModelEditorComponent
+    ModelEditorComponent,
+    RaytraceSettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -68,6 +72,8 @@ import { ModelEditorComponent } from './model-editor/model-editor.component';
     MatSliderModule,
     MatToolbarModule,
     MatTooltipModule,
+    MatSlideToggleModule,
+    MatProgressBarModule,
     ReactiveFormsModule,
     ColorPickerDirective,
     NgxFileDropModule,

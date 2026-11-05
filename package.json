@@ -24,6 +24,7 @@
     "angular-split": "^20.0.0",
     "core-js": "^3.51.0",
     "file-saver": "^2.0.5",
+    "meercad-raytracer": "github:VJigouline/MeerCADRaytracer#70ecca89abc82accadd6e0a0a200930ad29746b7",
     "ngx-color-picker": "^20.1.1",
     "ngx-file-drop": "^16.0.0",
     "ngx-spinner": "^22.0.1",
@@ -37,19 +38,19 @@
     "zone.js": "^0.16.3"
   },
   "devDependencies": {
+    "@angular/build": "^22.2.5",
     "@angular/cli": "^22.2.5",
     "@angular/compiler-cli": "^22.2.4",
     "@angular/language-service": "^22.2.4",
     "@types/jasmine": "~6.0.0",
     "@types/node": "^26.6.6",
     "jasmine-core": "~6.3.0",
-    "typescript": "~6.0.3",
-    "@angular/build": "^22.2.5",
     "karma": "^6.4.4",
     "karma-chrome-launcher": "^3.2.0",
     "karma-coverage": "^2.2.1",
     "karma-jasmine": "^5.1.0",
-    "karma-jasmine-html-reporter": "^2.3.0"
+    "karma-jasmine-html-reporter": "^2.3.0",
+    "typescript": "~6.0.3"
   },
   "engines": {
     "node": "^22.22.3 || ^24.15.0 || >=26.0.0",

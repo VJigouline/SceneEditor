@@ -20,6 +20,7 @@ import { HoverControl } from './threejs-extensions/hover-control';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './user-controls/error-dialog/error-dialog.component';
+import { RaytraceService } from './raytracer/raytrace.service';
 
 interface ViewerFile extends File {
   relativePath: string;
@@ -61,6 +62,7 @@ export class ThreeSceneService {
     private lightsLibraryService: LightsLibraryService,
     private spinner : NgxSpinnerService,
     private errorDialog: MatDialog,
+    private raytrace: RaytraceService,
   ) { }
 
   public getScene(): THREE.Scene {
@@ -555,7 +557,21 @@ export class ThreeSceneService {
   }
 
   private Render(): void {
-    this.renderer.render(this.getScene(), this.camera);
+    this.renderView();
+  }
+
+  /** Draws the view: with WebGL, or by ray tracing it when the ray traced view is on. */
+  public renderView(): void {
+    if (!this.renderer) { return; }
+    if (this.raytrace.enabled) {
+      // The WebGL canvas stays, cleared, under the ray traced canvas: its CSS background shows
+      // through, and it still takes the mouse for the orbit and selection controls.
+      this.renderer.clear();
+      this.raytrace.render(this.getScene(), this.camera);
+    } else {
+      this.raytrace.hide();
+      this.renderer.render(this.getScene(), this.camera);
+    }
   }
 
   public removeObjectFromScene(object: THREE.Object3D, scene: THREE.Scene = null): void {

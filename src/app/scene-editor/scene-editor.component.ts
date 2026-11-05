@@ -9,6 +9,7 @@ import { Light } from '../lights/light';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MaterialsLibraryEditorComponent } from '../materials-library-editor/materials-library-editor.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { RaytraceService } from '../raytracer/raytrace.service';
 
 @Component({
   standalone: false,
@@ -34,7 +35,8 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
   constructor(
     private sceneService: ThreeSceneService,
     private elRef: ElementRef,
-    private spinner : NgxSpinnerService
+    private spinner : NgxSpinnerService,
+    private raytrace: RaytraceService,
     ) { }
 
   ngOnInit() {
@@ -49,6 +51,7 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
     this.threeView.AreaHeight = event.newHeight;
     this.threeView.setCameraSize(this.threeView.AreaWidth, this.threeView.AreaHeight);
     this.sceneService.renderer.setSize(this.threeView.AreaWidth, this.threeView.AreaHeight - 4);
+    this.raytrace.setSize(this.threeView.AreaWidth, this.threeView.AreaHeight - 4);
   }
 
   public onEditorResized(event: ResizedEvent): void {

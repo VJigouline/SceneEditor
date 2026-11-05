@@ -7,6 +7,7 @@ import { Material } from '../materials/material';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { RaytraceService } from '../raytracer/raytrace.service';
 
 @Component({
   standalone: false,
@@ -30,7 +31,8 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
 
   constructor(
     private sceneService: ThreeSceneService,
-    private spinner : NgxSpinnerService
+    private spinner : NgxSpinnerService,
+    private raytrace: RaytraceService,
   ) { }
 
   ngOnInit() {
@@ -85,6 +87,7 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     // console.log(`OnResize. New width: ${event.newWidth}, new height: ${event.newHeight}`);
     this.AreaWidth = event.newWidth;
     this.sceneService.renderer.setSize(this.AreaWidth, this.AreaHeight - 4);
+    this.raytrace.setSize(this.AreaWidth, this.AreaHeight - 4);
     this.setCameraSize(this.AreaWidth, this.AreaHeight);
     this.Render();
   }
@@ -114,6 +117,9 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     renderer.setClearColor(0, 0);
     renderer.setSize(this.AreaWidth, this.AreaHeight);
     this.container.nativeElement.appendChild( renderer.domElement );
+    this.raytrace.attach(this.container.nativeElement, renderer);
+    this.raytrace.setSize(this.AreaWidth, this.AreaHeight);
+    this.raytrace.changed.subscribe(() => this.Render());
 
     this.sceneService.orbitControls = new OrbitControls( this.sceneService.camera, renderer.domElement );
     // OrbitControl prevents wheel event bubbling. This settings is to redraw after zoom.
@@ -145,7 +151,7 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     if (this.currentMaterial === undefined && this.materials.length > 0) {
       this.currentMaterial = this.materials[0];
     }
-    this.sceneService.renderer.render(this.sceneService.getScene(), this.sceneService.camera);
+    this.sceneService.renderView();
   }
 
   public setCameraSize(width: number, height: number): void {
