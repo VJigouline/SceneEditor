@@ -6,7 +6,8 @@
         cpAlphaChannel="disabled"
         [value] = "this.Material.colour"
         [style.background]="this.Material.colour"
-        [cpPosition] = "'bottom'"
+        cpPosition="auto"
+        [cpUseRootViewContainer]="true"
         [(colorPicker)]="this.Material.colour"
         (colorPickerChange)="onColourChanged($event)"
         >
@@ -21,7 +22,8 @@
         cpAlphaChannel="disabled"
         [value] = "this.Material.emissive"
         [style.background]="this.Material.emissive"
-        [cpPosition] = "'bottom'"
+        cpPosition="auto"
+        [cpUseRootViewContainer]="true"
         [(colorPicker)]="this.Material.emissive"
         (colorPickerChange)="onColourChanged($event)"
         >

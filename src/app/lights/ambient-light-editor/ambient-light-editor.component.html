@@ -6,7 +6,8 @@
         cpAlphaChannel="disabled"
         [value] = "this.Light.colour"
         [style.background]="this.Light.colour"
-        [cpPosition] = "'bottom'"
+        cpPosition="auto"
+        [cpUseRootViewContainer]="true"
         [(colorPicker)]="this.Light.colour"
         (colorPickerChange)="onColourChanged($event)"
         >

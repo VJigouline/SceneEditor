@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewContainerRef } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
@@ -13,7 +13,8 @@ export class AppComponent implements OnInit {
   Width: number;
   Height: number;
 
-  constructor(private spinner : NgxSpinnerService) {}
+  // vcRef is read by name by ngx-color-picker's cpUseRootViewContainer option.
+  constructor(private spinner : NgxSpinnerService, public vcRef: ViewContainerRef) {}
 
   ngOnInit() {
     // console.log('OnInit.');
