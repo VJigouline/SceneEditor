@@ -47,3 +47,6 @@ Thumbs.db
 
 # Angular cache
 /.angular/cache
+
+# Test models kept in the project root
+/*.glb
