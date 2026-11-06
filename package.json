@@ -24,6 +24,7 @@
     "angular-split": "^20.0.0",
     "core-js": "^3.51.0",
     "file-saver": "^2.0.5",
+    "meercad-ifc-import": "github:VJigouline/MeerCADIFCImport#54548ef613fb4cf2cc6d63eeb914549673aba8fe",
     "meercad-raytracer": "github:VJigouline/MeerCADRaytracer#a01f4e91abcc30a8720aff9ecdb640ea06bbf79c",
     "ngx-color-picker": "^20.1.1",
     "ngx-file-drop": "^16.0.0",

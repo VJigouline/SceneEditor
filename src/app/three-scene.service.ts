@@ -21,6 +21,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './user-controls/error-dialog/error-dialog.component';
 import { RaytraceService } from './raytracer/raytrace.service';
+import { loadIfc } from 'meercad-ifc-import';
 
 interface ViewerFile extends File {
   relativePath: string;
@@ -46,7 +47,7 @@ type ContentSetter = (scene: THREE.Scene, sceneGLTF: THREE.Scene, clips: THREE.A
 })
 
 export class ThreeSceneService {
-  private static readonly modelExtensions = ['glb', 'gltf', 'dae', 'stl', 'polygons'];
+  private static readonly modelExtensions = ['glb', 'gltf', 'dae', 'stl', 'ifc', 'polygons'];
 
   private scene: THREE.Scene;
   public camera: THREE.OrthographicCamera;
@@ -199,6 +200,9 @@ export class ThreeSceneService {
         break;
       case 'stl':
         readerDelegate = this.addSTLFile;
+        break;
+      case 'ifc':
+        readerDelegate = this.addIfcFile;
         break;
       default:
         console.warn(`'${fileExtension}' is unsupported file type.`);
@@ -410,6 +414,28 @@ export class ThreeSceneService {
     );
   }
 
+  /** Reads an IFC file (IFC2X3 or any schema of the IFC4 line) with MeerCADIFCImport. */
+  public addIfcFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
+                    scene: THREE.Scene, finished: CallbackFinished): void {
+    const service = blob.service;
+    const fail = (error: unknown) =>
+      service.onFileLoadError({ message: error instanceof Error ? error.message : String(error) }, service);
+    blob.arrayBuffer().then(data => {
+      // Give the spinner a frame to appear: the import runs in the page.
+      setTimeout(() => {
+        try {
+          const result = loadIfc(data);
+          for (const warning of result.warnings) { console.warn(`IFC import (${result.schema.id}): ${warning}`); }
+          result.group.name = file.relativePath;
+          scene.add(result.group);
+          finished();
+        } catch (error) {
+          fail(error);
+        }
+      }, 0);
+    }, fail);
+  }
+
   private onFileLoadError(event : { message: string }, service : ThreeSceneService) : void {
       service.spinner.hide();
       service.errorDialog.open(ErrorDialogComponent, {
@@ -609,6 +635,9 @@ export class ThreeSceneService {
   }
 
   public getSceneBox(): THREE.Box3 {
+    // Bring world matrices up to date first: a model just added under a scaled or moved group
+    // hasn't been rendered yet, so its meshes' world matrices would still be stale.
+    this.scene?.updateMatrixWorld(true);
 
     let box = this.sceneBox(this.scene, true);
     if (!box) {
@@ -622,17 +651,19 @@ export class ThreeSceneService {
     if (!scene) { return; }
 
     let box: THREE.Box3;
+    // three.js type flags rather than instanceof, so objects made by another copy of three.js count.
+    const kind = (o: THREE.Object3D) => o as THREE.Object3D & { isLight?: boolean; isMesh?: boolean; isScene?: boolean; isGroup?: boolean };
     for (const object of scene.children) {
-      if (object instanceof THREE.Light) {
+      if (kind(object).isLight) {
         continue;
-      } else if (object instanceof THREE.Mesh) {
+      } else if (kind(object).isMesh) {
         if (box) {
           box = box.union(new THREE.Box3().setFromObject(object));
         } else {
           box = new THREE.Box3().setFromObject(object);
         }
       } else if ((!start && object.children.length > 0) ||
-        (object instanceof THREE.Scene) || (object instanceof THREE.Group)) {
+        kind(object).isScene || kind(object).isGroup) {
         if (box) {
           const b = this.sceneBox(object, false);
           if (b) { box = box.union(b); }
