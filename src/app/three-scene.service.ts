@@ -22,6 +22,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './user-controls/error-dialog/error-dialog.component';
 import { RaytraceService } from './raytracer/raytrace.service';
 import { loadIfc } from 'meercad-ifc-import';
+import { loadStepAsync } from 'meercad-step-import';
 
 interface ViewerFile extends File {
   relativePath: string;
@@ -47,7 +48,7 @@ type ContentSetter = (scene: THREE.Scene, sceneGLTF: THREE.Scene, clips: THREE.A
 })
 
 export class ThreeSceneService {
-  private static readonly modelExtensions = ['glb', 'gltf', 'dae', 'stl', 'ifc', 'polygons'];
+  private static readonly modelExtensions = ['glb', 'gltf', 'dae', 'stl', 'ifc', 'stp', 'step', 'p21', 'stpz', 'polygons'];
 
   private scene: THREE.Scene;
   public camera: THREE.OrthographicCamera;
@@ -203,6 +204,12 @@ export class ThreeSceneService {
         break;
       case 'ifc':
         readerDelegate = this.addIfcFile;
+        break;
+      case 'stp':
+      case 'step':
+      case 'p21':
+      case 'stpz':
+        readerDelegate = this.addStepFile;
         break;
       default:
         console.warn(`'${fileExtension}' is unsupported file type.`);
@@ -432,6 +439,25 @@ export class ThreeSceneService {
         } catch (error) {
           fail(error);
         }
+      }, 0);
+    }, fail);
+  }
+
+  /** Reads a STEP file (AP203, AP214, AP242 and others; .stpz gzip-compressed) with MeerCADStepImport. */
+  public addStepFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
+                     scene: THREE.Scene, finished: CallbackFinished): void {
+    const service = blob.service;
+    const fail = (error: unknown) =>
+      service.onFileLoadError({ message: error instanceof Error ? error.message : String(error) }, service);
+    blob.arrayBuffer().then(data => {
+      // Give the spinner a frame to appear: the import runs in the page.
+      setTimeout(() => {
+        loadStepAsync(data).then(result => {
+          for (const warning of result.warnings) { console.warn(`STEP import (${result.schema.protocol}): ${warning}`); }
+          result.group.name = file.relativePath;
+          scene.add(result.group);
+          finished();
+        }, fail);
       }, 0);
     }, fail);
   }

@@ -34,11 +34,19 @@ See the [user guide](https://github.com/VJigouline/SceneEditor/wiki) in the wiki
 
 Working version at [scene.meercad.com](http://scene.meercad.com). This site runs an older build than Version 2.0.
 
-This project is not finished. Drop GLTF/GLB (file or folder), Collada (file or folder), STL, IFC or `.polygons` files into graphics area on the left, or choose files with **Open files** on the **Scene** tab, and try using controls. Scenes saved as GLTF can be loaded the same way, but scenes saved in the three.js `scene.json` format can't be loaded back into **SceneEditor**.
+This project is not finished. Drop GLTF/GLB (file or folder), Collada (file or folder), STL, IFC, STEP or `.polygons` files into graphics area on the left, or choose files with **Open files** on the **Scene** tab, and try using controls. Scenes saved as GLTF can be loaded the same way, but scenes saved in the three.js `scene.json` format can't be loaded back into **SceneEditor**.
 
 ### IFC models
 
 IFC files (`.ifc`) are read by [MeerCADIFCImport](https://github.com/VJigouline/MeerCADIFCImport): IFC2X3 and every schema of the IFC4 line (IFC2X4, IFC4 with its addenda, IFC4X1, IFC4X2 and IFC4X3), with the schema version detected from the file. Elements come with their colours, in their spatial structure, with their properties in `userData.ifc`.
+
+### STEP models
+
+STEP files (`.stp`, `.step`, `.p21`, and gzip-compressed `.stpz`) are read by [MeerCADStepImport](https://github.com/VJigouline/MeerCADStepImport). It reads AP203, AP214 and AP242, with the application protocol detected from the file.
+
+- **Solids:** B-rep solids with planar, analytic and NURBS faces are tessellated into watertight meshes.
+- **Structure:** parts come in their assembly structure, in metres, with the file's colours.
+- **Data:** product data is in `userData.step`.
 
 ### Photorealistic tab
 
