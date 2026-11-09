@@ -26,7 +26,7 @@
     "file-saver": "^2.0.5",
     "meercad-ifc-import": "github:VJigouline/MeerCADIFCImport#54548ef613fb4cf2cc6d63eeb914549673aba8fe",
     "meercad-raytracer": "github:VJigouline/MeerCADRaytracer#a01f4e91abcc30a8720aff9ecdb640ea06bbf79c",
-    "meercad-step-import": "github:VJigouline/MeerCADStepImport#d9e68ef18396104a7274ca44729d7de1c686cbea",
+    "meercad-step-import": "github:VJigouline/MeerCADStepImport#4501440d94efc835a99c54e982d4db780d5bf331",
     "ngx-color-picker": "^20.1.1",
     "ngx-file-drop": "^16.0.0",
     "ngx-spinner": "^22.0.1",
