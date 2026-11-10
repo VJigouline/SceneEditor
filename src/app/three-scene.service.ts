@@ -452,7 +452,12 @@ export class ThreeSceneService {
     blob.arrayBuffer().then(data => {
       // Give the spinner a frame to appear: the import runs in the page.
       setTimeout(() => {
-        loadStepAsync(data).then(result => {
+        // Large files are tessellated in workers, several at once; small ones are quicker here
+        // than the workers take to start.
+        const workers = data.byteLength >= 2_000_000 && typeof Worker !== 'undefined'
+          ? { create: () => new Worker(new URL('./step.worker', import.meta.url), { type: 'module' }) }
+          : undefined;
+        loadStepAsync(data, { workers }).then(result => {
           for (const warning of result.warnings) { console.warn(`STEP import (${result.schema.protocol}): ${warning}`); }
           result.group.name = file.relativePath;
           scene.add(result.group);
