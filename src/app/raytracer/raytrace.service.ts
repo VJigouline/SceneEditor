@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { saveAs } from 'file-saver';
-import { RaytracingRenderer, type RaytracingProgress } from 'meercad-raytracer';
+import { RaytracingRenderer, type RaytracingProgress } from 'mc-raytracer';
 import { BehaviorSubject, Subject } from 'rxjs';
 import * as THREE from 'three';
 import { ErrorDialogComponent } from '../user-controls/error-dialog/error-dialog.component';
