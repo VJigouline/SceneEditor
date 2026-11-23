@@ -38,7 +38,7 @@ This project is not finished. Drop GLTF/GLB (file or folder), Collada (file or f
 
 ### IFC models
 
-IFC files (`.ifc`) are read by [MeerCADIFCImport](https://github.com/VJigouline/MeerCADIFCImport): IFC2X3 and every schema of the IFC4 line (IFC2X4, IFC4 with its addenda, IFC4X1, IFC4X2 and IFC4X3), with the schema version detected from the file. Elements come with their colours, in their spatial structure, with their properties in `userData.ifc`.
+IFC files (`.ifc`) are read by [mc-ifc-import](https://github.com/VJigouline/mc-ifc-import): IFC2X3 and every schema of the IFC4 line (IFC2X4, IFC4 with its addenda, IFC4X1, IFC4X2 and IFC4X3), with the schema version detected from the file. Elements come with their colours, in their spatial structure, with their properties in `userData.ifc`.
 
 ### STEP models
 

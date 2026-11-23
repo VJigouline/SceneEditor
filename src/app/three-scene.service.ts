@@ -21,7 +21,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './user-controls/error-dialog/error-dialog.component';
 import { RaytraceService } from './raytracer/raytrace.service';
-import { loadIfc } from 'meercad-ifc-import';
+import { loadIfc } from 'mc-ifc-import';
 import { loadStepAsync } from 'mc-step-import';
 
 interface ViewerFile extends File {
@@ -421,7 +421,7 @@ export class ThreeSceneService {
     );
   }
 
-  /** Reads an IFC file (IFC2X3 or any schema of the IFC4 line) with MeerCADIFCImport. */
+  /** Reads an IFC file (IFC2X3 or any schema of the IFC4 line) with mc-ifc-import. */
   public addIfcFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
                     scene: THREE.Scene, finished: CallbackFinished): void {
     const service = blob.service;
