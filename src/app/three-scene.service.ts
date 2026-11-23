@@ -22,7 +22,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from './user-controls/error-dialog/error-dialog.component';
 import { RaytraceService } from './raytracer/raytrace.service';
 import { loadIfc } from 'meercad-ifc-import';
-import { loadStepAsync } from 'meercad-step-import';
+import { loadStepAsync } from 'mc-step-import';
 
 interface ViewerFile extends File {
   relativePath: string;
@@ -443,7 +443,7 @@ export class ThreeSceneService {
     }, fail);
   }
 
-  /** Reads a STEP file (AP203, AP214, AP242 and others; .stpz gzip-compressed) with MeerCADStepImport. */
+  /** Reads a STEP file (AP203, AP214, AP242 and others; .stpz gzip-compressed) with mc-step-import. */
   public addStepFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
                      scene: THREE.Scene, finished: CallbackFinished): void {
     const service = blob.service;
