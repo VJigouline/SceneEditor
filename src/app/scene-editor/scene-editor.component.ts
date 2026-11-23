@@ -22,6 +22,9 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
   @Input() Width: number;
   @Input() Height: number;
 
+  // The Model tab is hidden for now; set to true to bring it back.
+  showModelTab = false;
+
   ViewHeight = 100;
   ViewWidth = 100;
 
@@ -145,7 +148,8 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
   }
 
   public onSelectedTabChange(event: MatTabChangeEvent): void {
-    this.lightsLirbaryEditor.onSelectedTabChange(event.index);
-    this.materialEditor.onSelectedTabChange(event.index);
+    const label = event.tab.textLabel;
+    this.lightsLirbaryEditor.onSelectedTabChange(label === 'Lights');
+    this.materialEditor.onSelectedTabChange(label === 'Materials');
   }
 }

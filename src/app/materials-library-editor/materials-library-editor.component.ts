@@ -163,8 +163,8 @@ export class MaterialsLibraryEditorComponent implements OnInit {
     this.materialPreview.updateObject(null);
   }
 
-  public onSelectedTabChange(index: number) {
-    if (index === 2) {
+  public onSelectedTabChange(active: boolean) {
+    if (active) {
       this.activeTab = true;
       this.setHoverControl();
     } else {

@@ -109,8 +109,8 @@ export class LightsLibraryEditorComponent implements OnInit {
     this.changedLight.emit(null);
   }
 
-  public onSelectedTabChange(index: number) {
-    if (index === 0) {
+  public onSelectedTabChange(active: boolean) {
+    if (active) {
       this.lightEditor.updateSelection();
     } else {
       this.lightEditor.unsetLightHelper();
