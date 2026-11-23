@@ -375,7 +375,7 @@ export class ThreeSceneService {
     loader.setCrossOrigin('anonymous');
 
     const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath( '/assets/lib/draco/' );
+    dracoLoader.setDecoderPath( 'assets/lib/draco/' );
     loader.setDRACOLoader( dracoLoader );
 
     loader.load(fileUrl, (gltf) => {
