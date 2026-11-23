@@ -46,7 +46,7 @@ testem.log
 Thumbs.db
 
 # Angular cache
-/.angular/cache
+/.angular/
 
 # Test models kept in the project root
 /*.glb
