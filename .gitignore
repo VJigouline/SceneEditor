@@ -48,5 +48,8 @@ Thumbs.db
 # Angular cache
 /.angular/
 
+# Claude Code local settings
+/.claude/
+
 # Test models kept in the project root
 /*.glb
