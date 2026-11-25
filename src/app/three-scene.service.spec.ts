@@ -253,6 +253,18 @@ describe('ThreeSceneService', () => {
       service.addFiles([zipEntry('model.zip', zip([{ name: 'notes.txt', data: 'hello' }]))], () => fail('the load failed'));
       expect(await message).toContain('.scene, .mesh or .mesh.xml');
     });
+
+    it('opens a zip holding an OBJ model with the OBJ importer', (done) => {
+      const obj = 'mtllib red.mtl\nv 0 0 0\nv 1 0 0\nv 0 1 0\nusemtl Red\nf 1 2 3\n';
+      const files = [zipEntry('model.zip', zip([{ name: 'm/tri.obj', data: obj }, { name: 'm/red.mtl', data: 'newmtl Red\nKd 1 0 0\n' }]))];
+      service.addFiles(files, () => {
+        const group = service.getScene().children.find(c => c.name === 'model.zip');
+        let mesh: THREE.Mesh;
+        group.traverse(o => { if ((o as THREE.Mesh).isMesh) { mesh = o as THREE.Mesh; } });
+        expect((mesh.material as THREE.MeshStandardMaterial).name).toBe('Red');
+        done();
+      });
+    });
   });
 
   describe('Ogre files', () => {
@@ -316,6 +328,97 @@ describe('ThreeSceneService', () => {
 
       expect(spinner.show).not.toHaveBeenCalled();
       expect(dialog.open).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('other formats', () => {
+    const loaded = (name: string) => service.getScene().children.find(c => c.name === name);
+    const count = (o: THREE.Object3D, test: (o: THREE.Object3D) => boolean) => {
+      let n = 0;
+      o.traverse(c => { if (test(c)) { n++; } });
+      return n;
+    };
+    const isMesh = (o: THREE.Object3D) => (o as THREE.Mesh).isMesh;
+
+    /** Waits for the failure dialog and returns its message. */
+    function failure(): Promise<string> {
+      return new Promise(resolve => {
+        spinner.hide.and.callFake((() => {
+          setTimeout(() => resolve((dialog.open.calls.mostRecent().args[1].data as any).message));
+          return Promise.resolve();
+        }) as any);
+      });
+    }
+
+    it('loads an OBJ model with the material library beside it', (done) => {
+      const obj = 'mtllib red.mtl\nv 0 0 0\nv 1 0 0\nv 0 1 0\nusemtl Red\nf 1 2 3\n';
+      service.addFiles([entry('tri.obj', obj), entry('red.mtl', 'newmtl Red\nKd 1 0 0\n')], () => {
+        expect(dialog.open).not.toHaveBeenCalled();
+        const group = loaded('tri.obj');
+        expect(count(group, isMesh)).toBe(1);
+        let color: THREE.Color;
+        group.traverse(o => { if (isMesh(o)) { color = ((o as THREE.Mesh).material as THREE.MeshStandardMaterial).color; } });
+        expect(color.r).toBeCloseTo(1);
+        expect(color.g).toBeCloseTo(0);
+        done();
+      });
+    });
+
+    it('loads a PLY file', (done) => {
+      const ply = 'ply\nformat ascii 1.0\nelement vertex 3\nproperty float x\nproperty float y\nproperty float z\n' +
+        'element face 1\nproperty list uchar int vertex_indices\nend_header\n0 0 0\n1 0 0\n0 1 0\n3 0 1 2\n';
+      service.addFiles([entry('tri.ply', ply)], () => {
+        expect(count(loaded('tri.ply'), isMesh)).toBe(1);
+        done();
+      });
+    });
+
+    it('loads an SVG drawing', (done) => {
+      const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"><rect width="10" height="10" fill="#00ff00"/></svg>';
+      service.addFiles([entry('square.svg', svg)], () => {
+        expect(count(loaded('square.svg'), isMesh)).toBe(1);
+        done();
+      });
+    });
+
+    it('loads a USD layer', (done) => {
+      const usda = '#usda 1.0\n(\n    upAxis = "Y"\n)\ndef Mesh "Tri"\n{\n    int[] faceVertexCounts = [3]\n' +
+        '    int[] faceVertexIndices = [0, 1, 2]\n    point3f[] points = [(0, 0, 0), (1, 0, 0), (0, 1, 0)]\n}\n';
+      service.addFiles([entry('tri.usda', usda)], () => {
+        expect(count(loaded('tri.usda'), isMesh)).toBe(1);
+        done();
+      });
+    });
+
+    it('opens only the shallowest of several USD layers', () => {
+      spyOn(service, 'addFile');
+      service.addFiles([entry('set/set.usda', '#usda 1.0\n'), entry('set/parts/a.usda', '#usda 1.0\n'), entry('set/parts/b.usd', '')], () => {});
+      expect((service.addFile as jasmine.Spy).calls.allArgs().map(a => a[0].relativePath)).toEqual(['set/set.usda']);
+    });
+
+    it('loads a CityJSON model', (done) => {
+      const city = JSON.stringify({
+        type: 'CityJSON', version: '2.0', transform: { scale: [1, 1, 1], translate: [0, 0, 0] },
+        vertices: [[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0]],
+        CityObjects: { b: { type: 'Building', geometry: [{ type: 'MultiSurface', lod: '1', boundaries: [[[0, 1, 2, 3]]] }] } }
+      });
+      service.addFiles([entry('block.city.json', city)], () => {
+        expect(count(loaded('block.city.json'), isMesh)).toBeGreaterThan(0);
+        done();
+      });
+    });
+
+    it('reports a file that is not IGES', async () => {
+      const message = failure();
+      service.addFiles([entry('part.igs', 'hello\nworld\n')], () => fail('the load failed'));
+      expect(await message).toBeTruthy();
+      expect(dialog.open).toHaveBeenCalledTimes(1);
+    });
+
+    it('reports a model with nothing to draw', async () => {
+      const message = failure();
+      service.addFiles([entry('empty.obj', '# nothing\n')], () => fail('the load failed'));
+      expect(await message).toBeTruthy();
     });
   });
 });

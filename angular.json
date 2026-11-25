@@ -27,11 +27,13 @@
               "src/polyfills.ts"
             ],
             "tsConfig": "tsconfig.app.json",
+            "externalDependencies": ["node:fs", "node:crypto", "node:path", "node:url", "node:module"],
             "webWorkerTsConfig": "tsconfig.worker.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              { "glob": "rhino3dm.wasm", "input": "node_modules/rhino3dm", "output": "assets/rhino3dm" }
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
@@ -39,7 +41,8 @@
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
-              "file-saver"
+              "file-saver",
+              "rhino3dm"
             ]
           },
           "configurations": {
@@ -99,11 +102,13 @@
               "zone.js/testing"
             ],
             "tsConfig": "tsconfig.spec.json",
+            "externalDependencies": ["node:fs", "node:crypto", "node:path", "node:url", "node:module"],
             "inlineStyleLanguage": "scss",
             "karmaConfig": "karma.conf.js",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              { "glob": "rhino3dm.wasm", "input": "node_modules/rhino3dm", "output": "assets/rhino3dm" }
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",

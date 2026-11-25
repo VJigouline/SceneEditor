@@ -34,7 +34,7 @@ See the [user guide](https://github.com/VJigouline/SceneEditor/wiki) in the wiki
 
 Working version at [scene.meercad.com](http://scene.meercad.com). This site runs an older build than Version 2.0.
 
-This project is not finished. Drop GLTF/GLB (file or folder), Collada (file or folder), STL, IFC, STEP, DXF, Blender, Ogre (files, folder or zip) or `.polygons` files into graphics area on the left, or choose files with **Open files** on the **Scene** tab, and try using controls. Scenes saved as GLTF can be loaded the same way, but scenes saved in the three.js `scene.json` format can't be loaded back into **SceneEditor**.
+This project is not finished. Drop GLTF/GLB (file or folder), Collada (file or folder), STL, IFC, STEP, IGES, Rhino, DXF, Blender, OBJ, FBX, 3DS, USD, USDZ, 3MF, PLY, SVG, CityJSON, Ogre (files, folder or zip) or `.polygons` files into graphics area on the left, or choose files with **Open files** on the **Scene** tab, and try using controls. Scenes saved as GLTF can be loaded the same way, but scenes saved in the three.js `scene.json` format can't be loaded back into **SceneEditor**.
 
 ### IFC models
 
@@ -71,6 +71,26 @@ Ogre 3D resources are read by [mc-ogre-import](https://github.com/VJigouline/mc-
 - **Contents:** scenes come with their node structure, lights and cameras. Materials become standard materials that can be edited on the **Materials** tab.
 - **Not read:** skeletons and animations; meshes are shown in their bind pose.
 - **Details:** see [Using it in SceneEditor](https://github.com/VJigouline/mc-ogre-import/blob/main/Documentation/SceneEditor.md).
+
+### Other formats
+
+Each of these is read by its own package, which has a page on using it in SceneEditor:
+
+| Files | Package | Notes |
+| --- | --- | --- |
+| IGES (`.igs`, `.iges`) | [mc-iges-import](https://github.com/VJigouline/mc-iges-import) | Trimmed NURBS and analytic surfaces and B-rep solids are tessellated, with colours, levels and units. |
+| Rhino (`.3dm`) | [mc-3dm-import](https://github.com/VJigouline/mc-3dm-import) | Meshes, the render meshes of Breps and extrusions, SubDs, curves and blocks, by layer. Read with rhino3dm, whose WebAssembly is served from `assets/rhino3dm`. |
+| Wavefront OBJ (`.obj`) | [mc-obj-import](https://github.com/VJigouline/mc-obj-import) | Drop it with its `.mtl` files and textures, its folder, or a zip. |
+| FBX (`.fbx`) | [mc-fbx-import](https://github.com/VJigouline/mc-fbx-import) | Binary or ASCII, FBX 7.0 and later; drop external textures with it. |
+| 3D Studio (`.3ds`) | [mc-3ds-import](https://github.com/VJigouline/mc-3ds-import) | Drop it with its textures, its folder, or a zip. |
+| USD (`.usd`, `.usda`, `.usdc`) | [mc-usd-import](https://github.com/VJigouline/mc-usd-import) | Drop the root layer with the layers and textures it uses, or their folder: the shallowest layers are opened, and the deeper ones are taken as their references. |
+| USDZ (`.usdz`) | [mc-usdz-import](https://github.com/VJigouline/mc-usdz-import) | |
+| 3MF (`.3mf`) | [mc-3mf-import](https://github.com/VJigouline/mc-3mf-import) | With colours and textures, in the model's units. |
+| PLY (`.ply`) | [mc-ply-import](https://github.com/VJigouline/mc-ply-import) | Files without faces are shown as point clouds. |
+| SVG (`.svg`) | [mc-svg-import](https://github.com/VJigouline/mc-svg-import) | Flat fills and strokes, facing the front view. |
+| CityJSON (`.city.json`, `.jsonl`) | [mc-cityjson-import](https://github.com/VJigouline/mc-cityjson-import) | A CityJSON file named plain `.json` must be renamed `.city.json`, as other JSON files are not models. |
+
+A zip holding an OBJ, FBX, 3DS or USD model is opened with its importer, like a zip holding a `.blend` file; other zips are opened as Ogre resources.
 
 ### Photorealistic tab
 

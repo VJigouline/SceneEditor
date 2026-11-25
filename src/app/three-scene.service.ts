@@ -26,6 +26,71 @@ import { loadStepAsync } from 'mc-step-import';
 import { loadOgre, readZip } from 'mc-ogre-import';
 import { loadBlend } from 'mc-blender-import';
 import { loadDxf } from 'mc-dxf-import';
+import { loadObj } from 'mc-obj-import';
+import { loadFbx } from 'mc-fbx-import';
+import { load3mf } from 'mc-3mf-import';
+import { loadPly } from 'mc-ply-import';
+import { load3ds } from 'mc-3ds-import';
+import { loadSvg } from 'mc-svg-import';
+import { loadUsd } from 'mc-usd-import';
+import { loadUsdz } from 'mc-usdz-import';
+import { load3dm } from 'mc-3dm-import';
+import { loadCityJson } from 'mc-cityjson-import';
+import { loadIges } from 'mc-iges-import';
+
+/** A file given to an importer: its path in the drop, and its contents. */
+interface NamedBlob { name: string; data: Blob; }
+
+/** One of the formats read by an mc-*-import package with a single call. */
+interface Importer {
+  /** The format's name, for messages. */
+  label: string;
+  /** Other dropped files the model may use, such as material libraries, layers and textures. */
+  resources?: RegExp;
+  /** Reads the file, with its resources; a zip holds them itself. */
+  load: (file: NamedBlob, resources: NamedBlob[], zip: boolean) =>
+    Promise<{ group: THREE.Group; warnings: string[]; missing?: string[] }>;
+}
+
+const images = 'png|jpe?g|tga|bmp|gif|webp|avif|dds|tiff?|exr|hdr';
+// Gives an importer the file with its resources, or the zip alone, which it opens itself.
+const withResources = (file: NamedBlob, resources: NamedBlob[], zip: boolean) =>
+  ({ files: [file, ...resources], options: zip ? {} : { main: file.name } });
+// rhino3dm.wasm is copied to the assets by angular.json.
+const rhinoOptions = { locateFile: (name: string) => `assets/rhino3dm/${name}` };
+
+const importers: Record<string, Importer> = {
+  obj: {
+    label: 'OBJ', resources: new RegExp(`\\.(mtl|${images})$`, 'i'),
+    load: (f, r, zip) => { const { files, options } = withResources(f, r, zip); return loadObj(files, options); }
+  },
+  fbx: {
+    label: 'FBX', resources: new RegExp(`\\.(${images})$`, 'i'),
+    load: (f, r, zip) => { const { files, options } = withResources(f, r, zip); return loadFbx(files, options); }
+  },
+  '3ds': {
+    label: '3DS', resources: new RegExp(`\\.(${images})$`, 'i'),
+    load: (f, r, zip) => { const { files, options } = withResources(f, r, zip); return load3ds(files, options); }
+  },
+  usd: {
+    label: 'USD', resources: new RegExp(`\\.(usd[ac]?|${images})$`, 'i'),
+    load: (f, r, zip) => { const { files, options } = withResources(f, r, zip); return loadUsd(files, options); }
+  },
+  '3mf': { label: '3MF', load: f => load3mf(f) },
+  ply: { label: 'PLY', load: f => loadPly(f) },
+  svg: { label: 'SVG', load: f => loadSvg(f) },
+  usdz: { label: 'USDZ', load: f => loadUsdz(f) },
+  '3dm': { label: 'Rhino 3DM', load: async f => load3dm(await f.data.arrayBuffer(), { rhinoOptions }) },
+  cityjson: { label: 'CityJSON', load: async f => loadCityJson(await f.data.text()) },
+  iges: { label: 'IGES', load: async f => loadIges(await f.data.arrayBuffer()) },
+};
+
+/** The importer for each file extension. */
+const importerExtensions: Record<string, string> = {
+  obj: 'obj', fbx: 'fbx', '3ds': '3ds', usd: 'usd', usda: 'usd', usdc: 'usd', '3mf': '3mf', ply: 'ply',
+  svg: 'svg', usdz: 'usdz', '3dm': '3dm', 'city.json': 'cityjson', jsonl: 'cityjson',
+  igs: 'iges', iges: 'iges'
+};
 
 interface ViewerFile extends File {
   relativePath: string;
@@ -51,7 +116,7 @@ type ContentSetter = (scene: THREE.Scene, sceneGLTF: THREE.Scene, clips: THREE.A
 })
 
 export class ThreeSceneService {
-  private static readonly modelExtensions = ['glb', 'gltf', 'dae', 'stl', 'ifc', 'stp', 'step', 'p21', 'stpz', 'polygons', 'scene', 'mesh', 'mesh.xml', 'zip', 'blend', 'dxf'];
+  private static readonly modelExtensions = ['glb', 'gltf', 'dae', 'stl', 'ifc', 'stp', 'step', 'p21', 'stpz', 'polygons', 'scene', 'mesh', 'mesh.xml', 'zip', 'blend', 'dxf', ...Object.keys(importerExtensions)];
 
   private scene: THREE.Scene;
   public camera: THREE.OrthographicCamera;
@@ -150,6 +215,13 @@ export class ThreeSceneService {
     if (models.some(file => this.fileExtension(file) === 'scene')) {
       models = models.filter(file => !['mesh', 'mesh.xml'].includes(this.fileExtension(file)));
     }
+    // USD layers below the shallowest ones are the layers they reference, not models of their own.
+    const depth = (file: NgxFileDropEntry) => file.relativePath.split(/[\\/]/).length;
+    const usd = models.filter(file => importerExtensions[this.fileExtension(file)] === 'usd');
+    if (usd.length > 1) {
+      const top = Math.min(...usd.map(depth));
+      models = models.filter(file => !usd.includes(file) || depth(file) === top);
+    }
     // A mesh given as both .mesh and .mesh.xml is loaded once, from the binary file.
     const paths = new Set(models.map(file => file.relativePath.toLocaleLowerCase()));
     models = models.filter(file =>
@@ -173,6 +245,7 @@ export class ThreeSceneService {
     const name = file.relativePath.toLocaleLowerCase();
     // Ogre XML meshes are .mesh.xml; other .xml files are not models.
     if (name.endsWith('.mesh.xml')) { return 'mesh.xml'; }
+    if (name.endsWith('.city.json')) { return 'city.json'; }
     return name.split('.').pop();
   }
 
@@ -242,8 +315,11 @@ export class ThreeSceneService {
         readerDelegate = this.addDxfFile;
         break;
       default:
-        console.warn(`'${fileExtension}' is unsupported file type.`);
-        return;
+        if (!importerExtensions[fileExtension]) {
+          console.warn(`'${fileExtension}' is unsupported file type.`);
+          return;
+        }
+        readerDelegate = this.addImportedFile;
     }
 
     if (this.scene === undefined) {
@@ -548,7 +624,42 @@ export class ThreeSceneService {
     }, fail);
   }
 
-  /** Opens a zip with the importer for what it holds: a .blend file, or else Ogre resources. */
+  /**
+   * Reads a file with the mc-*-import package for its format: OBJ, FBX, 3DS, USD, 3MF, PLY, SVG,
+   * USDZ, Rhino 3DM, CityJSON or IGES. OBJ, FBX, 3DS and USD models take their material
+   * libraries, layers and textures from the other dropped files, or from their zip.
+   */
+  public addImportedFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
+                         scene: THREE.Scene, finished: CallbackFinished, format?: string): void {
+    const service = blob.service;
+    const fail = (error: unknown) =>
+      service.onFileLoadError({ message: error instanceof Error ? error.message : String(error) }, service);
+    const zip = file.relativePath.toLocaleLowerCase().endsWith('.zip');
+    const importer = importers[format ?? importerExtensions[service.fileExtension(file)]];
+    const resources = zip || !importer.resources ? [] : files.filter(f => f.fileEntry.isFile && f !== file &&
+      importer.resources.test(f.relativePath));
+    Promise.all(resources.map(f => new Promise<NamedBlob>(resolve =>
+      (f.fileEntry as FileSystemFileEntry).file(data => resolve({ name: f.relativePath, data })))))
+      // Give the spinner a frame to appear: some imports run in the page.
+      .then(others => new Promise<NamedBlob[]>(resolve => setTimeout(() => resolve(others), 0)))
+      .then(others => importer.load({ name: file.relativePath, data: blob }, others, zip))
+      .then(result => {
+        for (const warning of result.warnings) { console.warn(`${importer.label} import: ${warning}`); }
+        if (result.missing?.length) { console.warn(`${importer.label} import: not found: ${result.missing.join(', ')}`); }
+        let drawn = false;
+        result.group.traverse(o => { drawn ||= (o as THREE.Mesh).isMesh || (o as THREE.Line).isLine || (o as THREE.Points).isPoints; });
+        if (!drawn) { throw new Error('It has nothing that SceneEditor can draw.'); }
+        result.group.name = file.relativePath;
+        scene.add(result.group);
+        finished();
+      })
+      .catch(fail);
+  }
+
+  /**
+   * Opens a zip with the importer for what it holds: a .blend file, an OBJ, FBX, 3DS or USD
+   * model, or else Ogre resources.
+   */
   public addZipFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
                     scene: THREE.Scene, finished: CallbackFinished): void {
     const service = blob.service;
@@ -560,8 +671,18 @@ export class ThreeSceneService {
         service.onFileLoadError({ message: error instanceof Error ? error.message : String(error) }, service);
         return;
       }
-      const reader = names.some(name => /\.blend$/i.test(name)) ? service.addBlendFile : service.addOgreFile;
-      reader.call(service, blob, file, files, scene, finished);
+      const has = (pattern: RegExp) => names.some(name => pattern.test(name));
+      if (has(/\.blend$/i)) {
+        service.addBlendFile(blob, file, files, scene, finished);
+        return;
+      }
+      const format = has(/\.(scene|mesh)$/i) ? undefined : has(/\.usd[ac]?$/i) ? 'usd' :
+        ['obj', 'fbx', '3ds'].find(extension => has(new RegExp(`\\.${extension}$`, 'i')));
+      if (format) {
+        service.addImportedFile(blob, file, files, scene, finished, format);
+        return;
+      }
+      service.addOgreFile(blob, file, files, scene, finished);
     }, error => service.onFileLoadError({ message: String(error) }, service));
   }
 
