@@ -34,7 +34,7 @@ See the [user guide](https://github.com/VJigouline/SceneEditor/wiki) in the wiki
 
 Working version at [scene.meercad.com](http://scene.meercad.com). This site runs an older build than Version 2.0.
 
-This project is not finished. Drop GLTF/GLB (file or folder), Collada (file or folder), STL, IFC, STEP, Blender, Ogre (files, folder or zip) or `.polygons` files into graphics area on the left, or choose files with **Open files** on the **Scene** tab, and try using controls. Scenes saved as GLTF can be loaded the same way, but scenes saved in the three.js `scene.json` format can't be loaded back into **SceneEditor**.
+This project is not finished. Drop GLTF/GLB (file or folder), Collada (file or folder), STL, IFC, STEP, DXF, Blender, Ogre (files, folder or zip) or `.polygons` files into graphics area on the left, or choose files with **Open files** on the **Scene** tab, and try using controls. Scenes saved as GLTF can be loaded the same way, but scenes saved in the three.js `scene.json` format can't be loaded back into **SceneEditor**.
 
 ### IFC models
 
@@ -47,6 +47,14 @@ STEP files (`.stp`, `.step`, `.p21`, and gzip-compressed `.stpz`) are read by [m
 - **Solids:** B-rep solids with planar, analytic and NURBS faces are tessellated into watertight meshes.
 - **Structure:** parts come in their assembly structure, in metres, with the file's colours.
 - **Data:** product data is in `userData.step`.
+
+### DXF drawings
+
+DXF drawings (`.dxf`), ASCII or binary, from R12 to the latest AutoCAD versions, are read by [mc-dxf-import](https://github.com/VJigouline/mc-dxf-import).
+
+- **Contents:** lines, arcs, polylines, splines, 3D faces, meshes, solid fills and hatches, in their layers and AutoCAD colours, with blocks expanded where they are inserted. A flat drawing faces the front view; a 3D drawing is turned Y up.
+- **Not drawn:** text, pattern hatches and ACIS solids.
+- **Details:** see [Using it in SceneEditor](https://github.com/VJigouline/mc-dxf-import/blob/main/Documentation/SceneEditor.md).
 
 ### Blender models
 

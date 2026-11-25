@@ -25,6 +25,7 @@ import { loadIfc } from 'mc-ifc-import';
 import { loadStepAsync } from 'mc-step-import';
 import { loadOgre, readZip } from 'mc-ogre-import';
 import { loadBlend } from 'mc-blender-import';
+import { loadDxf } from 'mc-dxf-import';
 
 interface ViewerFile extends File {
   relativePath: string;
@@ -50,7 +51,7 @@ type ContentSetter = (scene: THREE.Scene, sceneGLTF: THREE.Scene, clips: THREE.A
 })
 
 export class ThreeSceneService {
-  private static readonly modelExtensions = ['glb', 'gltf', 'dae', 'stl', 'ifc', 'stp', 'step', 'p21', 'stpz', 'polygons', 'scene', 'mesh', 'mesh.xml', 'zip', 'blend'];
+  private static readonly modelExtensions = ['glb', 'gltf', 'dae', 'stl', 'ifc', 'stp', 'step', 'p21', 'stpz', 'polygons', 'scene', 'mesh', 'mesh.xml', 'zip', 'blend', 'dxf'];
 
   private scene: THREE.Scene;
   public camera: THREE.OrthographicCamera;
@@ -236,6 +237,9 @@ export class ThreeSceneService {
         break;
       case 'blend':
         readerDelegate = this.addBlendFile;
+        break;
+      case 'dxf':
+        readerDelegate = this.addDxfFile;
         break;
       default:
         console.warn(`'${fileExtension}' is unsupported file type.`);
@@ -518,6 +522,30 @@ export class ThreeSceneService {
         finished();
       })
       .catch(fail);
+  }
+
+  /** Reads a DXF drawing, ASCII or binary, with mc-dxf-import. */
+  public addDxfFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
+                    scene: THREE.Scene, finished: CallbackFinished): void {
+    const service = blob.service;
+    const fail = (error: unknown) =>
+      service.onFileLoadError({ message: error instanceof Error ? error.message : String(error) }, service);
+    blob.arrayBuffer().then(data => {
+      // Give the spinner a frame to appear: the import runs in the page.
+      setTimeout(() => {
+        try {
+          const result = loadDxf(data);
+          for (const warning of result.warnings) { console.warn(`DXF import (${result.version || 'no version'}): ${warning}`); }
+          const s = result.stats;
+          if (s.segments + s.triangles + s.points === 0) { throw new Error('It has nothing that SceneEditor can draw.'); }
+          result.group.name = file.relativePath;
+          scene.add(result.group);
+          finished();
+        } catch (error) {
+          fail(error);
+        }
+      }, 0);
+    }, fail);
   }
 
   /** Opens a zip with the importer for what it holds: a .blend file, or else Ogre resources. */

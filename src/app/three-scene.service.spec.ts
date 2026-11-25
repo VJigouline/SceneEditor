@@ -164,6 +164,33 @@ describe('ThreeSceneService', () => {
     });
   });
 
+  describe('DXF files', () => {
+    const drawing = ['0', 'SECTION', '2', 'ENTITIES',
+      '0', 'LINE', '8', 'Walls', '62', '1', '10', '0', '20', '0', '30', '0', '11', '10', '21', '0', '31', '0',
+      '0', 'ENDSEC', '0', 'EOF', ''].join('\n');
+
+    it('loads a drawing, grouped by layer', (done) => {
+      service.addFiles([entry('plan.dxf', drawing)], () => {
+        expect(dialog.open).not.toHaveBeenCalled();
+        const group = service.getScene().children.find(c => c.name === 'plan.dxf');
+        expect(group?.children.map(c => c.name)).toEqual(['Walls']);
+        done();
+      });
+    });
+
+    it('reports a file that is not DXF', (done) => {
+      spinner.hide.and.callFake((() => {
+        setTimeout(() => {
+          expect((dialog.open.calls.mostRecent().args[1].data as any).message).toContain('Not a DXF file');
+          done();
+        });
+        return Promise.resolve();
+      }) as any);
+
+      service.addFiles([entry('notes.dxf', 'hello\nworld\n')], () => fail('the load failed'));
+    });
+  });
+
   describe('Blender files and zips', () => {
     /** A zip with its files stored uncompressed. */
     function zip(files: { name: string; data: string }[]): Uint8Array {
