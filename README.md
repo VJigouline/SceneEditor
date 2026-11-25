@@ -34,7 +34,7 @@ See the [user guide](https://github.com/VJigouline/SceneEditor/wiki) in the wiki
 
 Working version at [scene.meercad.com](http://scene.meercad.com). This site runs an older build than Version 2.0.
 
-This project is not finished. Drop GLTF/GLB (file or folder), Collada (file or folder), STL, IFC, STEP or `.polygons` files into graphics area on the left, or choose files with **Open files** on the **Scene** tab, and try using controls. Scenes saved as GLTF can be loaded the same way, but scenes saved in the three.js `scene.json` format can't be loaded back into **SceneEditor**.
+This project is not finished. Drop GLTF/GLB (file or folder), Collada (file or folder), STL, IFC, STEP, Ogre (files, folder or zip) or `.polygons` files into graphics area on the left, or choose files with **Open files** on the **Scene** tab, and try using controls. Scenes saved as GLTF can be loaded the same way, but scenes saved in the three.js `scene.json` format can't be loaded back into **SceneEditor**.
 
 ### IFC models
 
@@ -47,6 +47,14 @@ STEP files (`.stp`, `.step`, `.p21`, and gzip-compressed `.stpz`) are read by [m
 - **Solids:** B-rep solids with planar, analytic and NURBS faces are tessellated into watertight meshes.
 - **Structure:** parts come in their assembly structure, in metres, with the file's colours.
 - **Data:** product data is in `userData.step`.
+
+### Ogre models
+
+Ogre 3D resources are read by [mc-ogre-import](https://github.com/VJigouline/mc-ogre-import): dotScene `.scene` files, binary `.mesh` and XML `.mesh.xml` meshes, `.material` scripts and their textures. An Ogre model is several files, so drop its folder, drop or open its files together, or drop or open a zip of them.
+
+- **Contents:** scenes come with their node structure, lights and cameras. Materials become standard materials that can be edited on the **Materials** tab.
+- **Not read:** skeletons and animations; meshes are shown in their bind pose.
+- **Details:** see [Using it in SceneEditor](https://github.com/VJigouline/mc-ogre-import/blob/main/Documentation/SceneEditor.md).
 
 ### Photorealistic tab
 

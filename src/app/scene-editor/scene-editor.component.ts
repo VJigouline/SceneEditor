@@ -61,6 +61,8 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
     this.threeView.setCameraSize(this.threeView.AreaWidth, this.threeView.AreaHeight);
     this.sceneService.renderer.setSize(this.threeView.AreaWidth, this.threeView.AreaHeight - 4);
     this.raytrace.setViewSize(this.threeView.AreaWidth, this.threeView.AreaHeight - 4);
+    // Resizing the canvas clears it.
+    this.threeView.Render();
   }
 
   public onEditorResized(event: ResizedEvent): void {

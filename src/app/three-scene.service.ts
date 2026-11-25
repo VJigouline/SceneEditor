@@ -23,6 +23,7 @@ import { ErrorDialogComponent } from './user-controls/error-dialog/error-dialog.
 import { RaytraceService } from './raytracer/raytrace.service';
 import { loadIfc } from 'mc-ifc-import';
 import { loadStepAsync } from 'mc-step-import';
+import { loadOgre } from 'mc-ogre-import';
 
 interface ViewerFile extends File {
   relativePath: string;
@@ -48,7 +49,7 @@ type ContentSetter = (scene: THREE.Scene, sceneGLTF: THREE.Scene, clips: THREE.A
 })
 
 export class ThreeSceneService {
-  private static readonly modelExtensions = ['glb', 'gltf', 'dae', 'stl', 'ifc', 'stp', 'step', 'p21', 'stpz', 'polygons'];
+  private static readonly modelExtensions = ['glb', 'gltf', 'dae', 'stl', 'ifc', 'stp', 'step', 'p21', 'stpz', 'polygons', 'scene', 'mesh', 'mesh.xml', 'zip'];
 
   private scene: THREE.Scene;
   public camera: THREE.OrthographicCamera;
@@ -57,6 +58,8 @@ export class ThreeSceneService {
     color: '#fd421d', metalness: 1, roughness: 0.5, name: 'Default', side: THREE.DoubleSide } );
   public transformControl: TransformControls;
   private hidingTransform: number;
+  /** Set when the view was asked to fit the scene before it had a size. */
+  private fitPending = false;
   public orbitControls: OrbitControls;
   public lastMouseEvent: MouseEvent;
 
@@ -140,7 +143,15 @@ export class ThreeSceneService {
 
     // The spinner is only hidden by a finished load or a load error, so it must only be shown
     // when a load will start. Other files in a dropped folder may be a model's textures and buffers.
-    const models = files.filter(file => this.isModelFile(file));
+    let models = files.filter(file => this.isModelFile(file));
+    // The meshes beside an Ogre .scene file are its resources, not models of their own.
+    if (models.some(file => this.fileExtension(file) === 'scene')) {
+      models = models.filter(file => !['mesh', 'mesh.xml'].includes(this.fileExtension(file)));
+    }
+    // A mesh given as both .mesh and .mesh.xml is loaded once, from the binary file.
+    const paths = new Set(models.map(file => file.relativePath.toLocaleLowerCase()));
+    models = models.filter(file =>
+      this.fileExtension(file) !== 'mesh.xml' || !paths.has(file.relativePath.toLocaleLowerCase().slice(0, -4)));
     if (models.length === 0) {
       this.reportNoModels(files);
       return;
@@ -157,7 +168,10 @@ export class ThreeSceneService {
   }
 
   private fileExtension(file: NgxFileDropEntry): string {
-    return file.relativePath.split('.').pop().toLocaleLowerCase();
+    const name = file.relativePath.toLocaleLowerCase();
+    // Ogre XML meshes are .mesh.xml; other .xml files are not models.
+    if (name.endsWith('.mesh.xml')) { return 'mesh.xml'; }
+    return name.split('.').pop();
   }
 
   private reportNoModels(files: NgxFileDropEntry[]): void {
@@ -210,6 +224,12 @@ export class ThreeSceneService {
       case 'p21':
       case 'stpz':
         readerDelegate = this.addStepFile;
+        break;
+      case 'scene':
+      case 'mesh':
+      case 'mesh.xml':
+      case 'zip':
+        readerDelegate = this.addOgreFile;
         break;
       default:
         console.warn(`'${fileExtension}' is unsupported file type.`);
@@ -467,6 +487,38 @@ export class ThreeSceneService {
     }, fail);
   }
 
+  /**
+   * Reads an Ogre .scene, .mesh or .mesh.xml file, or a zip of Ogre resources, with
+   * mc-ogre-import. The other dropped files are its resources: meshes, material scripts and
+   * textures, which Ogre finds by file name wherever they are.
+   */
+  public addOgreFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
+                     scene: THREE.Scene, finished: CallbackFinished): void {
+    const service = blob.service;
+    const fail = (error: unknown) =>
+      service.onFileLoadError({ message: error instanceof Error ? error.message : String(error) }, service);
+    const zip = file.relativePath.toLocaleLowerCase().endsWith('.zip');
+    // A zip holds everything itself; a scene or mesh takes its resources from beside it.
+    const resources = zip ? [] : files.filter(f => f.fileEntry.isFile && f !== file &&
+      !f.relativePath.toLocaleLowerCase().endsWith('.zip'));
+    Promise.all(resources.map(f => new Promise<{ name: string; data: Blob }>(resolve =>
+      (f.fileEntry as FileSystemFileEntry).file(data => resolve({ name: f.relativePath, data })))))
+      .then(others => loadOgre([{ name: file.relativePath, data: blob }, ...others], zip ? {} : { main: file.relativePath }))
+      .then(result => {
+        for (const warning of result.warnings) { console.warn(`Ogre import: ${warning}`); }
+        if (result.missing.length) { console.warn(`Ogre import: not found: ${result.missing.join(', ')}`); }
+        if (result.stats.entities === 0) {
+          throw new Error(result.missing.length
+            ? `The meshes it uses were not found: ${result.missing.filter(m => /\.mesh(\.xml)?$/i.test(m)).join(', ')}`
+            : 'It has no meshes.');
+        }
+        result.group.name = file.relativePath;
+        scene.add(result.group);
+        finished();
+      })
+      .catch(fail);
+  }
+
   private onFileLoadError(event : { message: string }, service : ThreeSceneService) : void {
       service.spinner.hide();
       service.errorDialog.open(ErrorDialogComponent, {
@@ -707,6 +759,13 @@ export class ThreeSceneService {
     return box;
   }
 
+  /** Fits the view to the scene if a fit was asked for before the view had a size. Returns true if it fitted. */
+  public refitIfPending(): boolean {
+    if (!this.fitPending) { return false; }
+    this.rescaleScene();
+    return !this.fitPending;
+  }
+
   public rescaleScene(camera: THREE.OrthographicCamera = null,
                       box: THREE.Box3 = null, orbitControls: OrbitControls = null): void {
     if (!box && this.scene) { box = this.getSceneBox(); }
@@ -720,7 +779,8 @@ export class ThreeSceneService {
     const radius = sphere.radius;
     const pos = center.clone().sub(direction.multiplyScalar(1.5 * radius));
     camera.position.set(pos.x, pos.y, pos.z);
-    const aspect = (camera.top - camera.bottom) / (camera.right - camera.left);
+    const width = camera.right - camera.left;
+    const height = camera.top - camera.bottom;
     const f = 1.5;
     camera.far = 2 * f * radius;
     camera.near = 0.1 * radius;
@@ -728,7 +788,11 @@ export class ThreeSceneService {
     // camera.bottom = -f * aspect * radius;
     // camera.left = -f * radius;
     // camera.right = f * radius;
-    camera.zoom = 0.5 * (camera.right - camera.left) * aspect / radius;
+    // Until the page is laid out, the view can have no size, which would give a zoom of 0 and
+    // hide the model for good. Fit it again once setCameraSize gives the view its size.
+    const sized = width > 0 && height > 0;
+    if (camera === this.camera) { this.fitPending = !sized; }
+    if (sized) { camera.zoom = 0.5 * height / radius; }
 
     camera.updateProjectionMatrix();
     if (!orbitControls) { orbitControls = this.orbitControls; }

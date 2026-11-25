@@ -161,6 +161,8 @@ export class SceneViewComponent implements OnInit, AfterViewInit {
     camera.bottom = -height;
     camera.top = height;
     camera.updateProjectionMatrix();
+    // A model opened before the view had its size is fitted now.
+    this.sceneService.refitIfPending();
    }
 
   private LoadGeometry(geometry: THREE.BufferGeometry) {

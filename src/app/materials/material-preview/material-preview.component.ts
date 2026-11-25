@@ -73,7 +73,8 @@ export class MaterialPreviewComponent implements OnInit, AfterViewInit {
     this.objectDefault = new THREE.Mesh( geometry, this.Material.material );
     this.scene.add( this.objectDefault );
     const box = new THREE.Box3().setFromObject(this.objectDefault);
-    this.sceneService.rescaleScene(this.camera, box);
+    // Its own controls: without them, rescaleScene would aim the main view's controls.
+    this.sceneService.rescaleScene(this.camera, box, this.orbitControls);
   }
 
   private resetScene(object: THREE.Object3D) {
