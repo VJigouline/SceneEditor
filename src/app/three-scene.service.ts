@@ -23,7 +23,8 @@ import { ErrorDialogComponent } from './user-controls/error-dialog/error-dialog.
 import { RaytraceService } from './raytracer/raytrace.service';
 import { loadIfc } from 'mc-ifc-import';
 import { loadStepAsync } from 'mc-step-import';
-import { loadOgre } from 'mc-ogre-import';
+import { loadOgre, readZip } from 'mc-ogre-import';
+import { loadBlend } from 'mc-blender-import';
 
 interface ViewerFile extends File {
   relativePath: string;
@@ -49,7 +50,7 @@ type ContentSetter = (scene: THREE.Scene, sceneGLTF: THREE.Scene, clips: THREE.A
 })
 
 export class ThreeSceneService {
-  private static readonly modelExtensions = ['glb', 'gltf', 'dae', 'stl', 'ifc', 'stp', 'step', 'p21', 'stpz', 'polygons', 'scene', 'mesh', 'mesh.xml', 'zip'];
+  private static readonly modelExtensions = ['glb', 'gltf', 'dae', 'stl', 'ifc', 'stp', 'step', 'p21', 'stpz', 'polygons', 'scene', 'mesh', 'mesh.xml', 'zip', 'blend'];
 
   private scene: THREE.Scene;
   public camera: THREE.OrthographicCamera;
@@ -228,8 +229,13 @@ export class ThreeSceneService {
       case 'scene':
       case 'mesh':
       case 'mesh.xml':
-      case 'zip':
         readerDelegate = this.addOgreFile;
+        break;
+      case 'zip':
+        readerDelegate = this.addZipFile;
+        break;
+      case 'blend':
+        readerDelegate = this.addBlendFile;
         break;
       default:
         console.warn(`'${fileExtension}' is unsupported file type.`);
@@ -485,6 +491,50 @@ export class ThreeSceneService {
         }, fail);
       }, 0);
     }, fail);
+  }
+
+  /**
+   * Reads a .blend file with mc-blender-import. Images it doesn't pack are taken from the other
+   * dropped files, by file name.
+   */
+  public addBlendFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
+                      scene: THREE.Scene, finished: CallbackFinished): void {
+    const service = blob.service;
+    const fail = (error: unknown) =>
+      service.onFileLoadError({ message: error instanceof Error ? error.message : String(error) }, service);
+    const zip = file.relativePath.toLocaleLowerCase().endsWith('.zip');
+    // Images beside the file; a zip holds them itself. Other .blend files are models of their own.
+    const images = zip ? [] : files.filter(f => f.fileEntry.isFile && f !== file &&
+      !/\.(blend\d*|zip)$/i.test(f.relativePath));
+    Promise.all(images.map(f => new Promise<{ name: string; data: Blob }>(resolve =>
+      (f.fileEntry as FileSystemFileEntry).file(data => resolve({ name: f.relativePath, data })))))
+      .then(others => loadBlend([{ name: file.relativePath, data: blob }, ...others], zip ? {} : { main: file.relativePath }))
+      .then(result => {
+        for (const warning of result.warnings) { console.warn(`Blender import (${result.version}): ${warning}`); }
+        if (result.missing.length) { console.warn(`Blender import: images not found: ${result.missing.join(', ')}`); }
+        if (result.stats.meshes === 0) { throw new Error('It has no meshes that SceneEditor can show.'); }
+        result.group.name = file.relativePath;
+        scene.add(result.group);
+        finished();
+      })
+      .catch(fail);
+  }
+
+  /** Opens a zip with the importer for what it holds: a .blend file, or else Ogre resources. */
+  public addZipFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
+                    scene: THREE.Scene, finished: CallbackFinished): void {
+    const service = blob.service;
+    blob.arrayBuffer().then(data => {
+      let names: string[] = [];
+      try {
+        names = readZip(new Uint8Array(data)).map(entry => entry.name);
+      } catch (error) {
+        service.onFileLoadError({ message: error instanceof Error ? error.message : String(error) }, service);
+        return;
+      }
+      const reader = names.some(name => /\.blend$/i.test(name)) ? service.addBlendFile : service.addOgreFile;
+      reader.call(service, blob, file, files, scene, finished);
+    }, error => service.onFileLoadError({ message: String(error) }, service));
   }
 
   /**

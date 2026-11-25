@@ -164,6 +164,70 @@ describe('ThreeSceneService', () => {
     });
   });
 
+  describe('Blender files and zips', () => {
+    /** A zip with its files stored uncompressed. */
+    function zip(files: { name: string; data: string }[]): Uint8Array {
+      const out: number[] = [];
+      const central: number[] = [];
+      const u16 = (a: number[], v: number) => a.push(v & 255, (v >> 8) & 255);
+      const u32 = (a: number[], v: number) => a.push(v & 255, (v >> 8) & 255, (v >> 16) & 255, (v >>> 24) & 255);
+      for (const file of files) {
+        const name = Array.from(new TextEncoder().encode(file.name));
+        const data = Array.from(new TextEncoder().encode(file.data));
+        const offset = out.length;
+        u32(out, 0x04034b50); u16(out, 20); u16(out, 0); u16(out, 0); u16(out, 0); u16(out, 0);
+        u32(out, 0); u32(out, data.length); u32(out, data.length); u16(out, name.length); u16(out, 0);
+        out.push(...name, ...data);
+        u32(central, 0x02014b50); u16(central, 20); u16(central, 20); u16(central, 0); u16(central, 0);
+        u16(central, 0); u16(central, 0); u32(central, 0); u32(central, data.length); u32(central, data.length);
+        u16(central, name.length); u16(central, 0); u16(central, 0); u16(central, 0); u16(central, 0);
+        u32(central, 0); u32(central, offset);
+        central.push(...name);
+      }
+      const start = out.length;
+      out.push(...central);
+      u32(out, 0x06054b50); u16(out, 0); u16(out, 0); u16(out, files.length); u16(out, files.length);
+      u32(out, central.length); u32(out, start); u16(out, 0);
+      return Uint8Array.from(out);
+    }
+
+    function zipEntry(relativePath: string, bytes: Uint8Array): NgxFileDropEntry {
+      const name = relativePath.split('/').pop();
+      return new NgxFileDropEntry(relativePath, {
+        name, isFile: true, isDirectory: false,
+        file: (callback: (file: File) => void) => callback(new File([bytes as BlobPart], name))
+      } as any);
+    }
+
+    /** Waits for the failure dialog and returns its message. */
+    function failure(): Promise<string> {
+      return new Promise(resolve => {
+        spinner.hide.and.callFake((() => {
+          setTimeout(() => resolve((dialog.open.calls.mostRecent().args[1].data as any).message));
+          return Promise.resolve();
+        }) as any);
+      });
+    }
+
+    it('reports a .blend file that is not one', async () => {
+      const message = failure();
+      service.addFiles([entry('model.blend', 'not a blend file')], () => fail('the load failed'));
+      expect(await message).toContain('not a .blend file');
+    });
+
+    it('opens a zip holding a .blend file with the Blender importer', async () => {
+      const message = failure();
+      service.addFiles([zipEntry('model.zip', zip([{ name: 'model.blend', data: 'not a blend file' }]))], () => fail('the load failed'));
+      expect(await message).toContain('not a .blend file');
+    });
+
+    it('opens other zips with the Ogre importer', async () => {
+      const message = failure();
+      service.addFiles([zipEntry('model.zip', zip([{ name: 'notes.txt', data: 'hello' }]))], () => fail('the load failed'));
+      expect(await message).toContain('.scene, .mesh or .mesh.xml');
+    });
+  });
+
   describe('Ogre files', () => {
     const triangle = (material: string) => `<mesh>
       <sharedgeometry vertexcount="3"><vertexbuffer positions="true">
