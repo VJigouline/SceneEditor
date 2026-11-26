@@ -37,6 +37,19 @@ import { loadUsdz } from 'mc-usdz-import';
 import { load3dm } from 'mc-3dm-import';
 import { loadCityJson } from 'mc-cityjson-import';
 import { loadIges } from 'mc-iges-import';
+import { loadGcode } from 'mc-gcode-import';
+import { loadVrml } from 'mc-vrml-import';
+import { loadX3d } from 'mc-x3d-import';
+import { loadHdr, applyEnvironment } from 'mc-hdr-import';
+import { loadExr } from 'mc-exr-import';
+import { loadLas } from 'mc-las-import';
+import { loadE57 } from 'mc-e57-import';
+import { loadXyz } from 'mc-xyz-import';
+import { loadPcd } from 'mc-pcd-import';
+import { loadAmf } from 'mc-amf-import';
+import { loadOff } from 'mc-off-import';
+import { loadKmz } from 'mc-kmz-import';
+import { loadDraco, createDracoDecoder, type DracoModule } from 'mc-draco-import';
 
 /** A file given to an importer: its path in the drop, and its contents. */
 interface NamedBlob { name: string; data: Blob; }
@@ -58,6 +71,14 @@ const withResources = (file: NamedBlob, resources: NamedBlob[], zip: boolean) =>
   ({ files: [file, ...resources], options: zip ? {} : { main: file.name } });
 // rhino3dm.wasm is copied to the assets by angular.json.
 const rhinoOptions = { locateFile: (name: string) => `assets/rhino3dm/${name}` };
+// laz-perf.wasm is copied to the assets by angular.json.
+const lazPerfOptions = { locateFile: (name: string) => `assets/laz-perf/${name}` };
+// three.js's Draco decoder, copied to the assets by angular.json, loaded once.
+let dracoDecoder: Promise<DracoModule> | undefined;
+const draco = () => dracoDecoder ??= Promise.all([
+  fetch('assets/draco3d/draco_wasm_wrapper.js').then(r => r.text()),
+  fetch('assets/draco3d/draco_decoder.wasm').then(r => r.arrayBuffer())
+]).then(([wrapper, wasm]) => createDracoDecoder(wrapper, wasm));
 
 const importers: Record<string, Importer> = {
   obj: {
@@ -83,13 +104,35 @@ const importers: Record<string, Importer> = {
   '3dm': { label: 'Rhino 3DM', load: async f => load3dm(await f.data.arrayBuffer(), { rhinoOptions }) },
   cityjson: { label: 'CityJSON', load: async f => loadCityJson(await f.data.text()) },
   iges: { label: 'IGES', load: async f => loadIges(await f.data.arrayBuffer()) },
+  gcode: { label: 'G-code', load: f => loadGcode(f) },
+  vrml: {
+    label: 'VRML', resources: new RegExp(`\\.(${images})$`, 'i'),
+    load: (f, r, zip) => { const { files, options } = withResources(f, r, zip); return loadVrml(files, options); }
+  },
+  x3d: {
+    label: 'X3D', resources: new RegExp(`\\.(${images})$`, 'i'),
+    load: (f, r, zip) => { const { files, options } = withResources(f, r, zip); return loadX3d(files, options); }
+  },
+  las: { label: 'LAS', load: async f => loadLas(await f.data.arrayBuffer(), { lazPerfOptions }) },
+  e57: { label: 'E57', load: f => loadE57(f) },
+  xyz: { label: 'XYZ', load: f => loadXyz(f) },
+  pcd: { label: 'PCD', load: f => loadPcd(f) },
+  amf: { label: 'AMF', load: f => loadAmf(f) },
+  off: { label: 'OFF', load: f => loadOff(f) },
+  kmz: { label: 'KMZ', load: f => loadKmz(f) },
+  draco: { label: 'Draco', load: async f => loadDraco(f, { draco: await draco() }) },
 };
+
+/** Environment maps, which light the scene and show behind it. */
+const environmentExtensions = ['hdr', 'exr'];
 
 /** The importer for each file extension. */
 const importerExtensions: Record<string, string> = {
   obj: 'obj', fbx: 'fbx', '3ds': '3ds', usd: 'usd', usda: 'usd', usdc: 'usd', '3mf': '3mf', ply: 'ply',
   svg: 'svg', usdz: 'usdz', '3dm': '3dm', 'city.json': 'cityjson', jsonl: 'cityjson',
-  igs: 'iges', iges: 'iges'
+  igs: 'iges', iges: 'iges', gcode: 'gcode', gco: 'gcode', nc: 'gcode', ngc: 'gcode', tap: 'gcode', cnc: 'gcode',
+  wrl: 'vrml', wrz: 'vrml', x3d: 'x3d', x3dv: 'x3d', x3dz: 'x3d', x3dvz: 'x3d', las: 'las', laz: 'las', e57: 'e57',
+  xyz: 'xyz', pts: 'xyz', pcd: 'pcd', amf: 'amf', off: 'off', kmz: 'kmz', drc: 'draco'
 };
 
 interface ViewerFile extends File {
@@ -116,7 +159,7 @@ type ContentSetter = (scene: THREE.Scene, sceneGLTF: THREE.Scene, clips: THREE.A
 })
 
 export class ThreeSceneService {
-  private static readonly modelExtensions = ['glb', 'gltf', 'dae', 'stl', 'ifc', 'stp', 'step', 'p21', 'stpz', 'polygons', 'scene', 'mesh', 'mesh.xml', 'zip', 'blend', 'dxf', ...Object.keys(importerExtensions)];
+  private static readonly modelExtensions = ['glb', 'gltf', 'dae', 'stl', 'ifc', 'stp', 'step', 'p21', 'stpz', 'polygons', 'scene', 'mesh', 'mesh.xml', 'zip', 'blend', 'dxf', ...Object.keys(importerExtensions), ...environmentExtensions];
 
   private scene: THREE.Scene;
   public camera: THREE.OrthographicCamera;
@@ -313,6 +356,10 @@ export class ThreeSceneService {
         break;
       case 'dxf':
         readerDelegate = this.addDxfFile;
+        break;
+      case 'hdr':
+      case 'exr':
+        readerDelegate = this.addEnvironmentFile;
         break;
       default:
         if (!importerExtensions[fileExtension]) {
@@ -657,8 +704,28 @@ export class ThreeSceneService {
   }
 
   /**
-   * Opens a zip with the importer for what it holds: a .blend file, an OBJ, FBX, 3DS or USD
-   * model, or else Ogre resources.
+   * Reads a Radiance .hdr or OpenEXR .exr environment map with mc-hdr-import or mc-exr-import,
+   * and lights the scene with it, showing it behind the scene.
+   */
+  public addEnvironmentFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
+                            scene: THREE.Scene, finished: CallbackFinished): void {
+    const service = blob.service;
+    const exr = service.fileExtension(file) === 'exr';
+    const input = { name: file.relativePath, data: blob };
+    (exr ? loadExr(input) : loadHdr(input))
+      .then(result => {
+        for (const warning of result.warnings) { console.warn(`${exr ? 'EXR' : 'HDR'} import: ${warning}`); }
+        const previous = scene.environment;
+        applyEnvironment(scene, result.texture);
+        if (previous && previous !== result.texture) { previous.dispose(); }
+        finished();
+      })
+      .catch(error => service.onFileLoadError({ message: error instanceof Error ? error.message : String(error) }, service));
+  }
+
+  /**
+   * Opens a zip with the importer for what it holds: a .blend file, an OBJ, FBX, 3DS, USD, VRML
+   * or X3D model, or else Ogre resources.
    */
   public addZipFile(blob: ViewerFile, file: NgxFileDropEntry, files: NgxFileDropEntry[],
                     scene: THREE.Scene, finished: CallbackFinished): void {
@@ -677,6 +744,7 @@ export class ThreeSceneService {
         return;
       }
       const format = has(/\.(scene|mesh)$/i) ? undefined : has(/\.usd[ac]?$/i) ? 'usd' :
+        has(/\.x3dv?$/i) ? 'x3d' : has(/\.wrl$/i) ? 'vrml' :
         ['obj', 'fbx', '3ds'].find(extension => has(new RegExp(`\\.${extension}$`, 'i')));
       if (format) {
         service.addImportedFile(blob, file, files, scene, finished, format);
@@ -934,11 +1002,12 @@ export class ThreeSceneService {
 
     let box: THREE.Box3;
     // three.js type flags rather than instanceof, so objects made by another copy of three.js count.
-    const kind = (o: THREE.Object3D) => o as THREE.Object3D & { isLight?: boolean; isMesh?: boolean; isScene?: boolean; isGroup?: boolean };
+    const kind = (o: THREE.Object3D) => o as THREE.Object3D & { isLight?: boolean; isMesh?: boolean; isLine?: boolean; isPoints?: boolean; isScene?: boolean; isGroup?: boolean };
     for (const object of scene.children) {
       if (kind(object).isLight) {
         continue;
-      } else if (kind(object).isMesh) {
+      } else if (kind(object).isMesh || kind(object).isLine || kind(object).isPoints) {
+        // Meshes, lines such as toolpaths, and point clouds all have extent.
         if (box) {
           box = box.union(new THREE.Box3().setFromObject(object));
         } else {

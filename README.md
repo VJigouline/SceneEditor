@@ -34,7 +34,7 @@ See the [user guide](https://github.com/VJigouline/SceneEditor/wiki) in the wiki
 
 Working version at [scene.meercad.com](http://scene.meercad.com). This site runs an older build than Version 2.0.
 
-This project is not finished. Drop GLTF/GLB (file or folder), Collada (file or folder), STL, IFC, STEP, IGES, Rhino, DXF, Blender, OBJ, FBX, 3DS, USD, USDZ, 3MF, PLY, SVG, CityJSON, Ogre (files, folder or zip) or `.polygons` files into graphics area on the left, or choose files with **Open files** on the **Scene** tab, and try using controls. Scenes saved as GLTF can be loaded the same way, but scenes saved in the three.js `scene.json` format can't be loaded back into **SceneEditor**.
+This project is not finished. Drop GLTF/GLB (file or folder), Collada (file or folder), STL, IFC, STEP, IGES, Rhino, DXF, Blender, OBJ, FBX, 3DS, USD, USDZ, 3MF, PLY, SVG, CityJSON, G-code, VRML, X3D, AMF, OFF, KMZ, Draco, LAS/LAZ, E57, XYZ, PCD, Ogre (files, folder or zip), HDR and EXR environment maps or `.polygons` files into graphics area on the left, or choose files with **Open files** on the **Scene** tab, and try using controls. Scenes saved as GLTF can be loaded the same way, but scenes saved in the three.js `scene.json` format can't be loaded back into **SceneEditor**.
 
 ### IFC models
 
@@ -89,8 +89,23 @@ Each of these is read by its own package, which has a page on using it in SceneE
 | PLY (`.ply`) | [mc-ply-import](https://github.com/VJigouline/mc-ply-import) | Files without faces are shown as point clouds. |
 | SVG (`.svg`) | [mc-svg-import](https://github.com/VJigouline/mc-svg-import) | Flat fills and strokes, facing the front view. |
 | CityJSON (`.city.json`, `.jsonl`) | [mc-cityjson-import](https://github.com/VJigouline/mc-cityjson-import) | A CityJSON file named plain `.json` must be renamed `.city.json`, as other JSON files are not models. |
+| G-code (`.gcode`, `.gco`, `.nc`, `.ngc`, `.tap`, `.cnc`) | [mc-gcode-import](https://github.com/VJigouline/mc-gcode-import) | CNC toolpaths by tool, with rapids, arcs and drilling cycles; 3D-printer programs by layer. |
+| VRML (`.wrl`, `.wrz`) | [mc-vrml-import](https://github.com/VJigouline/mc-vrml-import) | VRML 2.0, with its textures. |
+| X3D (`.x3d`, `.x3dv`, `.x3dz`, `.x3dvz`) | [mc-x3d-import](https://github.com/VJigouline/mc-x3d-import) | XML and classic encodings, with their textures. |
+| AMF (`.amf`) | [mc-amf-import](https://github.com/VJigouline/mc-amf-import) | Plain or zipped, in the file's units. |
+| OFF (`.off`) | [mc-off-import](https://github.com/VJigouline/mc-off-import) | With face and vertex colours. |
+| KMZ (`.kmz`) | [mc-kmz-import](https://github.com/VJigouline/mc-kmz-import) | Google Earth archives: Collada models placed as the KML says. |
+| Draco (`.drc`) | [mc-draco-import](https://github.com/VJigouline/mc-draco-import) | Decoded with three.js's Draco decoder, served from `assets/draco3d`. |
+| LAS and LAZ (`.las`, `.laz`) | [mc-las-import](https://github.com/VJigouline/mc-las-import) | LiDAR point clouds, coloured by colour, intensity or height. LAZ is decompressed with laz-perf, whose WebAssembly is served from `assets/laz-perf`. |
+| E57 (`.e57`) | [mc-e57-import](https://github.com/VJigouline/mc-e57-import) | 3D scans, each scan placed by its pose. |
+| XYZ (`.xyz`, `.pts`) | [mc-xyz-import](https://github.com/VJigouline/mc-xyz-import) | Text point clouds, with colours and intensity. |
+| PCD (`.pcd`) | [mc-pcd-import](https://github.com/VJigouline/mc-pcd-import) | Point Cloud Library files, ASCII, binary or compressed. |
 
-A zip holding an OBJ, FBX, 3DS or USD model is opened with its importer, like a zip holding a `.blend` file; other zips are opened as Ogre resources.
+A zip holding an OBJ, FBX, 3DS, USD, VRML or X3D model is opened with its importer, like a zip holding a `.blend` file; other zips are opened as Ogre resources.
+
+### Environment maps
+
+Radiance HDR (`.hdr`) and OpenEXR (`.exr`) images are read by [mc-hdr-import](https://github.com/VJigouline/mc-hdr-import) and [mc-exr-import](https://github.com/VJigouline/mc-exr-import). Dropping or opening one makes it the scene's environment: it lights the materials with image-based lighting and shows as the background. Point clouds are moved near the origin, as scan coordinates are too large for the GPU's precision.
 
 ### Photorealistic tab
 

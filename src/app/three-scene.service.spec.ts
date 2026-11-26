@@ -74,7 +74,7 @@ describe('ThreeSceneService', () => {
       expect(dialog.open).not.toHaveBeenCalled();
     });
 
-    for (const name of ['scene.json', 'notes.xyz', 'no-extension']) {
+    for (const name of ['scene.json', 'notes.abc', 'no-extension']) {
       it(`reports ${name} without showing the spinner`, () => {
         service.addFiles([entry(name)], () => fail('nothing was loaded'));
 
@@ -419,6 +419,79 @@ describe('ThreeSceneService', () => {
       const message = failure();
       service.addFiles([entry('empty.obj', '# nothing\n')], () => fail('the load failed'));
       expect(await message).toBeTruthy();
+    });
+  });
+
+  describe('toolpaths, point clouds, VRML, X3D and environment maps', () => {
+    const loaded = (name: string) => service.getScene().children.find(c => c.name === name);
+    const count = (o: THREE.Object3D, test: (o: THREE.Object3D) => boolean) => {
+      let n = 0;
+      o.traverse(c => { if (test(c)) { n++; } });
+      return n;
+    };
+
+    it('draws a G-code toolpath', (done) => {
+      service.addFiles([entry('part.nc', 'G21\nT1 M6\nG0 X0 Y0 Z5\nG1 Z-1 F100\nG2 X10 Y0 I5 J0\n')], () => {
+        const group = loaded('part.nc');
+        expect(group.getObjectByName('Tool 1')).toBeTruthy();
+        expect(group.getObjectByName('Rapid moves')).toBeTruthy();
+        done();
+      });
+    });
+
+    it('loads point clouds from XYZ and PCD files', (done) => {
+      const pcd = 'VERSION .7\nFIELDS x y z\nSIZE 4 4 4\nTYPE F F F\nCOUNT 1 1 1\nWIDTH 2\nHEIGHT 1\nPOINTS 2\nDATA ascii\n0 0 0\n1 1 1\n';
+      let left = 2;
+      service.addFiles([entry('scan.xyz', '0 0 0\n1 0 0\n0 1 0\n'), entry('cloud.pcd', pcd)], () => {
+        if (--left) { return; }
+        expect(count(loaded('scan.xyz'), o => (o as THREE.Points).isPoints)).toBe(1);
+        expect(count(loaded('cloud.pcd'), o => (o as THREE.Points).isPoints)).toBe(1);
+        done();
+      });
+    });
+
+    it('loads OFF, VRML, X3D and AMF models', (done) => {
+      const off = 'OFF\n3 1 0\n0 0 0\n1 0 0\n0 1 0\n3 0 1 2\n';
+      const wrl = '#VRML V2.0 utf8\nShape { geometry Box { size 1 1 1 } }\n';
+      const x3d = '<X3D><Scene><Shape><Sphere radius="1"/></Shape></Scene></X3D>';
+      const amf = '<amf><object id="0"><mesh><vertices>' +
+        '<vertex><coordinates><x>0</x><y>0</y><z>0</z></coordinates></vertex>' +
+        '<vertex><coordinates><x>1</x><y>0</y><z>0</z></coordinates></vertex>' +
+        '<vertex><coordinates><x>0</x><y>1</y><z>0</z></coordinates></vertex>' +
+        '</vertices><volume><triangle><v1>0</v1><v2>1</v2><v3>2</v3></triangle></volume></mesh></object></amf>';
+      const names = ['tri.off', 'box.wrl', 'ball.x3d', 'part.amf'];
+      let left = names.length;
+      service.addFiles([entry(names[0], off), entry(names[1], wrl), entry(names[2], x3d), entry(names[3], amf)], () => {
+        if (--left) { return; }
+        expect(dialog.open).not.toHaveBeenCalled();
+        for (const name of names) { expect(count(loaded(name), o => (o as THREE.Mesh).isMesh)).withContext(name).toBe(1); }
+        done();
+      });
+    });
+
+    it('lights the scene with an HDR environment map', (done) => {
+      const head = new TextEncoder().encode('#?RADIANCE\nFORMAT=32-bit_rle_rgbe\n\n-Y 1 +X 2\n');
+      const hdr = new Uint8Array([...head, 128, 128, 128, 129, 128, 128, 128, 128]);
+      const hdrEntry = new NgxFileDropEntry('sky.hdr', {
+        name: 'sky.hdr', isFile: true, isDirectory: false,
+        file: (callback: (file: File) => void) => callback(new File([hdr as BlobPart], 'sky.hdr'))
+      } as any);
+      service.addFiles([hdrEntry], () => {
+        expect(service.getScene().environment).toBeTruthy();
+        expect(service.getScene().background).toBe(service.getScene().environment);
+        done();
+      });
+    });
+
+    it('reports a file that is not E57', async () => {
+      const message = new Promise<string>(resolve => {
+        spinner.hide.and.callFake((() => {
+          setTimeout(() => resolve((dialog.open.calls.mostRecent().args[1].data as any).message));
+          return Promise.resolve();
+        }) as any);
+      });
+      service.addFiles([entry('scan.e57', 'hello')], () => fail('the load failed'));
+      expect(await message).toContain('E57');
     });
   });
 });

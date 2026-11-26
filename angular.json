@@ -33,7 +33,9 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              { "glob": "rhino3dm.wasm", "input": "node_modules/rhino3dm", "output": "assets/rhino3dm" }
+              { "glob": "rhino3dm.wasm", "input": "node_modules/rhino3dm", "output": "assets/rhino3dm" },
+              { "glob": "laz-perf.wasm", "input": "node_modules/laz-perf/lib/web", "output": "assets/laz-perf" },
+              { "glob": "{draco_wasm_wrapper.js,draco_decoder.wasm}", "input": "node_modules/three/examples/jsm/libs/draco", "output": "assets/draco3d" }
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
@@ -42,7 +44,9 @@
             "scripts": [],
             "allowedCommonJsDependencies": [
               "file-saver",
-              "rhino3dm"
+              "rhino3dm",
+              "laz-perf",
+              "draco3d"
             ]
           },
           "configurations": {
@@ -108,7 +112,9 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              { "glob": "rhino3dm.wasm", "input": "node_modules/rhino3dm", "output": "assets/rhino3dm" }
+              { "glob": "rhino3dm.wasm", "input": "node_modules/rhino3dm", "output": "assets/rhino3dm" },
+              { "glob": "laz-perf.wasm", "input": "node_modules/laz-perf/lib/web", "output": "assets/laz-perf" },
+              { "glob": "{draco_wasm_wrapper.js,draco_decoder.wasm}", "input": "node_modules/three/examples/jsm/libs/draco", "output": "assets/draco3d" }
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
