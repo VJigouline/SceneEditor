@@ -34,7 +34,7 @@ See the [user guide](https://github.com/VJigouline/SceneEditor/wiki) in the wiki
 
 Working version at [scene.meercad.com](http://scene.meercad.com). This site runs an older build than Version 2.0.
 
-This project is not finished. Drop GLTF/GLB (file or folder), Collada (file or folder), STL, IFC, STEP, IGES, Rhino, DXF, Blender, OBJ, FBX, 3DS, USD, USDZ, 3MF, PLY, SVG, CityJSON, G-code, VRML, X3D, AMF, OFF, KMZ, Draco, LAS/LAZ, E57, XYZ, PCD, Ogre (files, folder or zip), HDR and EXR environment maps or `.polygons` files into graphics area on the left, or choose files with **Open files** on the **Scene** tab, and try using controls. Scenes saved as GLTF can be loaded the same way, but scenes saved in the three.js `scene.json` format can't be loaded back into **SceneEditor**.
+This project is not finished. Drop GLTF/GLB (file or folder), Collada (file or folder), STL, IFC, STEP, IGES, Rhino, DXF, Blender, OBJ, FBX, 3DS, USD, USDZ, 3MF, PLY, SVG, CityJSON, G-code, VRML, X3D, AMF, OFF, KMZ, Draco, LAS/LAZ, E57, XYZ, PCD, Ogre (files, folder or zip), HDR and EXR environment maps or `.polygons` files into graphics area on the left, or choose files with **Open files** on the **Scene** tab, and try using controls. Scenes saved as glTF, OBJ, STL, 3MF, PLY or USDZ can be loaded the same way; see [Saving scenes](#saving-scenes).
 
 ### IFC models
 
@@ -106,6 +106,22 @@ A zip holding an OBJ, FBX, 3DS, USD, VRML or X3D model is opened with its import
 ### Environment maps
 
 Radiance HDR (`.hdr`) and OpenEXR (`.exr`) images are read by [mc-hdr-import](https://github.com/VJigouline/mc-hdr-import) and [mc-exr-import](https://github.com/VJigouline/mc-exr-import). Dropping or opening one makes it the scene's environment: it lights the materials with image-based lighting and shows as the background. Point clouds are moved near the origin, as scan coordinates are too large for the GPU's precision.
+
+### Saving scenes
+
+**Save Scene** on the **Scene** tab writes the visible scene, without the transform gizmo and light helpers, in the format chosen under **Select output format**:
+
+| Format | Package | Notes |
+| --- | --- | --- |
+| glTF binary (`.glb`), the default | [mc-gltf-export](https://github.com/VJigouline/mc-gltf-export) | One compact file, with materials, textures, lights and cameras, that SceneEditor and most 3D programs open. |
+| glTF text (`.gltf`) | [mc-gltf-export](https://github.com/VJigouline/mc-gltf-export) | Readable JSON with the data inline. |
+| glTF with Draco compression (`.glb`) | [mc-gltf-export](https://github.com/VJigouline/mc-gltf-export) | Meshes several times smaller. Viewers need a Draco decoder, as SceneEditor has. |
+| Wavefront OBJ with materials (`.zip`) | [mc-obj-export](https://github.com/VJigouline/mc-obj-export) | The .obj, its .mtl and PNG textures. |
+| STL (`.stl`) | [mc-stl-export](https://github.com/VJigouline/mc-stl-export) | Triangles for 3D printing, in millimetres and Z up. |
+| 3MF (`.3mf`) | [mc-3mf-export](https://github.com/VJigouline/mc-3mf-export) | 3D printing with colours, in millimetres and Z up. |
+| PLY (`.ply`) | [mc-ply-export](https://github.com/VJigouline/mc-ply-export) | Meshes and point clouds with their colours. |
+| USDZ (`.usdz`) | [mc-usdz-export](https://github.com/VJigouline/mc-usdz-export) | For AR Quick Look on iPhone and iPad. |
+| Three scene (`.json`) | three.js | three.js's own scene format, which SceneEditor can't open again. |
 
 ### Photorealistic tab
 

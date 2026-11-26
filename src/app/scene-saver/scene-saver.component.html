@@ -12,7 +12,7 @@
         </div>
     </mat-card-content>
     <mat-card-actions>
-    <button mat-raised-button color="primary" (click)="onSubmit()">Save Scene</button>
+    <button mat-raised-button color="primary" [disabled]="saving()" (click)="onSubmit()">Save Scene</button>
     </mat-card-actions>
 </mat-card>
       

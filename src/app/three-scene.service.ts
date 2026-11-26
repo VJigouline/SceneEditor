@@ -459,7 +459,7 @@ export class ThreeSceneService {
       // blobURLs.forEach(URL.revokeObjectURL);
       finished();
     }, undefined, (event) => {
-      blob.service.onFileLoadError(event as ErrorEvent, blob.service);
+      blob.service.onFileLoadError({ message: event instanceof Error ? event.message : (event as ErrorEvent)?.message ?? String(event) }, blob.service);
     }
     );
   }
@@ -528,7 +528,8 @@ export class ThreeSceneService {
     loader.setCrossOrigin('anonymous');
 
     const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath( 'assets/lib/draco/' );
+    // three.js's own Draco decoder, copied to the assets by angular.json.
+    dracoLoader.setDecoderPath( 'assets/draco3d/' );
     loader.setDRACOLoader( dracoLoader );
 
     loader.load(fileUrl, (gltf) => {
@@ -539,7 +540,7 @@ export class ThreeSceneService {
       blobURLs.forEach(URL.revokeObjectURL);
       finished();
     }, undefined, (event) => {
-      blob.service.onFileLoadError(event as ErrorEvent, blob.service);
+      blob.service.onFileLoadError({ message: event instanceof Error ? event.message : (event as ErrorEvent)?.message ?? String(event) }, blob.service);
     }
     );
   }
@@ -569,7 +570,7 @@ export class ThreeSceneService {
       scene.add(mesh);
       finished();
     }, undefined, (event) => {
-      blob.service.onFileLoadError(event as ErrorEvent, blob.service);
+      blob.service.onFileLoadError({ message: event instanceof Error ? event.message : (event as ErrorEvent)?.message ?? String(event) }, blob.service);
     }
     );
   }
