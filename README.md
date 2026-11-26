@@ -38,7 +38,7 @@ This project is not finished. Drop GLTF/GLB (file or folder), Collada (file or f
 
 ### Opening models from the internet
 
-Choose **Open from a URL** (the link button on the **Scene** tab), paste the address of a model and press **Open**. Any format SceneEditor can open works, including a zip. The files a model references beside it are read too: the buffers and textures of a `.gltf` file, and the `.mtl` materials of an `.obj` file with their textures. A link to a file's page on GitHub is turned into a link to the file itself.
+Choose **Open from a URL** (the link button on the **Scene** tab), paste the address of a model and press **Open**. Any format SceneEditor can open works, including a zip. The files a model references beside it are read too: the buffers and textures of a `.gltf` file, and the `.mtl` materials of an `.obj` file with their textures. A link to a file's page on GitHub is turned into a link to the file itself. CityJSON named plain `.json` is recognised by its contents.
 
 To share a model, add its address to SceneEditor's: `https://vjigouline.github.io/SceneEditor/?url=https://example.com/model.glb` opens SceneEditor with that model loaded. A model address with its own `?` or `&` must be URL-encoded first.
 

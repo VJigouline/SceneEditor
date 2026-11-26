@@ -69,6 +69,11 @@ export async function fetchModel(url: string, fetcher: Fetch = u => fetch(u)): P
   const response = await fetcher(address);
   if (!response.ok) { throw new Error(`${address} answered ${response.status} ${response.statusText}`.trim()); }
   const main: UrlFile = { path: fileName(address, response), data: await response.blob() };
+  // CityJSON is often named plain .json, which SceneEditor would take for a three.js scene.
+  if (/\.json$/i.test(main.path) && !/\.city\.json$/i.test(main.path) &&
+      /"type"\s*:\s*"CityJSON"/.test(await main.data.slice(0, 4096).text())) {
+    main.path = main.path.replace(/\.json$/i, '.city.json');
+  }
   const base = response.url || address;
   const files = [main];
   const warnings: string[] = [];

@@ -35,6 +35,15 @@ describe('fetchModel', () => {
     expect((await fetchModel('https://example.com/get/2', fetcher)).files[0].path).toBe('2.glb');
   });
 
+  it('recognises CityJSON named plain .json, but leaves other JSON alone', async () => {
+    const { fetcher } = server({
+      'https://example.com/delft.json': '{"type": "CityJSON", "version": "2.0", "CityObjects": {}}',
+      'https://example.com/scene.json': '{"metadata": {"type": "Object"}, "object": {}}'
+    });
+    expect((await fetchModel('https://example.com/delft.json', fetcher)).files[0].path).toBe('delft.city.json');
+    expect((await fetchModel('https://example.com/scene.json', fetcher)).files[0].path).toBe('scene.json');
+  });
+
   it('reads the buffers and images a glTF file references, but not embedded ones', async () => {
     const gltf = JSON.stringify({
       buffers: [{ uri: 'Box.bin' }, { uri: 'data:application/octet-stream;base64,AA==' }],
