@@ -11,6 +11,7 @@ export class SceneComponent implements OnInit {
 
   @Output() sceneChanged = new EventEmitter<string>();
   @Output() filesOpened = new EventEmitter<File[]>();
+  @Output() urlOpened = new EventEmitter<string>();
 
   constructor() { }
 

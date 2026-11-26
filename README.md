@@ -34,7 +34,15 @@ See the [user guide](https://github.com/VJigouline/SceneEditor/wiki) in the wiki
 
 Working version at [scene.meercad.com](http://scene.meercad.com). This site runs an older build than Version 2.0.
 
-This project is not finished. Drop GLTF/GLB (file or folder), Collada (file or folder), STL, IFC, STEP, IGES, Rhino, DXF, Blender, OBJ, FBX, 3DS, USD, USDZ, 3MF, PLY, SVG, CityJSON, G-code, VRML, X3D, AMF, OFF, KMZ, Draco, LAS/LAZ, E57, XYZ, PCD, Ogre (files, folder or zip), HDR and EXR environment maps or `.polygons` files into graphics area on the left, or choose files with **Open files** on the **Scene** tab, and try using controls. Scenes saved as glTF, OBJ, STL, 3MF, PLY or USDZ can be loaded the same way; see [Saving scenes](#saving-scenes).
+This project is not finished. Drop GLTF/GLB (file or folder), Collada (file or folder), STL, IFC, STEP, IGES, Rhino, DXF, Blender, OBJ, FBX, 3DS, USD, USDZ, 3MF, PLY, SVG, CityJSON, G-code, VRML, X3D, AMF, OFF, KMZ, Draco, LAS/LAZ, E57, XYZ, PCD, Ogre (files, folder or zip), HDR and EXR environment maps or `.polygons` files into graphics area on the left, or choose files with **Open files** on the **Scene** tab, or open them from the internet (see [Opening models from the internet](#opening-models-from-the-internet)), and try using controls. Scenes saved as glTF, OBJ, STL, 3MF, PLY or USDZ can be loaded the same way; see [Saving scenes](#saving-scenes).
+
+### Opening models from the internet
+
+Choose **Open from a URL** (the link button on the **Scene** tab), paste the address of a model and press **Open**. Any format SceneEditor can open works, including a zip. The files a model references beside it are read too: the buffers and textures of a `.gltf` file, and the `.mtl` materials of an `.obj` file with their textures. A link to a file's page on GitHub is turned into a link to the file itself.
+
+To share a model, add its address to SceneEditor's: `https://vjigouline.github.io/SceneEditor/?url=https://example.com/model.glb` opens SceneEditor with that model loaded. A model address with its own `?` or `&` must be URL-encoded first.
+
+The server must allow other sites to read its files (CORS). GitHub's raw files and most model hosting and storage services do; if a server doesn't, SceneEditor says so, and the file can be downloaded and dropped instead.
 
 ### IFC models
 

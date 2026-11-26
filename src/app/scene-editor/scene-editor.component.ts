@@ -10,6 +10,9 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MaterialsLibraryEditorComponent } from '../materials-library-editor/materials-library-editor.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { RaytraceService } from '../raytracer/raytrace.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorDialogComponent } from '../user-controls/error-dialog/error-dialog.component';
+import { fetchModel } from '../url-loader';
 
 @Component({
   standalone: false,
@@ -40,6 +43,7 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
     private elRef: ElementRef,
     private spinner : NgxSpinnerService,
     private raytrace: RaytraceService,
+    private dialog: MatDialog,
     ) { }
 
   /** Z switches between the three.js view and the ray traced view, as in Blender. */
@@ -72,6 +76,9 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.Width = this.elRef.nativeElement.width;
     this.Height = this.elRef.nativeElement.height;
+    // A link such as ?url=https://example.com/model.glb opens that model.
+    const url = new URLSearchParams(window.location.search).get('url');
+    if (url) { setTimeout(() => this.onUrlOpened(url)); }
   }
 
   onMaterialChange(material: Material) {
@@ -85,6 +92,28 @@ export class SceneEditorComponent implements OnInit, AfterViewInit {
 
   public onFilesOpened(files: File[]): void {
     this.dropped(this.sceneService.toFileEntries(files));
+  }
+
+  /** Reads a model from the internet, with the files beside it that it references. */
+  public onUrlOpened(url: string): Promise<void> {
+    this.spinner.show();
+    return fetchModel(url)
+      .then(model => {
+        for (const warning of model.warnings) { console.warn(warning); }
+        // Loading shows the spinner again when it starts, and hides it when it ends.
+        this.spinner.hide();
+        this.dropped(this.sceneService.toUrlEntries(model.files));
+      })
+      .catch(error => {
+        this.spinner.hide();
+        const message = error instanceof TypeError
+          ? `${url} could not be reached. The server may not allow other sites to read its files (CORS), or the address may be wrong.`
+          : error instanceof Error ? error.message : String(error);
+        this.dialog.open(ErrorDialogComponent, {
+          width: '350px',
+          data: { title: 'Failure', label: 'The model cannot be opened: ', message, close: true }
+        });
+      });
   }
 
   private readLibraries(files: NgxFileDropEntry[]): NgxFileDropEntry[] {

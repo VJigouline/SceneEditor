@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, signal, ViewChild, ElementRef } from '@angular/core';
 import { ThreeSceneService } from '../three-scene.service';
 
 @Component({
@@ -11,6 +11,11 @@ export class SceneModifierComponent implements OnInit {
 
   @Output() sceneChanged = new EventEmitter<string>();
   @Output() filesOpened = new EventEmitter<File[]>();
+  @Output() urlOpened = new EventEmitter<string>();
+
+  readonly showUrl = signal(false);
+  url = '';
+  @ViewChild('urlInput') private urlInput: ElementRef<HTMLInputElement>;
 
   constructor(
     private sceneService: ThreeSceneService,
@@ -26,6 +31,17 @@ export class SceneModifierComponent implements OnInit {
     const files = Array.from(input.files);
     input.value = '';
     if (files.length > 0) { this.filesOpened.emit(files); }
+  }
+
+  public onToggleUrl(): void {
+    this.showUrl.update(shown => !shown);
+    if (this.showUrl()) { setTimeout(() => this.urlInput?.nativeElement.focus()); }
+  }
+
+  public onOpenUrl(): void {
+    const url = this.url.trim();
+    if (!url) { return; }
+    this.urlOpened.emit(url);
   }
 
   public onNewScene(): void {

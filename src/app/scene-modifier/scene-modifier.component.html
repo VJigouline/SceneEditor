@@ -6,6 +6,10 @@
         matTooltip="Open files" aria-label="Open files">
             <mat-icon>folder_open</mat-icon>
         </button>
+        <button mat-icon-button class="example-icon" (click)="onToggleUrl()"
+        matTooltip="Open from a URL" aria-label="Open from a URL" [attr.aria-pressed]="showUrl()">
+            <mat-icon>link</mat-icon>
+        </button>
         <button mat-icon-button class="example-icon" (click)="onNewScene()" matTooltip="New empty scene.">
             <mat-icon>fiber_new</mat-icon>
         </button>
@@ -14,6 +18,16 @@
             <mat-icon>fit_screen</mat-icon>
         </button>
     </mat-toolbar>
+    @if (showUrl()) {
+        <form class="url-form" (ngSubmit)="onOpenUrl()">
+            <mat-form-field class="url-field" subscriptSizing="dynamic">
+                <mat-label>Model URL</mat-label>
+                <input matInput type="url" name="url" [(ngModel)]="url" required autocomplete="url"
+                placeholder="https://example.com/model.glb" (keydown.escape)="onToggleUrl()" #urlInput>
+            </mat-form-field>
+            <button mat-flat-button type="submit" [disabled]="!url.trim()">Open</button>
+        </form>
+    }
     <input
     style="display: none"
     type="file" multiple (input)="onOpenFiles($event)"

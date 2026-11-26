@@ -49,6 +49,7 @@ import { loadPcd } from 'mc-pcd-import';
 import { loadAmf } from 'mc-amf-import';
 import { loadOff } from 'mc-off-import';
 import { loadKmz } from 'mc-kmz-import';
+import { type UrlFile } from './url-loader';
 import { loadDraco, createDracoDecoder, type DracoModule } from 'mc-draco-import';
 
 /** A file given to an importer: its path in the drop, and its contents. */
@@ -244,6 +245,21 @@ export class ThreeSceneService {
         file: <T>(callback: (f: File) => T) => callback(file)
       };
       return new NgxFileDropEntry(file.name, entry);
+    });
+  }
+
+  // Wraps files read from a URL, keeping the paths a model uses to find its buffers and textures.
+  public toUrlEntries(files: UrlFile[]): NgxFileDropEntry[] {
+    return files.map(({ path, data }) => {
+      const name = path.split('/').pop();
+      const file = new File([data], name, { type: data.type });
+      const entry: FileSystemFileEntry = {
+        name,
+        isFile: true,
+        isDirectory: false,
+        file: <T>(callback: (f: File) => T) => callback(file)
+      };
+      return new NgxFileDropEntry(path, entry);
     });
   }
 
