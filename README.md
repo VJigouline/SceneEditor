@@ -167,6 +167,19 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. The build is a production build by default.
 
+## Deploying
+
+Every push to `master` builds SceneEditor and deploys it to two places:
+
+| Host | Address | Workflow | Base href |
+| --- | --- | --- | --- |
+| GitHub Pages | https://vjigouline.github.io/SceneEditor/ | [deploy-pages.yml](.github/workflows/deploy-pages.yml) | `/SceneEditor/` |
+| Azure Static Web Apps, Free plan | https://agreeable-wave-0bc9c8503.4.azurestaticapps.net/ | [deploy-azure.yml](.github/workflows/deploy-azure.yml) | `/` |
+
+- **Azure resources:** the static web app `scene-editor`, in the resource group `scene-editor-rg`, West Europe.
+- **Deployment token:** the repository secret `AZURE_STATIC_WEB_APPS_API_TOKEN`. To replace it, reset the token in the Azure portal (the app's **Overview → Manage deployment token**) and save the new one as that secret.
+- **Redeploying without a push:** run either workflow from the repository's Actions tab.
+
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io). This currently stops with compile errors, because several older spec files call constructors with the wrong arguments.
