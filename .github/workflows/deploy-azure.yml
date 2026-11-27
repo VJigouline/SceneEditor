@@ -1,8 +1,7 @@
 name: Deploy to Azure Static Web Apps
 
+# Run by hand, from the Actions tab or with `gh workflow run deploy-azure.yml`, once the deployment is confirmed.
 on:
-  push:
-    branches: [master]
   workflow_dispatch:
 
 permissions:

@@ -169,7 +169,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Deploying
 
-Every push to `master` builds SceneEditor and deploys it to two places:
+Every push to `master` builds SceneEditor and deploys it to GitHub Pages. Azure is deployed only by hand, once a deployment is confirmed: run its workflow from the Actions tab, or `gh workflow run deploy-azure.yml`.
 
 | Host | Address | Workflow | Base href |
 | --- | --- | --- | --- |
@@ -179,7 +179,7 @@ Every push to `master` builds SceneEditor and deploys it to two places:
 - **Azure resources:** the static web app `scene-editor`, in the resource group `scene-editor-rg`, West Europe.
 - **scene.meercad.com:** a custom domain of the Azure app. Its DNS, at IONOS, is a CNAME record from `scene` to `agreeable-wave-0bc9c8503.4.azurestaticapps.net`, and Azure issues and renews its HTTPS certificate.
 - **Deployment token:** the repository secret `AZURE_STATIC_WEB_APPS_API_TOKEN`. To replace it, reset the token in the Azure portal (the app's **Overview → Manage deployment token**) and save the new one as that secret.
-- **Redeploying without a push:** run either workflow from the repository's Actions tab.
+- **Redeploying GitHub Pages without a push:** run its workflow from the repository's Actions tab.
 
 ## Running unit tests
 
